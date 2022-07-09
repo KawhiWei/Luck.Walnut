@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Luck.Walnut.Domain\Luck.Walnut.Domain.csproj" />
+    <ProjectReference Include="..\Luck.Walnut.Dto\Luck.Walnut.Dto.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
+    <PackageReference Include="Luck.EntityFrameworkCore" Version="1.0.0" />
+    <PackageReference Include="Luck.EntityFrameworkCore.PostgreSQL" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
