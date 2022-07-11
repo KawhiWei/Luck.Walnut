@@ -28,7 +28,10 @@ namespace Luck.Walnut.Application.Applications
 
         private async Task CheckAppIdAsync(string appId)
         {
-            await GetApplicationByAppIdAsync(appId);
+         var application=   await GetApplicationByAppIdAsync(appId);
+
+            if (application is not null)
+                throw new BusinessException($"应用已存在");
         }
 
         public async Task UpdateApplicationAsync(string id, ApplicationInputDto input)
@@ -50,13 +53,8 @@ namespace Luck.Walnut.Application.Applications
         }
 
 
-        private async Task<Domain.AggregateRoots.Applications.Application> GetApplicationByAppIdAsync(string appId)
-        {
-            var application = await _applicationRepository.FindFirstOrDefaultByAppIdAsync(appId);
-            if (application is null)
-                throw new BusinessException($"应用不存在");
-            return application;
-        }
+        private Task<Domain.AggregateRoots.Applications.Application?> GetApplicationByAppIdAsync(string appId)=> _applicationRepository.FindFirstOrDefaultByAppIdAsync(appId);
+        
         
         private async Task<Domain.AggregateRoots.Applications.Application> GetApplicationByIdAsync(string id)
         {

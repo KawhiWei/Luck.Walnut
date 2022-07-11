@@ -12,18 +12,43 @@ namespace Luck.Walnut.Persistence.Repositories;
 
 public class ApplicationRepository : EFCoreAggregateRootRepository<Application, string>, IApplicationRepository
 {
+    private readonly IDictionary<string, Application> _applicationsForId;
+    private readonly IDictionary<string, Application> _applicationsForAppId;
+
     public ApplicationRepository(ILuckDbContext dbContext) : base(dbContext)
     {
+        _applicationsForId = new Dictionary<string, Application>();
+        _applicationsForAppId = new Dictionary<string, Application>();
     }
 
     public async Task<Application?> FindFirstOrDefaultByIdAsync(string id)
     {
-        return await FindAll(x => x.Id == id).FirstOrDefaultAsync();
+        if(_applicationsForId.ContainsKey(id))
+        {
+            return _applicationsForId[id];
+        }
+
+       var application= await FindAll(x => x.Id == id).FirstOrDefaultAsync();
+        if(application is null)
+            return null;
+        _applicationsForId.Add(id, application);
+
+        return application;
     }
 
     public async Task<Application?> FindFirstOrDefaultByAppIdAsync(string appId)
     {
-        return await FindAll(x => x.AppId == appId).FirstOrDefaultAsync();
+        if(_applicationsForAppId.ContainsKey(appId))
+        {
+            return _applicationsForAppId[appId];
+        }    
+
+        var application= await FindAll(x => x.AppId == appId).FirstOrDefaultAsync();
+        if (application is null)
+            return null;
+        _applicationsForAppId.Add(appId, application);
+
+        return application;
     }
 
     
