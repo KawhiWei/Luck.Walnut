@@ -12,21 +12,15 @@ namespace Luck.Walnut.Query.Environments
     public class EnvironmentQueryService : IEnvironmentQueryService
     {
         private readonly IEnvironmentRepository _appEnvironmentRepository;
-
-        private readonly IAggregateRootRepository<Application, string>
-            _applicationRepository;
-
         private readonly IEntityRepository<AppConfiguration, string> _appConfigurationRepository;
         private readonly ICancellationTokenProvider _cancellationTokenProvider; //当中断请求时，所以有操作同时也中断
         private const string FindAppConfigurationNotExistErrorMsg = "配置数据不存在!!!!";
 
         public EnvironmentQueryService(IEnvironmentRepository appEnvironmentRepository,
             ICancellationTokenProvider cancellationTokenProvider,
-            IAggregateRootRepository<Application, string> applicationRepository,
             IEntityRepository<AppConfiguration, string> appConfigurationRepository)
         {
             _appEnvironmentRepository = appEnvironmentRepository;
-            _applicationRepository = applicationRepository;
             _appConfigurationRepository = appConfigurationRepository;
             _cancellationTokenProvider = cancellationTokenProvider;
         }
