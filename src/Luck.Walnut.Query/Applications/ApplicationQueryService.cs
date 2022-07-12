@@ -101,7 +101,7 @@ namespace Luck.Walnut.Query.Applications
         
         private async Task<Application> GetApplicationByIdAsync(string id)
         {
-            var application = await _applicationRepository.FindAsync(id);
+            var application = await _applicationRepository.FindFirstOrDefaultByIdAsync(id);
             if (application is null)
                 throw new BusinessException($"应用不存在");
             return application;

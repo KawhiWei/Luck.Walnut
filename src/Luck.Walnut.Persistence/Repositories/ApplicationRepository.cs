@@ -1,7 +1,5 @@
-using System.Linq.Expressions;
 using Luck.EntityFrameworkCore.DbContexts;
 using Luck.EntityFrameworkCore.Repositories;
-using Luck.Framework.Exceptions;
 using Luck.Walnut.Domain.AggregateRoots.Applications;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Dto;
@@ -28,7 +26,7 @@ public class ApplicationRepository : EFCoreAggregateRootRepository<Application, 
             return _applicationsForId[id];
         }
 
-       var application= await FindAll(x => x.Id == id).FirstOrDefaultAsync();
+        var application= await FindAll(x => x.Id == id).FirstOrDefaultAsync();
         if(application is null)
             return null;
         _applicationsForId.Add(id, application);
