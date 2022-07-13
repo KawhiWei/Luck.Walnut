@@ -62,6 +62,6 @@ public class ApplicationRepository : EFCoreAggregateRootRepository<Application, 
                 ChinessName = c.ChinessName,
                 DepartmentName = c.DepartmentName,
                 LinkMan = c.LinkMan,
-            }).ToPage(input.PageIndex,input.PageSize).ToArrayAsync();
+            }).OrderByDescending(x=>x.Id).ToPage(input.PageIndex,input.PageSize).ToArrayAsync();
     }
 }
