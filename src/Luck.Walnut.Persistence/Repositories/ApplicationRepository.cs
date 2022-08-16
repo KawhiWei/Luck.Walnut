@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Luck.Walnut.Persistence.Repositories;
 
-public class ApplicationRepository : EFCoreAggregateRootRepository<Application, string>, IApplicationRepository
+public class ApplicationRepository : EfCoreAggregateRootRepository<Application, string>, IApplicationRepository
 {
     private readonly IDictionary<string, Application> _applicationsForId;
     private readonly IDictionary<string, Application> _applicationsForAppId;
