@@ -1,7 +1,6 @@
 using Luck.Walnut.Application.Applications;
 using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Applications;
-using Luck.Walnut.Query;
 using Luck.Walnut.Query.Applications;
 using Microsoft.AspNetCore.Mvc;
 
