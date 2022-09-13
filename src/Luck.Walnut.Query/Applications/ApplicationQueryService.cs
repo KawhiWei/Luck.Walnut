@@ -6,6 +6,7 @@ using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Applications;
 using Luck.Walnut.Dto.Environments;
+using Microsoft.Extensions.Logging;
 
 namespace Luck.Walnut.Query.Applications
 {
@@ -13,17 +14,20 @@ namespace Luck.Walnut.Query.Applications
     {
         private readonly IEnvironmentRepository _appEnvironmentRepository;
         private  readonly  IApplicationRepository _applicationRepository;
-
-        public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository,IApplicationRepository applicationRepository)
+        private  readonly ILogger<ApplicationQueryService> _logger;
+        public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository,IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger)
         {
             _appEnvironmentRepository = appEnvironmentRepository;
             _applicationRepository = applicationRepository;
+            _logger = logger;
         }
 
 
 
         public async Task<PageBaseResult<ApplicationOutputDto>> GetApplicationListAsync(PageInput input)
         {
+            _logger.LogInformation("查询应用列表",input);
+            
             var totalCount= await _applicationRepository.FindAll().CountAsync();
             var data=await _applicationRepository.FindListAsync(input);
 

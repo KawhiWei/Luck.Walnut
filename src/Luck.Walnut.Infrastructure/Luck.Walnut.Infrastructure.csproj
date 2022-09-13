@@ -7,6 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Luck.Framework" Version="1.0.2" />
+    <PackageReference Include="Luck.Framework" Version="1.0.4" />
   </ItemGroup>
 </Project>

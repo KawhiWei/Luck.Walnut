@@ -10,7 +10,6 @@ namespace Luck.Walnut.Persistence
     {
         public void Configure(EntityTypeBuilder<Application> builder)
         {
-            builder.ToTable("applications");
             builder.HasKey(e => e.Id);
             builder.Property(e => e.EnglishName);
             builder.Property(e => e.DepartmentName);
@@ -19,7 +18,7 @@ namespace Luck.Walnut.Persistence
             builder.Property(e => e.AppId);
             builder.Property(e => e.Status);
             builder.HasIndex(e => e.AppId).IsUnique();
-
+            builder.ToTable("applications");
         }
     }
 }
