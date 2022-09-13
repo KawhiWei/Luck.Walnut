@@ -1,5 +1,4 @@
-﻿using Luck.DDD.Domain;
-using Luck.DDD.Domain.Exceptions;
+﻿using Luck.DDD.Domain.Exceptions;
 
 namespace Luck.Walnut.Domain.AggregateRoots.Environments
 {

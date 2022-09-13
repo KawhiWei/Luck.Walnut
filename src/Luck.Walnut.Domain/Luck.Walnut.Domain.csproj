@@ -7,9 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Luck.Walnut.Domain.Shared\Luck.Walnut.Domain.Shared.csproj" />
     <ProjectReference Include="..\Luck.Walnut.Dto\Luck.Walnut.Dto.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Luck.DDD.Domain" Version="1.0.0" />
+    <PackageReference Include="Luck.DDD.Domain" Version="1.0.4" />
   </ItemGroup>
 </Project>

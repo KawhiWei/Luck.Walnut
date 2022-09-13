@@ -1,6 +1,4 @@
-﻿using Luck.DDD.Domain;
-
-namespace Luck.Walnut.Domain.AggregateRoots.Environments
+﻿namespace Luck.Walnut.Domain.AggregateRoots.Environments
 {
     
     public class AppConfiguration : FullEntity

@@ -14,7 +14,7 @@ namespace Luck.Walnut.Api.Controllers
     /// WS实现
     /// </summary>
     [Route("api/[controller]")]
-    public class ImController : ControllerBase, IWebSocketSession, INotificationHandler<AppConfigurationEvent>
+    public class ImController : ControllerBase, IWebSocketSession/*, INotificationHandler<AppConfigurationEvent>*/
     {
         public HttpContext WebSocketHttpContext { get; set; }
         public System.Net.WebSockets.WebSocket WebSocketClient { get; set; }
@@ -32,26 +32,26 @@ namespace Luck.Walnut.Api.Controllers
             return Task.FromResult("ok"); //此处返回的数据会自动发送给WebSocket客户端，无需手动发送
         }
 
-        [NonAction]
-        public async Task Handle(AppConfigurationEvent notification, CancellationToken cancellationToken)
-        {
-            var list = _clientManager.GetConnectionIds(notification.AppId);
-            var conn = list.LastOrDefault();
-            if (conn is not null)
-            {
-                MvcChannelHandler.Clients.TryGetValue(conn, out var requestFriendSocket);
-                var response = new MvcResponseScheme()
-                {
-                    RequestTime = DateTime.Now.Ticks,
-                    Status = 0,
-                    Body = "reload"
-                }.Serialize();
-                var bytes=new ArraySegment<byte>(Encoding.UTF8.GetBytes(response));
-                if(requestFriendSocket is not null)
-                {
-                    await requestFriendSocket.SendAsync(bytes,WebSocketMessageType.Text, true, CancellationToken.None);
-                }
-            }
-        }
+        // [NonAction]
+        // public async Task Handle(AppConfigurationEvent notification, CancellationToken cancellationToken)
+        // {
+        //     var list = _clientManager.GetConnectionIds(notification.AppId);
+        //     var conn = list.LastOrDefault();
+        //     if (conn is not null)
+        //     {
+        //         MvcChannelHandler.Clients.TryGetValue(conn, out var requestFriendSocket);
+        //         var response = new MvcResponseScheme()
+        //         {
+        //             RequestTime = DateTime.Now.Ticks,
+        //             Status = 0,
+        //             Body = "reload"
+        //         }.Serialize();
+        //         var bytes=new ArraySegment<byte>(Encoding.UTF8.GetBytes(response));
+        //         if(requestFriendSocket is not null)
+        //         {
+        //             await requestFriendSocket.SendAsync(bytes,WebSocketMessageType.Text, true, CancellationToken.None);
+        //         }
+        //     }
+        // }
     }
 }

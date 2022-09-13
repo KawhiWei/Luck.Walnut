@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Reflection;
 using Luck.WebSocket.Server;
 using Luck.WebSocket.Server.Extensions;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,6 @@ builder.WebHost.ConfigureKestrel(x =>
 });
 
 
-var test = Environment.GetEnvironmentVariable("AppId");
 // Add services to the container.
 builder.Services.AddApplication<AppWebModule>();
 
@@ -44,7 +45,18 @@ builder.Services.AddScoped<ICancellationTokenProvider, HttpContextCancellationTo
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+var test = Environment.GetEnvironmentVariable("AppId");
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
+builder.Services.AddOpenTelemetryTracing(b =>
+{
+    b.AddConsoleExporter()
+        .AddSource(test)
+        .SetResourceBuilder(ResourceBuilder.CreateDefault()
+                .AddService(serviceName: test, serviceVersion: "1.0.0"))
+        .AddAspNetCoreInstrumentation();
+    // The rest of your setup code goes here too
+});
 
 var app = builder.Build();
 app.UsePathBase("/walnut");
@@ -76,10 +88,14 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapGrpcService<GetConfigService>();
     endpoints.MapGrpcService<LuCatGrpcService>();
-    
 });
 
 
 app.MapControllers();
 app.InitializeApplication();
 app.Run();
+
+
+public partial class Program
+{
+}

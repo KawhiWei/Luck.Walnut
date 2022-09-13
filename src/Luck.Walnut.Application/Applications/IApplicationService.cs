@@ -25,6 +25,7 @@ namespace Luck.Walnut.Application.Applications
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// 
         Task DeleteApplicationAsync(string id);
     }
 }
