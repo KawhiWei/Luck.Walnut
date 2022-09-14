@@ -21,26 +21,4 @@ public class MatterService : IMatterService
 
     public Task DeleteMatterAsync(string id) => _matterRepository.DeleteMatterAsync(id);
     
-    public async Task<MatterOutputDto?> GetMatterAsync(string id)
-    { 
-        var matter= await _matterRepository.GetMatterAsync(id);
-        if (matter is null)
-            return null;
-        
-        return new MatterOutputDto()
-        {
-            Name = matter.Name,
-            Describe = matter.Describe,
-            BusinessLine = matter.BusinessLine,
-            Complexity = matter.Complexity,
-            PriorityLevel = matter.PriorityLevel,
-            ProductPrincipal = matter.ProductPrincipal,
-            MainProductManager = matter.MainProductManager,
-            ProductAim = matter.ProductAim,
-            MatterType = matter.MatterType,
-            PlanOnlineTime = matter.PlanOnlineTime,
-            ProductManagers = matter.ProductManagers,
-        };
-        
-    } 
 }

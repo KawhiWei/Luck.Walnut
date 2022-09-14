@@ -12,5 +12,5 @@ public interface IApplicationRepository : IAggregateRootRepository<Application,s
 
     Task<Application?> FindFirstOrDefaultByAppIdAsync(string appId);
 
-    Task<IEnumerable<ApplicationOutputDto>> FindListAsync(PageInput input);
+    Task<IEnumerable<ApplicationOutputDto>> FindListAsync(PageBaseInputDto baseInputDto);
 }

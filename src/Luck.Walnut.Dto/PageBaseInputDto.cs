@@ -1,6 +1,6 @@
 ﻿namespace Luck.Walnut.Dto
 {
-    public class PageInput
+    public class PageBaseInputDto
     {
         public int PageSize { get; set; } = 10;
 

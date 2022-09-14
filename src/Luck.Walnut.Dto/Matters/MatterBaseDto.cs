@@ -54,7 +54,7 @@ public abstract class MatterBaseDto
     /// <summary>
     /// 计划上线时间
     /// </summary>
-    public DateTimeOffset PlanOnlineTime { get;  set; } 
+    public DateTimeOffset PlanOnlineTime { get;  set; }
     
     /// <summary>
     /// 产品经理

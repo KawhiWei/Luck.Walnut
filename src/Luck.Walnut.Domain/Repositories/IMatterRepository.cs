@@ -1,5 +1,6 @@
 using Luck.Framework.Infrastructure.DependencyInjectionModule;
 using Luck.Walnut.Domain.AggregateRoots.Matters;
+using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Matters;
 
 namespace Luck.Walnut.Domain.Repositories;
@@ -16,4 +17,8 @@ public interface IMatterRepository: IAggregateRootRepository<Matter,string>,ISco
     Task UpdateMatterAsync(string id,MatterInputDto input);
     
     Task DeleteMatterAsync(string id);
+
+
+
+    Task<List<MatterOutputDto>> GetMatterListAsync(MatterQueryDto input);
 }

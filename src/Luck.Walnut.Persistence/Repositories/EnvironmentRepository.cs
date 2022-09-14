@@ -38,7 +38,7 @@ public class EnvironmentRepository: EfCoreAggregateRootRepository<AppEnvironment
     }
     
     public async Task<PageBaseResult<AppConfigurationOutputDto>> GetAppConfigurationPageAsync(
-        string environmentId, PageInput input)
+        string environmentId, PageBaseInputDto baseInputDto)
     {
         var data= await FindAll().Where(o => o.Id == environmentId)
             .Include(o => o.Configurations).SelectMany(o => o.Configurations).Select(a =>
@@ -50,7 +50,7 @@ public class EnvironmentRepository: EfCoreAggregateRootRepository<AppEnvironment
                     Key = a.Key,
                     Type = a.Type,
                     Value = a.Value,
-                }).ToPage(input.PageIndex, input.PageSize).ToArrayAsync();
+                }).ToPage(baseInputDto.PageIndex, baseInputDto.PageSize).ToArrayAsync();
         var total = await FindAll().Where(o => o.Id == environmentId)
             .Include(o => o.Configurations).SelectMany(o => o.Configurations).CountAsync();
         return new PageBaseResult<AppConfigurationOutputDto>(total,data);

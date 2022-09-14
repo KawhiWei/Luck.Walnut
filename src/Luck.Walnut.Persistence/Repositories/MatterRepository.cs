@@ -3,7 +3,9 @@ using Luck.EntityFrameworkCore.Repositories;
 using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Domain.AggregateRoots.Matters;
 using Luck.Walnut.Domain.Repositories;
+using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Matters;
+using Microsoft.EntityFrameworkCore;
 
 namespace Luck.Walnut.Persistence.Repositories;
 
@@ -26,7 +28,7 @@ public class MatterRepository : EfCoreAggregateRootRepository<Matter, string>, I
 
     public async Task<Matter?> GetMatterAsync(string id)
     {
-       return await base.FindAsync(id);
+        return await base.FindAsync(id);
     }
 
     public async Task UpdateMatterAsync(string id, MatterInputDto input)
@@ -53,4 +55,19 @@ public class MatterRepository : EfCoreAggregateRootRepository<Matter, string>, I
         base.Remove(matter);
         await _unitOfWork.CommitAsync();
     }
+
+    public Task<List<MatterOutputDto>> GetMatterListAsync(MatterQueryDto input) => base.FindAll().Select(x => new MatterOutputDto()
+    {
+        Name = x.Name,
+        Describe = x.Describe,
+        BusinessLine = x.BusinessLine,
+        Complexity = x.Complexity,
+        PriorityLevel = x.PriorityLevel,
+        ProductPrincipal = x.ProductPrincipal,
+        MainProductManager = x.MainProductManager,
+        ProductAim = x.ProductAim,
+        MatterType = x.MatterType,
+        PlanOnlineTime = x.PlanOnlineTime,
+        ProductManagers = x.ProductManagers,
+    }).ToListAsync();
 }

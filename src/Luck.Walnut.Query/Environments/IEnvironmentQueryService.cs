@@ -16,7 +16,7 @@ namespace Luck.Walnut.Query.Environments
         /// 分页
         /// </summary>
         /// <returns></returns>
-        Task<PageBaseResult<AppConfigurationOutputDto>> GetAppEnvironmentConfigurationPageAsync(string environmentId, PageInput input);
+        Task<PageBaseResult<AppConfigurationOutputDto>> GetAppEnvironmentConfigurationPageAsync(string environmentId, PageBaseInputDto baseInputDto);
         /// <summary>
         /// 根据配置项id获取详情
         /// </summary>
@@ -28,9 +28,9 @@ namespace Luck.Walnut.Query.Environments
         /// 获取待发布的配置项
         /// </summary>
         /// <param name="environmentId"></param>
-        /// <param name="input"></param>
+        /// <param name="baseInputDto"></param>
         /// <returns></returns>
-        Task<PageBaseResult<AppEnvironmentPageListOutputDto>> GetToDontPublishAppConfiguration(string environmentId, PageInput input);
+        Task<PageBaseResult<AppEnvironmentPageListOutputDto>> GetToDontPublishAppConfiguration(string environmentId, PageBaseInputDto baseInputDto);
 
     }
 }

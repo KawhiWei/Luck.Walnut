@@ -24,12 +24,12 @@ namespace Luck.Walnut.Query.Applications
 
 
 
-        public async Task<PageBaseResult<ApplicationOutputDto>> GetApplicationListAsync(PageInput input)
+        public async Task<PageBaseResult<ApplicationOutputDto>> GetApplicationListAsync(PageBaseInputDto baseInputDto)
         {
-            _logger.LogInformation("查询应用列表",input);
+            _logger.LogInformation("查询应用列表",baseInputDto);
             
             var totalCount= await _applicationRepository.FindAll().CountAsync();
-            var data=await _applicationRepository.FindListAsync(input);
+            var data=await _applicationRepository.FindListAsync(baseInputDto);
 
             return new PageBaseResult<ApplicationOutputDto>(totalCount, data.ToArray());
         }
