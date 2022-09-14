@@ -9,7 +9,7 @@ namespace Luck.Walnut.Query.Applications
         /// 获取应用列表
         /// </summary>
         /// <returns></returns>
-        Task<PageBaseResult<ApplicationOutputDto>> GetApplicationListAsync(PageInput input);
+        Task<PageBaseResult<ApplicationOutputDto>> GetApplicationListAsync(PageBaseInputDto baseInputDto);
 
         /// <summary>
         /// 获取应用和环境列表

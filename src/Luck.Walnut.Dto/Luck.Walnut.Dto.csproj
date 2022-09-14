@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Luck.Walnut.Domain.Shared\Luck.Walnut.Domain.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

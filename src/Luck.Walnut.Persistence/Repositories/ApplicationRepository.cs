@@ -50,7 +50,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
     }
 
     
-    public async Task<IEnumerable<ApplicationOutputDto>> FindListAsync(PageInput input)
+    public async Task<IEnumerable<ApplicationOutputDto>> FindListAsync(PageBaseInputDto baseInputDto)
     {
         return await  FindAll()
             .Select(c => new ApplicationOutputDto
@@ -62,6 +62,6 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 ChinessName = c.ChinessName,
                 DepartmentName = c.DepartmentName,
                 LinkMan = c.LinkMan,
-            }).OrderByDescending(x=>x.Id).ToPage(input.PageIndex,input.PageSize).ToArrayAsync();
+            }).OrderByDescending(x=>x.Id).ToPage(baseInputDto.PageIndex,baseInputDto.PageSize).ToArrayAsync();
     }
 }

@@ -22,8 +22,8 @@ public interface IEnvironmentRepository : IAggregateRootRepository<AppEnvironmen
     /// 获取配置列表
     /// </summary>
     /// <param name="environmentId"></param>
-    /// <param name="input"></param>
+    /// <param name="baseInputDto"></param>
     /// <returns></returns>
-    Task<PageBaseResult<AppConfigurationOutputDto>> GetAppConfigurationPageAsync(string environmentId, PageInput input);
+    Task<PageBaseResult<AppConfigurationOutputDto>> GetAppConfigurationPageAsync(string environmentId, PageBaseInputDto baseInputDto);
 
 }
