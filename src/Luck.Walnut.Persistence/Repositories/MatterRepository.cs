@@ -20,7 +20,7 @@ public class MatterRepository : EfCoreAggregateRootRepository<Matter, string>, I
 
     public async Task CreateMatterAsync(MatterInputDto input)
     {
-        var matter = new Matter(input.Name, input.Describe, input.BusinessLine, input.Complexity, input.PriorityLevel,
+        var matter = new Matter(input.Name, input.Describe, input.ProjectId, input.Complexity, input.PriorityLevel,
             input.ProductPrincipal, input.MainProductManager, input.ProductAim, input.MatterType, input.PlanOnlineTime, input.ProductManagers);
         base.Add(matter);
         await _unitOfWork.CommitAsync();
@@ -38,7 +38,7 @@ public class MatterRepository : EfCoreAggregateRootRepository<Matter, string>, I
         if (matter is null)
             return;
 
-        var matters = new Matter(input.Name, input.Describe, input.BusinessLine, input.Complexity, input.PriorityLevel,
+        var matters = new Matter(input.Name, input.Describe, input.ProjectId, input.Complexity, input.PriorityLevel,
             input.ProductPrincipal, input.MainProductManager, input.ProductAim, input.MatterType, input.PlanOnlineTime, input.ProductManagers);
 
         base.Update(matter);
@@ -56,18 +56,5 @@ public class MatterRepository : EfCoreAggregateRootRepository<Matter, string>, I
         await _unitOfWork.CommitAsync();
     }
 
-    public Task<List<MatterOutputDto>> GetMatterListAsync(MatterQueryDto input) => base.FindAll().Select(x => new MatterOutputDto()
-    {
-        Name = x.Name,
-        Describe = x.Describe,
-        BusinessLine = x.BusinessLine,
-        Complexity = x.Complexity,
-        PriorityLevel = x.PriorityLevel,
-        ProductPrincipal = x.ProductPrincipal,
-        MainProductManager = x.MainProductManager,
-        ProductAim = x.ProductAim,
-        MatterType = x.MatterType,
-        PlanOnlineTime = x.PlanOnlineTime,
-        ProductManagers = x.ProductManagers,
-    }).ToListAsync();
+    public async Task<List<Matter>> GetMatterListAsync(MatterQueryDto input) => await base.FindAll().ToListAsync();
 }

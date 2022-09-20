@@ -20,5 +20,5 @@ public interface IMatterRepository: IAggregateRootRepository<Matter,string>,ISco
 
 
 
-    Task<List<MatterOutputDto>> GetMatterListAsync(MatterQueryDto input);
+    Task<List<Matter>> GetMatterListAsync(MatterQueryDto input);
 }

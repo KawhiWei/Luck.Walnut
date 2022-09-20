@@ -18,7 +18,7 @@ public abstract class MatterBaseDto
     /// 需求业务线
     /// </summary>
     /// <returns></returns>
-    public  string BusinessLine { get;  set; } 
+    public  string ProjectId { get;  set; } 
 
     /// <summary>
     /// 复杂度

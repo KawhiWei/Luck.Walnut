@@ -12,18 +12,18 @@ public class MatterQueryService : IMatterQueryService
     {
         _matterRepository = matterRepository;
     }
-    
+
     public async Task<MatterOutputDto?> GetMatterAsync(string id)
-    { 
-        var matter= await _matterRepository.GetMatterAsync(id);
+    {
+        var matter = await _matterRepository.GetMatterAsync(id);
         if (matter is null)
             return null;
-        
+
         return new MatterOutputDto()
         {
             Name = matter.Name,
             Describe = matter.Describe,
-            BusinessLine = matter.BusinessLine,
+            ProjectId = matter.ProjectId,
             Complexity = matter.Complexity,
             PriorityLevel = matter.PriorityLevel,
             ProductPrincipal = matter.ProductPrincipal,
@@ -37,11 +37,22 @@ public class MatterQueryService : IMatterQueryService
 
     public async Task<PageBaseResult<MatterOutputDto>> GetMatterListAsync(MatterQueryDto input)
     {
-        
-        
-        var totalCount= await _matterRepository.FindAll().CountAsync();
-        var resultData=await  _matterRepository.GetMatterListAsync(input);
-        return new PageBaseResult<MatterOutputDto>(totalCount, resultData.ToArray());
+        var totalCount = await _matterRepository.FindAll().CountAsync();
+        var matters = await _matterRepository.GetMatterListAsync(input);
+        var resultData = matters.Select(x => new MatterOutputDto()
+        {
+            Name = x.Name,
+            Describe = x.Describe,
+            ProjectId = x.ProjectId,
+            Complexity = x.Complexity,
+            PriorityLevel = x.PriorityLevel,
+            ProductPrincipal = x.ProductPrincipal,
+            MainProductManager = x.MainProductManager,
+            ProductAim = x.ProductAim,
+            MatterType = x.MatterType,
+            PlanOnlineTime = x.PlanOnlineTime,
+            ProductManagers = x.ProductManagers,
+        }).ToArray();
+        return new PageBaseResult<MatterOutputDto>(totalCount, resultData);
     }
-
 }

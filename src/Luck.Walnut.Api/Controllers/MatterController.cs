@@ -49,7 +49,7 @@ public class MatterController : BaseController
     /// <param name="input"></param>
     [HttpPut("{id}")]
     public Task UpdateMatterAsync([FromServices] IMatterService matterService, string id, [FromBody] MatterInputDto input) =>
-        matterService.CreateMatterAsync(input);
+        matterService.UpdateMatterAsync(id,input);
     
     /// <summary>
     /// 修改事项
