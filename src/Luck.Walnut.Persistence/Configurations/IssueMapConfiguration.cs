@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Luck.Walnut.Persistence.Configurations;
 
-public class MatterMapConfiguration: IEntityTypeConfiguration<Matter>
+public class IssueMapConfiguration: IEntityTypeConfiguration<Issue>
 {
-    public void Configure(EntityTypeBuilder<Matter> builder)
+    public void Configure(EntityTypeBuilder<Issue> builder)
     {
-        builder.ToTable("matters");
+        builder.ToTable("issues");
         builder.HasKey(e => e.Id);
         builder.HasKey(e => e.Id);
         builder.Property(e => e.ProductManagers).HasJsonConversion();

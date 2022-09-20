@@ -1,15 +1,15 @@
-using Luck.Walnut.Dto.Matters;
+using Luck.Walnut.Dto.Issues;
 
 namespace Luck.Walnut.Application.Matters;
 
-public interface IMatterService:IScopedDependency
+public interface IIssueService:IScopedDependency
 {
     /// <summary>
     /// 
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    Task CreateMatterAsync(MatterInputDto input);
+    Task CreateIssueAsync(IssueInputDto input);
 
     /// <summary>
     /// 
@@ -17,7 +17,7 @@ public interface IMatterService:IScopedDependency
     /// <param name="input"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task UpdateMatterAsync(string id,MatterInputDto input);
+    Task UpdateIssueAsync(string id,IssueInputDto input);
     
-    Task DeleteMatterAsync(string id);
+    Task DeleteIssueAsync(string id);
 }

@@ -67,7 +67,6 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("{environmentId}/config")]
-   
         public Task AddAppConfiguration(string environmentId,[FromBody] AppConfigurationInput input) => _environmentService.AddAppConfigurationAsync(environmentId, input);
         
 

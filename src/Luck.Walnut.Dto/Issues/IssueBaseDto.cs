@@ -1,8 +1,8 @@
 using Luck.Walnut.Domain.Shared.Enums;
 
-namespace Luck.Walnut.Dto.Matters;
+namespace Luck.Walnut.Dto.Issues;
 
-public abstract class MatterBaseDto
+public abstract class IssueBaseDto
 {
     /// <summary>
     /// 需求名称
@@ -18,7 +18,7 @@ public abstract class MatterBaseDto
     /// 需求业务线
     /// </summary>
     /// <returns></returns>
-    public  string BusinessLine { get;  set; } 
+    public  string ProjectId { get;  set; } 
 
     /// <summary>
     /// 复杂度

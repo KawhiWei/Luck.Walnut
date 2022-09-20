@@ -6,13 +6,13 @@ namespace Luck.Walnut.Domain.AggregateRoots.Matters;
 /// <summary>
 /// 事项
 /// </summary>
-public class Matter: FullAggregateRoot
+public class Issue: FullAggregateRoot
 {
-    public Matter(string name, string describe, string businessLine, ComplexityEnum complexity, PriorityLevelEnum priorityLevel, string productPrincipal, string mainProductManager, string productAim, MatterTypeEnum matterType, DateTimeOffset planOnlineTime, List<string> productManagers)
+    public Issue(string name, string describe, string projectId, ComplexityEnum complexity, PriorityLevelEnum priorityLevel, string productPrincipal, string mainProductManager, string productAim, MatterTypeEnum matterType, DateTimeOffset planOnlineTime, List<string> productManagers)
     {
         Name = name;
         Describe = describe;
-        BusinessLine = businessLine;
+        ProjectId = projectId;
         Complexity = complexity;
         PriorityLevel = priorityLevel;
         ProductPrincipal = productPrincipal;
@@ -34,10 +34,10 @@ public class Matter: FullAggregateRoot
     public string Describe { get; private set; } 
     
     /// <summary>
-    /// 需求业务线
+    /// 项目id
     /// </summary>
     /// <returns></returns>
-    public  string BusinessLine { get; private set; } 
+    public  string ProjectId { get; private set; } 
 
     /// <summary>
     /// 复杂度
