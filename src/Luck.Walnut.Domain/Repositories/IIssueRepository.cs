@@ -1,5 +1,5 @@
 using Luck.Framework.Infrastructure.DependencyInjectionModule;
-using Luck.Walnut.Domain.AggregateRoots.Matters;
+using Luck.Walnut.Domain.AggregateRoots.Issues;
 using Luck.Walnut.Dto.Issues;
 
 namespace Luck.Walnut.Domain.Repositories;

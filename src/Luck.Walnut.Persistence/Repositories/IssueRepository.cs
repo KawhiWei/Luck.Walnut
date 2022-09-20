@@ -1,7 +1,7 @@
 using Luck.EntityFrameworkCore.DbContexts;
 using Luck.EntityFrameworkCore.Repositories;
 using Luck.Framework.UnitOfWorks;
-using Luck.Walnut.Domain.AggregateRoots.Matters;
+using Luck.Walnut.Domain.AggregateRoots.Issues;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Dto.Issues;
 using Microsoft.EntityFrameworkCore;

@@ -1,3 +1,4 @@
+
 using Luck.Walnut.Domain.Shared.Enums;
 
 namespace Luck.Walnut.Dto.Projects;
@@ -28,10 +29,10 @@ public abstract class ProjectBaseDto
     /// <summary>
     /// 计划开始时间
     /// </summary>
-    public DateTimeOffset PlanStartTime { get;  set; }
+    public DateOnly PlanStartTime { get;  set; }
     
     /// <summary>
     /// 计划结束时间
     /// </summary>
-    public DateTimeOffset? PlanEndTime { get;  set; }
+    public DateOnly? PlanEndTime { get;  set; }
 }

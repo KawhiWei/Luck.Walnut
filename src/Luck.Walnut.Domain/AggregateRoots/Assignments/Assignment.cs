@@ -1,4 +1,3 @@
-using Luck.Walnut.Domain.AggregateRoots.Matters;
 using Luck.Walnut.Domain.Shared.Enums;
 
 namespace Luck.Walnut.Domain.AggregateRoots.Assignments;
@@ -8,7 +7,7 @@ namespace Luck.Walnut.Domain.AggregateRoots.Assignments;
 /// </summary>
 public class Assignment : FullAggregateRoot
 {
-    public Assignment(string name, DateTimeOffset planStartTime, DateTimeOffset planEndTime, double estimatedWorkingHours, ComplexityEnum complexity, string handlerPeople, string describe, AssignmentTypeEnum assignmentType, DateTimeOffset? planProposeTime)
+    public Assignment(string name, DateOnly planStartTime, DateOnly planEndTime, double estimatedWorkingHours, ComplexityEnum complexity, string handlerPeople, string describe, AssignmentTypeEnum assignmentType, DateOnly? planProposeTime)
     {
         Name = name;
         PlanStartTime = planStartTime;
@@ -35,12 +34,12 @@ public class Assignment : FullAggregateRoot
     /// <summary>
     /// 计划开始时间
     /// </summary>
-    public DateTimeOffset PlanStartTime { get; private set; } = default!;
+    public DateOnly PlanStartTime { get; private set; } = default!;
     
     /// <summary>
     /// 计划结束时间
     /// </summary>
-    public DateTimeOffset PlanEndTime { get; private set; } = default!;
+    public DateOnly PlanEndTime { get; private set; } = default!;
     
     /// <summary>
     /// 预估工时
@@ -55,7 +54,7 @@ public class Assignment : FullAggregateRoot
     /// <summary>
     /// 计划提测时间
     /// </summary>
-    public DateTimeOffset? PlanProposeTime { get; private set; } = default!;
+    public DateOnly? PlanProposeTime { get; private set; } = default!;
     
     /// <summary>
     /// 处理人

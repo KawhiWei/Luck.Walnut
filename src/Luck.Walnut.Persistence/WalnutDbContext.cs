@@ -4,7 +4,7 @@ using Luck.Walnut.Domain.AggregateRoots.Environments;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Luck.Walnut.Domain.AggregateRoots.Assignments;
-using Luck.Walnut.Domain.AggregateRoots.Matters;
+using Luck.Walnut.Domain.AggregateRoots.Issues;
 using Luck.Walnut.Domain.AggregateRoots.Projects;
 
 namespace Luck.Walnut.Persistence

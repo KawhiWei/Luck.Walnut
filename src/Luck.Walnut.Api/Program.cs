@@ -8,6 +8,8 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Reflection;
+using System.Text.Json.Serialization;
+using Hoyo.WebCore;
 using Luck.WebSocket.Server;
 using Luck.WebSocket.Server.Extensions;
 using OpenTelemetry.Resources;
@@ -26,7 +28,16 @@ builder.WebHost.ConfigureKestrel(x =>
 // Add services to the container.
 builder.Services.AddApplication<AppWebModule>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(c =>
+    {
+        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.TimeOnlyJsonConverter());
+        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateOnlyJsonConverter());
+        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.TimeOnlyNullJsonConverter());
+        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateOnlyNullJsonConverter());
+        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateTimeConverter());
+        c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 builder.Services.AddGrpc();
 
