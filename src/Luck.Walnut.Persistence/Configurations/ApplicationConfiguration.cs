@@ -14,9 +14,8 @@ namespace Luck.Walnut.Persistence
             builder.Property(e => e.EnglishName);
             builder.Property(e => e.DepartmentName);
             builder.Property(e => e.ChinessName);
-            builder.Property(e => e.LinkMan).IsRequired(false);
+            builder.Property(e => e.Principal).IsRequired(false);
             builder.Property(e => e.AppId);
-            builder.Property(e => e.Status);
             builder.HasIndex(e => e.AppId).IsUnique();
             builder.ToTable("applications");
         }

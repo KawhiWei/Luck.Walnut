@@ -35,6 +35,7 @@ public class ProjectRepository : EfCoreAggregateRootRepository<Project, string>,
                 .ToPage(baseInputDto.PageIndex,baseInputDto.PageSize)
                 .Select(x => new ProjectOutputDto
                 {
+                    Id = x.Id,
                     Name = x.Name,
                     Describe = x.Describe,
                     ProjectPrincipal = x.ProjectPrincipal,

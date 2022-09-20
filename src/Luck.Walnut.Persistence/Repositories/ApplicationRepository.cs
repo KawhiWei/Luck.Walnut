@@ -21,13 +21,13 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
 
     public async Task<Application?> FindFirstOrDefaultByIdAsync(string id)
     {
-        if(_applicationsForId.ContainsKey(id))
+        if (_applicationsForId.ContainsKey(id))
         {
             return _applicationsForId[id];
         }
 
-        var application= await FindAll(x => x.Id == id).FirstOrDefaultAsync();
-        if(application is null)
+        var application = await FindAll(x => x.Id == id).FirstOrDefaultAsync();
+        if (application is null)
             return null;
         _applicationsForId.Add(id, application);
 
@@ -36,12 +36,12 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
 
     public async Task<Application?> FindFirstOrDefaultByAppIdAsync(string appId)
     {
-        if(_applicationsForAppId.ContainsKey(appId))
+        if (_applicationsForAppId.ContainsKey(appId))
         {
             return _applicationsForAppId[appId];
-        }    
+        }
 
-        var application= await FindAll(x => x.AppId == appId).FirstOrDefaultAsync();
+        var application = await FindAll(x => x.AppId == appId).FirstOrDefaultAsync();
         if (application is null)
             return null;
         _applicationsForAppId.Add(appId, application);
@@ -49,19 +49,19 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
         return application;
     }
 
-    
+
     public async Task<IEnumerable<ApplicationOutputDto>> FindListAsync(PageBaseInputDto baseInputDto)
     {
-        return await  FindAll()
+        return await FindAll()
             .Select(c => new ApplicationOutputDto
             {
                 Id = c.Id,
                 AppId = c.AppId,
-                Status = c.Status,
+                ApplicationStatus = c.ApplicationStatus,
                 EnglishName = c.EnglishName,
                 ChinessName = c.ChinessName,
                 DepartmentName = c.DepartmentName,
-                LinkMan = c.LinkMan,
-            }).OrderByDescending(x=>x.Id).ToPage(baseInputDto.PageIndex,baseInputDto.PageSize).ToArrayAsync();
+                Principal = c.Principal,
+            }).OrderByDescending(x => x.Id).ToPage(baseInputDto.PageIndex, baseInputDto.PageSize).ToArrayAsync();
     }
 }

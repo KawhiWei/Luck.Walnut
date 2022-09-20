@@ -1,20 +1,29 @@
-﻿namespace Luck.Walnut.Domain.AggregateRoots.Applications
+﻿using Luck.Walnut.Domain.Shared.Enums;
+
+namespace Luck.Walnut.Domain.AggregateRoots.Applications
 {
     /// <summary>
     /// 应用
     /// </summary>
     public class Application : FullAggregateRoot
     {
-        public Application(string englishName, string departmentName, string chinessName, string linkMan, string appId, string status)
+        public Application( string projectId,string englishName, string departmentName, string chinessName, string principal, string appId, ApplicationStatusEnum applicationStatus)
         {
+            ProjectId = projectId;
             EnglishName = englishName;
             DepartmentName = departmentName;
             ChinessName = chinessName;
-            LinkMan = linkMan;
+            Principal = principal;
             AppId = appId;
-            Status = status;
+            ApplicationStatus = applicationStatus;
+            
         }
 
+        /// <summary>
+        /// 项目id
+        /// </summary>
+        /// <returns></returns>
+        public  string ProjectId { get; private set; } 
         /// <summary>
         /// 应用服务名称
         /// </summary>
@@ -33,7 +42,7 @@
         /// <summary>
         /// 联系人
         /// </summary>
-        public string LinkMan { get; private set; }
+        public string Principal { get; private set; }
 
         /// <summary>
         /// 应用唯一标识
@@ -43,16 +52,17 @@
         /// <summary>
         /// 应用状态
         /// </summary>
-        public string Status { get; private set; }
+        public ApplicationStatusEnum ApplicationStatus { get; private set; }
 
-        public Application UpdateInfo(string englishName, string departmentName, string chinessName, string linkMan, string appId, string status)
+        public Application UpdateInfo(string projectId,string englishName, string departmentName, string chinessName, string linkMan, string appId, ApplicationStatusEnum applicationStatus)
         {
+            ProjectId = projectId;
             EnglishName = englishName;
             DepartmentName = departmentName;
             ChinessName = chinessName;
-            LinkMan = linkMan;
+            Principal = linkMan;
             AppId = appId;
-            Status = status;
+            ApplicationStatus = applicationStatus;
             return this;
         }
     }

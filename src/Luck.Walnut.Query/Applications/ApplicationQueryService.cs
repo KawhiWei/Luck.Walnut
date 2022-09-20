@@ -49,9 +49,9 @@ namespace Luck.Walnut.Query.Applications
                 Id = application.Id,
                 ChinessName = application.ChinessName,
                 EnglishName = application.EnglishName,
-                LinkMan = application.LinkMan,
+                Principal = application.Principal,
                 AppId = application.AppId,
-                Status = application.Status,
+                ApplicationStatus = application.ApplicationStatus,
                 DepartmentName = application.DepartmentName,
             };
             var environmentLists = await _appEnvironmentRepository.GetEnvironmentListForApplicationId(id);
@@ -69,9 +69,9 @@ namespace Luck.Walnut.Query.Applications
                 Id = application.Id,
                 ChinessName = application.ChinessName,
                 EnglishName = application.EnglishName,
-                Status = application.Status,
+                ApplicationStatus = application.ApplicationStatus,
                 DepartmentName = application.DepartmentName,
-                LinkMan = application.LinkMan,
+                Principal = application.Principal,
                 AppId = application.AppId,
             };
         }
@@ -89,9 +89,9 @@ namespace Luck.Walnut.Query.Applications
                 Id = application.Id,
                 ChinessName = application.ChinessName,
                 EnglishName = application.EnglishName,
-                Status = application.Status,
+                ApplicationStatus = application.ApplicationStatus,
                 DepartmentName = application.DepartmentName,
-                LinkMan = application.LinkMan,
+                Principal = application.Principal,
                 AppId = application.AppId,
             };
         }
