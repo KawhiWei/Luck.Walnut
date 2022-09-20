@@ -48,7 +48,7 @@ public class ProjectController : BaseController
     /// <param name="projectQueryService"></param>
     /// <param name="input"></param>
     [HttpGet("pagelist")]
-    public Task<PageBaseResult<ProjectOutputDto>> GetMatterListAsync([FromServices] IProjectQueryService projectQueryService, [FromQuery] ProjectQueryDto input) =>
-        projectQueryService.FindListAsync(input);
+    public Task<PageBaseResult<ProjectOutputDto>> GetProjectPageListAsync([FromServices] IProjectQueryService projectQueryService, [FromQuery] ProjectQueryDto input) =>
+        projectQueryService.GetProjectPageListAsync(input);
     
 }

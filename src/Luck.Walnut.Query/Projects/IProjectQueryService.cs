@@ -6,5 +6,5 @@ namespace Luck.Walnut.Query.Projects;
 public interface IProjectQueryService:IScopedDependency
 {
 
-    Task<PageBaseResult<ProjectOutputDto>> FindListAsync(ProjectQueryDto queryDto);
+    Task<PageBaseResult<ProjectOutputDto>> GetProjectPageListAsync(ProjectQueryDto queryDto);
 }

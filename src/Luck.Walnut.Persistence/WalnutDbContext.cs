@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Luck.Walnut.Domain.AggregateRoots.Assignments;
 using Luck.Walnut.Domain.AggregateRoots.Matters;
+using Luck.Walnut.Domain.AggregateRoots.Projects;
 
 namespace Luck.Walnut.Persistence
 {
@@ -20,11 +21,14 @@ namespace Luck.Walnut.Persistence
         public DbSet<AppEnvironment> AppEnvironments => Set<AppEnvironment>();
 
         public DbSet<Application> Applications => Set<Application>();
-
-
-        public DbSet<Matter> Matters => Set<Matter>();
+        
+        
+        public DbSet<Project> Projects => Set<Project>();
+        
+        public DbSet<Issue> Issues => Set<Issue>();
         
         public DbSet<Assignment> Assignments => Set<Assignment>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

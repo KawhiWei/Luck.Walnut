@@ -11,6 +11,6 @@ public interface IProjectRepository: IAggregateRootRepository<Project,string>,IS
     Task<Project?> FindFirstOrDefaultByIdAsync(string id);
 
 
-    Task<List<Project>> FindProjectAsync(PageBaseInputDto baseInputDto);
+    Task<PageBaseResult<ProjectOutputDto>> GetProjectPageListAsync(PageBaseInputDto baseInputDto);
 
 }

@@ -17,12 +17,9 @@ public class ProjectQueryService : IProjectQueryService
         _projectRepository = projectRepository;
     }
 
-    public async Task<PageBaseResult<ProjectOutputDto>> FindListAsync(ProjectQueryDto queryDto)
+    public async Task<PageBaseResult<ProjectOutputDto>> GetProjectPageListAsync(ProjectQueryDto queryDto)
     {
-        var totalCount= await _projectRepository.FindAll().CountAsync();
-        var data=await _projectRepository.FindProjectAsync(queryDto);
-        return new PageBaseResult<ProjectOutputDto>(totalCount, new[] { new ProjectOutputDto() });
+        var result = await _projectRepository.GetProjectPageListAsync(queryDto);
+        return result;
     }
-
-
 }
