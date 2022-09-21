@@ -51,4 +51,13 @@ public class ProjectController : BaseController
     public Task<PageBaseResult<ProjectOutputDto>> GetProjectPageListAsync([FromServices] IProjectQueryService projectQueryService, [FromQuery] ProjectQueryDto input) =>
         projectQueryService.GetProjectPageListAsync(input);
     
+    
+    /// <summary>
+    /// 获取项目列表
+    /// </summary>
+    /// <param name="projectQueryService"></param>
+    [HttpGet("enumlist")]
+    public IEnumerable<KeyValuePair<string, string>> GetProjectEnumList([FromServices] IProjectQueryService projectQueryService) =>
+        projectQueryService.GetProjectEnumList();
+    
 }

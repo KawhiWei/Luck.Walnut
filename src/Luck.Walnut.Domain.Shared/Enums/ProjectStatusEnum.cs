@@ -17,8 +17,14 @@ public enum ProjectStatusEnum
     Actity=5,
     
     /// <summary>
+    /// 已暂停
+    /// </summary>
+    [Description("已暂停")]
+    Suspended=10,
+    
+    /// <summary>
     /// 已结束
     /// </summary>
     [Description("已结束")]
-    End=10,
+    End=15,
 }
