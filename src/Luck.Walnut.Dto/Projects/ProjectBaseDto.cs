@@ -13,7 +13,7 @@ public abstract class ProjectBaseDto
     /// <summary>
     /// 需求描述
     /// </summary>
-    public string Describe { get;  set; }
+    public string? Describe { get;  set; }
 
 
     /// <summary>

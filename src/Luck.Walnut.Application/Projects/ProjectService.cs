@@ -20,7 +20,7 @@ public class ProjectService : IProjectService
 
     public async Task CreateProjectAsync(ProjectInputDto input)
     {
-        var project = new Project(input.Name, input.Describe, input.ProjectPrincipal, input.ProjectStatus, input.PlanStartTime, input.PlanEndTime);
+        var project = new Project(input.Name, input.ProjectPrincipal, input.ProjectStatus, input.PlanStartTime, input.PlanEndTime, input.Describe);
         _projectRepository.Add(project);
         await _unitOfWork.CommitAsync();
     }
@@ -29,7 +29,7 @@ public class ProjectService : IProjectService
     public async Task UpdateProjectAsync(string id, ProjectInputDto input)
     {
         var project = await FindProjectByIdAndCheckAsync(id);
-        project.UpdateInfo(input.Name, input.Describe, input.ProjectPrincipal, input.ProjectStatus, input.PlanStartTime, input.PlanEndTime);
+        project.UpdateInfo(input.Name, input.ProjectPrincipal, input.ProjectStatus, input.PlanStartTime, input.PlanEndTime, input.Describe);
         _projectRepository.Update(project);
         await _unitOfWork.CommitAsync();
     }

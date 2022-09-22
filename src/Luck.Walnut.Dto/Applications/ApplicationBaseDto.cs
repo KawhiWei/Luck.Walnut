@@ -35,15 +35,14 @@ public class ApplicationBaseDto
     /// 联系人
     /// </summary>
     public string Principal { get; set; } = default!;
-
-    /// <summary>
-    /// 应用描述
-    /// </summary>
-    /// <returns></returns>
-    public string Description { get; set; } = default!;
-
+    
     /// <summary>
     /// 应用状态
     /// </summary>
-    public ApplicationStatusEnum ApplicationStatus { get; set; } = default!;
+    public ApplicationStateEnum ApplicationState { get; set; } = default!;
+    
+    /// <summary>
+    /// 需求描述
+    /// </summary>
+    public string? Describe { get; set; }
 }

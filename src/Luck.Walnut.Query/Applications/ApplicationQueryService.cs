@@ -51,7 +51,7 @@ namespace Luck.Walnut.Query.Applications
                 EnglishName = application.EnglishName,
                 Principal = application.Principal,
                 AppId = application.AppId,
-                ApplicationStatus = application.ApplicationStatus,
+                ApplicationState = application.ApplicationState,
                 DepartmentName = application.DepartmentName,
             };
             var environmentLists = await _appEnvironmentRepository.GetEnvironmentListForApplicationId(id);
@@ -69,7 +69,7 @@ namespace Luck.Walnut.Query.Applications
                 Id = application.Id,
                 ChinessName = application.ChinessName,
                 EnglishName = application.EnglishName,
-                ApplicationStatus = application.ApplicationStatus,
+                ApplicationState = application.ApplicationState,
                 DepartmentName = application.DepartmentName,
                 Principal = application.Principal,
                 AppId = application.AppId,
@@ -89,7 +89,7 @@ namespace Luck.Walnut.Query.Applications
                 Id = application.Id,
                 ChinessName = application.ChinessName,
                 EnglishName = application.EnglishName,
-                ApplicationStatus = application.ApplicationStatus,
+                ApplicationState = application.ApplicationState,
                 DepartmentName = application.DepartmentName,
                 Principal = application.Principal,
                 AppId = application.AppId,

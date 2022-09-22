@@ -7,7 +7,7 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
     /// </summary>
     public class Application : FullAggregateRoot
     {
-        public Application( string projectId,string englishName, string departmentName, string chinessName, string principal, string appId, ApplicationStatusEnum applicationStatus)
+        public Application( string projectId,string englishName, string departmentName, string chinessName, string principal, string appId, ApplicationStateEnum applicationState, string? describe)
         {
             ProjectId = projectId;
             EnglishName = englishName;
@@ -15,8 +15,8 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
             ChinessName = chinessName;
             Principal = principal;
             AppId = appId;
-            ApplicationStatus = applicationStatus;
-            
+            ApplicationState = applicationState;
+            Describe = describe;
         }
 
         /// <summary>
@@ -52,9 +52,14 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
         /// <summary>
         /// 应用状态
         /// </summary>
-        public ApplicationStatusEnum ApplicationStatus { get; private set; }
+        public ApplicationStateEnum ApplicationState { get; private set; }
+        
+        /// <summary>
+        /// 需求描述
+        /// </summary>
+        public string? Describe { get; private set; }
 
-        public Application UpdateInfo(string projectId,string englishName, string departmentName, string chinessName, string linkMan, string appId, ApplicationStatusEnum applicationStatus)
+        public Application UpdateInfo(string projectId,string englishName, string departmentName, string chinessName, string linkMan, string appId, ApplicationStateEnum applicationState, string? describe)
         {
             ProjectId = projectId;
             EnglishName = englishName;
@@ -62,7 +67,8 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
             ChinessName = chinessName;
             Principal = linkMan;
             AppId = appId;
-            ApplicationStatus = applicationStatus;
+            ApplicationState = applicationState;
+            Describe = describe;
             return this;
         }
     }

@@ -57,7 +57,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
             {
                 Id = c.Id,
                 AppId = c.AppId,
-                ApplicationStatus = c.ApplicationStatus,
+                ApplicationState = c.ApplicationState,
                 EnglishName = c.EnglishName,
                 ChinessName = c.ChinessName,
                 DepartmentName = c.DepartmentName,
