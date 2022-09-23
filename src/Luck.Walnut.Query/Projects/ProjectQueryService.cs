@@ -39,7 +39,6 @@ public class ProjectQueryService : IProjectQueryService
             else
                 dictionary.Add(name.ToString(), member.ToDescription());
         }
-
         return dictionary.ToArray();
     }
 }

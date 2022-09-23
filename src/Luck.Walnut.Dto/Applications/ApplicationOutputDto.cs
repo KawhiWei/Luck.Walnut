@@ -4,6 +4,9 @@ namespace Luck.Walnut.Dto.Applications
 {
     public class ApplicationOutputDto:ApplicationBaseDto
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Id { get; set; }
         
         /// <summary>

@@ -1,5 +1,6 @@
 using Luck.EntityFrameworkCore.DbContexts;
 using Luck.EntityFrameworkCore.Repositories;
+using Luck.Framework.Extensions;
 using Luck.Walnut.Domain.AggregateRoots.Applications;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Dto;
@@ -49,8 +50,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
         return application;
     }
 
-
-    public async Task<IEnumerable<ApplicationOutputDto>> FindListAsync(PageBaseInputDto baseInputDto)
+    public async Task<IEnumerable<ApplicationOutputDto>> FindListAsync(ApplicationQueryDto query)
     {
         return await FindAll()
             .Select(c => new ApplicationOutputDto
@@ -62,6 +62,14 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 ChinessName = c.ChinessName,
                 DepartmentName = c.DepartmentName,
                 Principal = c.Principal,
-            }).OrderByDescending(x => x.Id).ToPage(baseInputDto.PageIndex, baseInputDto.PageSize).ToArrayAsync();
+                ProjectId = c.ProjectId,
+            })
+            .WhereIf(x => x.ProjectId == query.ProjectId, !query.ProjectId.IsNullOrWhiteSpace())
+            .WhereIf(x => x.EnglishName.Contains(query.EnglishName), !query.EnglishName.IsNullOrWhiteSpace())
+            .WhereIf(x => x.ChinessName.Contains(query.ChinessName), !query.ChinessName.IsNullOrWhiteSpace())
+            .WhereIf(x => x.Principal.Contains(query.Principal) , !query.Principal.IsNullOrWhiteSpace())
+            .WhereIf(x => x.AppId.Contains(query.AppId),  !query.AppId.IsNullOrWhiteSpace())
+            .WhereIf(x => x.ApplicationState == query.ApplicationState, query.ApplicationState.HasValue)
+            .OrderByDescending(x => x.Id).ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
     }
 }
