@@ -17,7 +17,7 @@ public enum ApplicationStateEnum
     /// <summary>
     /// 未上线
     /// </summary>
-    [Description("未上线")] NotOnline = 10,
+    [Description("开发完成未发布")] NotOnline = 10,
 
     /// <summary>
     /// 线上运行中

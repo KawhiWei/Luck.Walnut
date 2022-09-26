@@ -21,7 +21,7 @@ namespace Luck.Walnut.Application.Applications
         {
             await CheckAppIdAsync(input.AppId);
             var application = new Domain.AggregateRoots.Applications.Application(input.ProjectId, input.EnglishName,
-                input.DepartmentName, input.ChinessName, input.Principal, input.AppId, input.ApplicationState,input.Describe);
+                input.DepartmentName, input.ChinessName, input.Principal, input.AppId, input.ApplicationState, input.Describe, input.CodeWarehouseAddress);
             _applicationRepository.Add(application);
             await _unitOfWork.CommitAsync();
         }
@@ -38,7 +38,7 @@ namespace Luck.Walnut.Application.Applications
         {
             var application = await GetApplicationByIdAsync(id);
             application.UpdateInfo(input.ProjectId, input.EnglishName, input.DepartmentName, input.ChinessName, input.Principal,
-                input.AppId, input.ApplicationState,input.Describe);
+                input.AppId, input.ApplicationState, input.Describe, input.CodeWarehouseAddress);
             await _unitOfWork.CommitAsync();
         }
 

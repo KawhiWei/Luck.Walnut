@@ -4,8 +4,16 @@ namespace Luck.Walnut.Dto.Applications
 {
     public class ApplicationOutput
     {
+        /// <summary>
+        /// 应用描述
+        /// </summary>
         public ApplicationOutputDto Application { get; set; }=default!;
 
+        /// <summary>
+        /// 环境列表
+        /// </summary>
         public List<AppEnvironmentListOutputDto> EnvironmentLists { get; set; } = default!;
+        
+        
     }
 }

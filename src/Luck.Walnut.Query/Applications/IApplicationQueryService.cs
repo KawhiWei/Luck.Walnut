@@ -14,24 +14,16 @@ namespace Luck.Walnut.Query.Applications
         /// <summary>
         /// 获取应用和环境列表
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<ApplicationOutput> GetApplicationDetailAndEnvironmentAsync(string id);
-
-        /// <summary>
-        /// 根据业务唯一编码获取
-        /// </summary>
         /// <param name="appId"></param>
         /// <returns></returns>
-        Task<ApplicationDetailOutputDto> GetApplicationDetailForAppIdAsync(string appId);
-        
+        Task<ApplicationOutput> GetApplicationDetailAndEnvironmentAsync(string appId);
         
         /// <summary>
         /// 根据主机获取
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="appId"></param>
         /// <returns></returns>
-        Task<ApplicationDetailOutputDto> GetApplicationDetailForIdAsync(string id);
+        Task<ApplicationOutputDto> GetApplicationDetailForIdAsync(string appId);
 
 
         /// <summary>
@@ -39,5 +31,12 @@ namespace Luck.Walnut.Query.Applications
         /// </summary>
         /// <returns></returns>
         IEnumerable<KeyValuePair<string, string>> GetApplicationEnumList();
+
+        /// <summary>
+        /// 获取应用仪表盘明细信息
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        Task<ApplicationOutput> GetApplicationDashboardDetailAsync(string appId);
     }
 }

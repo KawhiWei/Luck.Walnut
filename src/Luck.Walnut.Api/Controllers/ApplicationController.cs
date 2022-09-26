@@ -43,7 +43,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public Task<ApplicationDetailOutputDto> GetApplicationDetailForId(string id,[FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDetailForIdAsync(id);
+        public Task<ApplicationOutputDto> GetApplicationDetailForId(string id,[FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDetailForIdAsync(id);
 
         /// <summary>
         /// 
@@ -69,6 +69,16 @@ namespace Luck.Walnut.Api.Controllers
         /// <returns></returns>
         [HttpGet("enumlist")]
         public IEnumerable<KeyValuePair<string, string>> GetApplicationEnumList([FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationEnumList();
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="applicationQueryService"></param>
+        /// <returns></returns>
+        [HttpGet("{appId}/dashboard")]
+        public Task<ApplicationOutput> GetApplicationDashboardDetailAsync(string appId,[FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDashboardDetailAsync(appId);
 
     }
 }

@@ -40,14 +40,12 @@ namespace Luck.Walnut.Domain.AggregateRoots.Environments
             AppId = appId;
             Version = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
         }
-
-
-
+        
         public AppConfiguration AddConfiguration(string key, string value, string type, bool isOpen, string? group)
         {
             if (Configurations.Any(x => x.Key == key))
                 throw new DomainException($"【{key}】已存在");
-            var appConfiguration = new AppConfiguration(key, value, type, isOpen, group);
+            var appConfiguration = new AppConfiguration(this.AppId,key, value, type, isOpen, group);
             Configurations.Add(appConfiguration);
             return appConfiguration;
         }

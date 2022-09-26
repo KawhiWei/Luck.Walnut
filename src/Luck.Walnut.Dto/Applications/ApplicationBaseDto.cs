@@ -45,4 +45,9 @@ public class ApplicationBaseDto
     /// 需求描述
     /// </summary>
     public string? Describe { get; set; }
+    
+    /// <summary>
+    /// 代码仓库地址
+    /// </summary>
+    public string? CodeWarehouseAddress { get; set; } = default!;
 }

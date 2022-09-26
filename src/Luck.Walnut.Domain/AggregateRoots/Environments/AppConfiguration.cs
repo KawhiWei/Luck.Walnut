@@ -1,8 +1,11 @@
 ﻿namespace Luck.Walnut.Domain.AggregateRoots.Environments
 {
-    
     public class AppConfiguration : FullEntity
     {
+        /// <summary>
+        /// 应用Id
+        /// </summary>
+        public string AppId { get; private set; } = default!;
 
         /// <summary>
         /// 配置项Key
@@ -39,13 +42,15 @@
         /// </summary>
         public string? Group { get; private set; } = default!;
 
+        public AppEnvironment AppEnvironment { get; }
+
         private AppConfiguration()
         {
-
         }
 
-        public AppConfiguration(string key, string value, string type,bool isOpen, string? group) :this()
+        public AppConfiguration(string appId, string key, string value, string type, bool isOpen, string? group) : this()
         {
+            AppId = appId;
             Key = key;
             Value = value;
             Type = type;
@@ -66,14 +71,12 @@
 
         public AppConfiguration ChangeKey(string key)
         {
-
             this.Key = key;
             return this;
         }
 
         public AppConfiguration ChangeValue(string value)
         {
-
             this.Value = value;
             return this;
         }
@@ -81,7 +84,6 @@
 
         public AppConfiguration ChangeType(string type)
         {
-
             this.Type = type;
             return this;
         }
@@ -92,8 +94,6 @@
         /// <param name="isOpen"></param>
         public AppConfiguration ChangeOpen(bool isOpen)
         {
-
-
             this.IsOpen = isOpen;
             return this;
         }
@@ -102,14 +102,10 @@
         /// 更改发布
         /// </summary>
         /// <param name="isPublish"></param>
-
         public AppConfiguration ChangePublish(bool isPublish)
         {
-
             this.IsPublish = isPublish;
             return this;
         }
-
     }
-
 }

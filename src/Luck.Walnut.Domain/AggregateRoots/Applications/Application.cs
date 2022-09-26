@@ -7,7 +7,7 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
     /// </summary>
     public class Application : FullAggregateRoot
     {
-        public Application( string projectId,string englishName, string departmentName, string chinessName, string principal, string appId, ApplicationStateEnum applicationState, string? describe)
+        public Application( string projectId,string englishName, string departmentName, string chinessName, string principal, string appId, ApplicationStateEnum applicationState, string? describe, string? codeWarehouseAddress)
         {
             ProjectId = projectId;
             EnglishName = englishName;
@@ -17,6 +17,7 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
             AppId = appId;
             ApplicationState = applicationState;
             Describe = describe;
+            CodeWarehouseAddress = codeWarehouseAddress;
         }
 
         /// <summary>
@@ -48,6 +49,11 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
         /// 应用唯一标识
         /// </summary>
         public string AppId { get; private set; }
+        
+        /// <summary>
+        /// 代码仓库地址
+        /// </summary>
+        public string? CodeWarehouseAddress { get; private set; }
 
         /// <summary>
         /// 应用状态
@@ -59,7 +65,7 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
         /// </summary>
         public string? Describe { get; private set; }
 
-        public Application UpdateInfo(string projectId,string englishName, string departmentName, string chinessName, string linkMan, string appId, ApplicationStateEnum applicationState, string? describe)
+        public Application UpdateInfo(string projectId,string englishName, string departmentName, string chinessName, string linkMan, string appId, ApplicationStateEnum applicationState, string? describe, string? codeWarehouseAddress)
         {
             ProjectId = projectId;
             EnglishName = englishName;
@@ -69,6 +75,7 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
             AppId = appId;
             ApplicationState = applicationState;
             Describe = describe;
+            CodeWarehouseAddress = codeWarehouseAddress;
             return this;
         }
     }

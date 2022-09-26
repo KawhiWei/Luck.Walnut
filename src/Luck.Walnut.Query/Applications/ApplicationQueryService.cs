@@ -37,41 +37,22 @@ namespace Luck.Walnut.Query.Applications
         }
 
 
-        public async Task<ApplicationOutput> GetApplicationDetailAndEnvironmentAsync(string id)
+        public async Task<ApplicationOutput> GetApplicationDetailAndEnvironmentAsync(string appId)
         {
-            var application = await GetApplicationByAppIdAsync(id);
+            var applicationOutputDto = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
             ApplicationOutput applicationOutput = new ApplicationOutput();
-
-            applicationOutput.Application = new ApplicationOutputDto
-            {
-                Id = application.Id,
-                ChinessName = application.ChinessName,
-                EnglishName = application.EnglishName,
-                Principal = application.Principal,
-                AppId = application.AppId,
-                ApplicationState = application.ApplicationState,
-                DepartmentName = application.DepartmentName,
-            };
-            var environmentLists = await _appEnvironmentRepository.GetEnvironmentListForApplicationId(id);
+            applicationOutput.Application = applicationOutputDto;
+            var environmentLists = await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
             applicationOutput.EnvironmentLists = environmentLists;
+
 
             return applicationOutput;
         }
 
-        public async Task<ApplicationDetailOutputDto> GetApplicationDetailForIdAsync(string id)
+        public async Task<ApplicationOutputDto> GetApplicationDetailForIdAsync(string appId)
         {
-            var application = await GetApplicationByIdAsync(id);
-
-            return new ApplicationDetailOutputDto()
-            {
-                Id = application.Id,
-                ChinessName = application.ChinessName,
-                EnglishName = application.EnglishName,
-                ApplicationState = application.ApplicationState,
-                DepartmentName = application.DepartmentName,
-                Principal = application.Principal,
-                AppId = application.AppId,
-            };
+            var applicationOutputDto = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
+            return applicationOutputDto;
         }
 
         public IEnumerable<KeyValuePair<string, string>> GetApplicationEnumList()
@@ -87,41 +68,21 @@ namespace Luck.Walnut.Query.Applications
                 else
                     dictionary.Add(name.ToString(), member.ToDescription());
             }
-
             return dictionary.ToArray();
         }
 
-
-        public async Task<ApplicationDetailOutputDto> GetApplicationDetailForAppIdAsync(string appId)
+        
+        /// <summary>
+        /// 获取应用仪表盘明细信息
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ApplicationOutput> GetApplicationDashboardDetailAsync(string appId)
         {
-            var application = await GetApplicationByAppIdAsync(appId);
-
-            return new ApplicationDetailOutputDto()
-            {
-                Id = application.Id,
-                ChinessName = application.ChinessName,
-                EnglishName = application.EnglishName,
-                ApplicationState = application.ApplicationState,
-                DepartmentName = application.DepartmentName,
-                Principal = application.Principal,
-                AppId = application.AppId,
-            };
-        }
-
-        private async Task<Application> GetApplicationByAppIdAsync(string appId)
-        {
-            var application = await _applicationRepository.FindAll(x => x.AppId == appId).FirstOrDefaultAsync();
-            if (application is null)
-                throw new BusinessException($"应用不存在");
-            return application;
-        }
-
-        private async Task<Application> GetApplicationByIdAsync(string id)
-        {
-            var application = await _applicationRepository.FindFirstOrDefaultByIdAsync(id);
-            if (application is null)
-                throw new BusinessException($"应用不存在");
-            return application;
+            var application = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
+            ApplicationOutput applicationOutput = new ApplicationOutput();
+            applicationOutput.Application = application;
+            
+            return applicationOutput;
         }
     }
 }
