@@ -1,4 +1,3 @@
-using Luck.Framework.Infrastructure.DependencyInjectionModule;
 using Luck.Walnut.Domain.AggregateRoots.Projects;
 using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Projects;

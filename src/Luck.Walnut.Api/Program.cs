@@ -1,17 +1,15 @@
-using System.Net.Security;
+using System.Text.Json.Serialization;
+using Hoyo.WebCore;
 using Luck.AspNetCore;
 using Luck.Framework.Infrastructure;
 using Luck.Framework.Threading;
 using Luck.Walnut.Api.AppModules;
 using Luck.Walnut.Api.GrpcServices;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using System.Reflection;
-using System.Text.Json.Serialization;
-using Hoyo.WebCore;
 using Luck.WebSocket.Server;
 using Luck.WebSocket.Server.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -37,7 +35,6 @@ builder.Services.AddControllers()
         c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateOnlyNullJsonConverter());
         c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateTimeConverter());
         c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-
     });
 
 builder.Services.AddGrpc();
@@ -65,9 +62,17 @@ builder.Services.AddOpenTelemetryTracing(b =>
     b.AddConsoleExporter()
         .AddSource(test)
         .SetResourceBuilder(ResourceBuilder.CreateDefault()
-                .AddService(serviceName: test, serviceVersion: "1.0.0"))
+            .AddService(serviceName: test, serviceVersion: "1.0.0"))
         .AddAspNetCoreInstrumentation();
     // The rest of your setup code goes here too
+}).AddOpenTelemetryMetrics(x =>
+{
+    var a = ResourceBuilder.CreateDefault()
+        .AddService(serviceName: test, serviceVersion: "1.0.0");
+    x.SetResourceBuilder(a)
+        .AddHttpClientInstrumentation()
+        .AddAspNetCoreInstrumentation();
+    x.AddConsoleExporter();
 });
 
 var app = builder.Build();
