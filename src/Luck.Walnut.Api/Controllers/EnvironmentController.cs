@@ -11,15 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace Luck.Walnut.Api.Controllers
 {
     [Route("api/environment")]
-    public class EnvironmentController :BaseController
+    public class EnvironmentController : BaseController
     {
-
         private readonly IEnvironmentService _environmentService;
 
         public EnvironmentController(IEnvironmentService environmentService)
         {
             _environmentService = Check.NotNull(environmentService, nameof(environmentService));
-            
         }
 
         /// <summary>
@@ -27,9 +25,9 @@ namespace Luck.Walnut.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("{applicationId}/list")]
-        public Task<ApplicationOutput> GetApplicationDetailAndEnvironmentAsync(string applicationId,
+        public Task<List<AppEnvironmentListOutputDto>> GetApplicationDetailAndEnvironmentAsync(string applicationId,
             [FromServices] IApplicationQueryService applicationQueryService) =>
-            applicationQueryService.GetApplicationDetailAndEnvironmentAsync(applicationId);
+            applicationQueryService.GetEnvironmentAsync(applicationId);
 
 
         /// <summary>
@@ -49,15 +47,13 @@ namespace Luck.Walnut.Api.Controllers
         public Task DeleteEnvironment(string id) => _environmentService.DeleteAppEnvironmentAsync(id);
 
 
-
-
-
         /// <summary>
         /// 得到环境下配置列表
         /// </summary>
         /// <returns></returns>
         [HttpGet("{environmentId}/configlist")]
-        public Task<PageBaseResult<AppConfigurationOutputDto>> GetAppEnvironmentAndConfigurationPage(string environmentId, [FromQuery] PageBaseInputDto baseInputDto,[FromServices] IEnvironmentQueryService environmentQueryService) => environmentQueryService.GetAppEnvironmentConfigurationPageAsync(environmentId, baseInputDto);
+        public Task<PageBaseResult<AppConfigurationOutputDto>> GetAppEnvironmentAndConfigurationPage(string environmentId, [FromQuery] PageBaseInputDto baseInputDto, [FromServices] IEnvironmentQueryService environmentQueryService) =>
+            environmentQueryService.GetAppEnvironmentConfigurationPageAsync(environmentId, baseInputDto);
 
 
         /// <summary>
@@ -67,8 +63,8 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("{environmentId}/config")]
-        public Task AddAppConfiguration(string environmentId,[FromBody] AppConfigurationInput input) => _environmentService.AddAppConfigurationAsync(environmentId, input);
-        
+        public Task AddAppConfiguration(string environmentId, [FromBody] AppConfigurationInput input) => _environmentService.AddAppConfigurationAsync(environmentId, input);
+
 
         /// <summary>
         ///更新配置
@@ -87,7 +83,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="configrurationIds"></param>
         /// <returns></returns>
         [HttpPut("{environmentId}/publish")]
-        public  Task Publish(string environmentId,[FromBody] List<string> configrurationIds) => _environmentService.PublishAsync(environmentId,configrurationIds);
+        public Task Publish(string environmentId, [FromBody] List<string> configrurationIds) => _environmentService.PublishAsync(environmentId, configrurationIds);
 
         /// <summary>
         /// 删除配置
@@ -107,6 +103,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <returns></returns>
         [HttpGet("{configurationId}/config")]
         public Task<AppConfigurationOutputDto> GetAppEnvironmentConfigurationDetail([FromServices] IEnvironmentQueryService environmentQueryService, string configurationId) => environmentQueryService.GetConfigurationDetailForConfigurationIdAsync(configurationId);
+
         /// <summary>
         /// 根据appId和EnvironmentName获取配置
         /// </summary>
@@ -125,6 +122,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="baseInputDto"></param>
         /// <returns></returns>
         [HttpGet("{environmentId}/getdontpublishconfiglist")]
-        public Task<PageBaseResult<AppEnvironmentPageListOutputDto>> GetToDontPublishAppConfiguration([FromServices] IEnvironmentQueryService environmentQueryService, string environmentId, [FromQuery] PageBaseInputDto baseInputDto) => environmentQueryService.GetToDontPublishAppConfiguration(environmentId, baseInputDto);
+        public Task<PageBaseResult<AppEnvironmentPageListOutputDto>> GetToDontPublishAppConfiguration([FromServices] IEnvironmentQueryService environmentQueryService, string environmentId, [FromQuery] PageBaseInputDto baseInputDto) =>
+            environmentQueryService.GetToDontPublishAppConfiguration(environmentId, baseInputDto);
     }
 }

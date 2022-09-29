@@ -16,37 +16,42 @@ namespace Luck.Walnut.Query.Applications
     {
         private readonly IEnvironmentRepository _appEnvironmentRepository;
         private readonly IApplicationRepository _applicationRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly ILogger<ApplicationQueryService> _logger;
 
-        public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository, IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger)
+        public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository, IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger, IProjectRepository projectRepository)
         {
             _appEnvironmentRepository = appEnvironmentRepository;
             _applicationRepository = applicationRepository;
             _logger = logger;
+            _projectRepository = projectRepository;
         }
 
 
         public async Task<PageBaseResult<ApplicationOutputDto>> GetApplicationListAsync(ApplicationQueryDto query)
         {
             _logger.LogInformation("查询应用列表", query);
-
             var totalCount = await _applicationRepository.FindAll().CountAsync();
-            var data = await _applicationRepository.FindListAsync(query);
-
-            return new PageBaseResult<ApplicationOutputDto>(totalCount, data.ToArray());
+            var applicationList = await _applicationRepository.FindListAsync(query);
+            var projectList = await _projectRepository.GetProjectPageListAsync(applicationList.Select(x => x.ProjectId).ToList());
+            if (projectList.Any())
+            {
+                foreach (var application in applicationList)
+                {
+                    var project = projectList.FirstOrDefault(x => x.Id == application.ProjectId);
+                    if (project is not null)
+                    {
+                        application.ProjectName = project.Name;
+                    }
+                }
+            }
+            return new PageBaseResult<ApplicationOutputDto>(totalCount, applicationList.ToArray());
         }
 
 
-        public async Task<ApplicationOutput> GetApplicationDetailAndEnvironmentAsync(string appId)
+        public async Task<List<AppEnvironmentListOutputDto>> GetEnvironmentAsync(string appId)
         {
-            var applicationOutputDto = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
-            ApplicationOutput applicationOutput = new ApplicationOutput();
-            applicationOutput.Application = applicationOutputDto;
-            var environmentLists = await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
-            applicationOutput.EnvironmentLists = environmentLists;
-
-
-            return applicationOutput;
+            return await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
         }
 
         public async Task<ApplicationOutputDto> GetApplicationDetailForIdAsync(string appId)
@@ -68,10 +73,11 @@ namespace Luck.Walnut.Query.Applications
                 else
                     dictionary.Add(name.ToString(), member.ToDescription());
             }
+
             return dictionary.ToArray();
         }
 
-        
+
         /// <summary>
         /// 获取应用仪表盘明细信息
         /// </summary>
@@ -81,7 +87,7 @@ namespace Luck.Walnut.Query.Applications
             var application = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
             ApplicationOutput applicationOutput = new ApplicationOutput();
             applicationOutput.Application = application;
-            
+
             return applicationOutput;
         }
     }

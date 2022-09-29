@@ -71,7 +71,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
         return application;
     }
 
-    public async Task<IEnumerable<ApplicationOutputDto>> FindListAsync(ApplicationQueryDto query)
+    public async Task<IList<ApplicationOutputDto>> FindListAsync(ApplicationQueryDto query)
     {
         return await FindAll()
             .Select(c => new ApplicationOutputDto

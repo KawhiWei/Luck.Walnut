@@ -16,7 +16,7 @@ public class AppConfigurationRepository : EfCoreEntityRepository<AppConfiguratio
 
     public async Task<IEnumerable<AppConfigurationOutputDto>> FindListAsync(PageBaseInputDto query)
     {
-        return await FindAll()
+        return await FindAll().OrderByDescending(x => x.CreationTime)
             .Select(x => new AppConfigurationOutputDto
             {
                 Id = x.Id,
@@ -26,7 +26,6 @@ public class AppConfigurationRepository : EfCoreEntityRepository<AppConfiguratio
                 IsOpen = x.IsOpen,
                 Group = x.Group,
                 IsPublish = x.IsPublish,
-                AppEnvironmentName = x.AppEnvironment.EnvironmentName
             }).ToPage(query.PageIndex, query.PageSize).ToListAsync();
     }
 }

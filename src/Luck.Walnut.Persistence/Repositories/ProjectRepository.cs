@@ -32,7 +32,7 @@ public class ProjectRepository : EfCoreAggregateRootRepository<Project, string>,
     {
         var data =
             await FindAll().OrderByDescending(x => x.CreationTime)
-                .ToPage(baseInputDto.PageIndex,baseInputDto.PageSize)
+                .ToPage(baseInputDto.PageIndex, baseInputDto.PageSize)
                 .Select(x => new ProjectOutputDto
                 {
                     Id = x.Id,
@@ -45,5 +45,26 @@ public class ProjectRepository : EfCoreAggregateRootRepository<Project, string>,
                 }).ToArrayAsync();
         var totalCount = await FindAll().CountAsync();
         return new PageBaseResult<ProjectOutputDto>(totalCount, data);
+    }
+
+    /// <summary>
+    /// 根据项目Id数据查询符合的项目
+    /// </summary>
+    /// <param name="ids"></param>
+    /// <returns></returns>
+    public async Task<IList<ProjectOutputDto>> GetProjectPageListAsync(IList<string> ids)
+    {
+        var data = await FindAll(x => ids.Contains(x.Id))
+            .Select(x => new ProjectOutputDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Describe = x.Describe,
+                ProjectPrincipal = x.ProjectPrincipal,
+                ProjectStatus = x.ProjectStatus,
+                PlanStartTime = x.PlanStartTime,
+                PlanEndTime = x.PlanEndTime,
+            }).ToArrayAsync();
+        return data;
     }
 }

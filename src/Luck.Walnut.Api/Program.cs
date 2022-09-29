@@ -65,15 +65,17 @@ builder.Services.AddOpenTelemetryTracing(b =>
             .AddService(serviceName: test, serviceVersion: "1.0.0"))
         .AddAspNetCoreInstrumentation();
     // The rest of your setup code goes here too
-}).AddOpenTelemetryMetrics(x =>
-{
-    var a = ResourceBuilder.CreateDefault()
-        .AddService(serviceName: test, serviceVersion: "1.0.0");
-    x.SetResourceBuilder(a)
-        .AddHttpClientInstrumentation()
-        .AddAspNetCoreInstrumentation();
-    x.AddConsoleExporter();
-});
+})
+//     .AddOpenTelemetryMetrics(x =>
+// {
+//     var a = ResourceBuilder.CreateDefault()
+//         .AddService(serviceName: test, serviceVersion: "1.0.0");
+//     x.SetResourceBuilder(a)
+//         .AddHttpClientInstrumentation()
+//         .AddAspNetCoreInstrumentation();
+//     x.AddConsoleExporter();
+// })
+    ;
 
 var app = builder.Build();
 app.UsePathBase("/walnut");

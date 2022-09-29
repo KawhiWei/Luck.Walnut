@@ -42,7 +42,7 @@ public class LuCatGrpcService : LuCat.LuCatBase, INotificationHandler<AppConfigu
         var clientId = Guid.NewGuid().ToString();
         _test.AddResponseStream("test", clientId, responseStream, context);
         context.CancellationToken.Register(() => { _test.RemoveResponseStream("test", clientId); });
-        while (true)
+        while (!context.CancellationToken.IsCancellationRequested)
         {
             await Task.Delay(1000);
         }

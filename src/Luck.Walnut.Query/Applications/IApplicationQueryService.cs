@@ -1,5 +1,6 @@
 ﻿using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Applications;
+using Luck.Walnut.Dto.Environments;
 
 namespace Luck.Walnut.Query.Applications
 {
@@ -16,7 +17,7 @@ namespace Luck.Walnut.Query.Applications
         /// </summary>
         /// <param name="appId"></param>
         /// <returns></returns>
-        Task<ApplicationOutput> GetApplicationDetailAndEnvironmentAsync(string appId);
+        Task<List<AppEnvironmentListOutputDto>> GetEnvironmentAsync(string appId);
         
         /// <summary>
         /// 根据主机获取
