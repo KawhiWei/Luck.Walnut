@@ -39,7 +39,13 @@ public class ApplicationBaseDto
     /// <summary>
     /// 应用状态
     /// </summary>
-    public ApplicationStateEnum ApplicationState { get; set; } = default!;
+    public ApplicationStateEnum ApplicationState { get; set; }
+    
+    /// <summary>
+    /// 应用状态
+    /// </summary>
+    public ApplicationLevelEnum ApplicationLevel { get; set; }
+    
     
     /// <summary>
     /// 需求描述

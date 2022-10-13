@@ -2,6 +2,7 @@
 using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Domain.Repositories;
+using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto.Applications;
 
 namespace Luck.Walnut.Application.Applications
@@ -21,7 +22,7 @@ namespace Luck.Walnut.Application.Applications
         {
             await CheckAppIdAsync(input.AppId);
             var application = new Domain.AggregateRoots.Applications.Application(input.ProjectId, input.EnglishName,
-                input.DepartmentName, input.ChinessName, input.Principal, input.AppId, input.ApplicationState, input.Describe, input.CodeWarehouseAddress);
+                input.DepartmentName, input.ChinessName, input.Principal, input.AppId, input.ApplicationState, input.Describe, input.CodeWarehouseAddress,ApplicationLevelEnum.LevelZero);
             _applicationRepository.Add(application);
             await _unitOfWork.CommitAsync();
         }

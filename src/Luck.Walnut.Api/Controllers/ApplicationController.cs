@@ -1,4 +1,5 @@
 using Luck.Walnut.Application.Applications;
+using Luck.Walnut.Domain.AggregateRoots.Languages;
 using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Applications;
 using Luck.Walnut.Query.Applications;
@@ -43,7 +44,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public Task<ApplicationOutputDto> GetApplicationDetailForId(string id,[FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDetailForIdAsync(id);
+        public Task<ApplicationOutputDto?> GetApplicationDetailForId(string id, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDetailForIdAsync(id);
 
         /// <summary>
         /// 
@@ -61,16 +62,24 @@ namespace Luck.Walnut.Api.Controllers
         /// <returns></returns>
         [HttpDelete("{id}")]
         public Task DeleteApplication(string id) => _applicationService.DeleteApplicationAsync(id);
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
-        [HttpGet("enumlist")]
+        [HttpGet("enum/list")]
         public IEnumerable<KeyValuePair<string, string>> GetApplicationEnumList([FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationEnumList();
 
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="applicationQueryService"></param>
+        /// <returns></returns>
+        [HttpGet("language/list")]
+        public  IEnumerable<Language> GetLanguageList([FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetLanguageListAsync();
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -78,7 +87,6 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
         [HttpGet("{appId}/dashboard")]
-        public Task<ApplicationOutput> GetApplicationDashboardDetailAsync(string appId,[FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDashboardDetailAsync(appId);
-
+        public Task<ApplicationOutput> GetApplicationDashboardDetailAsync(string appId, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDashboardDetailAsync(appId);
     }
 }

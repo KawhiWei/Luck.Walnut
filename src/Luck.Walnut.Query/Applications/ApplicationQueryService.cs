@@ -1,8 +1,5 @@
-﻿using Luck.DDD.Domain.Repositories;
-using Luck.Framework.Exceptions;
-using Luck.Framework.Extensions;
-using Luck.Walnut.Domain.AggregateRoots.Applications;
-using Luck.Walnut.Domain.AggregateRoots.Environments;
+﻿using Luck.Framework.Extensions;
+using Luck.Walnut.Domain.AggregateRoots.Languages;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto;
@@ -45,6 +42,7 @@ namespace Luck.Walnut.Query.Applications
                     }
                 }
             }
+
             return new PageBaseResult<ApplicationOutputDto>(totalCount, applicationList.ToArray());
         }
 
@@ -54,9 +52,24 @@ namespace Luck.Walnut.Query.Applications
             return await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
         }
 
-        public async Task<ApplicationOutputDto> GetApplicationDetailForIdAsync(string appId)
+        public async Task<ApplicationOutputDto?> GetApplicationDetailForIdAsync(string id)
         {
-            var applicationOutputDto = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
+            var application = await _applicationRepository.FindFirstOrDefaultByIdAsync(id);
+            if (application is null)
+                return null;
+            var applicationOutputDto = new ApplicationOutputDto
+            {
+                Id = application.Id,
+                AppId = application.AppId,
+                ApplicationState = application.ApplicationState,
+                EnglishName = application.EnglishName,
+                ChinessName = application.ChinessName,
+                DepartmentName = application.DepartmentName,
+                Principal = application.Principal,
+                ProjectId = application.ProjectId,
+                Describe = application.Describe,
+                // ApplicationLevel = application.ApplicationLevel
+            };
             return applicationOutputDto;
         }
 
@@ -76,8 +89,26 @@ namespace Luck.Walnut.Query.Applications
 
             return dictionary.ToArray();
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Language> GetLanguageListAsync()
+        {
 
+            List<Language> languages = new List<Language>()
+            {
+                new Language(".Net"),
+                new Language("Python"),
+                new Language("Java"),
+                new Language("Go"),
+                new Language("Node"),
+            };
 
+            return languages.ToArray();
+        }
+        
         /// <summary>
         /// 获取应用仪表盘明细信息
         /// </summary>

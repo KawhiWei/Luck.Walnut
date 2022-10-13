@@ -13,6 +13,11 @@ namespace Luck.Walnut.Dto.Applications
         /// 应用状态
         /// </summary>
         public string ApplicationStateName => ApplicationState.ToDescription();
+        
+        /// <summary>
+        /// 应用状态
+        /// </summary>
+        public string ApplicationLevelName => ApplicationLevel.ToDescription();
 
         /// <summary>
         /// 应用状态

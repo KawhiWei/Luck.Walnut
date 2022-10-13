@@ -35,7 +35,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
 
         return application;
     }
-
+    
     public async Task<Application?> FindFirstOrDefaultByAppIdAsync(string appId)
     {
         if (_applicationsForAppId.ContainsKey(appId))
@@ -64,7 +64,8 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 DepartmentName = c.DepartmentName,
                 Principal = c.Principal,
                 ProjectId = c.ProjectId,
-                Describe=c.Describe
+                Describe = c.Describe,
+                ApplicationLevel = c.ApplicationLevel
             }).FirstOrDefaultAsync();
         if (application is null)
             throw new BusinessException($"应用不存在");
@@ -84,6 +85,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 DepartmentName = c.DepartmentName,
                 Principal = c.Principal,
                 ProjectId = c.ProjectId,
+                // ApplicationLevel = c.ApplicationLevel
             })
             .WhereIf(x => x.ProjectId == query.ProjectId, !query.ProjectId.IsNullOrWhiteSpace())
             .WhereIf(x => x.EnglishName.Contains(query.EnglishName), !query.EnglishName.IsNullOrWhiteSpace())

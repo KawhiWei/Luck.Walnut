@@ -51,7 +51,7 @@ namespace Luck.Walnut.Api.Controllers
         /// 得到环境下配置列表
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{environmentId}/configlist")]
+        [HttpGet("{environmentId}/config/list")]
         public Task<PageBaseResult<AppConfigurationOutputDto>> GetAppEnvironmentAndConfigurationPage(string environmentId, [FromQuery] PageBaseInputDto baseInputDto, [FromServices] IEnvironmentQueryService environmentQueryService) =>
             environmentQueryService.GetAppEnvironmentConfigurationPageAsync(environmentId, baseInputDto);
 
@@ -121,7 +121,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="environmentId"></param>
         /// <param name="baseInputDto"></param>
         /// <returns></returns>
-        [HttpGet("{environmentId}/getdontpublishconfiglist")]
+        [HttpGet("{environmentId}/not/publish/config/list")]
         public Task<PageBaseResult<AppEnvironmentPageListOutputDto>> GetToDontPublishAppConfiguration([FromServices] IEnvironmentQueryService environmentQueryService, string environmentId, [FromQuery] PageBaseInputDto baseInputDto) =>
             environmentQueryService.GetToDontPublishAppConfiguration(environmentId, baseInputDto);
     }
