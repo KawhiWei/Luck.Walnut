@@ -4,42 +4,42 @@ using System.Security.Cryptography;
 namespace Luck.Walnut.Domain.Shared.Enums;
 
 /// <summary>
-/// 应用保障级别
+/// 应用保障P
 /// </summary>
 public enum ApplicationLevelEnum
 {
     /// <summary>
-    /// 级别0
+    /// P0
     /// </summary>
-    [Description("级别0")] LevelZero = 0,
+    [Description("P0")] LevelZero = 0,
 
     /// <summary>
-    /// 级别1
+    /// P1
     /// </summary>
-    [Description("级别1")] LevelOne = 1,
+    [Description("P1")] LevelOne = 1,
 
     /// <summary>
-    /// 级别2
+    /// P2
     /// </summary>
-    [Description("级别2")] LevelTwo = 2,
+    [Description("P2")] LevelTwo = 2,
 
     /// <summary>
-    /// 级别3
+    /// P3
     /// </summary>
-    [Description("级别3")] LevelThree = 3,
+    [Description("P3")] LevelThree = 3,
 
     /// <summary>
-    /// 级别4
+    /// P4
     /// </summary>
-    [Description("级别4")] LevelFour = 4,
+    [Description("P4")] LevelFour = 4,
 
     /// <summary>
-    /// 级别5
+    /// P5
     /// </summary>
-    [Description("级别5")] LevelFive = 5,
+    [Description("P5")] LevelFive = 5,
 
     /// <summary>
-    /// 级别6
+    /// P6
     /// </summary>
-    [Description("级别6")] LevelSix = 6,
+    [Description("P6")] LevelSix = 6,
 }

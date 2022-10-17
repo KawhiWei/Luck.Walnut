@@ -69,7 +69,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
         [HttpGet("enum/list")]
-        public IEnumerable<KeyValuePair<string, string>> GetApplicationEnumList([FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationEnumList();
+        public object GetApplicationEnumList([FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationEnumList();
 
         /// <summary>
         /// 

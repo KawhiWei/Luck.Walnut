@@ -68,26 +68,42 @@ namespace Luck.Walnut.Query.Applications
                 Principal = application.Principal,
                 ProjectId = application.ProjectId,
                 Describe = application.Describe,
-                // ApplicationLevel = application.ApplicationLevel
+                ApplicationLevel = application.ApplicationLevel
             };
             return applicationOutputDto;
         }
 
-        public IEnumerable<KeyValuePair<string, string>> GetApplicationEnumList()
+        public object GetApplicationEnumList()
         {
-            var type = typeof(ApplicationStateEnum);
-            var names = Enum.GetNames(type);
-            Dictionary<string, string> dictionary = new Dictionary<string, string>(names.Length);
-            foreach (var name in names)
+            var applicationStateEnumType = typeof(ApplicationStateEnum);
+            var applicationStateEnumNames = Enum.GetNames(applicationStateEnumType);
+            Dictionary<string, string> dictionary = new Dictionary<string, string>(applicationStateEnumNames.Length);
+            foreach (var name in applicationStateEnumNames)
             {
-                var member = type.GetMember(name).FirstOrDefault();
+                var member = applicationStateEnumType.GetMember(name).FirstOrDefault();
                 if (member is null)
                     dictionary.Add(name.ToString(), "");
                 else
                     dictionary.Add(name.ToString(), member.ToDescription());
             }
-
-            return dictionary.ToArray();
+            
+            
+            var applicationLevelEnumType = typeof(ApplicationLevelEnum);
+            var applicationLevelEnumNames = Enum.GetNames(applicationLevelEnumType);
+            Dictionary<string, string> applicationLevelDictionary = new Dictionary<string, string>(applicationLevelEnumNames.Length);
+            foreach (var name in applicationLevelEnumNames)
+            {
+                var member = applicationLevelEnumType.GetMember(name).FirstOrDefault();
+                if (member is null)
+                    applicationLevelDictionary.Add(name.ToString(), "");
+                else
+                    applicationLevelDictionary.Add(name.ToString(), member.ToDescription());
+            }
+            return new
+            {
+                ApplicationStateEnumList = dictionary.ToArray(),
+                ApplicationLevelEnumList = applicationLevelDictionary.ToArray(),
+            };
         }
         
         /// <summary>
@@ -96,7 +112,6 @@ namespace Luck.Walnut.Query.Applications
         /// <returns></returns>
         public IEnumerable<Language> GetLanguageListAsync()
         {
-
             List<Language> languages = new List<Language>()
             {
                 new Language(".Net"),
@@ -105,7 +120,6 @@ namespace Luck.Walnut.Query.Applications
                 new Language("Go"),
                 new Language("Node"),
             };
-
             return languages.ToArray();
         }
         
@@ -116,9 +130,10 @@ namespace Luck.Walnut.Query.Applications
         public async Task<ApplicationOutput> GetApplicationDashboardDetailAsync(string appId)
         {
             var application = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
+            var environmentList= await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
             ApplicationOutput applicationOutput = new ApplicationOutput();
             applicationOutput.Application = application;
-
+            applicationOutput.EnvironmentList = environmentList;
             return applicationOutput;
         }
     }

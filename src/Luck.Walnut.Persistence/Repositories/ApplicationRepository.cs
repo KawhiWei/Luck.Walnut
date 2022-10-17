@@ -85,7 +85,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 DepartmentName = c.DepartmentName,
                 Principal = c.Principal,
                 ProjectId = c.ProjectId,
-                // ApplicationLevel = c.ApplicationLevel
+                ApplicationLevel = c.ApplicationLevel
             })
             .WhereIf(x => x.ProjectId == query.ProjectId, !query.ProjectId.IsNullOrWhiteSpace())
             .WhereIf(x => x.EnglishName.Contains(query.EnglishName), !query.EnglishName.IsNullOrWhiteSpace())

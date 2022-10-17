@@ -1,7 +1,4 @@
 ﻿using Luck.Walnut.Domain.AggregateRoots.Environments;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Luck.Walnut.Persistence
 {

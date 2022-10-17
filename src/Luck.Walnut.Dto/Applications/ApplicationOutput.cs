@@ -12,7 +12,7 @@ namespace Luck.Walnut.Dto.Applications
         /// <summary>
         /// 环境列表
         /// </summary>
-        public List<AppEnvironmentListOutputDto> EnvironmentLists { get; set; } = default!;
+        public List<AppEnvironmentListOutputDto> EnvironmentList { get; set; } = default!;
         
         
     }

@@ -1,10 +1,10 @@
-﻿using Luck.EntityFrameworkCore.DbContexts;
+﻿using System.Reflection;
+using Luck.EntityFrameworkCore.DbContexts;
 using Luck.Walnut.Domain.AggregateRoots.Applications;
-using Luck.Walnut.Domain.AggregateRoots.Environments;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 using Luck.Walnut.Domain.AggregateRoots.Assignments;
+using Luck.Walnut.Domain.AggregateRoots.Environments;
 using Luck.Walnut.Domain.AggregateRoots.Issues;
+using Luck.Walnut.Domain.AggregateRoots.Languages;
 using Luck.Walnut.Domain.AggregateRoots.Projects;
 
 namespace Luck.Walnut.Persistence
@@ -28,6 +28,8 @@ namespace Luck.Walnut.Persistence
         public DbSet<Issue> Issues => Set<Issue>();
         
         public DbSet<Assignment> Assignments => Set<Assignment>();
+        
+        public DbSet<Language> Languages => Set<Language>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

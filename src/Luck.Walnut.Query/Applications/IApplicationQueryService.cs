@@ -32,7 +32,7 @@ namespace Luck.Walnut.Query.Applications
         /// 获取应用状态枚举
         /// </summary>
         /// <returns></returns>
-        IEnumerable<KeyValuePair<string, string>> GetApplicationEnumList();
+        object GetApplicationEnumList();
 
         /// <summary>
         /// 获取应用仪表盘明细信息
