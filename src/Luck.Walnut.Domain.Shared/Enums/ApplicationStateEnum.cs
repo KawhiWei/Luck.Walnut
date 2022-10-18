@@ -7,17 +7,17 @@ public enum ApplicationStateEnum
     /// <summary>
     /// 未开始
     /// </summary>
-    [Description("未开始")] NotStart = 0,
+    [Description("未开asdas始")] NotStart = 0,
     
     /// <summary>
     /// 开发中
     /// </summary>
-    [Description("开发中")] UnderDevelopment = 5,
+    [Description("开发a中")] UnderDevelopment = 5,
     
     /// <summary>
     /// 未上线
     /// </summary>
-    [Description("开发完成未发布")] NotOnline = 10,
+    [Description("未上线a ")] NotOnline = 10,
 
     /// <summary>
     /// 线上运行中
