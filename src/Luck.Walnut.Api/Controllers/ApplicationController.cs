@@ -35,7 +35,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
         [HttpGet("page")]
-        public Task<PageBaseResult<ApplicationOutputDto>> GetApplicationList([FromQuery] ApplicationQueryDto applicationQueryDto, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationListAsync(applicationQueryDto);
+        public Task<PageBaseResult<ApplicationOutputDto>> GetApplicationList([FromQuery] ApplicationQueryDto applicationQueryDto, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationPageListAsync(applicationQueryDto);
 
         /// <summary>
         /// 

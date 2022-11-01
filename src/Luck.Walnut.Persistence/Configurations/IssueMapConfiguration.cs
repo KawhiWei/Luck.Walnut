@@ -1,4 +1,3 @@
-using Luck.EntityFrameworkCore.Extensions;
 using Luck.Walnut.Domain.AggregateRoots.Issues;
 
 namespace Luck.Walnut.Persistence.Configurations;

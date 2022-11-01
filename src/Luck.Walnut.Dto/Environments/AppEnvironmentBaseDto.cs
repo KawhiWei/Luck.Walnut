@@ -8,6 +8,6 @@ namespace Luck.Walnut.Dto.Environments
 {
     public class AppEnvironmentBaseDto
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = default!;
     }
 }

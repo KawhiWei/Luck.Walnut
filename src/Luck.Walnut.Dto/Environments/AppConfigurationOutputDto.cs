@@ -2,17 +2,17 @@
 {
     public class AppConfigurationOutputDto:AppConfigurationBaseOutputDto
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = default!;
 
         /// <summary>
         /// 是否发布
         /// </summary>
-        public bool IsPublish { get; set; }
+        public bool IsPublish { get; set; } = default!;
         
         /// <summary>
         /// 
         /// </summary>
-        public string AppEnvironmentName { get; set; }
+        public string AppEnvironmentName { get; set; } = default!;
 
     }
 }

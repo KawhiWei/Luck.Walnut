@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using Luck.EntityFrameworkCore.DbContexts;
+using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 using Luck.Walnut.Domain.AggregateRoots.Applications;
 using Luck.Walnut.Domain.AggregateRoots.Assignments;
+using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 using Luck.Walnut.Domain.AggregateRoots.Environments;
 using Luck.Walnut.Domain.AggregateRoots.Issues;
 using Luck.Walnut.Domain.AggregateRoots.Languages;
@@ -30,6 +32,10 @@ namespace Luck.Walnut.Persistence
         public DbSet<Assignment> Assignments => Set<Assignment>();
         
         public DbSet<Language> Languages => Set<Language>();
+        
+        public DbSet<ComponentIntegration> ComponentIntegrations => Set<ComponentIntegration>();
+        
+        public DbSet<ApplicationPipeline> ApplicationPipelines => Set<ApplicationPipeline>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

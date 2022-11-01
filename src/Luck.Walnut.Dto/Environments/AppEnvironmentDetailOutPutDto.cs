@@ -2,7 +2,7 @@
 {
     public class AppEnvironmentDetailOutPutDto
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = default!;
 
         /// <summary>
         /// 配置项Key

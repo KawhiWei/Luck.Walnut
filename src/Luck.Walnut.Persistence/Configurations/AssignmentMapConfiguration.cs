@@ -9,7 +9,7 @@ public class AssignmentMapConfiguration: IEntityTypeConfiguration<Assignment>
 {
     public void Configure(EntityTypeBuilder<Assignment> builder)
     {
-        builder.ToTable("assignments");
         builder.HasKey(e => e.Id);
+        builder.ToTable("assignments");
     }
 }

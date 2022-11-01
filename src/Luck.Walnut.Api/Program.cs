@@ -85,7 +85,7 @@ app.UsePathBase("/walnut");
 var webSocketOptions = new WebSocketOptions()
 {
     KeepAliveInterval = TimeSpan.FromSeconds(15), //服务的主动向客户端发起心跳检测时间
-    ReceiveBufferSize = 4 * 1024 //数据缓冲区
+    // ReceiveBufferSize = 4 * 1024 //数据缓冲区
 };
 app.UseWebSockets(webSocketOptions);
 app.UseWebSocketServer(app.Services);

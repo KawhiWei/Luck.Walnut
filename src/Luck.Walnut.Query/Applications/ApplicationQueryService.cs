@@ -5,6 +5,7 @@ using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Applications;
 using Luck.Walnut.Dto.Environments;
+using Luck.Walnut.Infrastructure;
 using Microsoft.Extensions.Logging;
 
 namespace Luck.Walnut.Query.Applications
@@ -25,15 +26,13 @@ namespace Luck.Walnut.Query.Applications
         }
 
 
-        public async Task<PageBaseResult<ApplicationOutputDto>> GetApplicationListAsync(ApplicationQueryDto query)
+        public async Task<PageBaseResult<ApplicationOutputDto>> GetApplicationPageListAsync(ApplicationQueryDto query)
         {
-            _logger.LogInformation("查询应用列表", query);
-            var totalCount = await _applicationRepository.FindAll().CountAsync();
-            var applicationList = await _applicationRepository.FindListAsync(query);
-            var projectList = await _projectRepository.GetProjectPageListAsync(applicationList.Select(x => x.ProjectId).ToList());
+            var result = await _applicationRepository.GetApplicationPageListAsync(query);
+            var projectList = await _projectRepository.GetProjectPageListAsync(result.Data.Select(x => x.ProjectId).ToList());
             if (projectList.Any())
             {
-                foreach (var application in applicationList)
+                foreach (var application in result.Data)
                 {
                     var project = projectList.FirstOrDefault(x => x.Id == application.ProjectId);
                     if (project is not null)
@@ -43,7 +42,7 @@ namespace Luck.Walnut.Query.Applications
                 }
             }
 
-            return new PageBaseResult<ApplicationOutputDto>(totalCount, applicationList.ToArray());
+            return new PageBaseResult<ApplicationOutputDto>(result.TotalCount, result.Data.ToArray());
         }
 
 
@@ -76,36 +75,16 @@ namespace Luck.Walnut.Query.Applications
         public object GetApplicationEnumList()
         {
             var applicationStateEnumType = typeof(ApplicationStateEnum);
-            var applicationStateEnumNames = Enum.GetNames(applicationStateEnumType);
-            Dictionary<string, string> dictionary = new Dictionary<string, string>(applicationStateEnumNames.Length);
-            foreach (var name in applicationStateEnumNames)
-            {
-                var member = applicationStateEnumType.GetMember(name).FirstOrDefault();
-                if (member is null)
-                    dictionary.Add(name.ToString(), "");
-                else
-                    dictionary.Add(name.ToString(), member.ToDescription());
-            }
-            
-            
+            var applicationStateDictionary = applicationStateEnumType.EnumsToDictionary();
             var applicationLevelEnumType = typeof(ApplicationLevelEnum);
-            var applicationLevelEnumNames = Enum.GetNames(applicationLevelEnumType);
-            Dictionary<string, string> applicationLevelDictionary = new Dictionary<string, string>(applicationLevelEnumNames.Length);
-            foreach (var name in applicationLevelEnumNames)
-            {
-                var member = applicationLevelEnumType.GetMember(name).FirstOrDefault();
-                if (member is null)
-                    applicationLevelDictionary.Add(name.ToString(), "");
-                else
-                    applicationLevelDictionary.Add(name.ToString(), member.ToDescription());
-            }
+            var applicationLevelDictionary = applicationLevelEnumType.EnumsToDictionary();
             return new
             {
-                ApplicationStateEnumList = dictionary.ToArray(),
+                ApplicationStateEnumList = applicationStateDictionary.ToArray(),
                 ApplicationLevelEnumList = applicationLevelDictionary.ToArray(),
             };
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -114,15 +93,15 @@ namespace Luck.Walnut.Query.Applications
         {
             List<Language> languages = new List<Language>()
             {
-                new Language(".Net"),
-                new Language("Python"),
-                new Language("Java"),
-                new Language("Go"),
-                new Language("Node"),
+                new Language(".Net", LanguageTypeEnum.DotNet),
+                new Language("Python", LanguageTypeEnum.Python),
+                new Language("Java", LanguageTypeEnum.Java),
+                new Language("Go", LanguageTypeEnum.Go),
+                new Language("Node", LanguageTypeEnum.NodeJs),
             };
             return languages.ToArray();
         }
-        
+
         /// <summary>
         /// 获取应用仪表盘明细信息
         /// </summary>
@@ -130,7 +109,7 @@ namespace Luck.Walnut.Query.Applications
         public async Task<ApplicationOutput> GetApplicationDashboardDetailAsync(string appId)
         {
             var application = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
-            var environmentList= await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
+            var environmentList = await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
             ApplicationOutput applicationOutput = new ApplicationOutput();
             applicationOutput.Application = application;
             applicationOutput.EnvironmentList = environmentList;

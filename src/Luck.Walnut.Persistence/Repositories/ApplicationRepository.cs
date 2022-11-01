@@ -4,9 +4,7 @@ using Luck.Framework.Exceptions;
 using Luck.Framework.Extensions;
 using Luck.Walnut.Domain.AggregateRoots.Applications;
 using Luck.Walnut.Domain.Repositories;
-using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Applications;
-using Microsoft.EntityFrameworkCore;
 
 namespace Luck.Walnut.Persistence.Repositories;
 
@@ -35,7 +33,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
 
         return application;
     }
-    
+
     public async Task<Application?> FindFirstOrDefaultByAppIdAsync(string appId)
     {
         if (_applicationsForAppId.ContainsKey(appId))
@@ -50,6 +48,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
 
         return application;
     }
+
 
     public async Task<ApplicationOutputDto> FindFirstOrDefaultOutputDtoByAppIdAsync(string appId)
     {
@@ -72,9 +71,9 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
         return application;
     }
 
-    public async Task<IList<ApplicationOutputDto>> FindListAsync(ApplicationQueryDto query)
+    public async Task<(ApplicationOutputDto[] Data, int TotalCount)> GetApplicationPageListAsync(ApplicationQueryDto query)
     {
-        return await FindAll()
+        var queryable = FindAll()
             .Select(c => new ApplicationOutputDto
             {
                 Id = c.Id,
@@ -93,6 +92,9 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
             .WhereIf(x => x.Principal.Contains(query.Principal), !query.Principal.IsNullOrWhiteSpace())
             .WhereIf(x => x.AppId.Contains(query.AppId), !query.AppId.IsNullOrWhiteSpace())
             .WhereIf(x => x.ApplicationState == query.ApplicationState, query.ApplicationState.HasValue)
-            .OrderByDescending(x => x.Id).ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
+            .OrderByDescending(x => x.Id);
+        var list = await queryable.ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
+        var totalCount = await queryable.CountAsync();
+        return (list, totalCount);
     }
 }

@@ -17,7 +17,11 @@ namespace Luck.Walnut.Domain.AggregateRoots.Environments
         /// 应用Id
         /// </summary>
         public string AppId { get; private set; } = default!;
-
+        
+        /// <summary>
+        /// 环境中文名称
+        /// </summary>
+        public string EnvironmentChinesName { get; private set; } = default!;
         
         /// <summary>
         /// 版本（每次修改配置时更新版本号）
@@ -28,17 +32,15 @@ namespace Luck.Walnut.Domain.AggregateRoots.Environments
         /// 配置项
         /// </summary>
         public ICollection<AppConfiguration> Configurations { get; private set; } = new HashSet<AppConfiguration>();
+        
 
-        private AppEnvironment()
-        {
-        }
-
-        public AppEnvironment(string environmentName, string appId) : this()
+        public AppEnvironment(string environmentName, string appId, string environmentChinesName)
         {
 
             EnvironmentName = environmentName;
             AppId = appId;
             Version = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
+            EnvironmentChinesName = environmentChinesName;
         }
         
         public AppConfiguration AddConfiguration(string key, string value, string type, bool isOpen, string? group)

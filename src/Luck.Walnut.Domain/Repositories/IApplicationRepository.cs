@@ -10,7 +10,7 @@ public interface IApplicationRepository : IAggregateRootRepository<Application,s
 
     Task<Application?> FindFirstOrDefaultByAppIdAsync(string appId);
 
-    Task<IList<ApplicationOutputDto>> FindListAsync(ApplicationQueryDto query);
+    Task<(ApplicationOutputDto[] Data, int TotalCount)> GetApplicationPageListAsync(ApplicationQueryDto query);
 
     /// <summary>
     /// 

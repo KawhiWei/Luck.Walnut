@@ -8,7 +8,7 @@ public abstract class ProjectBaseDto
     /// <summary>
     /// 需求名称
     /// </summary>
-    public string Name { get;  set; }
+    public string Name { get;  set; } = default!;
 
     /// <summary>
     /// 需求描述
@@ -19,7 +19,7 @@ public abstract class ProjectBaseDto
     /// <summary>
     /// 项目负责人
     /// </summary>
-    public string ProjectPrincipal { get;  set; }
+    public string ProjectPrincipal { get;  set; } = default!;
     
     /// <summary>
     /// 项目状态

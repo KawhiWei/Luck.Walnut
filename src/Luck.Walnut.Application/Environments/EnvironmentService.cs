@@ -31,7 +31,7 @@ namespace Luck.Walnut.Application.Environments
         public async Task AddAppEnvironmentAsync(AppEnvironmentInputDto input)
         {
             await CheckAppEnvironmentExistAsync(input.EnvironmentName);
-            var appEnvironment = new AppEnvironment(input.EnvironmentName, input.AppId);
+            var appEnvironment = new AppEnvironment(input.EnvironmentName, input.AppId, input.EnvironmentChinesName);
             _appEnvironmentRepository.Add(appEnvironment);
             await _unitOfWork.CommitAsync(_cancellationTokenProvider.Token);
         }
@@ -45,7 +45,7 @@ namespace Luck.Walnut.Application.Environments
             _appEnvironmentRepository.Remove(appEnvironment);
             await _unitOfWork.CommitAsync(_cancellationTokenProvider.Token);
         }
-        
+
         public async Task AddAppConfigurationAsync(string environmentId, AppConfigurationInput input)
         {
             var appEnvironment = await _appEnvironmentRepository.FirstOrDefaultByIdAsync(environmentId);
@@ -53,6 +53,7 @@ namespace Luck.Walnut.Application.Environments
             {
                 throw new BusinessException(FindEnvironmentNotExistErrorMsg);
             }
+
             if (appEnvironment.Configurations.Any(x => x.Key == input.Key))
             {
                 throw new BusinessException($"{input.Key}已存在");
@@ -61,7 +62,6 @@ namespace Luck.Walnut.Application.Environments
             appEnvironment.AddConfiguration(input.Key, input.Value, input.Type, input.IsOpen, input.Group);
             await _unitOfWork.CommitAsync(_cancellationTokenProvider.Token);
         }
-
 
 
         public async Task DeleteAppConfigurationAsync(string environmentId, string configurationId)
@@ -93,6 +93,7 @@ namespace Luck.Walnut.Application.Environments
             {
                 throw new BusinessException(FindEnvironmentNotExistErrorMsg);
             }
+
             environment.UpdateConfiguration(id, input.Key, input.Value, input.Type, input.IsOpen, input.Group)
                 .UpdateVersion("");
             _appEnvironmentRepository.Update(environment);
@@ -121,7 +122,7 @@ namespace Luck.Walnut.Application.Environments
                 throw new BusinessException($"[{environmentName}]已存在");
             }
         }
-        
+
         private async Task CheckAppEnvironmentExistByIdAsync(string id)
         {
             var appEnvironment = await _appEnvironmentRepository.FirstOrDefaultByIdAsync(id);
@@ -130,7 +131,7 @@ namespace Luck.Walnut.Application.Environments
                 throw new BusinessException($"{FindEnvironmentNotExistErrorMsg}");
             }
         }
-        
+
 
         private async Task<AppEnvironment> FindAppEnvironmentByIdAsync(string environmentId)
         {

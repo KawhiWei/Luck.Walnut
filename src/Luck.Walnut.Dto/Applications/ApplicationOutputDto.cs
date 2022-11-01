@@ -7,7 +7,7 @@ namespace Luck.Walnut.Dto.Applications
         /// <summary>
         /// 
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; set; } = default!;
 
         /// <summary>
         /// 应用状态
@@ -20,8 +20,8 @@ namespace Luck.Walnut.Dto.Applications
         public string ApplicationLevelName => ApplicationLevel.ToDescription();
 
         /// <summary>
-        /// 应用状态
+        /// 项目名称
         /// </summary>
-        public string ProjectName { get; set; }
+        public string ProjectName { get; set; } = default!;
     }
 }
