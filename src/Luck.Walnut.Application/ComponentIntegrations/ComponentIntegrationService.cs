@@ -29,7 +29,7 @@ public class ComponentIntegrationService : IComponentIntegrationService
     public async Task UpdateComponentIntegrationAsync(string id, ComponentIntegrationInputDto input)
     {
         var componentIntegration = await GetComponentIntegrationAsync(id);
-        componentIntegration.SetCredentialList(input.UserName, input.PassWord, input.Token, input.ComponentLinkUrl);
+        componentIntegration.SetComponentLinkType(input.ComponentLinkType).SetCredential(input.UserName, input.PassWord, input.Token, input.ComponentLinkUrl);
         _componentIntegrationRepository.Update(componentIntegration);
         await _unitOfWork.CommitAsync();
     }

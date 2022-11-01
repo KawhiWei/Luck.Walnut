@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Luck.Walnut.Domain.Shared.Enums;
 
 namespace Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
@@ -9,6 +10,14 @@ public class Credential
     {
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="userName"></param>
+    /// <param name="passWord"></param>
+    /// <param name="token"></param>
+    /// <param name="componentLinkUrl"></param>
+    [JsonConstructor]//这个特性 可以写私有，标识你要用哪个构造函数
     public Credential(string userName, string passWord, string token, string componentLinkUrl)
     {
         UserName = userName;
@@ -25,15 +34,15 @@ public class Credential
     /// <summary>
     /// 密码
     /// </summary>
-    public string PassWord { get; private set; }= default!;
+    public string PassWord { get;  private set;}= default!;
 
     /// <summary>
     /// 密码
     /// </summary>
-    public string Token { get; private set; }= default!;
+    public string Token { get;  private set; }= default!;
     
     /// <summary>
     /// 组件链接地址
     /// </summary>
-    public string ComponentLinkUrl { get; private set; }= default!;
+    public string ComponentLinkUrl { get;  private set; }= default!;
 }

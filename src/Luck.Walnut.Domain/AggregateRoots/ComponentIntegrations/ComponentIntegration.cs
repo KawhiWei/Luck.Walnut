@@ -43,9 +43,20 @@ public class ComponentIntegration : FullAggregateRoot
     /// <param name="token"></param>
     /// <param name="componentLinkUrl"></param>
     /// <returns></returns>
-    public ComponentIntegration SetCredentialList(string userName, string passWord, string token, string componentLinkUrl)
+    public ComponentIntegration SetCredential(string userName, string passWord, string token, string componentLinkUrl)
     {
         Credential = new Credential(userName, passWord, token, componentLinkUrl);
+        return this;
+    }
+    
+    /// <summary>
+    /// 设置组件类型
+    /// </summary>
+    /// <param name="componentLinkType"></param>
+    /// <returns></returns>
+    public ComponentIntegration SetComponentLinkType(ComponentLinkTypeEnum componentLinkType)
+    {
+        ComponentLinkType = componentLinkType;
         return this;
     }
 }
