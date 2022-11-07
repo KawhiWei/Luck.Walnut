@@ -7,6 +7,7 @@ public class ApplicationPipelineConfiguration: IEntityTypeConfiguration<Applicat
     public void Configure(EntityTypeBuilder<ApplicationPipeline> builder)
     {
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.PipelineScript).HasJsonConversion();
         builder.ToTable("application_pipelines");
     }
 }

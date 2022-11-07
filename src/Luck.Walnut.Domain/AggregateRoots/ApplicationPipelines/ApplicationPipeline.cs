@@ -1,28 +1,29 @@
+using System.Text.Json.Serialization;
 using Luck.Walnut.Domain.Shared.Enums;
 
 namespace Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 
 public class ApplicationPipeline : FullAggregateRoot
 {
-    public ApplicationPipeline(string appId, string name, PipelineStatusEnum pipelineStatus, string nextPipelineId, string pipelineScript, string appEnvironmentId)
+    public ApplicationPipeline()
+    {
+    }
+
+
+    public ApplicationPipeline(string appId, string name, PipelineStatusEnum pipelineStatus, IList<Stage> pipelineScript, string appEnvironmentId, bool published)
     {
         AppId = appId;
         Name = name;
         PipelineStatus = pipelineStatus;
-        NextPipelineId = nextPipelineId;
         PipelineScript = pipelineScript;
         AppEnvironmentId = appEnvironmentId;
+        Published = published;
     }
 
     /// <summary>
     /// 
     /// </summary>
     public string AppId { get; private set; }
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    public string AppEnvironmentId { get; private set; }
 
     /// <summary>
     /// 流水线名称
@@ -33,14 +34,48 @@ public class ApplicationPipeline : FullAggregateRoot
     /// 流水线状态
     /// </summary>
     public PipelineStatusEnum PipelineStatus { get; private set; }
-    
+
     /// <summary>
     /// 流水线Dsl
     /// </summary>
-    public string PipelineScript { get; private set; }
+    public ICollection<Stage> PipelineScript { get; private set; }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string AppEnvironmentId { get; private set; }
 
     /// <summary>
     /// 下一流水线Id
     /// </summary>
-    public string? NextPipelineId { get; private set; }
+    public string? NextPipelineId { get; private set; } = default!;
+
+    /// <summary>
+    /// 是否发布
+    /// </summary>
+    public bool Published { get; private set; }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pipelineScript"></param>
+    /// <returns></returns>
+    public ApplicationPipeline SetPipelineScript(ICollection<Stage> pipelineScript)
+    {
+        PipelineScript = pipelineScript;
+        return this;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="published"></param>
+    /// <returns></returns>
+    public ApplicationPipeline SetPublished(bool published)
+    {
+        Published = published;
+        return this;
+    }
 }

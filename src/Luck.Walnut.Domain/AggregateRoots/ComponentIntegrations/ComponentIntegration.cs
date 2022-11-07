@@ -38,14 +38,14 @@ public class ComponentIntegration : FullAggregateRoot
     /// <summary>
     /// 设置Credential值对象
     /// </summary>
+    /// <param name="componentLinkUrl"></param>
     /// <param name="userName"></param>
     /// <param name="passWord"></param>
     /// <param name="token"></param>
-    /// <param name="componentLinkUrl"></param>
     /// <returns></returns>
-    public ComponentIntegration SetCredential(string userName, string passWord, string token, string componentLinkUrl)
+    public ComponentIntegration SetCredential(string componentLinkUrl,string? userName, string? passWord, string? token)
     {
-        Credential = new Credential(userName, passWord, token, componentLinkUrl);
+        Credential = new Credential(componentLinkUrl,userName, passWord, token);
         return this;
     }
     

@@ -1,5 +1,4 @@
-﻿using Luck.DDD.Domain.Repositories;
-using Luck.Framework.Exceptions;
+﻿using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Domain.Shared.Enums;

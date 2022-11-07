@@ -1,5 +1,4 @@
 using Luck.Framework.Exceptions;
-using Luck.Framework.Extensions;
 using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 using Luck.Walnut.Domain.Repositories;
@@ -20,8 +19,8 @@ public class ComponentIntegrationService : IComponentIntegrationService
 
     public async Task AddComponentIntegrationAsync(ComponentIntegrationInputDto input)
     {
-        var credential = new Credential(input.UserName, input.PassWord, input.Token, input.ComponentLinkUrl);
-        var componentIntegration = new ComponentIntegration(input.Name, input.ComponentLinkType,credential);
+        var credential = new Credential(input.ComponentLinkUrl, input.UserName, input.PassWord, input.Token);
+        var componentIntegration = new ComponentIntegration(input.Name, input.ComponentLinkType, credential);
         _componentIntegrationRepository.Add(componentIntegration);
         await _unitOfWork.CommitAsync();
     }
@@ -29,7 +28,7 @@ public class ComponentIntegrationService : IComponentIntegrationService
     public async Task UpdateComponentIntegrationAsync(string id, ComponentIntegrationInputDto input)
     {
         var componentIntegration = await GetComponentIntegrationAsync(id);
-        componentIntegration.SetComponentLinkType(input.ComponentLinkType).SetCredential(input.UserName, input.PassWord, input.Token, input.ComponentLinkUrl);
+        componentIntegration.SetComponentLinkType(input.ComponentLinkType).SetCredential(input.ComponentLinkUrl,input.UserName, input.PassWord, input.Token);
         _componentIntegrationRepository.Update(componentIntegration);
         await _unitOfWork.CommitAsync();
     }
