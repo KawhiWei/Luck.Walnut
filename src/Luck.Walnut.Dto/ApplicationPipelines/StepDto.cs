@@ -2,7 +2,7 @@ using Luck.Walnut.Domain.Shared.Enums;
 
 namespace Luck.Walnut.Dto.ApplicationPipelines;
 
-public class StepInputDto
+public class StepDto
 {
     /// <summary>
     /// 步骤名称
@@ -12,7 +12,7 @@ public class StepInputDto
     /// <summary>
     /// 步骤类型
     /// </summary>
-    public StepTypeEnum StepType { get;  set; }= default!;
+    public StepTypeEnum StepType { get;  set; }
     
     /// <summary>
     /// 执行内容

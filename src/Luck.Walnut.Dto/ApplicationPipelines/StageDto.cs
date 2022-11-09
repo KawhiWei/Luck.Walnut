@@ -3,7 +3,7 @@ namespace Luck.Walnut.Dto.ApplicationPipelines;
 /// <summary>
 /// 
 /// </summary>
-public class StageInputDto
+public class StageDto
 {
     /// <summary>
     /// 阶段
@@ -13,5 +13,5 @@ public class StageInputDto
     /// <summary>
     /// 步骤
     /// </summary>
-    public List<StepInputDto> Steps{get;  set;}= default!;
+    public List<StepDto> Steps{get;  set;}= default!;
 }

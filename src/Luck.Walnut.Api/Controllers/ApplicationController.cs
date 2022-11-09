@@ -26,7 +26,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task AddApplication([FromBody] ApplicationInputDto input) => _applicationService.AddApplicationAsync(input);
+        public Task CreateApplicationAsync([FromBody] ApplicationInputDto input) => _applicationService.AddApplicationAsync(input);
 
         /// <summary>
         /// 
@@ -35,7 +35,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
         [HttpGet("page")]
-        public Task<PageBaseResult<ApplicationOutputDto>> GetApplicationList([FromQuery] ApplicationQueryDto applicationQueryDto, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationPageListAsync(applicationQueryDto);
+        public Task<PageBaseResult<ApplicationOutputDto>> GetApplicationListAsync([FromQuery] ApplicationQueryDto applicationQueryDto, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationPageListAsync(applicationQueryDto);
 
         /// <summary>
         /// 
@@ -44,7 +44,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public Task<ApplicationOutputDto?> GetApplicationDetailForId(string id, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDetailForIdAsync(id);
+        public Task<ApplicationOutputDto?> GetApplicationDetailForIdAsync(string id, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDetailForIdAsync(id);
 
         /// <summary>
         /// 
@@ -53,7 +53,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public Task UpdateApplication(string id, [FromBody] ApplicationInputDto input) => _applicationService.UpdateApplicationAsync(id, input);
+        public Task UpdateApplicationAsync(string id, [FromBody] ApplicationInputDto input) => _applicationService.UpdateApplicationAsync(id, input);
 
         /// <summary>
         /// 
@@ -61,7 +61,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public Task DeleteApplication(string id) => _applicationService.DeleteApplicationAsync(id);
+        public Task DeleteApplicationAsync(string id) => _applicationService.DeleteApplicationAsync(id);
 
         /// <summary>
         /// 

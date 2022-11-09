@@ -22,12 +22,12 @@ public class ApplicationPipelineBaseDto
     /// <summary>
     /// 流水线状态
     /// </summary>
-    public PipelineStatusEnum PipelineStatus { get;  set; }= default!;
+    public PipelineStateEnum PipelineState { get;  set; }
 
     /// <summary>
     /// 流水线Dsl
     /// </summary>
-    public ICollection<StageInputDto> PipelineScript { get;  set; }= default!;
+    public ICollection<StageDto> PipelineScript { get;  set; }= default!;
 
     /// <summary>
     /// 下一流水线Id

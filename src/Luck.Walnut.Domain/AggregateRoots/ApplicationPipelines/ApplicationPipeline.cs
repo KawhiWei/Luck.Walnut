@@ -10,11 +10,11 @@ public class ApplicationPipeline : FullAggregateRoot
     }
 
 
-    public ApplicationPipeline(string appId, string name, PipelineStatusEnum pipelineStatus, IList<Stage> pipelineScript, string appEnvironmentId, bool published)
+    public ApplicationPipeline(string appId, string name, PipelineStateEnum pipelineState, IList<Stage> pipelineScript, string appEnvironmentId, bool published)
     {
         AppId = appId;
         Name = name;
-        PipelineStatus = pipelineStatus;
+        PipelineState = pipelineState;
         PipelineScript = pipelineScript;
         AppEnvironmentId = appEnvironmentId;
         Published = published;
@@ -33,7 +33,7 @@ public class ApplicationPipeline : FullAggregateRoot
     /// <summary>
     /// 流水线状态
     /// </summary>
-    public PipelineStatusEnum PipelineStatus { get; private set; }
+    public PipelineStateEnum PipelineState { get; private set; }
 
     /// <summary>
     /// 流水线Dsl

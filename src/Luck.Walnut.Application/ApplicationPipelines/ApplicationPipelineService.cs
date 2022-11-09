@@ -1,5 +1,6 @@
 using Luck.EntityFrameworkCore.UnitOfWorks;
 using Luck.Framework.Exceptions;
+using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Dto.ApplicationPipelines;
@@ -10,9 +11,9 @@ public class ApplicationPipelineService : IApplicationPipelineService
 {
     private readonly IApplicationPipelineRepository _applicationPipelineRepository;
 
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public ApplicationPipelineService(IApplicationPipelineRepository applicationPipelineRepository, UnitOfWork unitOfWork)
+    public ApplicationPipelineService(IApplicationPipelineRepository applicationPipelineRepository, IUnitOfWork unitOfWork)
     {
         _applicationPipelineRepository = applicationPipelineRepository;
         _unitOfWork = unitOfWork;
@@ -27,7 +28,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
             }
         ).ToList();
 
-        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, input.PipelineStatus, pipelineScript, input.AppEnvironmentId, false);
+        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, input.PipelineState, pipelineScript, input.AppEnvironmentId, false);
         _applicationPipelineRepository.Add(applicationPipeline);
         await _unitOfWork.CommitAsync();
     }
@@ -45,6 +46,27 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
         applicationPipeline.SetPipelineScript(pipelineScript).SetPublished(false);
         _applicationPipelineRepository.Update(applicationPipeline);
+        await _unitOfWork.CommitAsync();
+    }
+
+    /// <summary>
+    /// 发布流水线
+    /// </summary>
+    /// <param name="id"></param>
+    public async Task PublishAsync(string id)
+    {
+        var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
+        await _unitOfWork.CommitAsync();
+    }
+
+    /// <summary>
+    /// 删除流水线
+    /// </summary>
+    /// <param name="id"></param>
+    public async Task DeleteAsync(string id)
+    {
+        var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
+        _applicationPipelineRepository.Remove(applicationPipeline);
         await _unitOfWork.CommitAsync();
     }
 
