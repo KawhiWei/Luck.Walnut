@@ -24,7 +24,7 @@ public class ApplicationQueryDto:PageBaseInputDto
     /// <summary>
     /// 应用中文名称
     /// </summary>
-    public string ChinessName { get; set; }= "";
+    public string ChineseName { get; set; }= "";
     
     /// <summary>
     /// 联系人

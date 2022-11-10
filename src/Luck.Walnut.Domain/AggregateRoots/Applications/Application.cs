@@ -7,12 +7,12 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
     /// </summary>
     public class Application : FullAggregateRoot
     {
-        public Application( string projectId,string englishName, string departmentName, string chinessName, string principal, string appId, ApplicationStateEnum applicationState, string? describe, string? codeWarehouseAddress, ApplicationLevelEnum applicationLevel)
+        public Application( string projectId,string englishName, string departmentName, string chineseName, string principal, string appId, ApplicationStateEnum applicationState, string? describe, string? codeWarehouseAddress, ApplicationLevelEnum applicationLevel)
         {
             ProjectId = projectId;
             EnglishName = englishName;
             DepartmentName = departmentName;
-            ChinessName = chinessName;
+            ChineseName = chineseName;
             Principal = principal;
             AppId = appId;
             ApplicationState = applicationState;
@@ -39,7 +39,7 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
         /// <summary>
         /// 应用中文名称
         /// </summary>
-        public string ChinessName { get; private set; }
+        public string ChineseName { get; private set; }
 
         /// <summary>
         /// 联系人
@@ -76,7 +76,7 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
             ProjectId = projectId;
             EnglishName = englishName;
             DepartmentName = departmentName;
-            ChinessName = chinessName;
+            ChineseName = chinessName;
             Principal = linkMan;
             AppId = appId;
             ApplicationState = applicationState;

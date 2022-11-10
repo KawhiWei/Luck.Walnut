@@ -59,7 +59,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 AppId = c.AppId,
                 ApplicationState = c.ApplicationState,
                 EnglishName = c.EnglishName,
-                ChinessName = c.ChinessName,
+                ChineseName = c.ChineseName,
                 DepartmentName = c.DepartmentName,
                 Principal = c.Principal,
                 ProjectId = c.ProjectId,
@@ -80,7 +80,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 AppId = c.AppId,
                 ApplicationState = c.ApplicationState,
                 EnglishName = c.EnglishName,
-                ChinessName = c.ChinessName,
+                ChineseName = c.ChineseName,
                 DepartmentName = c.DepartmentName,
                 Principal = c.Principal,
                 ProjectId = c.ProjectId,
@@ -88,7 +88,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
             })
             .WhereIf(x => x.ProjectId == query.ProjectId, !query.ProjectId.IsNullOrWhiteSpace())
             .WhereIf(x => x.EnglishName.Contains(query.EnglishName), !query.EnglishName.IsNullOrWhiteSpace())
-            .WhereIf(x => x.ChinessName.Contains(query.ChinessName), !query.ChinessName.IsNullOrWhiteSpace())
+            .WhereIf(x => x.ChineseName.Contains(query.ChineseName), !query.ChineseName.IsNullOrWhiteSpace())
             .WhereIf(x => x.Principal.Contains(query.Principal), !query.Principal.IsNullOrWhiteSpace())
             .WhereIf(x => x.AppId.Contains(query.AppId), !query.AppId.IsNullOrWhiteSpace())
             .WhereIf(x => x.ApplicationState == query.ApplicationState, query.ApplicationState.HasValue)

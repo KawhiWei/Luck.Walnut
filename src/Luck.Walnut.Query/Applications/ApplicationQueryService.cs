@@ -62,7 +62,7 @@ namespace Luck.Walnut.Query.Applications
                 AppId = application.AppId,
                 ApplicationState = application.ApplicationState,
                 EnglishName = application.EnglishName,
-                ChinessName = application.ChinessName,
+                ChineseName = application.ChineseName,
                 DepartmentName = application.DepartmentName,
                 Principal = application.Principal,
                 ProjectId = application.ProjectId,

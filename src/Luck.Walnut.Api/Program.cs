@@ -34,7 +34,6 @@ builder.Services.AddControllers()
         c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.TimeOnlyNullJsonConverter());
         c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateOnlyNullJsonConverter());
         c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateTimeConverter());
-        c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
 builder.Services.AddGrpc();

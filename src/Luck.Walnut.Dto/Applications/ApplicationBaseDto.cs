@@ -29,7 +29,7 @@ public class ApplicationBaseDto
     /// <summary>
     /// 应用中文名称
     /// </summary>
-    public string ChinessName { get; set; } = default!;
+    public string ChineseName { get; set; } = default!;
 
     /// <summary>
     /// 联系人
@@ -42,7 +42,7 @@ public class ApplicationBaseDto
     public ApplicationStateEnum ApplicationState { get; set; }
     
     /// <summary>
-    /// 应用状态
+    /// 应用级别
     /// </summary>
     public ApplicationLevelEnum ApplicationLevel { get; set; }
     

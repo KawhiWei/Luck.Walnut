@@ -8,7 +8,7 @@ namespace Luck.Walnut.Domain.Shared.Enums;
 public enum StepTypeEnum{
 
     /// <summary>
-    /// 
+    /// 拉取代码
     /// </summary>
     [Description("拉取代码")]
     PullCode=1,
