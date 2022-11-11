@@ -15,10 +15,10 @@ public class ApplicationPipelineOutputDto:ApplicationPipelineBaseDto
     /// <summary>
     /// 流水线状态
     /// </summary>
-    public PipelineBuildStateEnum PipelineBuildState { get;  set; }
+    public PipelineBuildStateEnum PipelineBuildState { get; set; } = PipelineBuildStateEnum.Running;
 
     /// <summary>
     /// 
     /// </summary>
-    public string PipelineStateName => PipelineBuildState.ToDescription();
+    public string PipelineBuildStateName => PipelineBuildState.ToDescription();
 }
