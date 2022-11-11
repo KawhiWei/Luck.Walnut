@@ -1,3 +1,5 @@
+using Luck.Walnut.Dto.Jenkinses;
+
 namespace Luck.Walnut.Adapter.JenkinsAdapter;
 
 public interface IJenkinsIntegration : IScopedDependency
@@ -36,6 +38,13 @@ public interface IJenkinsIntegration : IScopedDependency
     /// </summary>
     /// <returns></returns>
     Task<string> UpdateJenkinsJobAsync();
+
+    /// <summary>
+    /// 获取任务明细
+    /// </summary>
+    /// <param name="jobName"></param>
+    /// <returns></returns>
+    Task<JenkinsJobDetailDto?> GetJenkinsJobDetailAsync(string jobName);
     
     /// <summary>
     /// 

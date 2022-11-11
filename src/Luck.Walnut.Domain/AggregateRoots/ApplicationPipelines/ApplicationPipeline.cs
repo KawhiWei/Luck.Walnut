@@ -93,4 +93,16 @@ public class ApplicationPipeline : FullAggregateRoot
         Published = published;
         return this;
     }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="nextBuildNumber"></param>
+    /// <returns></returns>
+    public ApplicationPipeline AddApplicationPipelineExecutedRecord(uint nextBuildNumber)
+    {
+        var applicationPipelineExecutedRecord = new ApplicationPipelineExecutedRecord(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber);
+        ApplicationPipelineExecutedRecords.Add(applicationPipelineExecutedRecord);
+        return this;
+    }
 }

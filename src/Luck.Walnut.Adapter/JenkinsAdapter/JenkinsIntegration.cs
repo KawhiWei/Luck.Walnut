@@ -2,7 +2,10 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using Luck.Framework.Exceptions;
+using Luck.Framework.Extensions;
+using Luck.Walnut.Dto.Jenkinses;
 
 namespace Luck.Walnut.Adapter.JenkinsAdapter;
 
@@ -38,6 +41,28 @@ public class JenkinsIntegration : IJenkinsIntegration
             SetRequestHeadersBasicAuth(client);
             var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/{buildId}/api/json", null);
             return await HttpResponseMessage(response);
+        }
+        catch (Exception ex)
+        {
+            throw new BusinessException("", $"服务器异常", ex);
+        }
+    }
+    
+    /// <summary>
+    /// 获取job执行记录明细
+    /// </summary>
+    public async Task<JenkinsJobDetailDto?> GetJenkinsJobDetailAsync(string jobName)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient();
+            SetRequestHeadersBasicAuth(client);
+            var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/api/json", null);
+            var jenkinsJobDetailDto= (await HttpResponseMessage(response)).Deserialize<JenkinsJobDetailDto>(new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return jenkinsJobDetailDto;
         }
         catch (Exception ex)
         {

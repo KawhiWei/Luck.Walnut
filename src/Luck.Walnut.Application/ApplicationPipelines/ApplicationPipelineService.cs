@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Luck.EntityFrameworkCore.UnitOfWorks;
 using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
@@ -71,9 +72,22 @@ public class ApplicationPipelineService : IApplicationPipelineService
     /// <param name="id"></param>
     public async Task ExecuteJobAsync(string id)
     {
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
         await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
+        var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
+        if (jenkinsJobDetailDto is not null)
+        {
+            applicationPipeline.AddApplicationPipelineExecutedRecord(jenkinsJobDetailDto.NextBuildNumber);
+        }
+
         await _jenkinsIntegration.BuildJobAsync(applicationPipeline.Name);
+        await _unitOfWork.CommitAsync();
+
+        stopwatch.Stop();
+
+        Console.WriteLine(stopwatch.ElapsedMilliseconds);
     }
 
     /// <summary>
