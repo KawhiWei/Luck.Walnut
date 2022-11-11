@@ -27,13 +27,6 @@ namespace Luck.Walnut.Query.Applications
         /// <returns></returns>
         Task<ApplicationOutputDto?> GetApplicationDetailForIdAsync(string id);
 
-
-        /// <summary>
-        /// 获取应用状态枚举
-        /// </summary>
-        /// <returns></returns>
-        object GetApplicationEnumList();
-
         /// <summary>
         /// 获取应用仪表盘明细信息
         /// </summary>
@@ -41,7 +34,7 @@ namespace Luck.Walnut.Query.Applications
         /// <returns></returns>
         Task<ApplicationOutput> GetApplicationDashboardDetailAsync(string appId);
 
-        
+
         /// <summary>
         /// 获取语言列表
         /// </summary>

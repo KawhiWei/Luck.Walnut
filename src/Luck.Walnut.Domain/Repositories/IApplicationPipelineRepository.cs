@@ -12,7 +12,7 @@ public interface IApplicationPipelineRepository : IAggregateRootRepository<Appli
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<ApplicationPipeline?> FindFirstOrDefaultByIdAsync(string id);
+    Task<ApplicationPipeline> FindFirstByIdAsync(string id);
 
 
     /// <summary>

@@ -33,4 +33,11 @@ public interface IApplicationPipelineService: IScopedDependency
     /// <param name="id"></param>
     /// <returns></returns>
     Task DeleteAsync(string id);
+
+    /// <summary>
+    /// 执行一次job
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task ExecuteJobAsync(string id);
 }

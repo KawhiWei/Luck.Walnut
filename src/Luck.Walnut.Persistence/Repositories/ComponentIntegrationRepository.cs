@@ -1,5 +1,6 @@
 using Luck.EntityFrameworkCore.DbContexts;
 using Luck.EntityFrameworkCore.Repositories;
+using Luck.Framework.Exceptions;
 using Luck.Framework.Extensions;
 using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 using Luck.Walnut.Domain.Repositories;
@@ -18,7 +19,7 @@ public class ComponentIntegrationRepository : EfCoreAggregateRootRepository<Comp
     }
 
 
-    public async Task<ComponentIntegration?> FindFirstOrDefaultByIdAsync(string id)
+    public async Task<ComponentIntegration> FindFirstByIdAsync(string id)
     {
         if (_componentIntegrations.ContainsKey(id))
         {
@@ -27,7 +28,9 @@ public class ComponentIntegrationRepository : EfCoreAggregateRootRepository<Comp
 
         var componentIntegration = await FindAll().FirstOrDefaultAsync(x => x.Id == id);
         if (componentIntegration is null)
-            return null;
+        {
+            throw new BusinessException($"组件集成流水线不存在");
+        }
         _componentIntegrations.Add(id, componentIntegration);
         return componentIntegration;
     }

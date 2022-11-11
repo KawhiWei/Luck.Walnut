@@ -18,10 +18,5 @@ public interface IComponentIntegrationQueryService : IScopedDependency
     /// <param name="id"></param>
     /// <returns></returns>
     Task<ComponentIntegrationOutputDto> GetDetailForIdAsync(string id);
-
-    /// <summary>
-    /// 获取枚举列表
-    /// </summary>
-    /// <returns></returns>
-    Task<object> GetComponentIntegrationEnumListAsync();
+    
 }

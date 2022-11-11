@@ -25,16 +25,7 @@ public class ComponentIntegrationController : BaseController
     [HttpGet("{id}")]
     public Task<ComponentIntegrationOutputDto> GetDetailForIdAsync([FromServices] IComponentIntegrationQueryService componentIntegrationQueryService,string id)
         => componentIntegrationQueryService.GetDetailForIdAsync(id);
-
     
-    /// <summary>
-    /// 获取枚举类型列表
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("enum/list")]
-    public Task<object> GetComponentIntegrationEnumListAsync([FromServices] IComponentIntegrationQueryService componentIntegrationQueryService)
-        => componentIntegrationQueryService.GetComponentIntegrationEnumListAsync();
-
     /// <summary>
     /// 添加组件配置
     /// </summary>

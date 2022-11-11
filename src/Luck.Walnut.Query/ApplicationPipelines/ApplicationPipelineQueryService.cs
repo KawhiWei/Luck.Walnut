@@ -1,3 +1,4 @@
+using Luck.Walnut.Adapter.JenkinsAdapter;
 using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Dto;
@@ -9,9 +10,14 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
 {
     private readonly IApplicationPipelineRepository _applicationPipelineRepository;
 
-    public ApplicationPipelineQueryService(IApplicationPipelineRepository applicationPipelineRepository)
+    private readonly IComponentIntegrationRepository _componentIntegrationRepository;
+    private readonly IJenkinsIntegration _jenkinsIntegration;
+
+    public ApplicationPipelineQueryService(IApplicationPipelineRepository applicationPipelineRepository, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository)
     {
         _applicationPipelineRepository = applicationPipelineRepository;
+        _jenkinsIntegration = jenkinsIntegration;
+        _componentIntegrationRepository = componentIntegrationRepository;
     }
 
     public async Task<PageBaseResult<ApplicationPipelineOutputDto>> GetApplicationPageListAsync(string appId, ApplicationPipelineQueryDto query)
@@ -22,7 +28,7 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
 
     public async Task<ApplicationPipelineOutputDto> GetApplicationDetailForIdAsync(string id)
     {
-        var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
+        var applicationPipeline = await _applicationPipelineRepository.FindFirstByIdAsync(id);
         return new ApplicationPipelineOutputDto()
         {
             Id = applicationPipeline.Id,
@@ -47,11 +53,12 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
         };
     }
 
-    private async Task<ApplicationPipeline> GetApplicationPipelineByIdAsync(string id)
+    public async Task<string> GetJenkinsJobBuildDetailAsync(string id)
     {
-        var applicationPipeline = await _applicationPipelineRepository.FindFirstOrDefaultByIdAsync(id);
-        if (applicationPipeline is null)
-            throw new BusinessException($"流水线不存在");
-        return applicationPipeline;
+        var applicationPipeline = await _applicationPipelineRepository.FindFirstByIdAsync(id);
+        var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.ComponentIntegrationId);
+        _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
+        return await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, 23);
+        return "";
     }
 }

@@ -47,7 +47,7 @@ public class ComponentIntegrationService : IComponentIntegrationService
 
     private async Task<ComponentIntegration> GetComponentIntegrationAsync(string id)
     {
-        var componentIntegration = await _componentIntegrationRepository.FindFirstOrDefaultByIdAsync(id);
+        var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(id);
         if (componentIntegration is null)
             throw new BusinessException($"组件集成不存在");
         return componentIntegration;

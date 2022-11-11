@@ -9,5 +9,9 @@ public interface IApplicationPipelineQueryService : IScopedDependency
     Task<PageBaseResult<ApplicationPipelineOutputDto>> GetApplicationPageListAsync(string appId, ApplicationPipelineQueryDto query);
 
 
+    
     Task<ApplicationPipelineOutputDto> GetApplicationDetailForIdAsync(string id);
+
+
+    Task<string> GetJenkinsJobBuildDetailAsync(string id);
 }

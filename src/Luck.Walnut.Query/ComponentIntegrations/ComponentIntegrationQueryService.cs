@@ -41,20 +41,9 @@ public class ComponentIntegrationQueryService : IComponentIntegrationQueryServic
 
     private async Task<ComponentIntegration> GetComponentIntegrationAsync(string id)
     {
-        var componentIntegration = await _componentIntegrationRepository.FindFirstOrDefaultByIdAsync(id);
+        var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(id);
         if (componentIntegration is null)
             throw new BusinessException($"组件集成不存在");
         return componentIntegration;
-    }
-
-    public async Task<object> GetComponentIntegrationEnumListAsync()
-    {
-        var componentLinkType = typeof(ComponentLinkTypeEnum);
-        var componentLinkTypeDictionary = componentLinkType.EnumsToDictionary();
-        var result = new
-        {
-            ComponentLinkTypeEnumList = componentLinkTypeDictionary.ToArray(),
-        };
-        return await Task.FromResult(result);
     }
 }

@@ -13,6 +13,11 @@ public class ApplicationPipelineBaseDto
     /// 
     /// </summary>
     public string AppEnvironmentId { get;  set; }= default!;
+    
+    /// <summary>
+    /// 组件集成Id
+    /// </summary>
+    public string ComponentIntegrationId { get;  set; }= default!;
 
     /// <summary>
     /// 流水线名称

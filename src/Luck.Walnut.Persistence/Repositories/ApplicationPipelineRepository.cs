@@ -1,4 +1,5 @@
 using Luck.EntityFrameworkCore.DbContexts;
+using Luck.Framework.Exceptions;
 using Luck.Framework.Extensions;
 using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 using Luck.Walnut.Domain.Repositories;
@@ -13,9 +14,12 @@ public class ApplicationPipelineRepository : EfCoreAggregateRootRepository<Appli
     }
 
 
-    public Task<ApplicationPipeline?> FindFirstOrDefaultByIdAsync(string id)
+    public async Task<ApplicationPipeline> FindFirstByIdAsync(string id)
     {
-        return FindAll(x => x.Id == id).FirstOrDefaultAsync();
+        var componentIntegration = await FindAll(x => x.Id == id).FirstOrDefaultAsync();
+        if (componentIntegration is null)
+            throw new BusinessException($"组件集成流水线不存在");
+        return componentIntegration;
     }
 
 

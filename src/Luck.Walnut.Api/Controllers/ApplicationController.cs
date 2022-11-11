@@ -62,15 +62,7 @@ namespace Luck.Walnut.Api.Controllers
         /// <returns></returns>
         [HttpDelete("{id}")]
         public Task DeleteApplicationAsync(string id) => _applicationService.DeleteApplicationAsync(id);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="applicationQueryService"></param>
-        /// <returns></returns>
-        [HttpGet("enum/list")]
-        public object GetApplicationEnumList([FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationEnumList();
-
+        
         /// <summary>
         /// 
         /// </summary>

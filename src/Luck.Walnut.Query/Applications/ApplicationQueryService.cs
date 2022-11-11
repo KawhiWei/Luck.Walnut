@@ -71,20 +71,7 @@ namespace Luck.Walnut.Query.Applications
             };
             return applicationOutputDto;
         }
-
-        public object GetApplicationEnumList()
-        {
-            var applicationStateEnumType = typeof(ApplicationStateEnum);
-            var applicationStateDictionary = applicationStateEnumType.EnumsToDictionary();
-            var applicationLevelEnumType = typeof(ApplicationLevelEnum);
-            var applicationLevelDictionary = applicationLevelEnumType.EnumsToDictionary();
-            return new
-            {
-                ApplicationStateEnumList = applicationStateDictionary.ToArray(),
-                ApplicationLevelEnumList = applicationLevelDictionary.ToArray(),
-            };
-        }
-
+        
         /// <summary>
         /// 
         /// </summary>

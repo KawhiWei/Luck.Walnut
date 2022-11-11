@@ -10,7 +10,7 @@ public class ApplicationPipeline : FullAggregateRoot
     }
 
 
-    public ApplicationPipeline(string appId, string name, PipelineStateEnum pipelineState, IList<Stage> pipelineScript, string appEnvironmentId, bool published)
+    public ApplicationPipeline(string appId, string name, PipelineStateEnum pipelineState, IList<Stage> pipelineScript, string appEnvironmentId, bool published, string componentIntegrationId)
     {
         AppId = appId;
         Name = name;
@@ -18,6 +18,7 @@ public class ApplicationPipeline : FullAggregateRoot
         PipelineScript = pipelineScript;
         AppEnvironmentId = appEnvironmentId;
         Published = published;
+        ComponentIntegrationId = componentIntegrationId;
     }
 
     /// <summary>
@@ -47,15 +48,19 @@ public class ApplicationPipeline : FullAggregateRoot
     public string AppEnvironmentId { get; private set; }
 
     /// <summary>
-    /// 下一流水线Id
+    /// Jenkins下一次Build的Id
     /// </summary>
-    public string? NextPipelineId { get; private set; } = default!;
+    public uint NextBuildNumber { get; private set; } = default!;
 
     /// <summary>
     /// 是否发布
     /// </summary>
     public bool Published { get; private set; }
 
+    /// <summary>
+    /// 组件集成Id
+    /// </summary>
+    public string ComponentIntegrationId { get; private set; }
 
     /// <summary>
     /// 
@@ -65,6 +70,17 @@ public class ApplicationPipeline : FullAggregateRoot
     public ApplicationPipeline SetPipelineScript(ICollection<Stage> pipelineScript)
     {
         PipelineScript = pipelineScript;
+        return this;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="componentIntegrationId"></param>
+    /// <returns></returns>
+    public ApplicationPipeline SetComponentIntegrationId(string componentIntegrationId)
+    {
+        ComponentIntegrationId = componentIntegrationId;
         return this;
     }
 

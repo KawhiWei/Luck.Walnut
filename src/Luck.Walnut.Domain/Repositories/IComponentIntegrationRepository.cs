@@ -11,7 +11,7 @@ public interface IComponentIntegrationRepository : IAggregateRootRepository<Comp
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<ComponentIntegration?> FindFirstOrDefaultByIdAsync(string id);
+    Task<ComponentIntegration> FindFirstByIdAsync(string id);
 
     /// <summary>
     /// 获取分页数据

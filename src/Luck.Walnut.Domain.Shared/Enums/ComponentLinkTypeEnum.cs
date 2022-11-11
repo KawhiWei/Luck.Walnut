@@ -2,17 +2,20 @@ using System.ComponentModel;
 
 namespace Luck.Walnut.Domain.Shared.Enums;
 
+/// <summary>
+/// 集成组件类型枚举
+/// </summary>
 public enum ComponentLinkTypeEnum
 {
     /// <summary>
     /// Gitlab
     /// </summary>
-    [Description("Gitlab")] Gitlab = 1,
+    [Description("Gitlab代码仓库")] Gitlab = 1,
 
     /// <summary>
     /// Gitlab
     /// </summary>
-    [Description("Gogs")] Gogs = 2,
+    [Description("Gogs代码仓库")] Gogs = 2,
 
     /// <summary>
     /// Harbor
