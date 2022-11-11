@@ -1,4 +1,5 @@
 using Luck.Framework.Extensions;
+using Luck.Walnut.Domain.Shared.Enums;
 
 namespace Luck.Walnut.Dto.ApplicationPipelines;
 
@@ -11,6 +12,13 @@ public class ApplicationPipelineOutputDto:ApplicationPipelineBaseDto
     /// </summary>
     public bool Published  { get; set; }
 
+    /// <summary>
+    /// 流水线状态
+    /// </summary>
+    public PipelineBuildStateEnum PipelineBuildState { get;  set; }
 
-    public string PipelineStateName => PipelineState.ToDescription();
+    /// <summary>
+    /// 
+    /// </summary>
+    public string PipelineStateName => PipelineBuildState.ToDescription();
 }

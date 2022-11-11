@@ -10,11 +10,10 @@ public class ApplicationPipeline : FullAggregateRoot
     }
 
 
-    public ApplicationPipeline(string appId, string name, PipelineStateEnum pipelineState, IList<Stage> pipelineScript, string appEnvironmentId, bool published, string componentIntegrationId)
+    public ApplicationPipeline(string appId, string name, IList<Stage> pipelineScript, string appEnvironmentId, bool published, string componentIntegrationId)
     {
         AppId = appId;
         Name = name;
-        PipelineState = pipelineState;
         PipelineScript = pipelineScript;
         AppEnvironmentId = appEnvironmentId;
         Published = published;
@@ -30,12 +29,7 @@ public class ApplicationPipeline : FullAggregateRoot
     /// 流水线名称
     /// </summary>
     public string Name { get; private set; }
-
-    /// <summary>
-    /// 流水线状态
-    /// </summary>
-    public PipelineStateEnum PipelineState { get; private set; }
-
+    
     /// <summary>
     /// 流水线Dsl
     /// </summary>
@@ -61,6 +55,11 @@ public class ApplicationPipeline : FullAggregateRoot
     /// 组件集成Id
     /// </summary>
     public string ComponentIntegrationId { get; private set; }
+
+    /// <summary>
+    /// 执行记录
+    /// </summary>
+    public ICollection<ApplicationPipelineExecutedRecord> ApplicationPipelineExecutedRecords { get; private set; } = new HashSet<ApplicationPipelineExecutedRecord>();
 
     /// <summary>
     /// 

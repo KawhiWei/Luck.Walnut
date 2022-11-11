@@ -34,7 +34,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
                 return new Stage(stage.Name, stageList.ToList());
             }
         ).ToList();
-        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, input.PipelineState, pipelineScript, input.AppEnvironmentId, false, input.ComponentIntegrationId);
+        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, pipelineScript, input.AppEnvironmentId, false, input.ComponentIntegrationId);
         _applicationPipelineRepository.Add(applicationPipeline);
         await _unitOfWork.CommitAsync();
     }

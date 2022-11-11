@@ -23,12 +23,7 @@ public class ApplicationPipelineBaseDto
     /// 流水线名称
     /// </summary>
     public string Name { get;  set; }= default!;
-
-    /// <summary>
-    /// 流水线状态
-    /// </summary>
-    public PipelineStateEnum PipelineState { get;  set; }
-
+    
     /// <summary>
     /// 流水线Dsl
     /// </summary>

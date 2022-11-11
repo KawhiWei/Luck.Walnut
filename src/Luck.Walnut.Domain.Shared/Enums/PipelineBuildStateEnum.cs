@@ -5,7 +5,7 @@ namespace Luck.Walnut.Domain.Shared.Enums;
 /// <summary>
 /// 流水线状态枚举
 /// </summary>
-public enum PipelineStateEnum
+public enum PipelineBuildStateEnum
 {
     /// <summary>
     /// 准备完成

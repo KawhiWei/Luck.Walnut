@@ -33,7 +33,6 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
         {
             Id = applicationPipeline.Id,
             Name = applicationPipeline.Name,
-            PipelineState = applicationPipeline.PipelineState,
             Published = applicationPipeline.Published,
             AppEnvironmentId = applicationPipeline.AppEnvironmentId,
             PipelineScript = applicationPipeline.PipelineScript.Select(stage =>

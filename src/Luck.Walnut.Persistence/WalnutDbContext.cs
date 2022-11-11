@@ -23,19 +23,22 @@ namespace Luck.Walnut.Persistence
         public DbSet<AppEnvironment> AppEnvironments => Set<AppEnvironment>();
 
         public DbSet<Application> Applications => Set<Application>();
-        
-        
+
+
         public DbSet<Project> Projects => Set<Project>();
-        
+
         public DbSet<Issue> Issues => Set<Issue>();
-        
+
         public DbSet<Assignment> Assignments => Set<Assignment>();
-        
+
         public DbSet<Language> Languages => Set<Language>();
-        
+
         public DbSet<ComponentIntegration> ComponentIntegrations => Set<ComponentIntegration>();
-        
+
         public DbSet<ApplicationPipeline> ApplicationPipelines => Set<ApplicationPipeline>();
+
+        public DbSet<ApplicationPipelineExecutedRecord> ApplicationPipelineExecutedRecords => Set<ApplicationPipelineExecutedRecord>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

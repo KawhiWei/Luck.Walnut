@@ -27,15 +27,12 @@ public class ApplicationPipelineRepository : EfCoreAggregateRootRepository<Appli
     {
         var queryable = FindAll(x => x.AppId == appId)
             .WhereIf(x => x.Name.Contains(query.Name), !query.Name.IsNullOrWhiteSpace())
-            .WhereIf(x => x.Published == query.Published, query.Published.HasValue)
-            .WhereIf(x => x.PipelineState == query.PipelineStatus, query.PipelineStatus.HasValue);
-
+            .WhereIf(x => x.Published == query.Published, query.Published.HasValue);
         var list = await queryable.ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
         var outputList = list.Select(x => new ApplicationPipelineOutputDto
         {
             Id = x.Id,
             Name = x.Name,
-            PipelineState = x.PipelineState,
             Published = x.Published,
             AppEnvironmentId = x.AppEnvironmentId,
             PipelineScript = x.PipelineScript.Select(stage =>
