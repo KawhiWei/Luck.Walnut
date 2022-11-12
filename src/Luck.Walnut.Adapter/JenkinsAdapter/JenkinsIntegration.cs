@@ -47,7 +47,7 @@ public class JenkinsIntegration : IJenkinsIntegration
             throw new BusinessException("", $"服务器异常", ex);
         }
     }
-    
+
     /// <summary>
     /// 获取job执行记录明细
     /// </summary>
@@ -58,7 +58,7 @@ public class JenkinsIntegration : IJenkinsIntegration
             var client = _httpClientFactory.CreateClient();
             SetRequestHeadersBasicAuth(client);
             var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/api/json", null);
-            var jenkinsJobDetailDto= (await HttpResponseMessage(response)).Deserialize<JenkinsJobDetailDto>(new JsonSerializerOptions()
+            var jenkinsJobDetailDto = (await HttpResponseMessage(response)).Deserialize<JenkinsJobDetailDto>(new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true
             });
@@ -80,6 +80,24 @@ public class JenkinsIntegration : IJenkinsIntegration
             var client = _httpClientFactory.CreateClient();
             SetRequestHeadersBasicAuth(client);
             var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/build", null);
+            return await HttpResponseMessage(response);
+        }
+        catch (Exception ex)
+        {
+            throw new BusinessException("", $"服务器异常", ex);
+        }
+    }
+
+    /// <summary>
+    /// 查询Jenkins执行Job的日志
+    /// </summary>
+    public async Task<string> GetJenkinsJobBuildLogsAsync(string jobName, int buildId)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient();
+            SetRequestHeadersBasicAuth(client);
+            var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/{buildId}/logText/progressiveText?start=0", null);
             return await HttpResponseMessage(response);
         }
         catch (Exception ex)

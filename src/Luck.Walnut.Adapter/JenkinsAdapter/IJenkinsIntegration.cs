@@ -64,4 +64,12 @@ public interface IJenkinsIntegration : IScopedDependency
     /// </summary>
     /// <returns></returns>
     Task<string> DeleteJenkinsJobBuildDetailAsync(string jobName);
+
+    /// <summary>
+    /// 查询Jenkins执行Job的日志
+    /// </summary>
+    /// <param name="jobName"></param>
+    /// <param name="buildId"></param>
+    /// <returns></returns>
+    Task<string> GetJenkinsJobBuildLogsAsync(string jobName, int buildId);
 }
