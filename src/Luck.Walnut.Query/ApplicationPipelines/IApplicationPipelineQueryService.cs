@@ -14,4 +14,6 @@ public interface IApplicationPipelineQueryService : IScopedDependency
 
 
     Task<string> GetJenkinsJobBuildDetailAsync(string id);
+
+    Task<string> GetJenkinsJobBuildLogsAsync(string id, int buildId);
 }

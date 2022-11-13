@@ -60,4 +60,13 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
         return await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, 23);
         return "";
     }
+
+
+    public async Task<string> GetJenkinsJobBuildLogsAsync(string id, int buildId)
+    {
+        var applicationPipeline = await _applicationPipelineRepository.FindFirstByIdAsync(id);
+        var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.ComponentIntegrationId);
+        _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
+        return await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, buildId);
+    }
 }

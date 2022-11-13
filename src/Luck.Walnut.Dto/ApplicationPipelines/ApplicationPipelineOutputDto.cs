@@ -16,6 +16,11 @@ public class ApplicationPipelineOutputDto:ApplicationPipelineBaseDto
     /// 流水线状态
     /// </summary>
     public PipelineBuildStateEnum PipelineBuildState { get; set; } = PipelineBuildStateEnum.Running;
+    
+    /// <summary>
+    /// 流水线状态
+    /// </summary>
+    public uint JenkinsBuildNumber { get; set; }
 
     /// <summary>
     /// 

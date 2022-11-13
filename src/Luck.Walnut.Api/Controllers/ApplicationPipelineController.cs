@@ -95,4 +95,15 @@ public class ApplicationPipelineController : BaseController
     [HttpGet("{id}/test")]
     public Task<string> GetJenkinsJobBuildDetailAsync(string id, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
         => applicationPipelineQueryService.GetJenkinsJobBuildDetailAsync(id);
+
+    /// <summary>
+    /// 根据任务Id和Jenkins执行的BuildNumber获取执行日志
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="buildId"></param>
+    /// <param name="applicationPipelineQueryService"></param>
+    /// <returns></returns>
+    [HttpGet("{id}/{buildId}/build/log")]
+    public Task<string> GetJenkinsJobBuildDetailAsync(string id, int buildId, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
+        => applicationPipelineQueryService.GetJenkinsJobBuildLogsAsync(id, buildId);
 }
