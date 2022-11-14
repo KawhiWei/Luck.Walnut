@@ -22,4 +22,10 @@ public interface IApplicationPipelineRepository : IAggregateRootRepository<Appli
     /// <param name="query"></param>
     /// <returns></returns>
     Task<(ApplicationPipelineOutputDto[] Data, int TotalCount)> GetApplicationPipelinePageListAsync(string appId, ApplicationPipelineQueryDto query);
+
+    /// <summary>
+    /// 查询运行记录有存在运行状态的所有流水线和运行状态的运行记录
+    /// </summary>
+    /// <returns></returns>
+    Task<ApplicationPipeline[]> GetRunningApplicationPipelineAsync();
 }

@@ -17,6 +17,11 @@ public class JenkinsIntegration : IJenkinsIntegration
     public string UrlAddress { get; set; }
 
 
+    public JenkinsIntegration(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
+
     public void BuildJenkinsOptions(string urlAddress, string userName, string token)
     {
         UrlAddress = urlAddress;
@@ -25,22 +30,27 @@ public class JenkinsIntegration : IJenkinsIntegration
     }
 
 
-    public JenkinsIntegration(IHttpClientFactory httpClientFactory)
-    {
-        _httpClientFactory = httpClientFactory;
-    }
-
     /// <summary>
     /// 获取job执行记录明细
     /// </summary>
-    public async Task<string> GetJenkinsJobBuildDetailAsync(string jobName, int buildId)
+    public async Task<JenkinsJobDetailDto?> GetJenkinsJobBuildDetailAsync(string jobName, uint buildId)
     {
         try
         {
             var client = _httpClientFactory.CreateClient();
             SetRequestHeadersBasicAuth(client);
             var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/{buildId}/api/json", null);
-            return await HttpResponseMessage(response);
+            var message = await HttpResponseMessage(response);
+            if (message.Contains("Error 404 Not Found"))
+            {
+                return null;
+            }
+
+            var jenkinsJobDetailDto = message.Deserialize<JenkinsJobDetailDto>(new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return jenkinsJobDetailDto;
         }
         catch (Exception ex)
         {
@@ -91,7 +101,7 @@ public class JenkinsIntegration : IJenkinsIntegration
     /// <summary>
     /// 查询Jenkins执行Job的日志
     /// </summary>
-    public async Task<string> GetJenkinsJobBuildLogsAsync(string jobName, int buildId)
+    public async Task<string> GetJenkinsJobBuildLogsAsync(string jobName, uint buildId)
     {
         try
         {

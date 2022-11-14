@@ -50,7 +50,7 @@ public interface IJenkinsIntegration : IScopedDependency
     /// 
     /// </summary>
     /// <returns></returns>
-    Task<string> GetJenkinsJobBuildDetailAsync(string jobName,int buildId);
+    Task<JenkinsJobDetailDto?> GetJenkinsJobBuildDetailAsync(string jobName,uint buildId);
 
 
     /// <summary>
@@ -71,5 +71,5 @@ public interface IJenkinsIntegration : IScopedDependency
     /// <param name="jobName"></param>
     /// <param name="buildId"></param>
     /// <returns></returns>
-    Task<string> GetJenkinsJobBuildLogsAsync(string jobName, int buildId);
+    Task<string> GetJenkinsJobBuildLogsAsync(string jobName, uint buildId);
 }

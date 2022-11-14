@@ -29,7 +29,7 @@ public class ApplicationPipeline : FullAggregateRoot
     /// 流水线名称
     /// </summary>
     public string Name { get; private set; }
-    
+
     /// <summary>
     /// 流水线Dsl
     /// </summary>
@@ -71,7 +71,7 @@ public class ApplicationPipeline : FullAggregateRoot
         PipelineScript = pipelineScript;
         return this;
     }
-
+    
     /// <summary>
     /// 
     /// </summary>
@@ -93,7 +93,7 @@ public class ApplicationPipeline : FullAggregateRoot
         Published = published;
         return this;
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -101,7 +101,7 @@ public class ApplicationPipeline : FullAggregateRoot
     /// <returns></returns>
     public ApplicationPipeline AddApplicationPipelineExecutedRecord(uint nextBuildNumber)
     {
-        var applicationPipelineExecutedRecord = new ApplicationPipelineExecutedRecord(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber);
+        var applicationPipelineExecutedRecord = new ApplicationPipelineExecutedRecord(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber, $"{AppId}-{DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")}-{nextBuildNumber}", null);
         ApplicationPipelineExecutedRecords.Add(applicationPipelineExecutedRecord);
         return this;
     }

@@ -4,16 +4,18 @@ namespace Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 
 public class ApplicationPipelineExecutedRecord : FullEntity
 {
-    public ApplicationPipelineExecutedRecord(string applicationPipelineId, PipelineBuildStateEnum pipelineBuildState, ICollection<Stage> pipelineScript, uint jenkinsBuildNumber)
+    public ApplicationPipelineExecutedRecord(string applicationPipelineId, PipelineBuildStateEnum pipelineBuildState, ICollection<Stage> pipelineScript, uint jenkinsBuildNumber, string imageVersion, string? buildLogs)
     {
         ApplicationPipelineId = applicationPipelineId;
         PipelineBuildState = pipelineBuildState;
         PipelineScript = pipelineScript;
         JenkinsBuildNumber = jenkinsBuildNumber;
+        ImageVersion = imageVersion;
+        BuildLogs = buildLogs;
     }
 
     /// <summary>
-    /// 
+    /// 流水线Id
     /// </summary>
     public string ApplicationPipelineId { get; private set; }
 
@@ -31,6 +33,18 @@ public class ApplicationPipelineExecutedRecord : FullEntity
     /// Jenkins执行Build的编号
     /// </summary>
     public uint JenkinsBuildNumber { get; private set; }
+    
+    /// <summary>
+    /// 镜像版本号
+    /// </summary>
+    public string ImageVersion { get; private set; }
+
+    /// <summary>
+    /// 执行日志
+    /// </summary>
+    public string? BuildLogs { get; private set; }
+    
+    
 
     /// <summary>
     /// 设置流水线状态
@@ -40,6 +54,16 @@ public class ApplicationPipelineExecutedRecord : FullEntity
     public ApplicationPipelineExecutedRecord SetPipelineBuildState(PipelineBuildStateEnum pipelineBuildState)
     {
         PipelineBuildState = pipelineBuildState;
+        return this;
+    }
+    /// <summary>
+    /// 设置流水线状态
+    /// </summary>
+    /// <param name="buildLogs"></param>
+    /// <returns></returns>
+    public ApplicationPipelineExecutedRecord SetBuildLogs(string buildLogs)
+    {
+        BuildLogs = buildLogs;
         return this;
     }
 }

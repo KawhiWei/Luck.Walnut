@@ -40,4 +40,10 @@ public interface IApplicationPipelineService: IScopedDependency
     /// <param name="id"></param>
     /// <returns></returns>
     Task ExecuteJobAsync(string id);
+
+    /// <summary>
+    /// 使用后台任务的方式同步JenkinsJob执行的状态
+    /// </summary>
+    /// <returns></returns>
+    Task SyncExecutedRecordAsync();
 }

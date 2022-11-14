@@ -25,5 +25,10 @@ public class ApplicationPipelineOutputDto:ApplicationPipelineBaseDto
     /// <summary>
     /// 
     /// </summary>
+    public string LastApplicationPipelineExecutedRecordId { get; set; } = default!;
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public string PipelineBuildStateName => PipelineBuildState.ToDescription();
 }

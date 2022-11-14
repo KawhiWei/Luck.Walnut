@@ -86,24 +86,36 @@ public class ApplicationPipelineController : BaseController
         => applicationPipelineQueryService.GetApplicationDetailForIdAsync(id);
 
 
-    /// <summary>
-    /// 根据id查询流水线详情
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="applicationPipelineQueryService"></param>
-    /// <returns></returns>
-    [HttpGet("{id}/test")]
-    public Task<string> GetJenkinsJobBuildDetailAsync(string id, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
-        => applicationPipelineQueryService.GetJenkinsJobBuildDetailAsync(id);
+    // /// <summary>
+    // /// 根据id查询流水线详情
+    // /// </summary>
+    // /// <param name="id"></param>
+    // /// <param name="applicationPipelineQueryService"></param>
+    // /// <returns></returns>
+    // [HttpGet("{id}/test")]
+    // public Task<object> GetJenkinsJobBuildDetailAsync(string id, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
+    //     => applicationPipelineQueryService.GetJenkinsJobBuildDetailAsync(id);
 
     /// <summary>
     /// 根据任务Id和Jenkins执行的BuildNumber获取执行日志
     /// </summary>
+    /// <param name="appId"></param>
     /// <param name="id"></param>
-    /// <param name="buildId"></param>
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
-    [HttpGet("{id}/{buildId}/build/log")]
-    public Task<string> GetJenkinsJobBuildDetailAsync(string id, int buildId, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
-        => applicationPipelineQueryService.GetJenkinsJobBuildLogsAsync(id, buildId);
+    [HttpGet("{appId}/{id}/build/log")]
+    public Task<string> GetJenkinsJobBuildDetailAsync(string appId,string id, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
+        => applicationPipelineQueryService.GetJenkinsJobBuildLogsAsync(appId, id);
+    
+    
+    /// <summary>
+    /// 根据任务Id和Jenkins执行的BuildNumber获取执行日志
+    /// </summary>
+    /// <param name="applicationPipelineId"></param>
+    /// <param name="query"></param>
+    /// <param name="applicationPipelineQueryService"></param>
+    /// <returns></returns>
+    [HttpGet("{applicationPipelineId}/executed/record/page/list")]
+    public Task<PageBaseResult<ApplicationPipelineExecutedRecordOutputDto>> GetJenkinsJobBuildDetailAsync(string applicationPipelineId,[FromQuery] ApplicationPipelineExecutedQueryDto query, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
+        => applicationPipelineQueryService.GetApplicationPipelineExecutedRecordPageListAsync(applicationPipelineId, query);
 }

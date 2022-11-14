@@ -1,10 +1,8 @@
-using System.Diagnostics;
-using Luck.EntityFrameworkCore.UnitOfWorks;
-using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Adapter.JenkinsAdapter;
 using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 using Luck.Walnut.Domain.Repositories;
+using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto.ApplicationPipelines;
 
 namespace Luck.Walnut.Application.ApplicationPipelines;
@@ -19,12 +17,16 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
     private readonly IUnitOfWork _unitOfWork;
 
-    public ApplicationPipelineService(IApplicationPipelineRepository applicationPipelineRepository, IUnitOfWork unitOfWork, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository)
+    private readonly IApplicationPipelineExecutedRecordRepository _applicationPipelineExecutedRecordRepository;
+
+    public ApplicationPipelineService(IApplicationPipelineRepository applicationPipelineRepository, IUnitOfWork unitOfWork, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository,
+        IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository)
     {
         _applicationPipelineRepository = applicationPipelineRepository;
         _unitOfWork = unitOfWork;
         _jenkinsIntegration = jenkinsIntegration;
         _componentIntegrationRepository = componentIntegrationRepository;
+        _applicationPipelineExecutedRecordRepository = applicationPipelineExecutedRecordRepository;
     }
 
     public async Task CreateAsync(ApplicationPipelineInputDto input)
@@ -72,8 +74,6 @@ public class ApplicationPipelineService : IApplicationPipelineService
     /// <param name="id"></param>
     public async Task ExecuteJobAsync(string id)
     {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
         await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
         var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
@@ -84,10 +84,6 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
         await _jenkinsIntegration.BuildJobAsync(applicationPipeline.Name);
         await _unitOfWork.CommitAsync();
-
-        stopwatch.Stop();
-
-        Console.WriteLine(stopwatch.ElapsedMilliseconds);
     }
 
     /// <summary>
@@ -105,6 +101,39 @@ public class ApplicationPipelineService : IApplicationPipelineService
     private async Task<ApplicationPipeline> GetApplicationPipelineByIdAsync(string id)
     {
         return await _applicationPipelineRepository.FindFirstByIdAsync(id);
+    }
+
+    /// <summary>
+    /// 使用后台任务的方式同步JenkinsJob执行的状态
+    /// </summary>
+    public async Task SyncExecutedRecordAsync()
+    {
+        var list = await _applicationPipelineRepository.GetRunningApplicationPipelineAsync();
+
+        foreach (var applicationPipeline in list)
+        {
+            await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
+            foreach (var applicationPipelineExecutedRecord in applicationPipeline.ApplicationPipelineExecutedRecords)
+            {
+                var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
+                if (jenkinsJobDetailDto is not null)
+                {
+                    var logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
+                    switch (jenkinsJobDetailDto.Result)
+                    {
+                        case "FAILURE":
+                            logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
+                            applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Fail).SetBuildLogs(logs);
+                            break;
+                        case "SUCCESS":
+                            applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Success).SetBuildLogs(logs);
+                            break;
+                    }
+                }
+            }
+        }
+
+        await _unitOfWork.CommitAsync();
     }
 
 

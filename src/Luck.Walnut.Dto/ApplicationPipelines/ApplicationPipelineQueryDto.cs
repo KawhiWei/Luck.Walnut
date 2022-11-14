@@ -9,11 +9,6 @@ public class ApplicationPipelineQueryDto:PageBaseInputDto
     /// 
     /// </summary>
     public string Name { get; set; } = "";
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public PipelineBuildStateEnum? PipelineStatus { get; set; } = default!;
     
     /// <summary>
     /// 是否发布

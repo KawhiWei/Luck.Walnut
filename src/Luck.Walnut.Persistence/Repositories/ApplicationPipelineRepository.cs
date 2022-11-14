@@ -10,17 +10,30 @@ namespace Luck.Walnut.Persistence.Repositories;
 
 public class ApplicationPipelineRepository : EfCoreAggregateRootRepository<ApplicationPipeline, string>, IApplicationPipelineRepository
 {
+    private readonly IDictionary<string, ApplicationPipeline> _applicationPipelineForId;
+
+
     public ApplicationPipelineRepository(ILuckDbContext dbContext) : base(dbContext)
     {
+        _applicationPipelineForId = new Dictionary<string, ApplicationPipeline>();
     }
 
 
     public async Task<ApplicationPipeline> FindFirstByIdAsync(string id)
     {
-        var componentIntegration = await FindAll(x => x.Id == id).FirstOrDefaultAsync();
-        if (componentIntegration is null)
-            throw new BusinessException($"组件集成流水线不存在");
-        return componentIntegration;
+        if (_applicationPipelineForId.ContainsKey(id))
+        {
+            return _applicationPipelineForId[id];
+        }
+
+        var applicationPipeline = await FindAll(x => x.Id == id).FirstOrDefaultAsync();
+        if (applicationPipeline is null)
+        {
+            throw new BusinessException($"流水线不存在");
+        }
+
+        _applicationPipelineForId.Add(id, applicationPipeline);
+        return applicationPipeline;
     }
 
 
@@ -39,6 +52,7 @@ public class ApplicationPipelineRepository : EfCoreAggregateRootRepository<Appli
             AppEnvironmentId = x.AppEnvironmentId,
             PipelineBuildState = x.ApplicationPipelineExecutedRecords.MaxBy(record => record.JenkinsBuildNumber) != null ? x.ApplicationPipelineExecutedRecords.MaxBy(record => record.JenkinsBuildNumber)!.PipelineBuildState : PipelineBuildStateEnum.Ready,
             JenkinsBuildNumber = x.ApplicationPipelineExecutedRecords.MaxBy(record => record.JenkinsBuildNumber) != null ? x.ApplicationPipelineExecutedRecords.MaxBy(record => record.JenkinsBuildNumber)!.JenkinsBuildNumber : 0,
+            LastApplicationPipelineExecutedRecordId = x.ApplicationPipelineExecutedRecords.MaxBy(record => record.JenkinsBuildNumber) != null ? x.ApplicationPipelineExecutedRecords.MaxBy(record => record.JenkinsBuildNumber)!.Id : "",
             PipelineScript = x.PipelineScript.Select(stage =>
             {
                 var steps = stage.Steps.Select(step => new StepDto()
@@ -56,5 +70,17 @@ public class ApplicationPipelineRepository : EfCoreAggregateRootRepository<Appli
         }).ToArray();
         var totalCount = await queryable.CountAsync();
         return (outputList, totalCount);
+    }
+
+
+    /// <summary>
+    /// 查询运行记录有存在运行状态的所有流水线和运行状态的运行记录
+    /// </summary>
+    /// <returns></returns>
+    public async Task<ApplicationPipeline[]> GetRunningApplicationPipelineAsync()
+    {
+        var list = await FindAll(x => x.ApplicationPipelineExecutedRecords.Any(record => record.PipelineBuildState == PipelineBuildStateEnum.Running))
+            .Include(x => x.ApplicationPipelineExecutedRecords.Where(x => x.PipelineBuildState == PipelineBuildStateEnum.Running)).ToArrayAsync();
+        return list;
     }
 }
