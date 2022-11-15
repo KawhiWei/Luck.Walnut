@@ -40,13 +40,12 @@ public class JenkinsIntegration : IJenkinsIntegration
             var client = _httpClientFactory.CreateClient();
             SetRequestHeadersBasicAuth(client);
             var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/{buildId}/api/json", null);
-            var message = await HttpResponseMessage(response);
-            if (message.Contains("Error 404 Not Found"))
+            var responseString = await HttpResponseMessage(response);
+            if (responseString.Contains("Error 404 Not Found"))
             {
                 return null;
             }
-
-            var jenkinsJobDetailDto = message.Deserialize<JenkinsJobDetailDto>(new JsonSerializerOptions()
+            var jenkinsJobDetailDto = responseString.Deserialize<JenkinsJobDetailDto>(new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true
             });
@@ -68,7 +67,12 @@ public class JenkinsIntegration : IJenkinsIntegration
             var client = _httpClientFactory.CreateClient();
             SetRequestHeadersBasicAuth(client);
             var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/api/json", null);
-            var jenkinsJobDetailDto = (await HttpResponseMessage(response)).Deserialize<JenkinsJobDetailDto>(new JsonSerializerOptions()
+            var responseString = await HttpResponseMessage(response);
+            if (responseString.Contains("Error 404 Not Found"))
+            {
+                return null;
+            }
+            var jenkinsJobDetailDto = responseString.Deserialize<JenkinsJobDetailDto>(new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true
             });
@@ -107,7 +111,7 @@ public class JenkinsIntegration : IJenkinsIntegration
         {
             var client = _httpClientFactory.CreateClient();
             SetRequestHeadersBasicAuth(client);
-            var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/{buildId}/logText/progressiveText?start=0", null);
+            var response = await client.GetAsync($"{UrlAddress}/job/{jobName}/{buildId}/logText/progressiveText?start=0");
             return await HttpResponseMessage(response);
         }
         catch (Exception ex)
@@ -120,25 +124,24 @@ public class JenkinsIntegration : IJenkinsIntegration
     /// <summary>
     /// 在Jenkins内创建job
     /// </summary>
-    public async Task<string> CreateJenkinsJobAsync()
+    public async Task<string> CreateJenkinsJobAsync(string jobName,string xmlBody)
     {
-        await Task.CompletedTask;
         var client = _httpClientFactory.CreateClient();
         SetRequestHeadersBasicAuth(client);
-
-        return "";
+        var response = await client.PostAsync($"{UrlAddress}/createItem?name={jobName}",new StringContent(xmlBody,Encoding.UTF8,"application/xml"));
+        return await HttpResponseMessage(response);
     }
 
 
     /// <summary>
     /// 修改jenkins内的job
     /// </summary>
-    public async Task<string> UpdateJenkinsJobAsync()
+    public async Task<string> UpdateJenkinsJobAsync(string jobName,string xmlBody)
     {
-        await Task.CompletedTask;
         var client = _httpClientFactory.CreateClient();
         SetRequestHeadersBasicAuth(client);
-        return "";
+        var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/config.xml",new StringContent(xmlBody,Encoding.UTF8,"application/xml"));
+        return await HttpResponseMessage(response);
     }
 
     /// <summary>

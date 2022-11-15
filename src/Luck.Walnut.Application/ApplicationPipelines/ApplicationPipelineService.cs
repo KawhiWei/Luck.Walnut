@@ -1,3 +1,5 @@
+using System.Text;
+using Luck.Framework.Extensions;
 using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Adapter.JenkinsAdapter;
 using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
@@ -65,7 +67,59 @@ public class ApplicationPipelineService : IApplicationPipelineService
     public async Task PublishAsync(string id)
     {
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
-        // await _unitOfWork.CommitAsync();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.Append(JenkinsPipeLineTemplates.PipelineTemplate);
+        stringBuilder.Append(@"    stages {");
+        // JenkinsPipeLineTemplates.CIPipelineXml
+        foreach (var stage in applicationPipeline.PipelineScript)
+        {
+            stringBuilder.Append($@"
+            stage('{stage.Name}')");
+            stringBuilder.Append(@" {");
+            foreach (var step in stage.Steps)
+            {
+                stringBuilder.Append(@"
+                steps {");
+                switch (step.StepType)
+                {
+                    case StepTypeEnum.PullCode:
+                        stringBuilder.Append(@"
+                        checkout([
+                             $class: 'GitSCM', branches: [[name: ""main""]],
+                             doGenerateSubmoduleConfigurations: false,extensions: [[$class:'CheckoutOption',timeout:30],[$class:'CloneOption',depth:0,noTags:false,reference:'',shallow:false,timeout:3600]], submoduleCfg: [],
+                             userRemoteConfigs: [[ url: ""https://github.com/GeorGeWzw/Luck.Walnut.dashboard.git""]]
+                        ])
+                }");
+                        break;
+                    case StepTypeEnum.BuildDockerImage:
+                        break;
+                    case StepTypeEnum.ExecuteCommand:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            stringBuilder.Append(@"
+        }");
+        }
+        stringBuilder.Append(@" 
+    }");
+        stringBuilder.Append(@"
+}");
+        await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
+        var job= await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
+        var xmlBody = JenkinsPipeLineTemplates.PipelineXml;
+        var replace = xmlBody.Replace("@Pipeline", stringBuilder.ToString());
+        if (job is null)
+        {
+            await _jenkinsIntegration.CreateJenkinsJobAsync(applicationPipeline.Name,replace);
+        }
+        else
+        {
+            await _jenkinsIntegration.UpdateJenkinsJobAsync(applicationPipeline.Name,replace);
+        }
+        applicationPipeline.SetPublished(true);
+        await _unitOfWork.CommitAsync();
     }
 
     /// <summary>

@@ -31,13 +31,13 @@ public interface IJenkinsIntegration : IScopedDependency
     /// 
     /// </summary>
     /// <returns></returns>
-    Task<string> CreateJenkinsJobAsync();
+    Task<string> CreateJenkinsJobAsync(string jobName,string xmlBody);
 
     /// <summary>
     /// 
     /// </summary>
     /// <returns></returns>
-    Task<string> UpdateJenkinsJobAsync();
+    Task<string> UpdateJenkinsJobAsync(string jobName,string xmlBody);
 
     /// <summary>
     /// 获取任务明细
