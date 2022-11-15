@@ -18,7 +18,8 @@ public class ApplicationPipelineExecutedRecordRepository : EfCoreEntityRepositor
         var queryable = FindAll(x => x.ApplicationPipelineId == applicationPipelineId)
             .WhereIf(x => x.PipelineBuildState == query.PipelineBuildState, query.PipelineBuildState.HasValue);
 
-        var list = await queryable.ToPage(query.PageIndex, query.PageSize)
+        var list = await queryable.OrderByDescending(x=>x.CreationTime).ToPage(query.PageIndex, query.PageSize)
+            
             .Select(row => new ApplicationPipelineExecutedRecordOutputDto
             {
                 Id = row.Id,
