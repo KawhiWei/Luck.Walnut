@@ -1,4 +1,6 @@
 using System.Text;
+using System.Xml;
+using Luck.Framework.Exceptions;
 using Luck.Framework.Extensions;
 using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Adapter.JenkinsAdapter;
@@ -67,57 +69,33 @@ public class ApplicationPipelineService : IApplicationPipelineService
     public async Task PublishAsync(string id)
     {
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.Append(JenkinsPipeLineTemplates.PipelineTemplate);
-        stringBuilder.Append(@"    stages {");
-        // JenkinsPipeLineTemplates.CIPipelineXml
-        foreach (var stage in applicationPipeline.PipelineScript)
-        {
-            stringBuilder.Append($@"
-            stage('{stage.Name}')");
-            stringBuilder.Append(@" {");
-            foreach (var step in stage.Steps)
-            {
-                stringBuilder.Append(@"
-                steps {");
-                switch (step.StepType)
-                {
-                    case StepTypeEnum.PullCode:
-                        stringBuilder.Append(@"
-                        checkout([
-                             $class: 'GitSCM', branches: [[name: ""main""]],
-                             doGenerateSubmoduleConfigurations: false,extensions: [[$class:'CheckoutOption',timeout:30],[$class:'CloneOption',depth:0,noTags:false,reference:'',shallow:false,timeout:3600]], submoduleCfg: [],
-                             userRemoteConfigs: [[ url: ""https://github.com/GeorGeWzw/Luck.Walnut.dashboard.git""]]
-                        ])
-                }");
-                        break;
-                    case StepTypeEnum.BuildDockerImage:
-                        break;
-                    case StepTypeEnum.ExecuteCommand:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            stringBuilder.Append(@"
-        }");
-        }
-        stringBuilder.Append(@" 
-    }");
-        stringBuilder.Append(@"
-}");
+
         await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
-        var job= await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
-        var xmlBody = JenkinsPipeLineTemplates.PipelineXml;
-        var replace = xmlBody.Replace("@Pipeline", stringBuilder.ToString());
+        
+        var xmlDocument = new XmlDocument();
+        xmlDocument.LoadXml(JenkinsPipeLineTemplates.PipelineXml);
+        var node= xmlDocument.SelectSingleNode("flow-definition/definition/script");
+        if (node is null)
+        {
+            throw new BusinessException($"流水线不存在");
+        }
+        var dslScript = GetDsl(applicationPipeline.PipelineScript);
+        node.InnerText = dslScript;
+        Console.WriteLine(xmlDocument.ToString());
+        
+        
+        
+        var replace = JenkinsPipeLineTemplates.PipelineXml.Replace("@Pipeline", dslScript);
+        var job = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
         if (job is null)
         {
-            await _jenkinsIntegration.CreateJenkinsJobAsync(applicationPipeline.Name,replace);
+            await _jenkinsIntegration.CreateJenkinsJobAsync(applicationPipeline.Name, replace);
         }
         else
         {
-            await _jenkinsIntegration.UpdateJenkinsJobAsync(applicationPipeline.Name,replace);
+            await _jenkinsIntegration.UpdateJenkinsJobAsync(applicationPipeline.Name, replace);
         }
+
         applicationPipeline.SetPublished(true);
         await _unitOfWork.CommitAsync();
     }
@@ -195,5 +173,50 @@ public class ApplicationPipelineService : IApplicationPipelineService
     {
         var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(componentIntegrationId);
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
+    }
+
+
+    private string GetDsl(IEnumerable<Stage> stages)
+    {
+        StringBuilder stringBuilder = new StringBuilder(JenkinsPipeLineTemplates.PipelineTemplate);
+        stringBuilder.Append(@"    stages {");
+        foreach (var stage in stages)
+        {
+            stringBuilder.Append($@"
+            stage('{stage.Name}')");
+            stringBuilder.Append(@" {");
+            foreach (var step in stage.Steps)
+            {
+                stringBuilder.Append(@"
+                steps {");
+                switch (step.StepType)
+                {
+                    case StepTypeEnum.PullCode:
+                        stringBuilder.Append(@"
+                        checkout([
+                             $class: 'GitSCM', branches: [[name: ""main""]],
+                             doGenerateSubmoduleConfigurations: false,extensions: [[$class:'CheckoutOption',timeout:30],[$class:'CloneOption',depth:0,noTags:false,reference:'',shallow:false,timeout:3600]], submoduleCfg: [],
+                             userRemoteConfigs: [[ url: ""https://github.com/GeorGeWzw/Luck.Walnut.dashboard.git""]]
+                        ])
+                }");
+                        break;
+                    case StepTypeEnum.BuildDockerImage:
+                        break;
+                    case StepTypeEnum.ExecuteCommand:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            stringBuilder.Append(@"
+        }");
+        }
+
+        stringBuilder.Append(@" 
+    }");
+        stringBuilder.Append(@"
+}");
+        return stringBuilder.ToString();
     }
 }
