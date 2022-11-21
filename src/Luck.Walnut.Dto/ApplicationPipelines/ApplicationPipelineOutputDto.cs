@@ -31,4 +31,5 @@ public class ApplicationPipelineOutputDto:ApplicationPipelineBaseDto
     /// 
     /// </summary>
     public string PipelineBuildStateName => PipelineBuildState.ToDescription();
+
 }

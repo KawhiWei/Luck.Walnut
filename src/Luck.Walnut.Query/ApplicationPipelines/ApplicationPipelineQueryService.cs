@@ -42,6 +42,8 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
             Name = applicationPipeline.Name,
             Published = applicationPipeline.Published,
             AppEnvironmentId = applicationPipeline.AppEnvironmentId,
+            AppId = applicationPipeline.AppId,
+            ComponentIntegrationId = applicationPipeline.ComponentIntegrationId,
             PipelineScript = applicationPipeline.PipelineScript.Select(stage =>
             {
                 var steps = stage.Steps.Select(step => new StepDto()
