@@ -1,4 +1,4 @@
-using Luck.Walnut.Application.Matters;
+using Luck.Walnut.Application.Issues;
 using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Issues;
 using Luck.Walnut.Query.Issues;

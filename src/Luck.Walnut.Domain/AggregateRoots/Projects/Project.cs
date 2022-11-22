@@ -4,14 +4,14 @@ namespace Luck.Walnut.Domain.AggregateRoots.Projects;
 
 public class Project : FullAggregateRoot
 {
-    public Project(string name, string describe, string projectPrincipal, ProjectStatusEnum projectStatus, DateTimeOffset planStartTime, DateTimeOffset? planEndTime)
+    public Project(string name, string projectPrincipal, ProjectStatusEnum projectStatus, DateOnly planStartTime, DateOnly? planEndTime, string? describe)
     {
         Name = name;
-        Describe = describe;
         ProjectPrincipal = projectPrincipal;
         ProjectStatus = projectStatus;
         PlanStartTime = planStartTime;
         PlanEndTime = planEndTime;
+        Describe = describe;
     }
 
     /// <summary>
@@ -19,10 +19,7 @@ public class Project : FullAggregateRoot
     /// </summary>
     public string Name { get; private set; }
 
-    /// <summary>
-    /// 需求描述
-    /// </summary>
-    public string Describe { get; private set; }
+
 
 
     /// <summary>
@@ -38,21 +35,26 @@ public class Project : FullAggregateRoot
     /// <summary>
     /// 计划开始时间
     /// </summary>
-    public DateTimeOffset PlanStartTime { get; private set; }
+    public DateOnly PlanStartTime { get; private set; }
     
     /// <summary>
     /// 计划结束时间
     /// </summary>
-    public DateTimeOffset? PlanEndTime { get; private set; }
+    public DateOnly? PlanEndTime { get; private set; }
+    
+    /// <summary>
+    /// 需求描述
+    /// </summary>
+    public string? Describe { get; private set; }
 
-    public Project UpdateInfo(string name, string describe, string projectPrincipal, ProjectStatusEnum projectStatus, DateTimeOffset planStartTime, DateTimeOffset? planEndTime)
+    public Project UpdateInfo(string name, string projectPrincipal, ProjectStatusEnum projectStatus, DateOnly planStartTime, DateOnly? planEndTime, string? describe)
     {
         Name = name;
-        Describe = describe;
         ProjectPrincipal = projectPrincipal;
         ProjectStatus = projectStatus;
         PlanStartTime = planStartTime;
         PlanEndTime = planEndTime;
+        Describe = describe;
         return this;
     }
     

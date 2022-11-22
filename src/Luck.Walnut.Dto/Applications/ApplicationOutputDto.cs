@@ -1,36 +1,27 @@
-﻿namespace Luck.Walnut.Dto.Applications
+﻿using Luck.Framework.Extensions;
+
+namespace Luck.Walnut.Dto.Applications
 {
-    public class ApplicationOutputDto
+    public class ApplicationOutputDto : ApplicationBaseDto
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Id { get; set; } = default!;
-        /// <summary>
-        /// 应用服务名称
-        /// </summary>
-        public string EnglishName { get; set; } = default!;
-
-        /// <summary>
-        /// 应用所属部门
-        /// </summary>
-        public string DepartmentName { get; set; } = default!;
-
-        /// <summary>
-        /// 应用中文名称
-        /// </summary>
-        public string ChinessName { get; set; } = default!;
-
-        /// <summary>
-        /// 联系人
-        /// </summary>
-        public string LinkMan { get; set; } = default!;
-
-        /// <summary>
-        /// 应用唯一标识
-        /// </summary>
-        public string AppId { get; set; } = default!;
 
         /// <summary>
         /// 应用状态
         /// </summary>
-        public string Status { get; set; } = default!;
+        public string ApplicationStateName => ApplicationState.ToDescription();
+        
+        /// <summary>
+        /// 应用状态
+        /// </summary>
+        public string ApplicationLevelName => ApplicationLevel.ToDescription();
+
+        /// <summary>
+        /// 项目名称
+        /// </summary>
+        public string ProjectName { get; set; } = default!;
     }
 }

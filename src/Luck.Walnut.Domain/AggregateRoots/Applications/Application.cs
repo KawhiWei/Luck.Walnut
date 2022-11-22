@@ -1,20 +1,31 @@
-﻿namespace Luck.Walnut.Domain.AggregateRoots.Applications
+﻿using Luck.Walnut.Domain.Shared.Enums;
+
+namespace Luck.Walnut.Domain.AggregateRoots.Applications
 {
     /// <summary>
     /// 应用
     /// </summary>
     public class Application : FullAggregateRoot
     {
-        public Application(string englishName, string departmentName, string chinessName, string linkMan, string appId, string status)
+        public Application( string projectId,string englishName, string departmentName, string chineseName, string principal, string appId, ApplicationStateEnum applicationState, string? describe, string? codeWarehouseAddress, ApplicationLevelEnum applicationLevel)
         {
+            ProjectId = projectId;
             EnglishName = englishName;
             DepartmentName = departmentName;
-            ChinessName = chinessName;
-            LinkMan = linkMan;
+            ChineseName = chineseName;
+            Principal = principal;
             AppId = appId;
-            Status = status;
+            ApplicationState = applicationState;
+            Describe = describe;
+            CodeWarehouseAddress = codeWarehouseAddress;
+            ApplicationLevel = applicationLevel;
         }
 
+        /// <summary>
+        /// 项目id
+        /// </summary>
+        /// <returns></returns>
+        public  string ProjectId { get; private set; } 
         /// <summary>
         /// 应用服务名称
         /// </summary>
@@ -28,31 +39,49 @@
         /// <summary>
         /// 应用中文名称
         /// </summary>
-        public string ChinessName { get; private set; }
+        public string ChineseName { get; private set; }
 
         /// <summary>
         /// 联系人
         /// </summary>
-        public string LinkMan { get; private set; }
+        public string Principal { get; private set; }
 
         /// <summary>
         /// 应用唯一标识
         /// </summary>
         public string AppId { get; private set; }
+        
+        /// <summary>
+        /// 应用保障等级
+        /// </summary>
+        public ApplicationLevelEnum ApplicationLevel { get; private set; }
+        
+        /// <summary>
+        /// 代码仓库地址
+        /// </summary>
+        public string? CodeWarehouseAddress { get; private set; }
 
         /// <summary>
         /// 应用状态
         /// </summary>
-        public string Status { get; private set; }
+        public ApplicationStateEnum ApplicationState { get; private set; }
+        
+        /// <summary>
+        /// 需求描述
+        /// </summary>
+        public string? Describe { get; private set; }
 
-        public Application UpdateInfo(string englishName, string departmentName, string chinessName, string linkMan, string appId, string status)
+        public Application UpdateInfo(string projectId,string englishName, string departmentName, string chinessName, string linkMan, string appId, ApplicationStateEnum applicationState, string? describe, string? codeWarehouseAddress)
         {
+            ProjectId = projectId;
             EnglishName = englishName;
             DepartmentName = departmentName;
-            ChinessName = chinessName;
-            LinkMan = linkMan;
+            ChineseName = chinessName;
+            Principal = linkMan;
             AppId = appId;
-            Status = status;
+            ApplicationState = applicationState;
+            Describe = describe;
+            CodeWarehouseAddress = codeWarehouseAddress;
             return this;
         }
     }

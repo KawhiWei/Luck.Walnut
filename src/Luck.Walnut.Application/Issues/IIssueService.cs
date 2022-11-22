@@ -1,6 +1,6 @@
 using Luck.Walnut.Dto.Issues;
 
-namespace Luck.Walnut.Application.Matters;
+namespace Luck.Walnut.Application.Issues;
 
 public interface IIssueService:IScopedDependency
 {

@@ -13,6 +13,7 @@ namespace Luck.Walnut.Api.AppModules
     {
         public override void ConfigureServices(ConfigureServicesContext context)
         {
+            context.Services.AddHttpClient();
             base.ConfigureServices(context);
             
         }

@@ -1,14 +1,14 @@
 
 using Luck.Walnut.Domain.Shared.Enums;
 
-namespace Luck.Walnut.Domain.AggregateRoots.Matters;
+namespace Luck.Walnut.Domain.AggregateRoots.Issues;
 
 /// <summary>
 /// 事项
 /// </summary>
 public class Issue: FullAggregateRoot
 {
-    public Issue(string name, string describe, string projectId, ComplexityEnum complexity, PriorityLevelEnum priorityLevel, string productPrincipal, string mainProductManager, string productAim, MatterTypeEnum matterType, DateTimeOffset planOnlineTime, List<string> productManagers)
+    public Issue(string name, string describe, string projectId, ComplexityEnum complexity, PriorityLevelEnum priorityLevel, string productPrincipal, string mainProductManager, string productAim, MatterTypeEnum matterType, DateOnly planOnlineTime, List<string> productManagers)
     {
         Name = name;
         Describe = describe;
@@ -73,7 +73,7 @@ public class Issue: FullAggregateRoot
     /// <summary>
     /// 计划上线时间
     /// </summary>
-    public DateTimeOffset PlanOnlineTime { get; private set; } 
+    public DateOnly PlanOnlineTime { get; private set; } 
     
     /// <summary>
     /// 产品经理

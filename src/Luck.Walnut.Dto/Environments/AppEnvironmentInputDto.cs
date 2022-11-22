@@ -3,7 +3,10 @@
     public class AppEnvironmentInputDto
     {
 
-
+        /// <summary>
+        /// 环境中文名称
+        /// </summary>
+        public string EnvironmentChinesName { get;  set; }= default!;
         /// <summary>
         /// 环境名称
         /// </summary>

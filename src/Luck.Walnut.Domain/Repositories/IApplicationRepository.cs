@@ -1,6 +1,4 @@
-using Luck.Framework.Infrastructure.DependencyInjectionModule;
 using Luck.Walnut.Domain.AggregateRoots.Applications;
-using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Applications;
 
 namespace Luck.Walnut.Domain.Repositories;
@@ -12,5 +10,12 @@ public interface IApplicationRepository : IAggregateRootRepository<Application,s
 
     Task<Application?> FindFirstOrDefaultByAppIdAsync(string appId);
 
-    Task<IEnumerable<ApplicationOutputDto>> FindListAsync(PageBaseInputDto baseInputDto);
+    Task<(ApplicationOutputDto[] Data, int TotalCount)> GetApplicationPageListAsync(ApplicationQueryDto query);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="appId"></param>
+    /// <returns></returns>
+    Task<ApplicationOutputDto> FindFirstOrDefaultOutputDtoByAppIdAsync(string appId);
 }

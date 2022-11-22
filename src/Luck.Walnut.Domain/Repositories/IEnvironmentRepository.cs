@@ -1,4 +1,3 @@
-using Luck.Framework.Infrastructure.DependencyInjectionModule;
 using Luck.Walnut.Domain.AggregateRoots.Environments;
 using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.Environments;

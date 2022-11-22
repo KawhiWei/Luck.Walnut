@@ -7,7 +7,7 @@
     {
 
 
-        public string Id { get; set; }
+        public string Id { get; set; } = default!;
 
         /// <summary>
         /// 配置项Key
@@ -27,7 +27,7 @@
         /// <summary>
         /// 是否公开(其他应用是否可获取)
         /// </summary>
-        public bool IsOpen { get; set; } = default!;
+        public bool IsOpen { get; set; }
 
         /// <summary>
         /// 组
@@ -37,7 +37,7 @@
         /// <summary>
         /// 是否发布
         /// </summary>
-        public bool IsPublish { get; set; } = default!;
+        public bool IsPublish { get; set; }
     }
 
 

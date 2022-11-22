@@ -4,5 +4,13 @@ namespace Luck.Walnut.Dto.Projects;
 
 public class ProjectOutputDto:ProjectBaseDto
 {
+    /// <summary>
+    /// 唯一Id
+    /// </summary>
+    public string Id { get; set; } = default!;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public string ProjectStatusName => ProjectStatus.ToDescription();
 }

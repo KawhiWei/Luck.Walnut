@@ -1,8 +1,8 @@
-using Luck.Walnut.Domain.AggregateRoots.Matters;
+using Luck.Walnut.Domain.AggregateRoots.Issues;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Dto.Issues;
 
-namespace Luck.Walnut.Application.Matters;
+namespace Luck.Walnut.Application.Issues;
 
 public class IssueService : IIssueService
 {

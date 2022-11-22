@@ -1,33 +1,36 @@
 ﻿namespace Luck.Walnut.Domain.AggregateRoots.Environments
 {
-    
     public class AppConfiguration : FullEntity
     {
+        /// <summary>
+        /// 应用Id
+        /// </summary>
+        public string AppId { get; private set; }
 
         /// <summary>
         /// 配置项Key
         /// </summary>
-        public string Key { get; private set; } = default!;
+        public string Key { get; private set; }
 
         /// <summary>
         /// 配置项Value
         /// </summary>
-        public string Value { get; private set; } = default!;
+        public string Value { get; private set; }
 
         /// <summary>
         /// 配置项类型
         /// </summary>
-        public string Type { get; private set; } = default!;
+        public string Type { get; private set; }
 
         /// <summary>
         /// 是否公开(其他应用是否可获取)
         /// </summary>
-        public bool IsOpen { get; private set; } = default!;
+        public bool IsOpen { get; private set; }
 
         /// <summary>
         /// 是否发布
         /// </summary>
-        public bool IsPublish { get; private set; } = default!;
+        public bool IsPublish { get; private set; }
 
         /// <summary>
         /// 环境Id
@@ -39,13 +42,24 @@
         /// </summary>
         public string? Group { get; private set; } = default!;
 
-        private AppConfiguration()
-        {
+        /// <summary>
+        /// 
+        /// </summary>
+        public AppEnvironment AppEnvironment { get; } = default!;
 
-        }
 
-        public AppConfiguration(string key, string value, string type,bool isOpen, string? group) :this()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="type"></param>
+        /// <param name="isOpen"></param>
+        /// <param name="group"></param>
+        public AppConfiguration(string appId, string key, string value, string type, bool isOpen, string? group)
         {
+            AppId = appId;
             Key = key;
             Value = value;
             Type = type;
@@ -66,14 +80,12 @@
 
         public AppConfiguration ChangeKey(string key)
         {
-
             this.Key = key;
             return this;
         }
 
         public AppConfiguration ChangeValue(string value)
         {
-
             this.Value = value;
             return this;
         }
@@ -81,7 +93,6 @@
 
         public AppConfiguration ChangeType(string type)
         {
-
             this.Type = type;
             return this;
         }
@@ -92,8 +103,6 @@
         /// <param name="isOpen"></param>
         public AppConfiguration ChangeOpen(bool isOpen)
         {
-
-
             this.IsOpen = isOpen;
             return this;
         }
@@ -102,14 +111,10 @@
         /// 更改发布
         /// </summary>
         /// <param name="isPublish"></param>
-
         public AppConfiguration ChangePublish(bool isPublish)
         {
-
             this.IsPublish = isPublish;
             return this;
         }
-
     }
-
 }
