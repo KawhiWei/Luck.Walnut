@@ -17,4 +17,11 @@
 <ItemGroup>
   <PackageReference Include="Luck.WebSocket.Server" Version="1.0.0" />
 </ItemGroup>
+
+<ItemGroup>
+  <None Remove="Templates\JenkinsCIPipeLine.cshtml" />
+  <EmbeddedResource Include="Templates\JenkinsCIPipeLine.cshtml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </EmbeddedResource>
+</ItemGroup>
 </Project>

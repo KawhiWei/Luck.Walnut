@@ -1,3 +1,5 @@
+using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
+
 namespace Luck.Walnut.Adapter.JenkinsAdapter;
 
 public static class JenkinsPipeLineTemplates
@@ -48,22 +50,40 @@ kind: Pod
 metadata:
 namespace: luck-infrastructure
 spec:
-  containers:
-  - name: jnlp
-    image: registry.cn-hangzhou.aliyuncs.com/luck-walunt/inbound-agent:4.10-3-v1
-    workingDir: /home/jenkins/agent
-    command:
-    args:
-    tty: true
-  - name: docker
-    image: registry.cn-hangzhou.aliyuncs.com/luck-walunt/kaniko-executor:v1.9.0-debug-v1
-    workingDir: /home/jenkins/agent
-    command:
-    - cat
-    args:
-    tty: true
+  containers: @Containers
     """"""          
         }
     }
 ";
 }
+
+// public const string PipelineTemplate = @"
+// pipeline {
+//     agent {
+//         kubernetes {
+//             defaultContainer 'jnlp'
+//             yaml """"""
+// apiVersion: v1
+// kind: Pod
+// metadata:
+// namespace: luck-infrastructure
+// spec:
+//   containers:
+//   - name: jnlp
+//     image: registry.cn-hangzhou.aliyuncs.com/luck-walunt/inbound-agent:4.10-3-v1
+//     workingDir: /home/jenkins/agent
+//     command:
+//     args:
+//     tty: true
+//   - name: docker
+//     image: registry.cn-hangzhou.aliyuncs.com/luck-walunt/kaniko-executor:v1.9.0-debug-v1
+//     workingDir: /home/jenkins/agent
+//     command:
+//     - cat
+//     args:
+//     tty: true
+//     """"""          
+//         }
+//     }
+// ";
+// }

@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using Luck.Framework.Exceptions;
@@ -8,6 +9,8 @@ using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto.ApplicationPipelines;
+using RazorEngine;
+using RazorEngine.Templating;
 
 namespace Luck.Walnut.Application.ApplicationPipelines;
 
@@ -81,19 +84,26 @@ public class ApplicationPipelineService : IApplicationPipelineService
         }
         var dslScript = GetDsl(applicationPipeline.PipelineScript);
         node.InnerText = dslScript;
-        Console.WriteLine(xmlDocument.ToString());
+        // Console.WriteLine(xmlDocument.InnerXml);
+
+        PipelineMetaData pipelineMetaData = new PipelineMetaData(GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0"), applicationPipeline.PipelineScript.ToList());
+        var template = GetPipelineTemplate();
+        var code=Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
+        Console.WriteLine(code);
         
         
         
-        var replace = JenkinsPipeLineTemplates.PipelineXml.Replace("@Pipeline", dslScript);
+        
+        
+        
         var job = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
         if (job is null)
         {
-            await _jenkinsIntegration.CreateJenkinsJobAsync(applicationPipeline.Name, replace);
+            await _jenkinsIntegration.CreateJenkinsJobAsync(applicationPipeline.Name, xmlDocument.InnerXml);
         }
         else
         {
-            await _jenkinsIntegration.UpdateJenkinsJobAsync(applicationPipeline.Name, replace);
+            await _jenkinsIntegration.UpdateJenkinsJobAsync(applicationPipeline.Name, xmlDocument.InnerXml);
         }
 
         applicationPipeline.SetPublished(true);
@@ -175,10 +185,42 @@ public class ApplicationPipelineService : IApplicationPipelineService
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
     }
 
+    private string GetContainersString(List<Container> containers)
+    {
+        var stringBuilder = new StringBuilder();
+        foreach (var container in containers)
+        {
+            stringBuilder.Append($@"  
+  - name: {container.ContainerName}
+    image: {container.ImageName}
+    workingDir: {container.WorkingDir}
+    command: {GetCommandValue(container.CommandArr)}
+    args: 
+    {GetCommandValue(container.ArgsArr)} tty: true");
+        }
+        return stringBuilder.ToString();
+    }
+
+
+
+    private string GetCommandValue(string [] arrays)
+    {
+        var stringBuilder = new StringBuilder();
+        foreach (var array in arrays)
+        {
+            stringBuilder.Append($@"- {array}");
+        }
+
+        return stringBuilder.ToString();
+    }
+    
+    
 
     private string GetDsl(IEnumerable<Stage> stages)
     {
-        StringBuilder stringBuilder = new StringBuilder(JenkinsPipeLineTemplates.PipelineTemplate);
+        var containerList = GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0");
+        var containerString = GetContainersString(containerList);
+        StringBuilder stringBuilder = new StringBuilder(JenkinsPipeLineTemplates.PipelineTemplate.Replace("@Containers",containerString));
         stringBuilder.Append(@"    stages {");
         foreach (var stage in stages)
         {
@@ -218,5 +260,32 @@ public class ApplicationPipelineService : IApplicationPipelineService
         stringBuilder.Append(@"
 }");
         return stringBuilder.ToString();
+    }
+    
+    
+    private  List<Container> GetContainerList(string compileImage)=> new()
+    {
+        new Container("jnlp","registry.cn-hangzhou.aliyuncs.com/luck-walunt/inbound-agent:4.10-3-v1","/home/jenkins/agent"),
+        new Container("build",compileImage,"/home/jenkins/agent").SetCommandArr(new []{"sleep"}),
+        new Container("docker","registry.cn-hangzhou.aliyuncs.com/luck-walunt/kaniko-executor:v1.9.0-debug-v1","/home/jenkins/agent").SetCommandArr(new []{"cat"}),
+    };
+
+    /// <summary>
+    /// 读取Pipeline模板
+    /// </summary>
+    /// <returns></returns>
+    private string GetPipelineTemplate()
+    {
+        string projectName = Assembly.GetExecutingAssembly().GetName().Name.ToString();
+        string resName = $"{projectName}.Templates.JenkinsCIPipeLine.cshtml";
+        Stream stream = GetType().Assembly.GetManifestResourceStream(resName);
+        if (stream == null)
+        {
+            throw new BusinessException("没有找到对应的模板");
+        }
+        using (StreamReader reader = new StreamReader(stream))
+        {
+            return reader.ReadToEnd();
+        }
     }
 }

@@ -58,16 +58,16 @@ builder.Services.AddSwaggerGen();
 var test = Environment.GetEnvironmentVariable("AppId");
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-builder.Services.AddHostedService<JenkinsExecutedRecordSyncBackgroundService>();
-builder.Services.AddOpenTelemetryTracing(b =>
-{
-    b.AddConsoleExporter()
-        .AddSource(test)
-        .SetResourceBuilder(ResourceBuilder.CreateDefault()
-            .AddService(serviceName: test, serviceVersion: "1.0.0"))
-        .AddAspNetCoreInstrumentation();
-    // The rest of your setup code goes here too
-})
+// builder.Services.AddHostedService<JenkinsExecutedRecordSyncBackgroundService>();
+// builder.Services.AddOpenTelemetryTracing(b =>
+// {
+//     b.AddConsoleExporter()
+//         .AddSource(test)
+//         .SetResourceBuilder(ResourceBuilder.CreateDefault()
+//             .AddService(serviceName: test, serviceVersion: "1.0.0"))
+//         .AddAspNetCoreInstrumentation();
+//     // The rest of your setup code goes here too
+// })
 //     .AddOpenTelemetryMetrics(x =>
 // {
 //     var a = ResourceBuilder.CreateDefault()
@@ -77,7 +77,7 @@ builder.Services.AddOpenTelemetryTracing(b =>
 //         .AddAspNetCoreInstrumentation();
 //     x.AddConsoleExporter();
 // })
-    ;
+//     ;
 
 var app = builder.Build();
 app.UsePathBase("/walnut");

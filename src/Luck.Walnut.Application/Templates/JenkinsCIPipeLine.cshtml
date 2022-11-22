@@ -1,0 +1,49 @@
+@using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines
+@{
+
+    PipelineMetaData metadata = Model;
+}
+<text>
+pipeline {
+    agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+namespace: luck-infrastructure
+spec:
+</text>
+<text>containers:</text>
+    @foreach(var container  in metadata.Containers)
+    {
+        <text>
+    - name: @container.ContainerName
+      image: @container.ImageName
+      workingDir: @container.WorkingDir
+      command:
+   
+        @foreach (var command in container.CommandArr)
+        {
+            <text>
+      - @command</text>
+        }
+      args:
+        @foreach (var command in container.CommandArr)
+        {
+            <text>
+      - @command</text>
+        }
+        <text>
+      tty: true
+        </text>
+    
+        </text>
+    }
+<text>
+"""     
+</text>
+        }
+    }
+}
