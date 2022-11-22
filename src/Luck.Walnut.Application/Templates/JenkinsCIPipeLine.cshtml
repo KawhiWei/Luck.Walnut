@@ -3,7 +3,7 @@
 
     PipelineMetaData metadata = Model;
 }
-<text>
+
 pipeline {
     agent {
         kubernetes {
@@ -14,36 +14,46 @@ kind: Pod
 metadata:
 namespace: luck-infrastructure
 spec:
-</text>
-<text>containers:</text>
-    @foreach(var container  in metadata.Containers)
+  containers:
+  @{
+    foreach (var container in metadata.Containers)
     {
         <text>
-    - name: @container.ContainerName
-      image: @container.ImageName
-      workingDir: @container.WorkingDir
-      command:
-   
-        @foreach (var command in container.CommandArr)
-        {
-            <text>
-      - @command</text>
-        }
-      args:
-        @foreach (var command in container.CommandArr)
-        {
-            <text>
-      - @command</text>
-        }
-        <text>
-      tty: true
+            -name: @container.ContainerName
         </text>
-    
+        <text>
+            image: @container.ImageName
+        </text>
+        <text>
+            workingDir: @container.WorkingDir
+        </text>
+        <text>
+            command:@foreach (var command in container.CommandArr)
+            {
+                <text>
+                    - @command
+                </text>
+            }
+        </text>
+        <text>
+            args:@foreach (var command in container.CommandArr)
+            {
+                <text>
+                  - @command
+                 </text>
+            }
+        </text>
+        <text>
+            tty: true
         </text>
     }
-<text>
-"""     
-</text>
+
+    }
+
+
+
+
+        
         }
     }
 }
