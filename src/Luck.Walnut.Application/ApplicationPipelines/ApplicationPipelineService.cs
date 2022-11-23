@@ -1,8 +1,4 @@
-using System.Reflection;
-using System.Text;
-using System.Xml;
 using Luck.Framework.Exceptions;
-using Luck.Framework.Extensions;
 using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Adapter.JenkinsAdapter;
 using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
@@ -11,6 +7,9 @@ using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto.ApplicationPipelines;
 using RazorEngine;
 using RazorEngine.Templating;
+using System.Reflection;
+using System.Text;
+using System.Xml;
 
 namespace Luck.Walnut.Application.ApplicationPipelines;
 
@@ -74,10 +73,10 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
 
         await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
-        
+
         var xmlDocument = new XmlDocument();
         xmlDocument.LoadXml(JenkinsPipeLineTemplates.PipelineXml);
-        var node= xmlDocument.SelectSingleNode("flow-definition/definition/script");
+        var node = xmlDocument.SelectSingleNode("flow-definition/definition/script");
         if (node is null)
         {
             throw new BusinessException($"流水线不存在");
@@ -88,14 +87,14 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
         PipelineMetaData pipelineMetaData = new PipelineMetaData(GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0"), applicationPipeline.PipelineScript.ToList());
         var template = GetPipelineTemplate();
-        var code=Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
+        var code = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
         Console.WriteLine(code);
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         var job = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
         if (job is null)
         {
@@ -203,7 +202,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
 
 
-    private string GetCommandValue(string [] arrays)
+    private string GetCommandValue(string[] arrays)
     {
         var stringBuilder = new StringBuilder();
         foreach (var array in arrays)
@@ -213,14 +212,14 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
         return stringBuilder.ToString();
     }
-    
-    
+
+
 
     private string GetDsl(IEnumerable<Stage> stages)
     {
         var containerList = GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0");
         var containerString = GetContainersString(containerList);
-        StringBuilder stringBuilder = new StringBuilder(JenkinsPipeLineTemplates.PipelineTemplate.Replace("@Containers",containerString));
+        StringBuilder stringBuilder = new StringBuilder(JenkinsPipeLineTemplates.PipelineTemplate.Replace("@Containers", containerString));
         stringBuilder.Append(@"    stages {");
         foreach (var stage in stages)
         {
@@ -261,9 +260,9 @@ public class ApplicationPipelineService : IApplicationPipelineService
 }");
         return stringBuilder.ToString();
     }
-    
-    
-    private  List<Container> GetContainerList(string compileImage)=> new()
+
+
+    private List<Container> GetContainerList(string compileImage) => new()
     {
         new Container("jnlp","registry.cn-hangzhou.aliyuncs.com/luck-walunt/inbound-agent:4.10-3-v1","/home/jenkins/agent"),
         new Container("build",compileImage,"/home/jenkins/agent").SetCommandArr(new []{"sleep"}),
