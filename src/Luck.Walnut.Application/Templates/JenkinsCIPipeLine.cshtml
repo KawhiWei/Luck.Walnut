@@ -17,37 +17,23 @@ spec:
   containers:
   @foreach (var container in metadata.Containers)
 {
-@:- name: @container.ContainerName
+@:  - name: @container.ContainerName
     @:image: @container.ImageName
     @:workingDir: @container.WorkingDir
     @:command:
    @foreach (var command in container.CommandArr)
     {
-    @:@command
+    @:- @command
     }
     @:args: 
-    @foreach (var command in container.CommandArr)
+    @foreach (var command in container.ArgsArr)
     {
-    @:-@command
+    @:- @command
     }
     @:tty: true
 }
-@*  @{
-    foreach (var container in metadata.Containers)
- { @:-name:@container.ContainerName
-     @:image:@container.ImageName
-     @:workingDir:@container.WorkingDir
-     @:command:@foreach (var command in container.CommandArr)
-     {
-     @:@command
-     }
-     @:args:@foreach (var command in container.CommandArr)
-     {
-     @:-@command
-     }
-     @:tty: true
-    }
-    }*@
+"""
         }
     }
+
 }
