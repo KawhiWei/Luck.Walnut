@@ -2,6 +2,7 @@
 @{
 
     PipelineMetaData metadata = Model;
+
 }
 
 pipeline {
@@ -36,7 +37,7 @@ spec:
         }
     }
     stages{
-        @metadata.PipelineScript
+        @Raw(metadata.PipelineScript)
     }
 
 }
