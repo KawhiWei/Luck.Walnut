@@ -187,8 +187,8 @@ public class ApplicationPipelineService : IApplicationPipelineService
         StringBuilder stringBuilder = new StringBuilder();
         foreach (var stage in stages)
         {
-            stringBuilder.Append($@"stage('{stage.Name}')");
-            stringBuilder.Append(@" {");
+            stringBuilder.Append($"stage('{stage.Name}')");
+            stringBuilder.Append('{');
             foreach (var step in stage.Steps)
             {
                 stringBuilder.Append(@"
