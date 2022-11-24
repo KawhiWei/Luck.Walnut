@@ -79,17 +79,15 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var node = xmlDocument.SelectSingleNode("flow-definition/definition/script");
         if (node is null)
         {
-            throw new BusinessException($"流水线不存在");
+            throw new BusinessException($"流水线的基础xml格式错误");
         }
-        var dslScript = GetPipelineScript(applicationPipeline.PipelineScript);
-        node.InnerText = dslScript;
-        // Console.WriteLine(xmlDocument.InnerXml);
-
-        PipelineMetaData pipelineMetaData = new PipelineMetaData(GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0"), applicationPipeline.PipelineScript.ToList(),dslScript);
+        var pipelineScript = GetPipelineScript(applicationPipeline.PipelineScript);
+        var pipelineMetaData = new PipelineMetaData(GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0"), applicationPipeline.PipelineScript.ToList(),pipelineScript);
         var template = GetPipelineTemplate();
-        var code = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
-        Console.WriteLine(code);
-
+        var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
+        Console.WriteLine(dslScript);
+        node.InnerText = dslScript;
+        Console.WriteLine(xmlDocument.InnerXml);
 
 
 
