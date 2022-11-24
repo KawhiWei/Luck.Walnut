@@ -4,10 +4,11 @@ namespace Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 
 public class PipelineMetaData
 {
-    public PipelineMetaData(List<Container> containers, List<Stage> stages)
+    public PipelineMetaData(List<Container> containers, List<Stage> stages, string pipelineScript)
     {
         Containers = containers;
         Stages = stages;
+        PipelineScript = pipelineScript;
     }
 
     /// <summary>
@@ -19,6 +20,10 @@ public class PipelineMetaData
     /// 流水线数据
     /// </summary>
     public List<Stage> Stages { get; private set; }
+    /// <summary>
+    /// 流水线数据
+    /// </summary>
+    public string PipelineScript { get; private set; }
 }
 
 public class CodeData

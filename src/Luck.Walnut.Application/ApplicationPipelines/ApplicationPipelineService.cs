@@ -81,11 +81,11 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             throw new BusinessException($"流水线不存在");
         }
-        var dslScript = GetDsl(applicationPipeline.PipelineScript);
+        var dslScript = GetPipelineScript(applicationPipeline.PipelineScript);
         node.InnerText = dslScript;
         // Console.WriteLine(xmlDocument.InnerXml);
 
-        PipelineMetaData pipelineMetaData = new PipelineMetaData(GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0"), applicationPipeline.PipelineScript.ToList());
+        PipelineMetaData pipelineMetaData = new PipelineMetaData(GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0"), applicationPipeline.PipelineScript.ToList(),dslScript);
         var template = GetPipelineTemplate();
         var code = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
         Console.WriteLine(code);
@@ -184,47 +184,12 @@ public class ApplicationPipelineService : IApplicationPipelineService
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
     }
 
-    private string GetContainersString(List<Container> containers)
+    private string GetPipelineScript(IEnumerable<Stage> stages)
     {
-        var stringBuilder = new StringBuilder();
-        foreach (var container in containers)
-        {
-            stringBuilder.Append($@"  
-  - name: {container.ContainerName}
-    image: {container.ImageName}
-    workingDir: {container.WorkingDir}
-    command: {GetCommandValue(container.CommandArr)}
-    args: 
-    {GetCommandValue(container.ArgsArr)} tty: true");
-        }
-        return stringBuilder.ToString();
-    }
-
-
-
-    private string GetCommandValue(string[] arrays)
-    {
-        var stringBuilder = new StringBuilder();
-        foreach (var array in arrays)
-        {
-            stringBuilder.Append($@"- {array}");
-        }
-
-        return stringBuilder.ToString();
-    }
-
-
-
-    private string GetDsl(IEnumerable<Stage> stages)
-    {
-        var containerList = GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0");
-        var containerString = GetContainersString(containerList);
-        StringBuilder stringBuilder = new StringBuilder(JenkinsPipeLineTemplates.PipelineTemplate.Replace("@Containers", containerString));
-        stringBuilder.Append(@"    stages {");
+        StringBuilder stringBuilder = new StringBuilder();
         foreach (var stage in stages)
         {
-            stringBuilder.Append($@"
-            stage('{stage.Name}')");
+            stringBuilder.Append($@"stage('{stage.Name}')");
             stringBuilder.Append(@" {");
             foreach (var step in stage.Steps)
             {
@@ -249,15 +214,8 @@ public class ApplicationPipelineService : IApplicationPipelineService
                         throw new ArgumentOutOfRangeException();
                 }
             }
-
-            stringBuilder.Append(@"
-        }");
+            stringBuilder.Append(@"}");
         }
-
-        stringBuilder.Append(@" 
-    }");
-        stringBuilder.Append(@"
-}");
         return stringBuilder.ToString();
     }
 
