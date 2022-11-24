@@ -221,7 +221,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
     private List<Container> GetContainerList(string compileImage) => new()
     {
         new Container("jnlp","registry.cn-hangzhou.aliyuncs.com/luck-walunt/inbound-agent:4.10-3-v1","/home/jenkins/agent"),
-        new Container("build",compileImage,"/home/jenkins/agent").SetCommandArr(new []{"sleep"}),
+        new Container("build",compileImage,"/home/jenkins/agent").SetCommandArr(new []{"sleep"}).SetArgsArr(new []{ "99d"}),
         new Container("docker","registry.cn-hangzhou.aliyuncs.com/luck-walunt/kaniko-executor:v1.9.0-debug-v1","/home/jenkins/agent").SetCommandArr(new []{"cat"}),
     };
 
