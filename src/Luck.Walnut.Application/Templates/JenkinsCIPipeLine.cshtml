@@ -22,7 +22,7 @@ spec:
     @:image: @container.ImageName
     @:workingDir: @container.WorkingDir
     @:command:
-   @foreach (var command in container.CommandArr)
+    @foreach (var command in container.CommandArr)
     {
     @:- @command
     }

@@ -8,16 +8,18 @@ namespace Luck.Walnut.Query.ApplicationPipelines;
 public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
 {
     private readonly IApplicationPipelineRepository _applicationPipelineRepository;
+    private readonly IApplicationRepository _applicationRepository;
     private readonly IComponentIntegrationRepository _componentIntegrationRepository;
     private readonly IJenkinsIntegration _jenkinsIntegration;
     private readonly IApplicationPipelineExecutedRecordRepository _applicationPipelineExecutedRecordRepository;
 
-    public ApplicationPipelineQueryService(IApplicationPipelineRepository applicationPipelineRepository, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository, IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository)
+    public ApplicationPipelineQueryService(IApplicationPipelineRepository applicationPipelineRepository, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository, IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository, IApplicationRepository applicationRepository)
     {
         _applicationPipelineRepository = applicationPipelineRepository;
         _jenkinsIntegration = jenkinsIntegration;
         _componentIntegrationRepository = componentIntegrationRepository;
         _applicationPipelineExecutedRecordRepository = applicationPipelineExecutedRecordRepository;
+        _applicationRepository = applicationRepository;
     }
 
     public async Task<PageBaseResult<ApplicationPipelineOutputDto>> GetApplicationPageListAsync(string appId, ApplicationPipelineQueryDto query)
@@ -36,6 +38,11 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
     public async Task<ApplicationPipelineOutputDto> GetApplicationDetailForIdAsync(string id)
     {
         var applicationPipeline = await _applicationPipelineRepository.FindFirstByIdAsync(id);
+        var application = await _applicationRepository.FindFirstOrDefaultByAppIdAsync(applicationPipeline.AppId);
+        if (application is null)
+        {
+            throw new BusinessException($"应用不存在");
+        }
         return new ApplicationPipelineOutputDto()
         {
             Id = applicationPipeline.Id,
@@ -44,6 +51,7 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
             AppEnvironmentId = applicationPipeline.AppEnvironmentId,
             AppId = applicationPipeline.AppId,
             ComponentIntegrationId = applicationPipeline.ComponentIntegrationId,
+            CodeWarehouseAddress = application.CodeWarehouseAddress,
             PipelineScript = applicationPipeline.PipelineScript.Select(stage =>
             {
                 var steps = stage.Steps.Select(step => new StepDto()
