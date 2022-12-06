@@ -9,7 +9,9 @@ using RazorEngine;
 using RazorEngine.Templating;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Xml;
+using Luck.Framework.Extensions;
 
 namespace Luck.Walnut.Application.ApplicationPipelines;
 
@@ -81,16 +83,14 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             throw new BusinessException($"流水线的基础xml格式错误");
         }
+
         var pipelineScript = GetPipelineScript(applicationPipeline.PipelineScript);
-        var pipelineMetaData = new PipelineMetaData(GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0"), applicationPipeline.PipelineScript.ToList(),pipelineScript);
+        var pipelineMetaData = new PipelineMetaData(GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0"), applicationPipeline.PipelineScript.ToList(), pipelineScript);
         var template = GetPipelineTemplate();
         var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
         Console.WriteLine(dslScript);
         node.InnerText = dslScript;
         Console.WriteLine(xmlDocument.InnerXml);
-
-
-
 
 
         var job = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
@@ -196,13 +196,17 @@ public class ApplicationPipelineService : IApplicationPipelineService
                 switch (step.StepType)
                 {
                     case StepTypeEnum.PullCode:
-                        stringBuilder.Append(@"
+                        var pipelinePullCodeStepDto = step.Content.Deserialize<PipelinePullCodeStepDto>(new JsonSerializerOptions()
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+                        stringBuilder.Append($@"
                         checkout([
-                             $class: 'GitSCM', branches: [[name: ""main""]],
+                             $class: 'GitSCM', branches: [[name: ""{pipelinePullCodeStepDto?.Branch}""]],
                              doGenerateSubmoduleConfigurations: false,extensions: [[$class:'CheckoutOption',timeout:30],[$class:'CloneOption',depth:0,noTags:false,reference:'',shallow:false,timeout:3600]], submoduleCfg: [],
-                             userRemoteConfigs: [[ url: ""https://github.com/GeorGeWzw/Luck.Walnut.dashboard.git""]]
+                             userRemoteConfigs: [[ url: ""{pipelinePullCodeStepDto?.Git}""]]
                         ])
-                }");
+                }}");
                         break;
                     case StepTypeEnum.BuildDockerImage:
                         break;
@@ -212,17 +216,19 @@ public class ApplicationPipelineService : IApplicationPipelineService
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
             stringBuilder.Append(@"}");
         }
+
         return stringBuilder.ToString();
     }
 
 
     private List<Container> GetContainerList(string compileImage) => new()
     {
-        new Container("jnlp","registry.cn-hangzhou.aliyuncs.com/luck-walunt/inbound-agent:4.10-3-v1","/home/jenkins/agent"),
-        new Container("build",compileImage,"/home/jenkins/agent").SetCommandArr(new []{"sleep"}).SetArgsArr(new []{ "99d"}),
-        new Container("docker","registry.cn-hangzhou.aliyuncs.com/luck-walunt/kaniko-executor:v1.9.0-debug-v1","/home/jenkins/agent").SetCommandArr(new []{"cat"}),
+        new Container("jnlp", "registry.cn-hangzhou.aliyuncs.com/luck-walunt/inbound-agent:4.10-3-v1", "/home/jenkins/agent"),
+        new Container("build", compileImage, "/home/jenkins/agent").SetCommandArr(new[] { "sleep" }).SetArgsArr(new[] { "99d" }),
+        new Container("docker", "registry.cn-hangzhou.aliyuncs.com/luck-walunt/kaniko-executor:v1.9.0-debug-v1", "/home/jenkins/agent").SetCommandArr(new[] { "cat" }),
     };
 
     /// <summary>
@@ -238,6 +244,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             throw new BusinessException("没有找到对应的模板");
         }
+
         using (StreamReader reader = new StreamReader(stream))
         {
             return reader.ReadToEnd();

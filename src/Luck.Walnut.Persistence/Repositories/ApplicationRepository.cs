@@ -64,7 +64,8 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 Principal = c.Principal,
                 ProjectId = c.ProjectId,
                 Describe = c.Describe,
-                ApplicationLevel = c.ApplicationLevel
+                ApplicationLevel = c.ApplicationLevel,
+                CodeWarehouseAddress = c.CodeWarehouseAddress
             }).FirstOrDefaultAsync();
         if (application is null)
             throw new BusinessException($"应用不存在");
