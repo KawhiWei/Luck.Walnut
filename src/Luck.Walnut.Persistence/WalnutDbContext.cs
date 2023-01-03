@@ -8,6 +8,7 @@ using Luck.Walnut.Domain.AggregateRoots.Environments;
 using Luck.Walnut.Domain.AggregateRoots.Issues;
 using Luck.Walnut.Domain.AggregateRoots.Languages;
 using Luck.Walnut.Domain.AggregateRoots.Projects;
+using Luck.Walnut.Domain.AggregateRoots.BuildImages;
 
 namespace Luck.Walnut.Persistence
 {
@@ -36,6 +37,10 @@ namespace Luck.Walnut.Persistence
         public DbSet<ComponentIntegration> ComponentIntegrations => Set<ComponentIntegration>();
 
         public DbSet<ApplicationPipeline> ApplicationPipelines => Set<ApplicationPipeline>();
+
+        public DbSet<BuildImage> RunImages => Set<BuildImage>();
+
+        public DbSet<BuildImageVersion> RunImageVersions => Set<BuildImageVersion>();
 
         public DbSet<ApplicationPipelineExecutedRecord> ApplicationPipelineExecutedRecords => Set<ApplicationPipelineExecutedRecord>();
 

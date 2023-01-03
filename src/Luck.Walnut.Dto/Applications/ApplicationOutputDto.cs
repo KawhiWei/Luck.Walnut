@@ -15,10 +15,14 @@ namespace Luck.Walnut.Dto.Applications
         public string ApplicationStateName => ApplicationState.ToDescription();
         
         /// <summary>
-        /// 应用状态
+        /// 构建脚本
         /// </summary>
-        public string ApplicationLevelName => ApplicationLevel.ToDescription();
-
+        public string CompileScript  { get; set; } = default!;
+        
+        /// <summary>
+        /// 镜像名称
+        /// </summary>
+        public string BuildImageName  { get; set; } = default!;
         /// <summary>
         /// 项目名称
         /// </summary>

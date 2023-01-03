@@ -45,7 +45,16 @@ public class ApplicationBaseDto
     /// 应用级别
     /// </summary>
     public ApplicationLevelEnum ApplicationLevel { get; set; }
+
+    /// <summary>
+    /// 开发语言
+    /// </summary>
+    public string DevelopmentLanguage { get; set; } = default!;
     
+    /// <summary>
+    /// 运行平台
+    /// </summary>
+    public string BuildImageId { get; set; } = default!;
     
     /// <summary>
     /// 需求描述

@@ -3,6 +3,7 @@ using Luck.EntityFrameworkCore.Repositories;
 using Luck.Walnut.Domain.AggregateRoots.Environments;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Dto;
+using Luck.Walnut.Dto.BuildImages;
 using Luck.Walnut.Dto.Environments;
 using Microsoft.EntityFrameworkCore;
 

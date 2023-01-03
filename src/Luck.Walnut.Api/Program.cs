@@ -16,12 +16,14 @@ using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(x =>
-{
-    // x.ListenAnyIP(5094, opt => opt.Protocols = HttpProtocols.Http2);
-    x.ListenAnyIP(5099, opt => opt.Protocols = HttpProtocols.Http1);
-    x.ListenAnyIP(5264, opt => opt.Protocols = HttpProtocols.Http2);
-});
+// builder.WebHost.ConfigureKestrel(x 
+//     =>
+// {
+//     // x.ListenAnyIP(5094, opt => opt.Protocols = HttpProtocols.Http2);
+//     x.ListenAnyIP(5099, opt => opt.Protocols = HttpProtocols.Http1);
+//     x.ListenAnyIP(5264, opt => opt.Protocols = HttpProtocols.Http2);
+// }
+//     );
 
 
 // Add services to the container.
@@ -58,7 +60,7 @@ builder.Services.AddSwaggerGen();
 var test = Environment.GetEnvironmentVariable("AppId");
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-// builder.Services.AddHostedService<JenkinsExecutedRecordSyncBackgroundService>();
+builder.Services.AddHostedService<JenkinsExecutedRecordSyncBackgroundService>();
 // builder.Services.AddOpenTelemetryTracing(b =>
 // {
 //     b.AddConsoleExporter()

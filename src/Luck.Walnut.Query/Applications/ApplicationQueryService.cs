@@ -16,13 +16,18 @@ namespace Luck.Walnut.Query.Applications
         private readonly IApplicationRepository _applicationRepository;
         private readonly IProjectRepository _projectRepository;
         private readonly ILogger<ApplicationQueryService> _logger;
+        private readonly IBuildImageRepository _buildImageRepository;
+        private readonly IBuildImageVersionRepository _buildImageVersionRepository;
 
-        public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository, IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger, IProjectRepository projectRepository)
+        public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository, IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger, IProjectRepository projectRepository, IBuildImageRepository buildImageRepository,
+            IBuildImageVersionRepository buildImageVersionRepository)
         {
             _appEnvironmentRepository = appEnvironmentRepository;
             _applicationRepository = applicationRepository;
             _logger = logger;
             _projectRepository = projectRepository;
+            _buildImageRepository = buildImageRepository;
+            _buildImageVersionRepository = buildImageVersionRepository;
         }
 
 
@@ -67,11 +72,12 @@ namespace Luck.Walnut.Query.Applications
                 Principal = application.Principal,
                 ProjectId = application.ProjectId,
                 Describe = application.Describe,
-                ApplicationLevel = application.ApplicationLevel
+                ApplicationLevel = application.ApplicationLevel,
+                BuildImageId = application.BuildImageId
             };
             return applicationOutputDto;
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -97,9 +103,15 @@ namespace Luck.Walnut.Query.Applications
         {
             var application = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
             var environmentList = await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
+            var buildImage = await _buildImageRepository.FindFirstByIdAsync(application.BuildImageId);
+            var buildImageVersionList = await _buildImageVersionRepository.FindListAsync(buildImage.Id);
+
             ApplicationOutput applicationOutput = new ApplicationOutput();
             applicationOutput.Application = application;
             applicationOutput.EnvironmentList = environmentList;
+            applicationOutput.Application.CompileScript = buildImage.CompileScript;
+            applicationOutput.Application.BuildImageName = buildImage.BuildImageName;
+            applicationOutput.BuildImageVersionList = buildImageVersionList;
             return applicationOutput;
         }
     }
