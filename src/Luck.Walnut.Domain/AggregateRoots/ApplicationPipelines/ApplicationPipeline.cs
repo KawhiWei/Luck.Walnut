@@ -71,7 +71,13 @@ public class ApplicationPipeline : FullAggregateRoot
         PipelineScript = pipelineScript;
         return this;
     }
-    
+
+    public ApplicationPipeline SetName(string name)
+    {
+        Name = name;
+        return this;
+    }
+
     /// <summary>
     /// 
     /// </summary>

@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Xml;
 using Luck.Framework.Extensions;
+using Microsoft.Extensions.Primitives;
 
 namespace Luck.Walnut.Application.ApplicationPipelines;
 
@@ -60,7 +61,8 @@ public class ApplicationPipelineService : IApplicationPipelineService
             }
         ).ToList();
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
-        applicationPipeline.SetPipelineScript(pipelineScript)
+        applicationPipeline
+            .SetName(input.Name).SetPipelineScript(pipelineScript)
             .SetComponentIntegrationId(input.ComponentIntegrationId).SetPublished(false);
         _applicationPipelineRepository.Update(applicationPipeline);
         await _unitOfWork.CommitAsync();
@@ -83,9 +85,17 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             throw new BusinessException($"流水线的基础xml格式错误");
         }
+       
+        var (buildImage,pipelineScript) = GetPipelineScript(applicationPipeline.PipelineScript);
+        var defaultImageList = GetDefaultContainerList();
+        if (buildImage.IsNullOrEmpty())
+        {
+            defaultImageList.Add(new Container("build", buildImage, "/home/jenkins/agent").SetCommandArr(new[] { "sleep" }).SetArgsArr(new[] { "99d" }));
+        }
+        
 
-        var pipelineScript = GetPipelineScript(applicationPipeline.PipelineScript);
-        var pipelineMetaData = new PipelineMetaData(GetContainerList("mcr.microsoft.com/dotnet/sdk:6.0"), applicationPipeline.PipelineScript.ToList(), pipelineScript);
+
+        var pipelineMetaData = new PipelineMetaData(defaultImageList, applicationPipeline.PipelineScript.ToList(), pipelineScript);
         var template = GetPipelineTemplate();
         var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
         Console.WriteLine(dslScript);
@@ -182,8 +192,9 @@ public class ApplicationPipelineService : IApplicationPipelineService
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
     }
 
-    private string GetPipelineScript(IEnumerable<Stage> stages)
+    private (string BuildImage,string PipelineScript) GetPipelineScript(IEnumerable<Stage> stages)
     {
+        var buildImage = "";
         StringBuilder stringBuilder = new StringBuilder();
         foreach (var stage in stages)
         {
@@ -196,38 +207,53 @@ public class ApplicationPipelineService : IApplicationPipelineService
                 switch (step.StepType)
                 {
                     case StepTypeEnum.PullCode:
-                        var pipelinePullCodeStepDto = step.Content.Deserialize<PipelinePullCodeStepDto>(new JsonSerializerOptions()
+                        var pipelinePullCodeStep = step.Content.Deserialize<PipelinePullCodeStepDto>(new JsonSerializerOptions()
                         {
                             PropertyNameCaseInsensitive = true
                         });
+                        if(pipelinePullCodeStep is null)
+                        {
+                            break;
+                        }
                         stringBuilder.Append($@"
                         checkout([
-                             $class: 'GitSCM', branches: [[name: ""{pipelinePullCodeStepDto?.Branch}""]],
+                             $class: 'GitSCM', branches: [[name: ""{pipelinePullCodeStep?.Branch}""]],
                              doGenerateSubmoduleConfigurations: false,extensions: [[$class:'CheckoutOption',timeout:30],[$class:'CloneOption',depth:0,noTags:false,reference:'',shallow:false,timeout:3600]], submoduleCfg: [],
-                             userRemoteConfigs: [[ url: ""{pipelinePullCodeStepDto?.Git}""]]
-                        ])
-                }}");
+                             userRemoteConfigs: [[ url: ""{pipelinePullCodeStep?.Git}""]]
+                        ])");
                         break;
                     case StepTypeEnum.BuildDockerImage:
+                        var pipelineBuildImageStep = step.Content.Deserialize<PipelineBuildImageStepDto>(new JsonSerializerOptions()
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+                        if (pipelineBuildImageStep is null)
+                        {
+                            break;
+                        }
+                        buildImage = $"{pipelineBuildImageStep.BuildImageName}:{pipelineBuildImageStep.Version}";
+                        ;
+
                         break;
                     case StepTypeEnum.ExecuteCommand:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                stringBuilder.Append($@"
+                }}");
             }
-
-            stringBuilder.Append(@"}");
+            stringBuilder.Append(@"
+            }");
         }
 
-        return stringBuilder.ToString();
+        return (buildImage,stringBuilder.ToString());
     }
 
 
-    private List<Container> GetContainerList(string compileImage) => new()
+    private List<Container> GetDefaultContainerList() => new()
     {
         new Container("jnlp", "registry.cn-hangzhou.aliyuncs.com/luck-walunt/inbound-agent:4.10-3-v1", "/home/jenkins/agent"),
-        new Container("build", compileImage, "/home/jenkins/agent").SetCommandArr(new[] { "sleep" }).SetArgsArr(new[] { "99d" }),
         new Container("docker", "registry.cn-hangzhou.aliyuncs.com/luck-walunt/kaniko-executor:v1.9.0-debug-v1", "/home/jenkins/agent").SetCommandArr(new[] { "cat" }),
     };
 
@@ -237,17 +263,19 @@ public class ApplicationPipelineService : IApplicationPipelineService
     /// <returns></returns>
     private string GetPipelineTemplate()
     {
-        string projectName = Assembly.GetExecutingAssembly().GetName().Name.ToString();
-        string resName = $"{projectName}.Templates.JenkinsCIPipeLine.cshtml";
-        Stream stream = GetType().Assembly.GetManifestResourceStream(resName);
+        var projectName = Assembly.GetExecutingAssembly().GetName().Name;
+        if (projectName!.IsNullOrEmpty())
+        {
+            throw new BusinessException("没有找到对应的程序集");
+        }
+        var resName = $"{projectName}.Templates.JenkinsCIPipeLine.cshtml";
+        var stream = GetType().Assembly.GetManifestResourceStream(resName);
         if (stream == null)
         {
             throw new BusinessException("没有找到对应的模板");
         }
 
-        using (StreamReader reader = new StreamReader(stream))
-        {
-            return reader.ReadToEnd();
-        }
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd();
     }
 }

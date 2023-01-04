@@ -19,6 +19,7 @@
 </ItemGroup>
 
 <ItemGroup>
+  <None Remove="ApplicationPipelines\ApplicationPipelineService.cs~RF5d89536b.TMP" />
   <None Remove="Templates\JenkinsCIPipeLine.cshtml" />
   <EmbeddedResource Include="Templates\JenkinsCIPipeLine.cshtml">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
