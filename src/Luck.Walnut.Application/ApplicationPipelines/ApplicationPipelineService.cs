@@ -165,15 +165,15 @@ public class ApplicationPipelineService : IApplicationPipelineService
                 if (jenkinsJobDetailDto is not null)
                 {
                     var logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
-                    switch (jenkinsJobDetailDto.Result)
+                    if (jenkinsJobDetailDto.Result != "SUCCESS")
                     {
-                        case "FAILURE":
-                            logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
-                            applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Fail).SetBuildLogs(logs);
-                            break;
-                        case "SUCCESS":
-                            applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Success).SetBuildLogs(logs);
-                            break;
+                        logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
+                        applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Fail).SetBuildLogs(logs);
+                    }
+                    else
+                    {
+                        logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
+                        applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Fail).SetBuildLogs(logs);
                     }
                 }
             }

@@ -52,24 +52,28 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
 
     public async Task<ApplicationOutputDto> FindFirstOrDefaultOutputDtoByAppIdAsync(string appId)
     {
-        var application = await FindAll(x => x.AppId == appId)
-            .Select(c => new ApplicationOutputDto
-            {
-                Id = c.Id,
-                AppId = c.AppId,
-                ApplicationState = c.ApplicationState,
-                EnglishName = c.EnglishName,
-                ChineseName = c.ChineseName,
-                DepartmentName = c.DepartmentName,
-                Principal = c.Principal,
-                ProjectId = c.ProjectId,
-                Describe = c.Describe,
-                ApplicationLevel = c.ApplicationLevel,
-                CodeWarehouseAddress = c.CodeWarehouseAddress,
-            }).FirstOrDefaultAsync();
+        var application = await FindAll(x => x.AppId == appId).FirstOrDefaultAsync();
         if (application is null)
             throw new BusinessException($"应用不存在");
-        return application;
+
+        ApplicationOutputDto dto = new ApplicationOutputDto()
+        {
+            Id = application.Id,
+            AppId = application.AppId,
+            ApplicationState = application.ApplicationState,
+            EnglishName = application.EnglishName,
+            ChineseName = application.ChineseName,
+            DepartmentName = application.DepartmentName,
+            Principal = application.Principal,
+            ProjectId = application.ProjectId,
+            Describe = application.Describe,
+            ApplicationLevel = application.ApplicationLevel,
+            CodeWarehouseAddress = application.CodeWarehouseAddress,
+            CompileScript = application.BuildImage.CompileScript,
+            BuildImageName = application.BuildImage.BuildImageName,
+            BuildImageId= application.BuildImage.BuildImageId,
+        };
+        return dto;
     }
 
     public async Task<(ApplicationOutputDto[] Data, int TotalCount)> GetApplicationPageListAsync(ApplicationQueryDto query)

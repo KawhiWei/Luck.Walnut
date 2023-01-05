@@ -102,14 +102,11 @@ namespace Luck.Walnut.Query.Applications
         {
             var application = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
             var environmentList = await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
-            var buildImage = await _buildImageRepository.FindFirstByIdAsync(application.BuildImageId);
-            var buildImageVersionList = await _buildImageVersionRepository.FindListAsync(buildImage.Id);
+            var buildImageVersionList = await _buildImageVersionRepository.FindListAsync(application.Id);
 
             ApplicationOutput applicationOutput = new ApplicationOutput();
             applicationOutput.Application = application;
             applicationOutput.EnvironmentList = environmentList;
-            applicationOutput.Application.CompileScript = buildImage.CompileScript;
-            applicationOutput.Application.BuildImageName = buildImage.BuildImageName;
             applicationOutput.BuildImageVersionList = buildImageVersionList;
             return applicationOutput;
         }

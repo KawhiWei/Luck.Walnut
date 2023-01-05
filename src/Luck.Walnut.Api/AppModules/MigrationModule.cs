@@ -25,19 +25,19 @@ namespace Luck.Walnut.Api.AppModules
                 if (isExist)
                 {
                     var project = GetProject();
-                    var image = GetBuildImage();
+                    var buildImage = GetBuildImage();
                     var application = GetApplication(project);
                     moduleDbContext.Projects.Add(project);
 
-                    application.SetImageWarehouse(new Domain.AggregateRoots.Applications.BuildImage(image.Name, image
-                            .BuildImageName, image.CompileScript, image.RunImageVersions.First().Version))
+                    application.SetImageWarehouse(new Domain.AggregateRoots.Applications.BuildImage(buildImage.Name, buildImage
+                            .BuildImageName, buildImage.CompileScript, buildImage.Id))
                         .SetImageWarehouse(new Credential(componentLinkUrl: "https://jenkins.sukt.store", userName: "kawhi", passWord: "", token: "119dc867c3746ca39414387a1de9583d31"));
 
                     moduleDbContext.Applications.Add(application);
                     moduleDbContext.AppEnvironments.Add(GetApplication_Env(application));
 
                     moduleDbContext.Languages.Add(GetLanguage("C#"));
-                    moduleDbContext.RunImages.Add(image);
+                    moduleDbContext.RunImages.Add(buildImage);
                     moduleDbContext.ComponentIntegrations.Add(ComponentIntegration());
 
                     moduleDbContext.SaveChanges();

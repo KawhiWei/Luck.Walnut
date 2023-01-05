@@ -5,11 +5,11 @@ namespace Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 
 public class ApplicationPipeline : FullAggregateRoot
 {
+
     public ApplicationPipeline()
     {
+
     }
-
-
     public ApplicationPipeline(string appId, string name, IList<Stage> pipelineScript, string appEnvironmentId, bool published, string componentIntegrationId)
     {
         AppId = appId;

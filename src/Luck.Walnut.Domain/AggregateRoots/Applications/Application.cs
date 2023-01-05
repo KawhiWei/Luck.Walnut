@@ -134,13 +134,15 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
         /// <param name="compileScript"></param>
         /// <param name="version"></param>
         [JsonConstructor]//这个特性 可以写私有，标识你要用哪个构造函数
-        public BuildImage(string name, string buildImageName, string compileScript, string version)
+        public BuildImage(string name, string buildImageName, string compileScript,string buildImageId)
         {
             Name = name;
             BuildImageName = buildImageName;
             CompileScript = compileScript;
-            Version = version;
+            BuildImageId = buildImageId;
         }
+
+        public string BuildImageId { get; private set; }
 
         /// <summary>
         /// 镜像名称
@@ -156,7 +158,6 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
         /// 镜像地址
         /// </summary>
         public string CompileScript { get; private set; }
-        
         
         /// <summary>
         /// 镜像名称
