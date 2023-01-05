@@ -1,0 +1,9 @@
+﻿namespace Luck.Walnut.Dto.BuildImages
+{
+    public class BuildImagesQueryDto : PageBaseInputDto
+    {
+        public string Name { get; set; } = default!;
+
+        public string BuildImageName { get; set; } = default!;
+    }
+}

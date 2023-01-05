@@ -12,6 +12,13 @@ public interface IBuildImageRepository : IAggregateRootRepository<BuildImage, st
     /// <param name="id"></param>
     /// <returns></returns>
     Task<BuildImage> FindFirstByIdAsync(string id);
-    
-    
+
+    /// <summary>
+    /// 根据镜像名称获取镜像
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    Task<BuildImage?> FindFirstByNameAsync(string name);
+
+    Task<(BuildImagesOutputDto[] Data, int TotalCount)> GetBuildImagePageListAsync(BuildImagesQueryDto query);
 }

@@ -35,4 +35,13 @@ public class BuildImage : FullAggregateRoot
         RunImageVersions.Add(new BuildImageVersion(this.Id, version));
         return this;
     }
+
+    public BuildImage UpdateInfo(string name, string buildImageName, string compileScript)
+    {
+        Name = name;
+        BuildImageName = buildImageName;
+        CompileScript = compileScript;
+
+        return this;
+    }
 }
