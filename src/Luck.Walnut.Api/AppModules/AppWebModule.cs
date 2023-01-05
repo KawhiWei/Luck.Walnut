@@ -9,6 +9,8 @@ namespace Luck.Walnut.Api.AppModules
         typeof(MigrationModule),
         typeof(SerilogModule)
     )]
+    
+    
     public class AppWebModule: AppModule
     {
         public override void ConfigureServices(ConfigureServicesContext context)

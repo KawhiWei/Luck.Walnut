@@ -9,5 +9,5 @@ public class ComponentIntegrationOutputDto : ComponentIntegrationBaseDto
     /// </summary>
     public string Id { get; set; } = default!;
 
-    public string ComponentLinkTypeName => ComponentLinkType.ToDescription();
+    public string ComponentLinkTypeName => ComponentType.ToDescription();
 }

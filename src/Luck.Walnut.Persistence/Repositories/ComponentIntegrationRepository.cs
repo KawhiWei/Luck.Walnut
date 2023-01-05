@@ -41,10 +41,10 @@ public class ComponentIntegrationRepository : EfCoreAggregateRootRepository<Comp
             {
                 Id = x.Id,
                 Name = x.Name,
-                ComponentLinkType = x.ComponentLinkType,
+                ComponentType = x.ComponentType,
             })
             .WhereIf(x => x.Name.Contains(query.Name), !query.Name.IsNullOrWhiteSpace())
-            .WhereIf(x => x.ComponentLinkType == query.ComponentLinkType, query.ComponentLinkType.HasValue)
+            .WhereIf(x => x.ComponentType == query.ComponentLinkType, query.ComponentLinkType.HasValue)
             .OrderByDescending(x => x.Id);
         var list = await queryable.ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
         var totalCount = await queryable.CountAsync();

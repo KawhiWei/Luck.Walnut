@@ -73,7 +73,6 @@ namespace Luck.Walnut.Query.Applications
                 ProjectId = application.ProjectId,
                 Describe = application.Describe,
                 ApplicationLevel = application.ApplicationLevel,
-                BuildImageId = application.BuildImageId
             };
             return applicationOutputDto;
         }

@@ -65,4 +65,9 @@ public class ApplicationBaseDto
     /// 代码仓库地址
     /// </summary>
     public string? CodeWarehouseAddress { get; set; } = default!;
+    
+    /// <summary>
+    /// 运行平台
+    /// </summary>
+    public string ComponentIntegrationId { get; set; }= default!;
 }

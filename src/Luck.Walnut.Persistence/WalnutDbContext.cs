@@ -9,6 +9,7 @@ using Luck.Walnut.Domain.AggregateRoots.Issues;
 using Luck.Walnut.Domain.AggregateRoots.Languages;
 using Luck.Walnut.Domain.AggregateRoots.Projects;
 using Luck.Walnut.Domain.AggregateRoots.BuildImages;
+using BuildImage = Luck.Walnut.Domain.AggregateRoots.BuildImages.BuildImage;
 
 namespace Luck.Walnut.Persistence
 {

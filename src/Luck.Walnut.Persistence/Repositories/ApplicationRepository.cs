@@ -66,7 +66,6 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 Describe = c.Describe,
                 ApplicationLevel = c.ApplicationLevel,
                 CodeWarehouseAddress = c.CodeWarehouseAddress,
-                BuildImageId = c.BuildImageId
             }).FirstOrDefaultAsync();
         if (application is null)
             throw new BusinessException($"应用不存在");
@@ -88,7 +87,6 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 ProjectId = c.ProjectId,
                 ApplicationLevel = c.ApplicationLevel,
                 DevelopmentLanguage = c.DevelopmentLanguage,
-                BuildImageId = c.BuildImageId
             })
             .WhereIf(x => x.ProjectId == query.ProjectId, !query.ProjectId.IsNullOrWhiteSpace())
             .WhereIf(x => x.EnglishName.Contains(query.EnglishName), !query.EnglishName.IsNullOrWhiteSpace())

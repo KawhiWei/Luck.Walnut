@@ -1,5 +1,6 @@
 ﻿using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
+using Luck.Walnut.Domain.AggregateRoots.Applications;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto.Applications;
@@ -21,7 +22,9 @@ namespace Luck.Walnut.Application.Applications
         {
             await CheckAppIdAsync(input.AppId);
             var application = new Domain.AggregateRoots.Applications.Application(input.ProjectId, input.EnglishName,
-                input.DepartmentName, input.ChineseName, input.Principal, input.AppId, input.ApplicationState, ".Net",input.BuildImageId, ApplicationLevelEnum.LevelZero, input.CodeWarehouseAddress, input.Describe);
+                input.DepartmentName, input.ChineseName, input.Principal, input.AppId, input.ApplicationState, 
+                ".Net", ApplicationLevelEnum.LevelZero, input.CodeWarehouseAddress, 
+                input.Describe);
             _applicationRepository.Add(application);
             await _unitOfWork.CommitAsync();
         }
@@ -38,7 +41,8 @@ namespace Luck.Walnut.Application.Applications
         {
             var application = await GetApplicationByIdAsync(id);
             application.UpdateInfo(input.ProjectId, input.EnglishName, input.DepartmentName, input.ChineseName, input.Principal,
-                input.AppId, input.ApplicationState, input.ApplicationLevel,input.DevelopmentLanguage,input.BuildImageId, input.Describe, input.CodeWarehouseAddress);
+                input.AppId, input.ApplicationState, input.ApplicationLevel,input.DevelopmentLanguage, input.Describe, 
+                input.CodeWarehouseAddress);
             await _unitOfWork.CommitAsync();
         }
 

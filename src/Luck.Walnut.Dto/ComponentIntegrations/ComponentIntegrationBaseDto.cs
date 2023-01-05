@@ -12,7 +12,12 @@ public class ComponentIntegrationBaseDto
     /// <summary>
     /// 组件类型
     /// </summary>
-    public ComponentLinkTypeEnum ComponentLinkType { get; set; } = default!;
+    public ComponentTypeEnum ComponentType { get; set; } 
+    
+    /// <summary>
+    /// 组件类型
+    /// </summary>
+    public ComponentCategoryEnum ComponentCategory { get;  set; }
     
     /// <summary>
     /// 组件链接地址

@@ -5,11 +5,6 @@ namespace Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 
 public class Credential
 {
-    
-    public Credential()
-    {
-    }
-
     /// <summary>
     /// 
     /// </summary>
@@ -29,7 +24,7 @@ public class Credential
     /// <summary>
     /// 组件链接地址
     /// </summary>
-    public string ComponentLinkUrl { get;  private set; }= default!;
+    public string ComponentLinkUrl { get;  private set; }
     
     /// <summary>
     /// 用户名

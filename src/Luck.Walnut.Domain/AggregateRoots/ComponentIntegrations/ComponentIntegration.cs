@@ -8,16 +8,13 @@ namespace Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 /// </summary>
 public class ComponentIntegration : FullAggregateRoot
 {
-    public ComponentIntegration()
-    {
-    }
-
-
-    public ComponentIntegration(string name, ComponentLinkTypeEnum componentLinkType,Credential credential)
+    public ComponentIntegration(string name, ComponentTypeEnum componentType, Credential credential,
+        ComponentCategoryEnum componentCategory)
     {
         Name = name;
-        ComponentLinkType = componentLinkType;
+        ComponentType = componentType;
         Credential = credential;
+        ComponentCategory = componentCategory;
     }
 
     /// <summary>
@@ -28,12 +25,17 @@ public class ComponentIntegration : FullAggregateRoot
     /// <summary>
     /// 组件类型
     /// </summary>
-    public ComponentLinkTypeEnum ComponentLinkType { get; private set; }
+    public ComponentTypeEnum ComponentType { get; private set; }
+
+    /// <summary>
+    /// 组件类型
+    /// </summary>
+    public ComponentCategoryEnum ComponentCategory { get; private set; }
 
     /// <summary>
     /// 凭证列表
     /// </summary>
-    public Credential Credential { get; private set; } 
+    public Credential Credential { get; private set; }
 
     /// <summary>
     /// 设置Credential值对象
@@ -43,20 +45,31 @@ public class ComponentIntegration : FullAggregateRoot
     /// <param name="passWord"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public ComponentIntegration SetCredential(string componentLinkUrl,string? userName, string? passWord, string? token)
+    public ComponentIntegration SetCredential(string componentLinkUrl, string? userName, string? passWord, string? token)
     {
-        Credential = new Credential(componentLinkUrl,userName, passWord, token);
+        Credential = new Credential(componentLinkUrl, userName, passWord, token);
         return this;
     }
-    
+
     /// <summary>
     /// 设置组件类型
     /// </summary>
-    /// <param name="componentLinkType"></param>
+    /// <param name="componentType"></param>
     /// <returns></returns>
-    public ComponentIntegration SetComponentLinkType(ComponentLinkTypeEnum componentLinkType)
+    public ComponentIntegration SetComponentLinkType(ComponentTypeEnum componentType)
     {
-        ComponentLinkType = componentLinkType;
+        ComponentType = componentType;
+        return this;
+    }
+
+    /// <summary>
+    /// 设置组件类型
+    /// </summary>
+    /// <param name="componentCategory"></param>
+    /// <returns></returns>
+    public ComponentIntegration SetComponentCategory(ComponentCategoryEnum componentCategory)
+    {
+        ComponentCategory = componentCategory;
         return this;
     }
 }

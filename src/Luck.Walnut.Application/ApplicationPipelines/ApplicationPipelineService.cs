@@ -88,13 +88,10 @@ public class ApplicationPipelineService : IApplicationPipelineService
        
         var (buildImage,pipelineScript) = GetPipelineScript(applicationPipeline.PipelineScript);
         var defaultImageList = GetDefaultContainerList();
-        if (buildImage.IsNullOrEmpty())
+        if (!buildImage.IsNullOrEmpty())
         {
             defaultImageList.Add(new Container("build", buildImage, "/home/jenkins/agent").SetCommandArr(new[] { "sleep" }).SetArgsArr(new[] { "99d" }));
         }
-        
-
-
         var pipelineMetaData = new PipelineMetaData(defaultImageList, applicationPipeline.PipelineScript.ToList(), pipelineScript);
         var template = GetPipelineTemplate();
         var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);

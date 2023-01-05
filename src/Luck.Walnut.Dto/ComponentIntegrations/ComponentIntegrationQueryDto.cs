@@ -12,5 +12,5 @@ public class ComponentIntegrationQueryDto : PageBaseInputDto
     /// <summary>
     /// 组件类型
     /// </summary>
-    public ComponentLinkTypeEnum? ComponentLinkType { get; set; }
+    public ComponentTypeEnum? ComponentLinkType { get; set; }
 }

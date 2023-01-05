@@ -30,11 +30,12 @@ public class ComponentIntegrationQueryService : IComponentIntegrationQueryServic
         {
             Id = componentIntegration.Id,
             Name = componentIntegration.Name,
-            ComponentLinkType = componentIntegration.ComponentLinkType,
+            ComponentType = componentIntegration.ComponentType,
             UserName = componentIntegration.Credential.UserName,
             PassWord = componentIntegration.Credential.PassWord,
             Token = componentIntegration.Credential.Token,
             ComponentLinkUrl = componentIntegration.Credential.ComponentLinkUrl,
+            ComponentCategory = componentIntegration.ComponentCategory,
         };
     }
 

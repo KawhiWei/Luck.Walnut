@@ -12,6 +12,8 @@ namespace Luck.Walnut.Persistence
             builder.Property(e => e.ChineseName);
             builder.Property(e => e.Principal).IsRequired(false);
             builder.Property(e => e.AppId);
+            builder.Property(e => e.ImageWarehouse).HasJsonConversion();
+            builder.Property(e => e.BuildImage).HasJsonConversion();
             builder.HasIndex(x => x.AppId,"appId_unique_index")
                 .IsUnique();
             builder.ToTable("applications");

@@ -20,7 +20,7 @@ public class ComponentIntegrationService : IComponentIntegrationService
     public async Task AddComponentIntegrationAsync(ComponentIntegrationInputDto input)
     {
         var credential = new Credential(input.ComponentLinkUrl, input.UserName, input.PassWord, input.Token);
-        var componentIntegration = new ComponentIntegration(input.Name, input.ComponentLinkType, credential);
+        var componentIntegration = new ComponentIntegration(input.Name, input.ComponentType, credential, input.ComponentCategory);
         _componentIntegrationRepository.Add(componentIntegration);
         await _unitOfWork.CommitAsync();
     }
@@ -28,7 +28,9 @@ public class ComponentIntegrationService : IComponentIntegrationService
     public async Task UpdateComponentIntegrationAsync(string id, ComponentIntegrationInputDto input)
     {
         var componentIntegration = await GetComponentIntegrationAsync(id);
-        componentIntegration.SetComponentLinkType(input.ComponentLinkType).SetCredential(input.ComponentLinkUrl,input.UserName, input.PassWord, input.Token);
+        componentIntegration.SetComponentLinkType(input.ComponentType)
+            .SetComponentCategory(input.ComponentCategory)
+            .SetCredential(input.ComponentLinkUrl, input.UserName, input.PassWord, input.Token);
         _componentIntegrationRepository.Update(componentIntegration);
         await _unitOfWork.CommitAsync();
     }
