@@ -29,7 +29,7 @@ public class ComponentIntegrationRepository : EfCoreAggregateRootRepository<Comp
         var componentIntegration = await FindAll().FirstOrDefaultAsync(x => x.Id == id);
         if (componentIntegration is null)
         {
-            throw new BusinessException($"组件集成流水线不存在");
+            throw new BusinessException($"组件集成不存在");
         }
         _componentIntegrations.Add(id, componentIntegration);
         return componentIntegration;

@@ -3,7 +3,6 @@ using Luck.Walnut.Domain.AggregateRoots.Applications;
 using Luck.Walnut.Domain.AggregateRoots.Environments;
 using Luck.Walnut.Domain.AggregateRoots.Languages;
 using Luck.Walnut.Domain.AggregateRoots.Projects;
-using Luck.Walnut.Domain.AggregateRoots.BuildImages;
 using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 using Luck.Walnut.Domain.Shared.Enums;
 using BuildImage = Luck.Walnut.Domain.AggregateRoots.BuildImages.BuildImage;
@@ -26,19 +25,22 @@ namespace Luck.Walnut.Api.AppModules
                 {
                     var project = GetProject();
                     var buildImage = GetBuildImage();
-                    var application = GetApplication(project);
+                    var componentIntegration = ComponentIntegration();
+                    var application = GetApplication(project, buildImage, componentIntegration);
+                    
                     moduleDbContext.Projects.Add(project);
 
-                    application.SetImageWarehouse(new Domain.AggregateRoots.Applications.BuildImage(buildImage.Name, buildImage
-                            .BuildImageName, buildImage.CompileScript, buildImage.Id))
-                        .SetImageWarehouse(new Credential(componentLinkUrl: "https://jenkins.sukt.store", userName: "kawhi", passWord: "", token: "119dc867c3746ca39414387a1de9583d31"));
+                    application.SetImageWarehouse(
+                        new Image(buildImage.Name, buildImage
+                            .BuildImageName, buildImage.CompileScript))
+                        .SetImageWarehouse(componentIntegration.Credential);
 
                     moduleDbContext.Applications.Add(application);
                     moduleDbContext.AppEnvironments.Add(GetApplication_Env(application));
 
                     moduleDbContext.Languages.Add(GetLanguage("C#"));
                     moduleDbContext.RunImages.Add(buildImage);
-                    moduleDbContext.ComponentIntegrations.Add(ComponentIntegration());
+                    moduleDbContext.ComponentIntegrations.Add(componentIntegration);
 
                     moduleDbContext.SaveChanges();
                 }
@@ -51,14 +53,16 @@ namespace Luck.Walnut.Api.AppModules
             return new Project("test", "wang-***", ProjectStatusEnum.Actity, new DateOnly(2021, 11, 12), null, null);
         }
 
-        private static Domain.AggregateRoots.Applications.Application GetApplication(Project project)
+        private static Domain.AggregateRoots.Applications.Application GetApplication(Project project,BuildImage buildImage, ComponentIntegration componentIntegration)
         {
+
+
             return new Domain.AggregateRoots.Applications.Application(
                 project.Id, "luck.walnut", "A",
                 "胡桃木", "sda", "luck.walnut",
                 ApplicationStateEnum.NotOnline, ".Net",
                 applicationLevel: ApplicationLevelEnum.LevelOne,
-                "https://github.com/GeorGeWzw/Luck.Framework.git", "asdas");
+                "https://github.com/GeorGeWzw/Luck.Framework.git", "asdas", componentIntegration.Id, buildImage.Id);
         }
 
         private static AppEnvironment GetApplication_Env(Domain.AggregateRoots.Applications.Application application)

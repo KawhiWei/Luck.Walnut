@@ -71,7 +71,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
             CodeWarehouseAddress = application.CodeWarehouseAddress,
             CompileScript = application.BuildImage.CompileScript,
             BuildImageName = application.BuildImage.BuildImageName,
-            BuildImageId= application.BuildImage.BuildImageId,
+            BuildImageId= application.BuildImageId,
         };
         return dto;
     }

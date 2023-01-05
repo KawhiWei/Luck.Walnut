@@ -18,9 +18,9 @@ namespace Luck.Walnut.Query.Applications
         private readonly ILogger<ApplicationQueryService> _logger;
         private readonly IBuildImageRepository _buildImageRepository;
         private readonly IBuildImageVersionRepository _buildImageVersionRepository;
-
+        private readonly IComponentIntegrationRepository _componentIntegrationRepository;
         public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository, IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger, IProjectRepository projectRepository, IBuildImageRepository buildImageRepository,
-            IBuildImageVersionRepository buildImageVersionRepository)
+            IBuildImageVersionRepository buildImageVersionRepository, IComponentIntegrationRepository componentIntegrationRepository)
         {
             _appEnvironmentRepository = appEnvironmentRepository;
             _applicationRepository = applicationRepository;
@@ -28,6 +28,7 @@ namespace Luck.Walnut.Query.Applications
             _projectRepository = projectRepository;
             _buildImageRepository = buildImageRepository;
             _buildImageVersionRepository = buildImageVersionRepository;
+            _componentIntegrationRepository = componentIntegrationRepository;
         }
 
 
@@ -56,7 +57,7 @@ namespace Luck.Walnut.Query.Applications
             return await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
         }
 
-        public async Task<ApplicationOutputDto?> GetApplicationDetailForIdAsync(string id)
+        public async Task<ApplicationOutput> GetApplicationDetailForIdAsync(string id)
         {
             var application = await _applicationRepository.FindFirstOrDefaultByIdAsync(id);
             if (application is null)
@@ -73,8 +74,16 @@ namespace Luck.Walnut.Query.Applications
                 ProjectId = application.ProjectId,
                 Describe = application.Describe,
                 ApplicationLevel = application.ApplicationLevel,
+                BuildImageId = application.BuildImageId,
+                ImageWarehouseId = application.ImageWarehouseId,
+                CodeWarehouseAddress = application.CodeWarehouseAddress,
             };
-            return applicationOutputDto;
+
+            return new ApplicationOutput()
+            {
+                Application = applicationOutputDto,
+                
+            };
         }
 
         /// <summary>
@@ -109,6 +118,24 @@ namespace Luck.Walnut.Query.Applications
             applicationOutput.EnvironmentList = environmentList;
             applicationOutput.BuildImageVersionList = buildImageVersionList;
             return applicationOutput;
+        }
+
+        /// <summary>
+        /// 获取应用添加或者修改时所需要获取下拉框的数据
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ApplicationSeletedDataOutput> GetApplicationSelectedDataAsync()
+        {
+            var (Data, _) = await _componentIntegrationRepository.GetComponentIntegrationPageListAsync(new Dto.ComponentIntegrations.ComponentIntegrationQueryDto
+            {
+                PageIndex = 1,
+                PageSize = 1000
+            });
+            return new ApplicationSeletedDataOutput()
+            {
+                ComponentIntegrationList = Data.ToList(),
+
+            };
         }
     }
 }

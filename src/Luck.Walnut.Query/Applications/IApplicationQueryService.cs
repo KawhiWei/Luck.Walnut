@@ -25,7 +25,7 @@ namespace Luck.Walnut.Query.Applications
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ApplicationOutputDto?> GetApplicationDetailForIdAsync(string id);
+        Task<ApplicationOutput> GetApplicationDetailForIdAsync(string id);
 
         /// <summary>
         /// 获取应用仪表盘明细信息
@@ -40,5 +40,12 @@ namespace Luck.Walnut.Query.Applications
         /// </summary>
         /// <returns></returns>
         IEnumerable<Language> GetLanguageListAsync();
+
+
+        /// <summary>
+        /// 获取应用添加或者修改时所需要获取下拉框的数据
+        /// </summary>
+        /// <returns></returns>
+        Task<ApplicationSeletedDataOutput> GetApplicationSelectedDataAsync();
     }
 }

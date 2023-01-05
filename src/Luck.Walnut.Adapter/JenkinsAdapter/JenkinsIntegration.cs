@@ -177,13 +177,10 @@ public class JenkinsIntegration : IJenkinsIntegration
                 break;
             case HttpStatusCode.Unauthorized:
                 throw new BusinessException($"用户名或者密码无效");
-                break;
             case HttpStatusCode.Forbidden:
                 throw new BusinessException($"用户名或者密码无效");
-                break;
             case HttpStatusCode.InternalServerError:
                 throw new BusinessException($"服务器异常");
-                break;
         }
 
         var responseMessage = await httpResponseMessage.Content.ReadAsStringAsync();

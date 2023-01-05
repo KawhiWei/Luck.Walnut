@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
+﻿using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 using Luck.Walnut.Domain.Shared.Enums;
 
 namespace Luck.Walnut.Domain.AggregateRoots.Applications
@@ -9,9 +8,9 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
     /// </summary>
     public class Application : FullAggregateRoot
     {
-        public Application(string projectId, string englishName, string departmentName, string chineseName, string principal, 
+        public Application(string projectId, string englishName, string departmentName, string chineseName, string principal,
             string appId, ApplicationStateEnum applicationState, string developmentLanguage,
-            ApplicationLevelEnum applicationLevel, string? codeWarehouseAddress, string? describe)
+            ApplicationLevelEnum applicationLevel, string? codeWarehouseAddress, string? describe, string imageWarehouseId, string buildImageId)
         {
             ProjectId = projectId;
             EnglishName = englishName;
@@ -24,6 +23,8 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
             CodeWarehouseAddress = codeWarehouseAddress;
             ApplicationLevel = applicationLevel;
             DevelopmentLanguage = developmentLanguage;
+            ImageWarehouseId = imageWarehouseId;
+            BuildImageId = buildImageId;
         }
 
         /// <summary>
@@ -83,9 +84,18 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
         public Credential ImageWarehouse { get; private set; } = default!;
 
         /// <summary>
+        /// 镜像仓库地址
+        /// </summary>
+        public string ImageWarehouseId { get; private set; } = default!;
+
+        /// <summary>
+        /// 基础Build镜像Id
+        /// </summary>
+        public string BuildImageId { get; private set; } = default!;
+        /// <summary>
         /// 
         /// </summary>
-        public BuildImage BuildImage { get; private set; } = default!;
+        public Image BuildImage { get; private set; } = default!;
         /// <summary>
         /// 需求描述
         /// </summary>
@@ -114,54 +124,10 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
             ImageWarehouse = imageWarehouse;
             return this;
         }
-        public Application SetImageWarehouse(BuildImage image)
+        public Application SetImageWarehouse(Image image)
         {
             BuildImage = image;
             return this;
         }
-    }
-
-    /// <summary>
-    /// 构建镜像信息
-    /// </summary>
-    public class BuildImage
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="buildImageName"></param>
-        /// <param name="compileScript"></param>
-        /// <param name="version"></param>
-        [JsonConstructor]//这个特性 可以写私有，标识你要用哪个构造函数
-        public BuildImage(string name, string buildImageName, string compileScript,string buildImageId)
-        {
-            Name = name;
-            BuildImageName = buildImageName;
-            CompileScript = compileScript;
-            BuildImageId = buildImageId;
-        }
-
-        public string BuildImageId { get; private set; }
-
-        /// <summary>
-        /// 镜像名称
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
-        /// 镜像地址
-        /// </summary>
-        public string BuildImageName { get; private set; }
-    
-        /// <summary>
-        /// 镜像地址
-        /// </summary>
-        public string CompileScript { get; private set; }
-        
-        /// <summary>
-        /// 镜像名称
-        /// </summary>
-        public string Version { get; private set; }
     }
 }

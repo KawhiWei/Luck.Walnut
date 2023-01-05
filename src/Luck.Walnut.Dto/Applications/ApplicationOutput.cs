@@ -16,7 +16,9 @@ namespace Luck.Walnut.Dto.Applications
         public List<AppEnvironmentListOutputDto> EnvironmentList { get; set; } = default!;
         
         public List<BuildImageVersionOutputDto> BuildImageVersionList { get; set; } = default!;
+
         
-        
+
+
     }
 }

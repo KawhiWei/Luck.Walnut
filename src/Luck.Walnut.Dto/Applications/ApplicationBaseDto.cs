@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Net;
 using Luck.Walnut.Domain.Shared.Enums;
 
 namespace Luck.Walnut.Dto.Applications;
@@ -50,12 +51,17 @@ public class ApplicationBaseDto
     /// 开发语言
     /// </summary>
     public string DevelopmentLanguage { get; set; } = default!;
-    
+
     /// <summary>
-    /// 运行平台
+    /// 镜像仓库地址
     /// </summary>
-    public string BuildImageId { get; set; } = default!;
-    
+    public string ImageWarehouseId { get;  set; } = default!;
+
+    /// <summary>
+    /// 基础Build镜像Id
+    /// </summary>
+    public string BuildImageId { get;  set; } = default!;
+
     /// <summary>
     /// 需求描述
     /// </summary>

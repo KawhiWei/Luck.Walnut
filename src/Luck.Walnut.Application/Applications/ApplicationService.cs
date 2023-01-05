@@ -1,9 +1,11 @@
 ﻿using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
 using Luck.Walnut.Domain.AggregateRoots.Applications;
+using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 using Luck.Walnut.Domain.Repositories;
 using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto.Applications;
+using Luck.Walnut.Persistence.Repositories;
 
 namespace Luck.Walnut.Application.Applications
 {
@@ -11,11 +13,13 @@ namespace Luck.Walnut.Application.Applications
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IApplicationRepository _applicationRepository;
+        private readonly IComponentIntegrationRepository componentIntegrationRepository;
 
-        public ApplicationService(IApplicationRepository applicationRepository, IUnitOfWork unitOfWork)
+        public ApplicationService(IApplicationRepository applicationRepository, IUnitOfWork unitOfWork, IComponentIntegrationRepository componentIntegrationRepository = null)
         {
             _unitOfWork = unitOfWork;
             _applicationRepository = applicationRepository;
+            this.componentIntegrationRepository = componentIntegrationRepository;
         }
 
         public async Task AddApplicationAsync(ApplicationInputDto input)
@@ -24,7 +28,9 @@ namespace Luck.Walnut.Application.Applications
             var application = new Domain.AggregateRoots.Applications.Application(input.ProjectId, input.EnglishName,
                 input.DepartmentName, input.ChineseName, input.Principal, input.AppId, input.ApplicationState, 
                 ".Net", ApplicationLevelEnum.LevelZero, input.CodeWarehouseAddress, 
-                input.Describe);
+                input.Describe,imageWarehouseId:input.ImageWarehouseId,buildImageId:input.BuildImageId);
+            var componentIntegration= await componentIntegrationRepository.FindFirstByIdAsync(input.ComponentIntegrationId);
+            application.SetImageWarehouse(componentIntegration.Credential);
             _applicationRepository.Add(application);
             await _unitOfWork.CommitAsync();
         }
@@ -41,8 +47,10 @@ namespace Luck.Walnut.Application.Applications
         {
             var application = await GetApplicationByIdAsync(id);
             application.UpdateInfo(input.ProjectId, input.EnglishName, input.DepartmentName, input.ChineseName, input.Principal,
-                input.AppId, input.ApplicationState, input.ApplicationLevel,input.DevelopmentLanguage, input.Describe, 
-                input.CodeWarehouseAddress);
+                input.AppId, input.ApplicationState, input.ApplicationLevel,input.DevelopmentLanguage, input.Describe,
+            input.CodeWarehouseAddress);
+            var componentIntegration = await componentIntegrationRepository.FindFirstByIdAsync(input.ComponentIntegrationId);
+            application.SetImageWarehouse(componentIntegration.Credential);
             await _unitOfWork.CommitAsync();
         }
 
