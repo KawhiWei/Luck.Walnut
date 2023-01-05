@@ -10,4 +10,7 @@ public class ComponentIntegrationOutputDto : ComponentIntegrationBaseDto
     public string Id { get; set; } = default!;
 
     public string ComponentLinkTypeName => ComponentType.ToDescription();
+
+
+    public string ComponentCategoryName => ComponentCategory.ToDescription();
 }

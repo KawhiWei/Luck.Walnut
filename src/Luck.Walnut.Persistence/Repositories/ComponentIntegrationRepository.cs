@@ -42,6 +42,7 @@ public class ComponentIntegrationRepository : EfCoreAggregateRootRepository<Comp
                 Id = x.Id,
                 Name = x.Name,
                 ComponentType = x.ComponentType,
+                ComponentCategory= x.ComponentCategory,
             })
             .WhereIf(x => x.Name.Contains(query.Name), !query.Name.IsNullOrWhiteSpace())
             .WhereIf(x => x.ComponentType == query.ComponentLinkType, query.ComponentLinkType.HasValue)
