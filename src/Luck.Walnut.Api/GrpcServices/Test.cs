@@ -36,14 +36,6 @@ public class Test : ITest
 
         ;
         return null;
-
-
-        if (_bathTheCatRespConcurrentDictionary.TryGetValue(appId, out var responseStream))
-        {
-            return responseStream;
-        }
-
-        return null;
     }
     
     public void  RemoveResponseStream(string appId, string clientId)

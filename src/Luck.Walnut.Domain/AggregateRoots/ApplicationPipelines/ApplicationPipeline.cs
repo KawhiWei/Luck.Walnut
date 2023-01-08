@@ -1,5 +1,10 @@
+using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using Luck.Framework.Extensions;
+using Luck.Walnut.Domain.AggregateRoots.Applications;
 using Luck.Walnut.Domain.Shared.Enums;
+using Luck.Walnut.Dto.ApplicationPipelines;
 
 namespace Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 
@@ -110,5 +115,89 @@ public class ApplicationPipeline : FullAggregateRoot
         var applicationPipelineExecutedRecord = new ApplicationPipelineExecutedRecord(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber, $"{AppId}-{DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")}-{nextBuildNumber}", null);
         ApplicationPipelineExecutedRecords.Add(applicationPipelineExecutedRecord);
         return this;
+    }
+    
+    
+    public (string BuildImage,string PipelineScript) GetPipelineScript(Application application)
+    {
+        var buildImage = "";
+        var stringBuilder = new StringBuilder();
+        foreach (var stage in this.PipelineScript)
+        {
+            stringBuilder.Append($@"
+            environment {{
+                def IMAGE_REPOSITORY_NAME = '{application.ImageWarehouse.ComponentLinkUrl}'
+                def IMAGE_REPOSITORY_USERNAME = '{application.ImageWarehouse.UserName}'
+                def IMAGE_REPOSITORY_PASSWORD = '{application.ImageWarehouse.PassWord??application.ImageWarehouse.Token}'
+                def REGISTRY_CONFIG = '/kaniko/.docker'
+            }}
+            stage('{stage.Name}')
+            {{
+                steps {{");
+            foreach (var step in stage.Steps)
+            {
+                switch (step.StepType)
+                {
+                    case StepTypeEnum.PullCode:
+                        var pipelinePullCodeStep = step.Content.Deserialize<PipelinePullCodeStepDto>(new JsonSerializerOptions()
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+                        if(pipelinePullCodeStep is null)
+                        {
+                            break;
+                        }
+                        stringBuilder.Append($@"
+                        checkout([
+                             $class: 'GitSCM', branches: [[name: ""{pipelinePullCodeStep?.Branch}""]],
+                             doGenerateSubmoduleConfigurations: false,extensions: [[$class:'CheckoutOption',timeout:30],[$class:'CloneOption',depth:0,noTags:false,reference:'',shallow:false,timeout:3600]], submoduleCfg: [],
+                             userRemoteConfigs: [[ url: ""{pipelinePullCodeStep?.Git}""]]
+                        ])");
+                        break;
+                    case StepTypeEnum.CompilePublish:
+                        var compilePublishStep = step.Content.Deserialize<PipelineBuildImageStepDto>(new JsonSerializerOptions()
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+                        if (compilePublishStep is null)
+                        {
+                            break;
+                        }
+                        buildImage = $"{compilePublishStep.BuildImageName}:{compilePublishStep.Version}";
+                        stringBuilder.Append($@"
+                        container('build') {{
+                        sh '''
+                        {compilePublishStep.CompileScript}
+                        '''
+                        }}");
+                        break;
+                    case StepTypeEnum.BuildDockerImage:
+                        var pipelineBuildImageStep = step.Content.Deserialize<PipelineBuildImageStepDto>(new JsonSerializerOptions()
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+                        if (pipelineBuildImageStep is null)
+                        {
+                            break;
+                        }
+                        buildImage = $"{pipelineBuildImageStep.BuildImageName}:{pipelineBuildImageStep.Version}";
+                        stringBuilder.Append($@"
+                        container('docker') {{
+                        sh ''' ""[ -d $REGISTRY_CONFIG ] || mkdir -pv $REGISTRY_CONFIG""
+                        '''
+                        }}");
+                        break;
+                    case StepTypeEnum.ExecuteCommand:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            stringBuilder.Append(@"
+                }
+            }");
+        }
+
+        return (buildImage,stringBuilder.ToString());
     }
 }

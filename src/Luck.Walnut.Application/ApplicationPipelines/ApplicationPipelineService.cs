@@ -26,16 +26,19 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
     private readonly IUnitOfWork _unitOfWork;
 
+    private readonly IApplicationRepository _applicationRepository;
+
     private readonly IApplicationPipelineExecutedRecordRepository _applicationPipelineExecutedRecordRepository;
 
     public ApplicationPipelineService(IApplicationPipelineRepository applicationPipelineRepository, IUnitOfWork unitOfWork, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository,
-        IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository)
+        IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository, IApplicationRepository applicationRepository)
     {
         _applicationPipelineRepository = applicationPipelineRepository;
         _unitOfWork = unitOfWork;
         _jenkinsIntegration = jenkinsIntegration;
         _componentIntegrationRepository = componentIntegrationRepository;
         _applicationPipelineExecutedRecordRepository = applicationPipelineExecutedRecordRepository;
+        _applicationRepository = applicationRepository;
     }
 
     public async Task CreateAsync(ApplicationPipelineInputDto input)
@@ -76,6 +79,12 @@ public class ApplicationPipelineService : IApplicationPipelineService
     {
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
 
+        var application= await _applicationRepository.FindFirstOrDefaultByAppIdAsync(applicationPipeline.AppId);
+
+        if (application is null)
+        {
+            throw new BusinessException($"应用不存在!"); 
+        }
         await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
 
         var xmlDocument = new XmlDocument();
@@ -83,10 +92,9 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var node = xmlDocument.SelectSingleNode("flow-definition/definition/script");
         if (node is null)
         {
-            throw new BusinessException($"流水线的基础xml格式错误");
+            throw new BusinessException($"流水线的基础xml格式错误"); 
         }
-       
-        var (buildImage,pipelineScript) = GetPipelineScript(applicationPipeline.PipelineScript);
+        var (buildImage, pipelineScript) = applicationPipeline.GetPipelineScript(application);
         var defaultImageList = GetDefaultContainerList();
         if (!buildImage.IsNullOrEmpty())
         {
@@ -95,10 +103,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var pipelineMetaData = new PipelineMetaData(defaultImageList, applicationPipeline.PipelineScript.ToList(), pipelineScript);
         var template = GetPipelineTemplate();
         var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
-        Console.WriteLine(dslScript);
         node.InnerText = dslScript;
-        Console.WriteLine(xmlDocument.InnerXml);
-
 
         var job = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
         if (job is null)
@@ -164,7 +169,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
                 var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
                 if (jenkinsJobDetailDto is not null)
                 {
-                    var logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
+                    string logs;
                     if (jenkinsJobDetailDto.Result != "SUCCESS")
                     {
                         logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
@@ -189,63 +194,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
     }
 
-    private (string BuildImage,string PipelineScript) GetPipelineScript(IEnumerable<Stage> stages)
-    {
-        var buildImage = "";
-        StringBuilder stringBuilder = new StringBuilder();
-        foreach (var stage in stages)
-        {
-            stringBuilder.Append($"stage('{stage.Name}')");
-            stringBuilder.Append('{');
-            foreach (var step in stage.Steps)
-            {
-                stringBuilder.Append(@"
-                steps {");
-                switch (step.StepType)
-                {
-                    case StepTypeEnum.PullCode:
-                        var pipelinePullCodeStep = step.Content.Deserialize<PipelinePullCodeStepDto>(new JsonSerializerOptions()
-                        {
-                            PropertyNameCaseInsensitive = true
-                        });
-                        if(pipelinePullCodeStep is null)
-                        {
-                            break;
-                        }
-                        stringBuilder.Append($@"
-                        checkout([
-                             $class: 'GitSCM', branches: [[name: ""{pipelinePullCodeStep?.Branch}""]],
-                             doGenerateSubmoduleConfigurations: false,extensions: [[$class:'CheckoutOption',timeout:30],[$class:'CloneOption',depth:0,noTags:false,reference:'',shallow:false,timeout:3600]], submoduleCfg: [],
-                             userRemoteConfigs: [[ url: ""{pipelinePullCodeStep?.Git}""]]
-                        ])");
-                        break;
-                    case StepTypeEnum.BuildDockerImage:
-                        var pipelineBuildImageStep = step.Content.Deserialize<PipelineBuildImageStepDto>(new JsonSerializerOptions()
-                        {
-                            PropertyNameCaseInsensitive = true
-                        });
-                        if (pipelineBuildImageStep is null)
-                        {
-                            break;
-                        }
-                        buildImage = $"{pipelineBuildImageStep.BuildImageName}:{pipelineBuildImageStep.Version}";
-                        ;
-
-                        break;
-                    case StepTypeEnum.ExecuteCommand:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                stringBuilder.Append($@"
-                }}");
-            }
-            stringBuilder.Append(@"
-            }");
-        }
-
-        return (buildImage,stringBuilder.ToString());
-    }
+    
 
 
     private List<Container> GetDefaultContainerList() => new()

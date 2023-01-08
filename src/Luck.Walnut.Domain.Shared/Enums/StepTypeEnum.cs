@@ -14,15 +14,21 @@ public enum StepTypeEnum{
     PullCode=1,
     
     /// <summary>
+    /// 
+    /// </summary>
+    [Description("编译发布")]
+    CompilePublish=2,
+    
+    /// <summary>
     /// 构建Docker镜像
     /// </summary>
     [Description("构建Docker镜像")]
-    BuildDockerImage=2,
+    BuildDockerImage=3,
     
     /// <summary>
     /// 执行命令
     /// </summary>
     [Description("执行命令")]
-    ExecuteCommand=3,
+    ExecuteCommand=4,
     
 }
