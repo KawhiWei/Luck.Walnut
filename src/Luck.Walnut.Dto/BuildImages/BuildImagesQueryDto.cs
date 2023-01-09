@@ -2,8 +2,8 @@
 {
     public class BuildImagesQueryDto : PageBaseInputDto
     {
-        public string Name { get; set; } = default!;
+        public string? Name { get; set; } 
 
-        public string BuildImageName { get; set; } = default!;
+        public string? BuildImageName { get; set; } 
     }
 }

@@ -40,5 +40,18 @@ namespace Luck.Walnut.Query.BuildImages
 
             return new PageBaseResult<BuildImagesOutputDto>(buildImages.TotalCount, buildImages.Data.ToArray());
         }
+
+        public async Task<BuildImagesOutputDto> GetBuildImagesPageById(string id)
+        {
+            var buildImage = await  _buildImageRepository.FindFirstByIdAsync(id);
+            return new BuildImagesOutputDto
+            {
+                Id = buildImage.Id,
+                CompileScript = buildImage.CompileScript,
+                BuildImageName = buildImage.BuildImageName,
+                Name = buildImage.Name
+            };
+        }
+
     }
 }

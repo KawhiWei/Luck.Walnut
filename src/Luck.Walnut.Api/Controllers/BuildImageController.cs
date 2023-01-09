@@ -64,7 +64,10 @@ public class BuildImageController : BaseController
     /// <param name="buildImageQueryService"></param>
     /// <param name="query"></param>
     /// <returns></returns>
-    [HttpPost("Page")]
-    Task<PageBaseResult<BuildImagesOutputDto>> GetBuildImagesPageList([FromServices] IBuildImageQueryService buildImageQueryService, [FromBody] BuildImagesQueryDto query) => buildImageQueryService.GetBuildImagesPageList(query);
+    [HttpGet("page")]
+    public Task<PageBaseResult<BuildImagesOutputDto>> GetBuildImagesPageList([FromServices] IBuildImageQueryService buildImageQueryService, [FromQuery] BuildImagesQueryDto query) => buildImageQueryService.GetBuildImagesPageList(query);
+
+    [HttpGet("{id}")]
+    public Task<BuildImagesOutputDto> GetBuildImagesPageById([FromServices] IBuildImageQueryService buildImageQueryService, string id) => buildImageQueryService.GetBuildImagesPageById(id);
 
 }

@@ -8,5 +8,7 @@ namespace Luck.Walnut.Query.BuildImages
         Task<List<BuildImagesOutputDto>> GetBuildImages();
 
         Task<PageBaseResult<BuildImagesOutputDto>> GetBuildImagesPageList(BuildImagesQueryDto query);
+
+        Task<BuildImagesOutputDto> GetBuildImagesPageById(string id);
     }
 }
