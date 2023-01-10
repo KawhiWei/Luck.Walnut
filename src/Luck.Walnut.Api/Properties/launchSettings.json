@@ -1,15 +1,19 @@
-﻿{
+{
   "profiles": {
     "Luck.Walnut.Api": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": false,
       "launchUrl": "walnut/swagger",
-      "applicationUrl": "http://localhost:5099",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "AppId": "Luck.Walnut"
-      }
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5099"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/walnut/swagger",
+      "publishAllPorts": true
     }
   }
 }
