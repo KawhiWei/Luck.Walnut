@@ -1,5 +1,8 @@
+using Luck.Framework.Extensions;
 using Luck.Walnut.Adapter.JenkinsAdapter;
+using Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 using Luck.Walnut.Domain.Repositories;
+using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto;
 using Luck.Walnut.Dto.ApplicationPipelines;
 
@@ -24,8 +27,26 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
 
     public async Task<PageBaseResult<ApplicationPipelineOutputDto>> GetApplicationPageListAsync(string appId, ApplicationPipelineQueryDto query)
     {
-        var result = await _applicationPipelineRepository.GetApplicationPipelinePageListAsync(appId, query);
-        return new PageBaseResult<ApplicationPipelineOutputDto>(result.TotalCount, result.Data.ToArray());
+        var (Data, TotalCount) = await _applicationPipelineRepository.GetApplicationPipelinePageListAsync(appId, query);
+
+
+        var applicationPipelineExecutedRecordList = await _applicationPipelineExecutedRecordRepository.GetApplicationPipelineExecutedRecordListAsync(Data.Select(x => x.Id));
+
+        foreach (var applicationPipeline in Data)
+        {
+            var applicationPipelineExecutedRecord = applicationPipelineExecutedRecordList.MaxBy(x => x.JenkinsBuildNumber);
+            if (applicationPipelineExecutedRecord is not null)
+            {
+                applicationPipeline.PipelineBuildState = applicationPipelineExecutedRecord.PipelineBuildState;
+                applicationPipeline.JenkinsBuildNumber = applicationPipelineExecutedRecord.JenkinsBuildNumber;
+                applicationPipeline.LastApplicationPipelineExecutedRecordId = applicationPipelineExecutedRecord.Id;
+            }
+            else
+            {
+                applicationPipeline.PipelineBuildState = PipelineBuildStateEnum.Ready;
+            }
+        }
+        return new PageBaseResult<ApplicationPipelineOutputDto>(TotalCount, Data.ToArray());
     }
 
 

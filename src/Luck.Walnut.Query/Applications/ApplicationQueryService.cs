@@ -77,6 +77,7 @@ namespace Luck.Walnut.Query.Applications
                 BuildImageId = application.BuildImageId,
                 ImageWarehouseId = application.ImageWarehouseId,
                 CodeWarehouseAddress = application.CodeWarehouseAddress,
+                DevelopmentLanguage= application.DevelopmentLanguage,
             };
 
             return new ApplicationOutput()

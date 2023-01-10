@@ -47,4 +47,10 @@ public class ApplicationPipelineExecutedRecordRepository : EfCoreEntityRepositor
         var list = await FindAll(x => x.PipelineBuildState == PipelineBuildStateEnum.Running).ToArrayAsync();
         return list;
     }
+
+    public async Task<ApplicationPipelineExecutedRecord[]> GetApplicationPipelineExecutedRecordListAsync(IEnumerable<string> applicationPipelineList)
+    {
+        var list = await FindAll(x => applicationPipelineList.Contains(x.ApplicationPipelineId)).ToArrayAsync();
+        return list;
+    }
 }

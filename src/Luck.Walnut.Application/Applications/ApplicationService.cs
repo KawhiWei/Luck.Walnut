@@ -29,7 +29,7 @@ namespace Luck.Walnut.Application.Applications
                 input.DepartmentName, input.ChineseName, input.Principal, input.AppId, input.ApplicationState, 
                 ".Net", ApplicationLevelEnum.LevelZero, input.CodeWarehouseAddress, 
                 input.Describe,imageWarehouseId:input.ImageWarehouseId,buildImageId:input.BuildImageId);
-            var componentIntegration= await componentIntegrationRepository.FindFirstByIdAsync(input.ComponentIntegrationId);
+            var componentIntegration= await componentIntegrationRepository.FindFirstByIdAsync(input.ImageWarehouseId);
             application.SetImageWarehouse(componentIntegration.Credential);
             _applicationRepository.Add(application);
             await _unitOfWork.CommitAsync();
@@ -49,7 +49,7 @@ namespace Luck.Walnut.Application.Applications
             application.UpdateInfo(input.ProjectId, input.EnglishName, input.DepartmentName, input.ChineseName, input.Principal,
                 input.AppId, input.ApplicationState, input.ApplicationLevel,input.DevelopmentLanguage, input.Describe,
             input.CodeWarehouseAddress);
-            var componentIntegration = await componentIntegrationRepository.FindFirstByIdAsync(input.ComponentIntegrationId);
+            var componentIntegration = await componentIntegrationRepository.FindFirstByIdAsync(input.ImageWarehouseId);
             application.SetImageWarehouse(componentIntegration.Credential);
             await _unitOfWork.CommitAsync();
         }

@@ -80,11 +80,11 @@ public class ApplicationPipelineService : IApplicationPipelineService
     {
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
 
-        var application= await _applicationRepository.FindFirstOrDefaultByAppIdAsync(applicationPipeline.AppId);
+        var application = await _applicationRepository.FindFirstOrDefaultByAppIdAsync(applicationPipeline.AppId);
 
         if (application is null)
         {
-            throw new BusinessException($"应用不存在!"); 
+            throw new BusinessException($"应用不存在!");
         }
         await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
 
@@ -93,7 +93,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var node = xmlDocument.SelectSingleNode("flow-definition/definition/script");
         if (node is null)
         {
-            throw new BusinessException($"流水线的基础xml格式错误"); 
+            throw new BusinessException($"流水线的基础xml格式错误");
         }
         var (buildImage, pipelineScript) = applicationPipeline.GetPipelineScript(application);
         var defaultImageList = GetDefaultContainerList();
@@ -170,8 +170,8 @@ public class ApplicationPipelineService : IApplicationPipelineService
                 var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
                 if (jenkinsJobDetailDto is not null)
                 {
-                             applicationPipelineExecutedRecord.SetPipelineBuildState(jenkinsJobDetailDto.Result != "SUCCESS"?PipelineBuildStateEnum.Fail: PipelineBuildStateEnum.Fail);
-                   
+                    applicationPipelineExecutedRecord.SetPipelineBuildState(jenkinsJobDetailDto.Result != "SUCCESS" ? PipelineBuildStateEnum.Fail : PipelineBuildStateEnum.Fail);
+
                 }
             }
         }
@@ -186,7 +186,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
     }
 
-    
+
 
 
     private List<Container> GetDefaultContainerList() => new()

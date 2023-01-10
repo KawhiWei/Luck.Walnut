@@ -21,4 +21,7 @@ public interface IApplicationPipelineExecutedRecordRepository:IEntityRepository<
     /// </summary>
     /// <returns></returns>
     Task<ApplicationPipelineExecutedRecord[]> GetRunningApplicationPipelineExecutedRecordListAsync();
+
+
+    Task<ApplicationPipelineExecutedRecord[]> GetApplicationPipelineExecutedRecordListAsync(IEnumerable<string> applicationPipelineList);
 }

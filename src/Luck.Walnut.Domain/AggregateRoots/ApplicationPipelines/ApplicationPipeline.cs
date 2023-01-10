@@ -176,15 +176,17 @@ public class ApplicationPipeline : FullAggregateRoot
                             break;
                         }
                         buildImage = $"{pipelineBuildImageStep.BuildImageName}:{pipelineBuildImageStep.Version}";
-                        
-                        
+
+
+
                         var dockerRegistry = new DockerRegistry()
                         {
                             Auths = new Dictionary<string, AuthDto>()
                         };
-                        dockerRegistry.Auths.Add("https://registry.cn-hangzhou.aliyuncs.com",new AuthDto()
+                        byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes($"{application.ImageWarehouse.UserName}:{application.ImageWarehouse.PassWord}");
+                        dockerRegistry.Auths.Add(application.ImageWarehouse.ComponentLinkUrl, new AuthDto()
                         {
-                            Auth= "MTU4NTk1NTM3NUBxcS5jb206d3p3MDEyNi4u"
+                            Auth= Convert.ToBase64String(toEncodeAsBytes)//"MTU4NTk1NTM3NUBxcS5jb206d3p3MDEyNi4u"
                         });
                         
                         var jsonStr = dockerRegistry.Serialize(new JsonSerializerOptions()
@@ -199,7 +201,7 @@ public class ApplicationPipeline : FullAggregateRoot
                                echo '{jsonStr}' > /kaniko/.docker/config.json
                             '''
                             sh '''#!/busybox/sh 
-                               /kaniko/executor -f {pipelineBuildImageStep.DockerFileSrc} -c . --destination=IMAGE_REPOSITORY_NAME:v$BUILD_NUMBER  --insecure --skip-tls-verify -v=debug
+                               /kaniko/executor -f {pipelineBuildImageStep.DockerFileSrc} -c . --destination={application.ImageWarehouse.ComponentLinkUrl}/luck-walunt/walunt-devflow:test$BUILD_NUMBER  --insecure --skip-tls-verify -v=debug
                             '''
                         }}");
                         break;
