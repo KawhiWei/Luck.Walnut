@@ -5,6 +5,7 @@ using Luck.Framework.Extensions;
 using Luck.Walnut.Domain.AggregateRoots.Applications;
 using Luck.Walnut.Domain.Shared.Enums;
 using Luck.Walnut.Dto.ApplicationPipelines;
+using Luck.Walnut.Dto.ComponentIntegrations;
 
 namespace Luck.Walnut.Domain.AggregateRoots.ApplicationPipelines;
 
@@ -125,12 +126,6 @@ public class ApplicationPipeline : FullAggregateRoot
         foreach (var stage in this.PipelineScript)
         {
             stringBuilder.Append($@"
-            environment {{
-                def IMAGE_REPOSITORY_NAME = '{application.ImageWarehouse.ComponentLinkUrl}'
-                def IMAGE_REPOSITORY_USERNAME = '{application.ImageWarehouse.UserName}'
-                def IMAGE_REPOSITORY_PASSWORD = '{application.ImageWarehouse.PassWord??application.ImageWarehouse.Token}'
-                def REGISTRY_CONFIG = '/kaniko/.docker'
-            }}
             stage('{stage.Name}')
             {{
                 steps {{");
@@ -181,10 +176,31 @@ public class ApplicationPipeline : FullAggregateRoot
                             break;
                         }
                         buildImage = $"{pipelineBuildImageStep.BuildImageName}:{pipelineBuildImageStep.Version}";
+                        
+                        
+                        var dockerRegistry = new DockerRegistry()
+                        {
+                            Auths = new Dictionary<string, AuthDto>()
+                        };
+                        dockerRegistry.Auths.Add("https://registry.cn-hangzhou.aliyuncs.com",new AuthDto()
+                        {
+                            Auth= "MTU4NTk1NTM3NUBxcS5jb206d3p3MDEyNi4u"
+                        });
+                        
+                        var jsonStr = dockerRegistry.Serialize(new JsonSerializerOptions()
+                        {
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                        });
+                        
+                        Console.WriteLine(jsonStr);
                         stringBuilder.Append($@"
                         container('docker') {{
-                        sh ''' ""[ -d $REGISTRY_CONFIG ] || mkdir -pv $REGISTRY_CONFIG""
-                        '''
+                            sh '''#!/busybox/sh -e
+                               echo '{jsonStr}' > /kaniko/.docker/config.json
+                            '''
+                            sh '''#!/busybox/sh 
+                               /kaniko/executor -f {pipelineBuildImageStep.DockerFileSrc} -c . --destination=IMAGE_REPOSITORY_NAME:v$BUILD_NUMBER  --insecure --skip-tls-verify -v=debug
+                            '''
                         }}");
                         break;
                     case StepTypeEnum.ExecuteCommand:

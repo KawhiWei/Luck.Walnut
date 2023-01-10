@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Xml;
 using Luck.Framework.Extensions;
+using Luck.Walnut.Dto.ComponentIntegrations;
 using Microsoft.Extensions.Primitives;
 
 namespace Luck.Walnut.Application.ApplicationPipelines;
