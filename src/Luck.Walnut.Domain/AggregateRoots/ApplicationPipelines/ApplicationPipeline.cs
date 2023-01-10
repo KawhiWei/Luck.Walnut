@@ -113,7 +113,7 @@ public class ApplicationPipeline : FullAggregateRoot
     /// <returns></returns>
     public ApplicationPipeline AddApplicationPipelineExecutedRecord(uint nextBuildNumber)
     {
-        var applicationPipelineExecutedRecord = new ApplicationPipelineExecutedRecord(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber, $"{AppId}-{DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")}-{nextBuildNumber}", null);
+        var applicationPipelineExecutedRecord = new ApplicationPipelineExecutedRecord(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber, $"{AppId}-{DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")}-{nextBuildNumber}");
         ApplicationPipelineExecutedRecords.Add(applicationPipelineExecutedRecord);
         return this;
     }

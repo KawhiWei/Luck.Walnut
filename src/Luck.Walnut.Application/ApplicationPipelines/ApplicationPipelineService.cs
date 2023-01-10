@@ -170,17 +170,8 @@ public class ApplicationPipelineService : IApplicationPipelineService
                 var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
                 if (jenkinsJobDetailDto is not null)
                 {
-                    string logs;
-                    if (jenkinsJobDetailDto.Result != "SUCCESS")
-                    {
-                        logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
-                        applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Fail).SetBuildLogs(logs);
-                    }
-                    else
-                    {
-                        logs = await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
-                        applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Fail).SetBuildLogs(logs);
-                    }
+                             applicationPipelineExecutedRecord.SetPipelineBuildState(jenkinsJobDetailDto.Result != "SUCCESS"?PipelineBuildStateEnum.Fail: PipelineBuildStateEnum.Fail);
+                   
                 }
             }
         }

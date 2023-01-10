@@ -27,7 +27,6 @@ public class ApplicationPipelineExecutedRecordRepository : EfCoreEntityRepositor
                 JenkinsBuildNumber = row.JenkinsBuildNumber,
                 PipelineBuildState = row.PipelineBuildState,
                 ImageVersion = row.ImageVersion,
-                BuildLogs = row.BuildLogs,
             }).ToArrayAsync();
         var totalCount = await queryable.CountAsync();
         return (list, totalCount);

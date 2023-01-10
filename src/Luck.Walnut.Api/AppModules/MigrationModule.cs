@@ -62,7 +62,7 @@ namespace Luck.Walnut.Api.AppModules
                 "胡桃木", "sda", "luck.walnut",
                 ApplicationStateEnum.NotOnline, ".Net",
                 applicationLevel: ApplicationLevelEnum.LevelOne,
-                "https://github.com/GeorGeWzw/Luck.Framework.git", "asdas", componentIntegration.Id, buildImage.Id);
+                "https://github.com/GeorGeWzw/Luck.Walnut.git", "asdas", componentIntegration.Id, buildImage.Id);
         }
 
         private static AppEnvironment GetApplication_Env(Domain.AggregateRoots.Applications.Application application)

@@ -82,7 +82,6 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
     public async Task<string> GetJenkinsJobBuildLogsAsync(string applicationPipelineId, string id)
     {
         var applicationPipelineExecutedRecord = await _applicationPipelineExecutedRecordRepository.FindFirstByIdAsync(id);
-        return applicationPipelineExecutedRecord.BuildLogs ?? "";
         var applicationPipeline = await _applicationPipelineRepository.FindFirstByIdAsync(applicationPipelineId);
         var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.ComponentIntegrationId);
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
