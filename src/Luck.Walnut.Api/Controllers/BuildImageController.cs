@@ -10,7 +10,6 @@ namespace Luck.Walnut.Api.Controllers;
 [Route("api/build/images")]
 public class BuildImageController : BaseController
 {
-
     /// <summary>
     /// 
     /// </summary>
@@ -33,7 +32,7 @@ public class BuildImageController : BaseController
     public Task AddBuildImage([FromServices] IBuildImagesService buildImagesService, [FromBody] BuildImagesInputDto input) => buildImagesService.AddBuildImageAsync(input);
 
     /// <summary>
-    /// É¾³ý¾µÏñ
+    /// É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     /// <param name="buildImagesService"></param>
     /// <param name="id"></param>
@@ -42,7 +41,7 @@ public class BuildImageController : BaseController
     public Task DeleteBuildImage([FromServices] IBuildImagesService buildImagesService, string id) => buildImagesService.DeleteBuildImageAsync(id);
 
     /// <summary>
-    /// ÐÞ¸Ä¾µÏñ
+    /// ï¿½Þ¸Ä¾ï¿½ï¿½ï¿½
     /// </summary>
     /// <param name="buildImagesService"></param>
     /// <param name="input"></param>
@@ -51,7 +50,7 @@ public class BuildImageController : BaseController
     public Task UpdateBuildImage([FromServices] IBuildImagesService buildImagesService, string id, [FromBody] BuildImagesInputDto input) => buildImagesService.UpdateBuildImageAsync(id, input);
 
     /// <summary>
-    /// ²éÑ¯ËùÓÐ¾µÏñ
+    /// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ð¾ï¿½ï¿½ï¿½
     /// </summary>
     /// <param name="buildImageQueryService"></param>
     /// <returns></returns>
@@ -59,7 +58,7 @@ public class BuildImageController : BaseController
     public Task<List<BuildImagesOutputDto>> GetBuildImages([FromServices] IBuildImageQueryService buildImageQueryService) => buildImageQueryService.GetBuildImages();
 
     /// <summary>
-    /// ·ÖÒ³²éÑ¯¾µÏñ
+    /// ï¿½ï¿½Ò³ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     /// <param name="buildImageQueryService"></param>
     /// <param name="query"></param>
@@ -69,5 +68,4 @@ public class BuildImageController : BaseController
 
     [HttpGet("{id}")]
     public Task<BuildImagesOutputDto> GetBuildImagesPageById([FromServices] IBuildImageQueryService buildImageQueryService, string id) => buildImageQueryService.GetBuildImagesPageById(id);
-
 }

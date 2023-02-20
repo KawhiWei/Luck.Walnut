@@ -11,22 +11,22 @@ namespace Luck.Walnut.Domain.AggregateRoots.Environments
         /// <summary>
         /// 环境名称
         /// </summary>
-        public string EnvironmentName { get; private set; } = default!;
+        public string EnvironmentName { get; private set; }
 
         /// <summary>
         /// 应用Id
         /// </summary>
-        public string AppId { get; private set; } = default!;
+        public string AppId { get; private set; }
         
         /// <summary>
         /// 环境中文名称
         /// </summary>
-        public string EnvironmentChinesName { get; private set; } = default!;
+        public string EnvironmentChinesName { get; private set; } 
         
         /// <summary>
         /// 版本（每次修改配置时更新版本号）
         /// </summary>
-        public string Version { get; private set; } = default!;
+        public string Version { get; private set; }
 
         /// <summary>
         /// 配置项

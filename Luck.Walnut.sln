@@ -18,9 +18,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luck.Walnut.Query", "src\Luck.Walnut.Query\Luck.Walnut.Query.csproj", "{7BB492DE-E934-410E-863B-57C919A829AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Solution Items", "0.Solution Items", "{5F9FF3B8-0F84-4036-A5F0-78D71C496B29}"
-	ProjectSection(SolutionItems) = preProject
-		Dockerfile = Dockerfile
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Presentation", "1.Presentation", "{B5C70171-88C1-453B-BAC5-1CB8F39E8DD8}"
 EndProject

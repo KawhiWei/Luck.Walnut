@@ -40,7 +40,7 @@
         /// <summary>
         /// 分组名称
         /// </summary>
-        public string? Group { get; private set; } = default!;
+        public string? Group { get; private set; }
 
         /// <summary>
         /// 
