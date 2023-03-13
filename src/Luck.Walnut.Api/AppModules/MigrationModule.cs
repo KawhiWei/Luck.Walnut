@@ -18,33 +18,29 @@ namespace Luck.Walnut.Api.AppModules
         public override void ApplicationInitialization(ApplicationContext context)
         {
             var moduleDbContext = context.ServiceProvider.GetService<WalnutDbContext>();
-            if (moduleDbContext != null)
-            {
-                var isExist = moduleDbContext.Database.EnsureCreated();
-                if (isExist)
-                {
-                    var project = GetProject();
-                    var buildImage = GetBuildImage();
-                    var componentIntegration = ComponentIntegration();
-                    var application = GetApplication(project, buildImage, componentIntegration);
+            if (moduleDbContext == null) return;
+            var isExist = moduleDbContext.Database.EnsureCreated();
+            if (!isExist) return;
+            var project = GetProject();
+            var buildImage = GetBuildImage();
+            var componentIntegration = ComponentIntegration();
+            var application = GetApplication(project, buildImage, componentIntegration);
                     
-                    moduleDbContext.Projects.Add(project);
+            moduleDbContext.Projects.Add(project);
 
-                    application.SetImageWarehouse(
-                        new Image(buildImage.Name, buildImage
-                            .BuildImageName, buildImage.CompileScript))
-                        .SetImageWarehouse(componentIntegration.Credential);
+            application.SetImageWarehouse(
+                    new Image(buildImage.Name, buildImage
+                        .BuildImageName, buildImage.CompileScript))
+                .SetImageWarehouse(componentIntegration.Credential);
 
-                    moduleDbContext.Applications.Add(application);
-                    moduleDbContext.AppEnvironments.Add(GetApplication_Env(application));
+            moduleDbContext.Applications.Add(application);
+            moduleDbContext.AppEnvironments.Add(GetApplication_Env(application));
 
-                    moduleDbContext.Languages.Add(GetLanguage("C#"));
-                    moduleDbContext.RunImages.Add(buildImage);
-                    moduleDbContext.ComponentIntegrations.Add(componentIntegration);
+            moduleDbContext.Languages.Add(GetLanguage("C#"));
+            moduleDbContext.RunImages.Add(buildImage);
+            moduleDbContext.ComponentIntegrations.Add(componentIntegration);
 
-                    moduleDbContext.SaveChanges();
-                }
-            }
+            moduleDbContext.SaveChanges();
         }
 
 
