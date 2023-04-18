@@ -11,7 +11,7 @@
     <ProjectReference Include="..\Luck.Walnut.Dto\Luck.Walnut.Dto.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Luck.EntityFrameworkCore" Version="1.0.5" />
+    <PackageReference Include="Luck.EntityFrameworkCore" Version="1.0.6" />
     <PackageReference Include="Luck.EntityFrameworkCore.PostgreSQL" Version="1.0.5" />
   </ItemGroup>
 

@@ -15,7 +15,7 @@ namespace Luck.Walnut.Application.Applications
         private readonly IApplicationRepository _applicationRepository;
         private readonly IComponentIntegrationRepository componentIntegrationRepository;
 
-        public ApplicationService(IApplicationRepository applicationRepository, IUnitOfWork unitOfWork, IComponentIntegrationRepository componentIntegrationRepository = null)
+        public ApplicationService(IApplicationRepository applicationRepository, IUnitOfWork unitOfWork, IComponentIntegrationRepository componentIntegrationRepository)
         {
             _unitOfWork = unitOfWork;
             _applicationRepository = applicationRepository;

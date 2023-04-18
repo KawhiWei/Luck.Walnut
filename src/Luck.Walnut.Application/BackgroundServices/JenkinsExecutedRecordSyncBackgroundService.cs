@@ -30,7 +30,7 @@ public class JenkinsExecutedRecordSyncBackgroundService : BackgroundService
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError("同步Jenkins执行记录异常");
+                    _logger.LogError("同步Jenkins执行记录异常-------------{EMessage}", e.Message);
                 }
             }
 

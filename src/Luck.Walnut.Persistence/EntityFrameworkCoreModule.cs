@@ -8,16 +8,16 @@ namespace Luck.Walnut.Persistence
 {
     public class EntityFrameworkCoreModule : EntityFrameworkCoreBaseModule
     {
-        public override void AddDbContextWithUnitOfWork(IServiceCollection services)
+        protected override void AddDbContextWithUnitOfWork(IServiceCollection services)
         {
             services.AddLuckDbContext<WalnutDbContext>(x =>
             {
-                x.ConnnectionString = "User ID=postgres;Password=wzw0126..;Host=39.101.165.187;Port=8832;Database=luck.walnut";
+                x.ConnectionString = "User ID=postgres;Password=wzw0126..;Host=39.101.165.187;Port=8832;Database=luck.walnut";
                 x.Type = DataBaseType.PostgreSQL;
             });
         }
 
-        public override void AddDbDriven(IServiceCollection service)
+        protected override void AddDbDriven(IServiceCollection service)
         {
             service.AddPostgreSQLDriven();
         }
