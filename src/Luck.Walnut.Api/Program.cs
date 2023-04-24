@@ -60,7 +60,7 @@ builder.Services.AddSwaggerGen();
 var test = Environment.GetEnvironmentVariable("AppId");
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-builder.Services.AddHostedService<JenkinsExecutedRecordSyncBackgroundService>();
+//builder.Services.AddHostedService<JenkinsExecutedRecordSyncBackgroundService>();
 // builder.Services.AddOpenTelemetryTracing(b =>
 // {
 //     b.AddConsoleExporter()

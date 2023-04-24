@@ -11,6 +11,6 @@
     <ProjectReference Include="..\Luck.Walnut.Dto\Luck.Walnut.Dto.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Luck.DDD.Domain" Version="1.0.6" />
+    <PackageReference Include="Luck.DDD.Domain" Version="1.0.7" />
   </ItemGroup>
 </Project>
