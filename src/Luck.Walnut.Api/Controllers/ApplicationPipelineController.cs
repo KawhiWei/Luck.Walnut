@@ -54,6 +54,17 @@ public class ApplicationPipelineController : BaseController
     public Task PublishApplicationPipelineAsync(string id, [FromServices] IApplicationPipelineService applicationPipelineService)
         => applicationPipelineService.PublishAsync(id);
 
+
+    /// <summary>
+    /// Webhook同步JenkinsJob执行的状态
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="applicationPipelineService"></param>
+    /// <returns></returns>
+    [HttpPut("{id}/{jenkinsBuildNumber}/webhook/sync/jenkins/status")]
+    public Task WebHookSyncJenkinsExecutedRecord(string id,uint jenkinsBuildNumber, [FromServices] IApplicationPipelineService applicationPipelineService)
+        => applicationPipelineService.WebHookSyncJenkinsExecutedRecordAsync(id, jenkinsBuildNumber);
+
     /// <summary>
     /// 删除流水线
     /// </summary>
@@ -72,8 +83,8 @@ public class ApplicationPipelineController : BaseController
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
     [HttpGet("{appId}/page/list")]
-    public Task<PageBaseResult<ApplicationPipelineOutputDto>> GetApplicationPageListAsync(string appId, [FromQuery] ApplicationPipelineQueryDto query, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
-        => applicationPipelineQueryService.GetApplicationPageListAsync(appId, query);
+    public Task<PageBaseResult<ApplicationPipelineOutputDto>> GetApplicationPipelinePageListAsync(string appId, [FromQuery] ApplicationPipelineQueryDto query, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
+        => applicationPipelineQueryService.GetApplicationPipelinePageListAsync(appId, query);
 
     /// <summary>
     /// 根据id查询流水线详情
@@ -82,8 +93,8 @@ public class ApplicationPipelineController : BaseController
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public Task<ApplicationPipelineOutputDto> GetApplicationDetailForIdAsync(string id, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
-        => applicationPipelineQueryService.GetApplicationDetailForIdAsync(id);
+    public Task<ApplicationPipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id, [FromServices] IApplicationPipelineQueryService applicationPipelineQueryService)
+        => applicationPipelineQueryService.GetApplicationPipelineDetailForIdAsync(id);
 
 
     // /// <summary>

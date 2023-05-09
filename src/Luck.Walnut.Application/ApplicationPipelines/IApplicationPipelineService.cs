@@ -41,6 +41,15 @@ public interface IApplicationPipelineService: IScopedDependency
     /// <returns></returns>
     Task ExecuteJobAsync(string id);
 
+
+    /// <summary>
+    /// Webhook同步JenkinsJob执行的状态
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="jenkinsBuildNumber"></param>
+    /// <returns></returns>
+    Task WebHookSyncJenkinsExecutedRecordAsync(string id, uint jenkinsBuildNumber);
+
     /// <summary>
     /// 使用后台任务的方式同步JenkinsJob执行的状态
     /// </summary>

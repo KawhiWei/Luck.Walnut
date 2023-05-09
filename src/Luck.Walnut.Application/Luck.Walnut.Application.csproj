@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ApplicationPipelines\ApplicationPipelineService.cs~RF9e4277.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Luck.Walnut.Adapter\Luck.Walnut.Adapter.csproj" />
     <ProjectReference Include="..\Luck.Walnut.Domain\Luck.Walnut.Domain.csproj" />
     <ProjectReference Include="..\Luck.Walnut.Dto\Luck.Walnut.Dto.csproj" />

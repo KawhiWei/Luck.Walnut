@@ -25,7 +25,7 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
         _applicationRepository = applicationRepository;
     }
 
-    public async Task<PageBaseResult<ApplicationPipelineOutputDto>> GetApplicationPageListAsync(string appId, ApplicationPipelineQueryDto query)
+    public async Task<PageBaseResult<ApplicationPipelineOutputDto>> GetApplicationPipelinePageListAsync(string appId, ApplicationPipelineQueryDto query)
     {
         var (Data, TotalCount) = await _applicationPipelineRepository.GetApplicationPipelinePageListAsync(appId, query);
 
@@ -56,7 +56,7 @@ public class ApplicationPipelineQueryService : IApplicationPipelineQueryService
         return new PageBaseResult<ApplicationPipelineExecutedRecordOutputDto>(result.TotalCount, result.Data.ToArray());
     }
 
-    public async Task<ApplicationPipelineOutputDto> GetApplicationDetailForIdAsync(string id)
+    public async Task<ApplicationPipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id)
     {
         var applicationPipeline = await _applicationPipelineRepository.FindFirstByIdAsync(id);
         var application = await _applicationRepository.FindFirstOrDefaultByAppIdAsync(applicationPipeline.AppId);

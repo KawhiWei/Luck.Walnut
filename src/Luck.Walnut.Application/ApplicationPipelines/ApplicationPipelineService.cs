@@ -138,13 +138,12 @@ public class ApplicationPipelineService : IApplicationPipelineService
         //await _jenkinsIntegration.BuildJobAsync(applicationPipeline.Name);
         var paramsDic = new Dictionary<string, string>
         {
-            { "BRANCH_NAME", "" },
-            { "VERSION_NAME", DateTime.Now.ToString("yyyy.MMdd.HHmm.ss") }
+            { "BRANCH_NAME", "Release" },
+            { "VERSION_NAME", DateTime.Now.ToString("yyyy.MMdd.HHmm.ss") },
+            { "APPLICATIONPIPELINEID", id },
+            
         };
-
-
         await _jenkinsIntegration.BuildJobWithParametersAsync(applicationPipeline.Name, paramsDic);
-
         await _unitOfWork.CommitAsync();
     }
 
@@ -160,10 +159,32 @@ public class ApplicationPipelineService : IApplicationPipelineService
     }
 
 
-    private async Task<ApplicationPipeline> GetApplicationPipelineByIdAsync(string id)
+
+
+    /// <summary>
+    /// Webhook同步JenkinsJob执行的状态
+    /// </summary>
+    public async Task WebHookSyncJenkinsExecutedRecordAsync(string id,uint jenkinsBuildNumber)
     {
-        return await _applicationPipelineRepository.FindFirstByIdAsync(id);
+        var applicationPipeline=  await _applicationPipelineRepository.FindFirstByIdAsync(id);
+        await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
+
+        var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, jenkinsBuildNumber);
+
+        var applicationPipelineExecutedRecord= applicationPipeline.GetExecutedRecordForJenkinsNumber(jenkinsBuildNumber);
+
+        if (jenkinsJobDetailDto is not null)
+        {
+            applicationPipelineExecutedRecord.SetPipelineBuildState(jenkinsJobDetailDto.Result != "SUCCESS" ? PipelineBuildStateEnum.Fail : PipelineBuildStateEnum.Success);
+        }
+        else
+        {
+            applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Fail);
+        }
+        await _unitOfWork.CommitAsync();
+
     }
+
 
     /// <summary>
     /// 使用后台任务的方式同步JenkinsJob执行的状态
@@ -225,5 +246,11 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();
+    }
+
+
+    private async Task<ApplicationPipeline> GetApplicationPipelineByIdAsync(string id)
+    {
+        return await _applicationPipelineRepository.FindFirstByIdAsync(id);
     }
 }

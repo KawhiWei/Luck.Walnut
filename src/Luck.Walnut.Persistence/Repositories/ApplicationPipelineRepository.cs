@@ -26,7 +26,8 @@ public class ApplicationPipelineRepository : EfCoreAggregateRootRepository<Appli
             return _applicationPipelineForId[id];
         }
 
-        var applicationPipeline = await FindAll(x => x.Id == id).FirstOrDefaultAsync();
+        var applicationPipeline = await FindAll(x => x.Id == id)
+            .Include(x=>x.ApplicationPipelineExecutedRecords).FirstOrDefaultAsync();
         if (applicationPipeline is null)
         {
             throw new BusinessException($"流水线不存在");

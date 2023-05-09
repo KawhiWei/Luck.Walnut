@@ -39,6 +39,7 @@ spec:
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: '分支名称')
         string(name: 'VERSION_NAME', defaultValue: 'main', description: '版本号')
+        string(name: 'APPLICATIONPIPELINEID', defaultValue: 'main', description: '执行流水线Id')
     }
     stages{
         @Raw(metadata.PipelineScript)
