@@ -14,6 +14,7 @@ using System.Xml;
 using Luck.Framework.Extensions;
 using Luck.Walnut.Dto.ComponentIntegrations;
 using Microsoft.Extensions.Primitives;
+using System.Reflection.Metadata;
 
 namespace Luck.Walnut.Application.ApplicationPipelines;
 
@@ -134,7 +135,16 @@ public class ApplicationPipelineService : IApplicationPipelineService
             applicationPipeline.AddApplicationPipelineExecutedRecord(jenkinsJobDetailDto.NextBuildNumber);
         }
 
-        await _jenkinsIntegration.BuildJobAsync(applicationPipeline.Name);
+        //await _jenkinsIntegration.BuildJobAsync(applicationPipeline.Name);
+        var paramsDic = new Dictionary<string, string>
+        {
+            { "BRANCH_NAME", "" },
+            { "VERSION_NAME", DateTime.Now.ToString("yyyy.MMdd.HHmm.ss") }
+        };
+
+
+        await _jenkinsIntegration.BuildJobWithParametersAsync(applicationPipeline.Name, paramsDic);
+
         await _unitOfWork.CommitAsync();
     }
 

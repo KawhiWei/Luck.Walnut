@@ -1,3 +1,4 @@
+using Luck.Walnut.Dto.ApplicationPipelines;
 using Luck.Walnut.Dto.Jenkinses;
 
 namespace Luck.Walnut.Adapter.JenkinsAdapter;
@@ -58,6 +59,14 @@ public interface IJenkinsIntegration : IScopedDependency
     /// </summary>
     /// <returns></returns>
     Task<string> BuildJobAsync(string jobName);
+
+    /// <summary>
+    /// 带有参数执行构建脚本
+    /// </summary>
+    /// <param name="jobName"></param>
+    /// <param name="jenkinsBuildParaMeter"></param>
+    /// <returns></returns>
+    Task<string> BuildJobWithParametersAsync(string jobName, IDictionary<string,string> paramsDic);
 
     /// <summary>
     /// 删除 JenkinsJob

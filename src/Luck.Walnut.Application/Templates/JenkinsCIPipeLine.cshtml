@@ -36,8 +36,11 @@ spec:
 """     
         }
     }
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: '分支名称')
+        string(name: 'VERSION_NAME', defaultValue: 'main', description: '版本号')
+    }
     stages{
         @Raw(metadata.PipelineScript)
     }
-
 }

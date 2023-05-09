@@ -1,10 +1,12 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using Luck.Framework.Exceptions;
 using Luck.Framework.Extensions;
+using Luck.Walnut.Dto.ApplicationPipelines;
 using Luck.Walnut.Dto.Jenkinses;
 
 namespace Luck.Walnut.Adapter.JenkinsAdapter;
@@ -101,6 +103,34 @@ public class JenkinsIntegration : IJenkinsIntegration
             throw new BusinessException("", $"服务器异常", ex);
         }
     }
+
+
+    /// <summary>
+    /// 触发构建一个任务执行build
+    /// </summary>
+    public async Task<string> BuildJobWithParametersAsync(string jobName ,IDictionary<string, string> paramsDic)
+    {
+        try
+        {
+            var client = _httpClientFactory.CreateClient();
+            SetRequestHeadersBasicAuth(client);
+            var paramsStr = new StringBuilder();
+            foreach ( var param in paramsDic )
+            {
+                paramsStr.Append($"{param.Key}={param.Value}&");
+            }
+            var srt = paramsStr.ToString().Substring(0, paramsStr.ToString().Length - 1);
+            var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/buildWithParameters?{srt}", null);
+            return await HttpResponseMessage(response);
+        }
+        catch (Exception ex)
+        {
+            throw new BusinessException("", $"服务器异常", ex);
+        }
+    }
+
+
+    
 
     /// <summary>
     /// 查询Jenkins执行Job的日志
