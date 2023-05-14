@@ -12,7 +12,7 @@ namespace Luck.Walnut.Persistence
         {
             services.AddLuckDbContext<WalnutDbContext>(x =>
             {
-                x.ConnectionString = "User ID=postgres;Password=wzw0126..;Host=39.101.165.187;Port=8832;Database=luck.walnut";
+                x.ConnectionString = "User ID=postgres;Password=wzw0126..;Host=39.101.165.187;Port=8832;Database=toyar.core";
                 x.Type = DataBaseType.PostgreSQL;
             });
         }

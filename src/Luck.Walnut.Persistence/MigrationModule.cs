@@ -5,9 +5,10 @@ using Luck.Walnut.Domain.AggregateRoots.Languages;
 using Luck.Walnut.Domain.AggregateRoots.Projects;
 using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 using Luck.Walnut.Domain.Shared.Enums;
-using BuildImage = Luck.Walnut.Domain.AggregateRoots.BuildImages.BuildImage;
+using Microsoft.Extensions.DependencyInjection;
+using Luck.Walnut.Domain.AggregateRoots.BuildImages;
 
-namespace Luck.Walnut.Api.AppModules
+namespace Luck.Walnut.Persistence
 {
     [DependsOn(
         typeof(EntityFrameworkCoreModule)
@@ -28,9 +29,7 @@ namespace Luck.Walnut.Api.AppModules
                     
             moduleDbContext.Projects.Add(project);
 
-            application.SetImageWarehouse(
-                    new Image(buildImage.Name, buildImage
-                        .BuildImageName, buildImage.CompileScript))
+            application.SetBuildImage(buildImage.Id,new Image(buildImage.BuildImageName, buildImage.CompileScript))
                 .SetImageWarehouse(componentIntegration.Credential);
 
             moduleDbContext.Applications.Add(application);
@@ -54,8 +53,8 @@ namespace Luck.Walnut.Api.AppModules
 
 
             return new Domain.AggregateRoots.Applications.Application(
-                project.Id, "luck.walnut", "A",
-                "胡桃木", "sda", "luck.walnut",
+                project.Id, "toyar.core", "A",
+                "拓源", "sda", "toyar.core",
                 ApplicationStateEnum.NotOnline, ".Net",
                 applicationLevel: ApplicationLevelEnum.LevelOne,
                 "https://github.com/GeorGeWzw/Luck.Walnut.git", "asdas", componentIntegration.Id, buildImage.Id);
@@ -87,7 +86,7 @@ namespace Luck.Walnut.Api.AppModules
             //使用以下命令解决
             //drop schema "luck.walnut" cascade;
 
-            var runImage = new BuildImage(".Net6", "mcr.microsoft.com/dotnet/sdk", @"# 编译命令，注：当前已在代码根路径下 
+            var runImage = new BuildImage(".Net6", "registry.cn-hangzhou.aliyuncs.com/luck-net/aspnet-sdk", @"# 编译命令，注：当前已在代码根路径下 
                                 dotnet restore  
                                 dotnet publish -p:PublishSingleFile=true -r linux-musl-x64 --self-contained true -p:PublishTrimmed=True -p:TrimMode=Link -c Release -o /app/publish");
             runImage.AddRunImageVersion("6.0");

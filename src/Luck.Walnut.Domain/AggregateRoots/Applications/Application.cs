@@ -1,4 +1,5 @@
-﻿using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
+﻿using Luck.Walnut.Domain.AggregateRoots.BuildImages;
+using Luck.Walnut.Domain.AggregateRoots.ComponentIntegrations;
 using Luck.Walnut.Domain.Shared.Enums;
 
 namespace Luck.Walnut.Domain.AggregateRoots.Applications
@@ -124,8 +125,9 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
             ImageWarehouse = imageWarehouse;
             return this;
         }
-        public Application SetImageWarehouse(Image image)
+        public Application SetBuildImage(string buildImageId,Image image)
         {
+            BuildImageId = buildImageId;
             BuildImage = image;
             return this;
         }

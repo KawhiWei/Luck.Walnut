@@ -130,18 +130,24 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
         await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
         var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
+
+        var branchName = "Release";
+        var version = DateTime.Now.ToString("yyyy.MMdd.HHmm.ss");
+        var imageVersion = $"{branchName}{version}";
+
         if (jenkinsJobDetailDto is not null)
         {
-            applicationPipeline.AddApplicationPipelineExecutedRecord(jenkinsJobDetailDto.NextBuildNumber);
+            applicationPipeline.AddApplicationPipelineExecutedRecord(jenkinsJobDetailDto.NextBuildNumber, imageVersion);
         }
+
 
         //await _jenkinsIntegration.BuildJobAsync(applicationPipeline.Name);
         var paramsDic = new Dictionary<string, string>
         {
-            { "BRANCH_NAME", "Release" },
-            { "VERSION_NAME", DateTime.Now.ToString("yyyy.MMdd.HHmm.ss") },
+            { "BRANCH_NAME", branchName },
+            { "VERSION_NAME", version  },
             { "APPLICATIONPIPELINEID", id },
-            
+
         };
         await _jenkinsIntegration.BuildJobWithParametersAsync(applicationPipeline.Name, paramsDic);
         await _unitOfWork.CommitAsync();
@@ -164,14 +170,14 @@ public class ApplicationPipelineService : IApplicationPipelineService
     /// <summary>
     /// Webhook同步JenkinsJob执行的状态
     /// </summary>
-    public async Task WebHookSyncJenkinsExecutedRecordAsync(string id,uint jenkinsBuildNumber)
+    public async Task WebHookSyncJenkinsExecutedRecordAsync(string id, uint jenkinsBuildNumber)
     {
-        var applicationPipeline=  await _applicationPipelineRepository.FindFirstByIdAsync(id);
+        var applicationPipeline = await _applicationPipelineRepository.FindFirstByIdAsync(id);
         await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
 
         var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, jenkinsBuildNumber);
 
-        var applicationPipelineExecutedRecord= applicationPipeline.GetExecutedRecordForJenkinsNumber(jenkinsBuildNumber);
+        var applicationPipelineExecutedRecord = applicationPipeline.GetExecutedRecordForJenkinsNumber(jenkinsBuildNumber);
 
         if (jenkinsJobDetailDto is not null)
         {
@@ -222,8 +228,8 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
     private List<Container> GetDefaultContainerList() => new()
     {
-        new Container("jnlp", "registry.cn-hangzhou.aliyuncs.com/luck-walunt/inbound-agent:4.10-3-v1", "/home/jenkins/agent"),
-        new Container("docker", "registry.cn-hangzhou.aliyuncs.com/luck-walunt/kaniko-executor:v1.9.0-debug-v1", "/home/jenkins/agent").SetCommandArr(new[] { "cat" }),
+        new Container("jnlp", "registry.cn-hangzhou.aliyuncs.com/toyar/inbound-agent:v4.11-1-alpine-jdk11", "/home/jenkins/agent"),
+        new Container("docker", "registry.cn-hangzhou.aliyuncs.com/toyar/kaniko-executor:v1.9.0-debug", "/home/jenkins/agent").SetCommandArr(new[] { "cat" }),
     };
 
     /// <summary>

@@ -1,3 +1,4 @@
+
 using Luck.Walnut.Adapter.JenkinsAdapter;
 using Luck.Walnut.Application.ApplicationPipelines;
 using Luck.Walnut.Dto;
@@ -80,6 +81,7 @@ public class ApplicationPipelineController : BaseController
     /// </summary>
     /// <param name="appId"></param>
     /// <param name="query"></param>
+    /// 
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
     [HttpGet("{appId}/page/list")]

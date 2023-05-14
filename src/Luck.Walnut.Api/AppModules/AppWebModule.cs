@@ -7,7 +7,8 @@ namespace Luck.Walnut.Api.AppModules
         typeof(DependencyAppModule),
         typeof(EntityFrameworkCoreModule),
         typeof(MigrationModule),
-        typeof(SerilogModule)
+        typeof(SerilogModule),
+        typeof(EntityFrameworkCoreModule)
     )]
     
     

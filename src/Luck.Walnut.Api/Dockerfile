@@ -1,10 +1,10 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM registry.cn-hangzhou.aliyuncs.com/luck-walunt/aspnet:6.0 AS base
+FROM registry.cn-hangzhou.aliyuncs.com/luck-net/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM registry.cn-hangzhou.aliyuncs.com/luck-walunt/aspnet-sdk:6.0 AS build
+FROM registry.cn-hangzhou.aliyuncs.com/luck-net/aspnet-sdk:6.0 AS build
 WORKDIR /src
 COPY ["src/Luck.Walnut.Api/Luck.Walnut.Api.csproj", "src/Luck.Walnut.Api/"]
 COPY ["src/Luck.Walnut.Application/Luck.Walnut.Application.csproj", "src/Luck.Walnut.Application/"]

@@ -18,7 +18,7 @@ public class BuildImageRepository : EfCoreAggregateRootRepository<BuildImage, st
         var buildImage = await FindAll(x => x.Id == id).FirstOrDefaultAsync();
         if (buildImage is null)
         {
-            throw new BusinessException($"流水线不存在");
+            throw new BusinessException($"镜像不存在");
         }
 
         return buildImage;

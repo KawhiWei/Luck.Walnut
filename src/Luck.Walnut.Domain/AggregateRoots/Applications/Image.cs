@@ -10,24 +10,15 @@ namespace Luck.Walnut.Domain.AggregateRoots.Applications
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="name"></param>
         /// <param name="buildImageName"></param>
         /// <param name="compileScript"></param>
         /// <param name="version"></param>
         [JsonConstructor]//这个特性 可以写私有，标识你要用哪个构造函数
-        public Image(string name, string buildImageName, string compileScript)
+        public Image(string buildImageName, string compileScript)
         {
-            Name = name;
             BuildImageName = buildImageName;
             CompileScript = compileScript;
         }
-
-
-
-        /// <summary>
-        /// 镜像名称
-        /// </summary>
-        public string Name { get; private set; }
 
         /// <summary>
         /// 镜像地址

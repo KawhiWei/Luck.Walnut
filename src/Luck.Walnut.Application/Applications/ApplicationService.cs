@@ -14,12 +14,14 @@ namespace Luck.Walnut.Application.Applications
         private readonly IUnitOfWork _unitOfWork;
         private readonly IApplicationRepository _applicationRepository;
         private readonly IComponentIntegrationRepository componentIntegrationRepository;
+        private readonly IBuildImageRepository _buildImageRepository;
 
-        public ApplicationService(IApplicationRepository applicationRepository, IUnitOfWork unitOfWork, IComponentIntegrationRepository componentIntegrationRepository)
+        public ApplicationService(IApplicationRepository applicationRepository, IUnitOfWork unitOfWork, IComponentIntegrationRepository componentIntegrationRepository, IBuildImageRepository buildImageRepository)
         {
             _unitOfWork = unitOfWork;
             _applicationRepository = applicationRepository;
             this.componentIntegrationRepository = componentIntegrationRepository;
+            _buildImageRepository = buildImageRepository;
         }
 
         public async Task AddApplicationAsync(ApplicationInputDto input)
@@ -46,11 +48,18 @@ namespace Luck.Walnut.Application.Applications
         public async Task UpdateApplicationAsync(string id, ApplicationInputDto input)
         {
             var application = await GetApplicationByIdAsync(id);
+
+            var buildImage = await _buildImageRepository.FindFirstByIdAsync(input.BuildImageId);
+
+            var componentIntegration = await componentIntegrationRepository.FindFirstByIdAsync(input.ImageWarehouseId);
+
+
             application.UpdateInfo(input.ProjectId, input.EnglishName, input.DepartmentName, input.ChineseName, input.Principal,
                 input.AppId, input.ApplicationState, input.ApplicationLevel,input.DevelopmentLanguage, input.Describe,
             input.CodeWarehouseAddress);
-            var componentIntegration = await componentIntegrationRepository.FindFirstByIdAsync(input.ImageWarehouseId);
             application.SetImageWarehouse(componentIntegration.Credential);
+            application.SetBuildImage(buildImage.Id, new Image(buildImage.BuildImageName, buildImage.CompileScript));
+
             await _unitOfWork.CommitAsync();
         }
 
