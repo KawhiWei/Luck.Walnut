@@ -117,6 +117,8 @@ public class ApplicationPipelineService : IApplicationPipelineService
             await _jenkinsIntegration.UpdateJenkinsJobAsync(applicationPipeline.Name, xmlDocument.InnerXml);
         }
 
+        await _jenkinsIntegration.BuildJobAsync(applicationPipeline.Name);
+
         applicationPipeline.SetPublished(true);
         await _unitOfWork.CommitAsync();
     }
