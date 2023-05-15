@@ -50,7 +50,7 @@ namespace Luck.Walnut.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.HasDefaultSchema("luck.walnut");
+            modelBuilder.HasDefaultSchema("toyar.core");
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

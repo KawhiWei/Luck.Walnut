@@ -53,8 +53,8 @@ namespace Luck.Walnut.Persistence
 
 
             return new Domain.AggregateRoots.Applications.Application(
-                project.Id, "toyar.core", "A",
-                "拓源", "sda", "toyar.core",
+                project.Id, "toyar.core.api", "A",
+                "拓源", "sda", "toyar.core.api",
                 ApplicationStateEnum.NotOnline, ".Net",
                 applicationLevel: ApplicationLevelEnum.LevelOne,
                 "https://github.com/GeorGeWzw/Luck.Walnut.git", "asdas", componentIntegration.Id, buildImage.Id);
@@ -74,7 +74,7 @@ namespace Luck.Walnut.Persistence
 
         private static ComponentIntegration ComponentIntegration()
         {
-            var credential = new Credential(componentLinkUrl: "https://jenkins.sukt.store", userName: "kawhi", passWord: "", token: "119dc867c3746ca39414387a1de9583d31");
+            var credential = new Credential(componentLinkUrl: "http://192.168.31.10:30106", userName: "kawhi", passWord: "", token: "1123b54cacaee9a0b5616279bfae10387f");
             return new ComponentIntegration("Jenkins流水线引擎公网地址", ComponentTypeEnum.Jenkins, credential, ComponentCategoryEnum.PipeLine);
         }
 
