@@ -80,5 +80,17 @@ namespace Luck.Walnut.Application.BuildImages
             buildImage.UpdateInfo(input.Name, input.BuildImageName, input.CompileScript);
             await _unitOfWork.CommitAsync();
         }
+
+        /// <summary>
+        /// 添加版本镜像
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task CareatBuildImageVersion(BuildImageVersionInputDto input)
+        {
+            var buildImage = await _buildImageRepository.FindFirstByIdAsync(input.BuildImageId);
+            buildImage.AddBuildImageVersion(input.Version);
+            await _unitOfWork.CommitAsync();
+        }
     }
 }

@@ -14,7 +14,7 @@ public class BuildImageVersion : FullEntity
     public string BuildImageId { get; private set; }
 
     /// <summary>
-    /// 镜像名称
+    /// 版本号
     /// </summary>
     public string Version { get; private set; }
 

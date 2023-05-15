@@ -30,7 +30,7 @@ public class BuildImage : FullAggregateRoot
     public ICollection<BuildImageVersion> RunImageVersions { get; private set; } = new HashSet<BuildImageVersion>();
 
 
-    public BuildImage AddRunImageVersion(string version)
+    public BuildImage AddBuildImageVersion(string version)
     {
         RunImageVersions.Add(new BuildImageVersion(this.Id, version));
         return this;

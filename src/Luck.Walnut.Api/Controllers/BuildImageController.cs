@@ -68,4 +68,13 @@ public class BuildImageController : BaseController
 
     [HttpGet("{id}")]
     public Task<BuildImagesOutputDto> GetBuildImagesPageById([FromServices] IBuildImageQueryService buildImageQueryService, string id) => buildImageQueryService.GetBuildImagesPageById(id);
+
+    /// <summary>
+    /// 添加镜像版本
+    /// </summary>
+    /// <param name="buildImagesService"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPost("CareatBuildImageVersion")]
+    public Task CareatBuildImageVersion([FromServices] IBuildImagesService buildImagesService, [FromBody] BuildImageVersionInputDto input) => buildImagesService.CareatBuildImageVersion(input);
 }

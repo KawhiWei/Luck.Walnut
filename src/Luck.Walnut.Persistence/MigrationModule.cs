@@ -89,7 +89,7 @@ namespace Luck.Walnut.Persistence
             var runImage = new BuildImage(".Net6", "registry.cn-hangzhou.aliyuncs.com/luck-net/aspnet-sdk", @"# 编译命令，注：当前已在代码根路径下 
                                 dotnet restore  
                                 dotnet publish -p:PublishSingleFile=true -r linux-musl-x64 --self-contained true -p:PublishTrimmed=True -p:TrimMode=Link -c Release -o /app/publish");
-            runImage.AddRunImageVersion("6.0");
+            runImage.AddBuildImageVersion("6.0");
             return runImage;
         }
     }

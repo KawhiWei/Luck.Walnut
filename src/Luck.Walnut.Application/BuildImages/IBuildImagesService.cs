@@ -9,5 +9,7 @@ namespace Luck.Walnut.Application.BuildImages
         Task DeleteBuildImageAsync(string id);
 
         Task UpdateBuildImageAsync(string id, BuildImagesInputDto input);
+
+        Task CareatBuildImageVersion(BuildImageVersionInputDto input);
     }
 }
