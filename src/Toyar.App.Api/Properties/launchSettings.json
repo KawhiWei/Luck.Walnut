@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Toyar.App.Api": {
+      "commandName": "Project",
+      "launchUrl": "walnut/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AppId": "Toyar.App"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5099"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/walnut/swagger",
+      "publishAllPorts": true
+    }
+  }
+}

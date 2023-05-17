@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Toyar.App.Domain.Shared\Toyar.App.Domain.Shared.csproj" />
+    <ProjectReference Include="..\Toyar.App.Dto\Toyar.App.Dto.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Luck.DDD.Domain" Version="1.0.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AggregateRoots\PipelineTemplates\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Toyar.App.Domain.Shared\Toyar.App.Domain.Shared.csproj" />
+    <ProjectReference Include="..\Toyar.App.Infrastructure\Toyar.App.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
