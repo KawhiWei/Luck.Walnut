@@ -1,11 +1,8 @@
 ﻿using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
 using Toyar.App.Domain.AggregateRoots.Applications;
-using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
 using Toyar.App.Domain.Repositories;
-using Toyar.App.Domain.Shared.Enums;
 using Toyar.App.Dto.Applications;
-using Toyar.App.Persistence.Repositories;
 
 namespace Toyar.App.AppService.Applications
 {
@@ -13,20 +10,17 @@ namespace Toyar.App.AppService.Applications
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IApplicationRepository _applicationRepository;
-        private readonly IComponentIntegrationRepository componentIntegrationRepository;
-        private readonly IContinuousIntegrationImageRepository _buildImageRepository;
 
-        public ApplicationService(IApplicationRepository applicationRepository, IUnitOfWork unitOfWork, IComponentIntegrationRepository componentIntegrationRepository, IContinuousIntegrationImageRepository buildImageRepository)
+        public ApplicationService(IApplicationRepository applicationRepository, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _applicationRepository = applicationRepository;
-            this.componentIntegrationRepository = componentIntegrationRepository;
-            _buildImageRepository = buildImageRepository;
         }
 
         public async Task AddApplicationAsync(ApplicationInputDto input)
         {
             await CheckAppIdAsync(input.AppId);
+            _applicationRepository.Add(new Application("", input.AppId, input.GitUrl));
             await _unitOfWork.CommitAsync();
         }
 

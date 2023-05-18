@@ -47,7 +47,7 @@ public class PipelineService : IPipelineService
                 return new Stage(stage.Name, stageList.ToList());
             }
         ).ToList();
-        var applicationPipeline = new Pipeline(input.AppId, input.Name, input.AppEnvironmentId, false, input.ComponentIntegrationId);
+        var applicationPipeline = new Pipeline(input.AppId, input.Name, input.AppEnvironmentId, false, input.ComponentIntegrationId,":");
 
         //pipelineScript,
         _pipelineRepository.Add(applicationPipeline);
