@@ -36,7 +36,7 @@ public class Pipeline : FullAggregateRoot
     /// <summary>
     /// 流水线Dsl
     /// </summary>
-    public ICollection<Stage> PipelineScript { get; private set; }
+    public ICollection<Stage> PipelineScript { get; private set; } = new HashSet<Stage>();
 
     /// <summary>
     /// 
@@ -54,7 +54,7 @@ public class Pipeline : FullAggregateRoot
     public bool Published { get; private set; }
 
     /// <summary>
-    /// 组件集成Id
+    /// 流水线集成Id
     /// </summary>
     public string ComponentIntegrationId { get; private set; }
 

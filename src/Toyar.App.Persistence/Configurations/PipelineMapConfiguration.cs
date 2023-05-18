@@ -15,3 +15,4 @@ public class PipelineMapConfiguration : IEntityTypeConfiguration<Pipeline>
         builder.ToTable("pipelines");
     }
 }
+

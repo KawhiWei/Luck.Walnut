@@ -13,7 +13,4 @@
   <ItemGroup>
     <PackageReference Include="Luck.DDD.Domain" Version="1.0.7" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AggregateRoots\PipelineTemplates\" />
-  </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@ using Toyar.App.Domain.AggregateRoots.Applications;
 using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
 using Toyar.App.Domain.AggregateRoots.Environments;
 using Toyar.App.Domain.AggregateRoots.ContinuousIntegrationImages;
+using Toyar.App.Domain.AggregateRoots.Templates;
 
 namespace Toyar.App.Persistence
 {
@@ -31,6 +32,7 @@ namespace Toyar.App.Persistence
         public DbSet<ContinuousIntegrationImage> ContinuousIntegrationImages => Set<ContinuousIntegrationImage>();
 
         public DbSet<ContinuousIntegrationImageVersion> CIRunnerImageVersions => Set<ContinuousIntegrationImageVersion>();
+        public DbSet<PipelineTemplate> PipelineTemplates => Set<PipelineTemplate>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
