@@ -20,7 +20,7 @@ namespace Toyar.App.AppService.Applications
         public async Task AddApplicationAsync(ApplicationInputDto input)
         {
             await CheckAppIdAsync(input.AppId);
-            _applicationRepository.Add(new Application("", input.AppId, input.GitUrl));
+            _applicationRepository.Add(new Application("", input.Name, input.AppId, input.GitUrl));
             await _unitOfWork.CommitAsync();
         }
 

@@ -7,6 +7,11 @@ namespace Toyar.App.Dto.Applications;
 public class ApplicationBaseDto
 {
     /// <summary>
+    /// 应用名称
+    /// </summary>
+    public string Name { get;  set; } = default!;
+
+    /// <summary>
     /// 应用唯一标识
     /// </summary>
     public string AppId { get; set; } = default!;

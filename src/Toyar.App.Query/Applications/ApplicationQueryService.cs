@@ -43,7 +43,7 @@ namespace Toyar.App.Query.Applications
             return await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
         }
 
-        public async Task<ApplicationOutput> GetApplicationDetailForIdAsync(string id)
+        public async Task<ApplicationOutput?> GetApplicationDetailForIdAsync(string id)
         {
             var application = await _applicationRepository.FindFirstOrDefaultByIdAsync(id);
             if (application is null)
@@ -52,6 +52,7 @@ namespace Toyar.App.Query.Applications
             {
                 Id = application.Id,
                 AppId = application.AppId,
+                Name = application.Name,
             };
 
             return new ApplicationOutput()

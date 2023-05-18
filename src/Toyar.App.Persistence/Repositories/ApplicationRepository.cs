@@ -73,6 +73,7 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
                 Id = application.Id,
                 AppId = application.AppId,
                 GitUrl = application.GitUrl,
+                Name = application.Name,
             })
             .WhereIf(x => x.AppId.Contains(query.AppId), !query.AppId.IsNullOrWhiteSpace())
             .OrderByDescending(x => x.Id);

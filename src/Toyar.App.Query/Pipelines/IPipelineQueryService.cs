@@ -1,6 +1,5 @@
 using Toyar.App.Dto;
 using Toyar.App.Dto.ApplicationPipelines;
-using Toyar.App.Dto.Applications;
 
 namespace Toyar.App.Query.Pipelines;
 

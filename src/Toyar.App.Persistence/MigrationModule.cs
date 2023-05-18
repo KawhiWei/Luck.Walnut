@@ -8,7 +8,7 @@ namespace Toyar.App.Persistence
     )]
     public class MigrationModule : AppModule
     {
-        //P过SQL删除    drop schema "luck.walnut" cascade;
+        //SQL删除    drop schema "toyar.app" cascade;
         public override void ApplicationInitialization(ApplicationContext context)
         {
             var moduleDbContext = context.ServiceProvider.GetService<WalnutDbContext>();
