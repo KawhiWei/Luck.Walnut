@@ -1,5 +1,5 @@
 using System.Web;
-using Toyar.App.Domain.AggregateRoots.ValueObjects;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.Domain.AggregateRoots.Pipelines;
 

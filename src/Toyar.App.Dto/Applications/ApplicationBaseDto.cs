@@ -21,4 +21,9 @@ public class ApplicationBaseDto
     /// </summary>
     public string GitUrl { get; set; } = default!;
 
+    /// <summary>
+    /// 应用描述
+    /// </summary>
+    public string? Describe { get;  set; }
+
 }

@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Toyar.App.Domain.Shared.Enums;
 
-namespace Toyar.App.Domain.AggregateRoots.ValueObjects;
+namespace Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 
 /// <summary>
 /// 步骤

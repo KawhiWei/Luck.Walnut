@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Toyar.App.Domain.AggregateRoots.ValueObjects;
+namespace Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 
 /// <summary>
 /// 

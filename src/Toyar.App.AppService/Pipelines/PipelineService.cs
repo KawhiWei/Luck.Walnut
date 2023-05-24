@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Xml;
 using Luck.Framework.Extensions;
 using Toyar.App.Domain.AggregateRoots.Pipelines;
-using Toyar.App.Domain.AggregateRoots.ValueObjects;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.AppService.Pipelines;
 

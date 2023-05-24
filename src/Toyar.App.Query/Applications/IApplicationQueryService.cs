@@ -25,7 +25,7 @@ namespace Toyar.App.Query.Applications
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ApplicationOutput?> GetApplicationDetailForIdAsync(string id);
+        Task<ApplicationOutputDto?> GetApplicationDetailForIdAsync(string id);
 
         /// <summary>
         /// 获取应用仪表盘明细信息

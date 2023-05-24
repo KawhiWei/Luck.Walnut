@@ -43,22 +43,18 @@ namespace Toyar.App.Query.Applications
             return await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
         }
 
-        public async Task<ApplicationOutput?> GetApplicationDetailForIdAsync(string id)
+        public async Task<ApplicationOutputDto?> GetApplicationDetailForIdAsync(string id)
         {
             var application = await _applicationRepository.FindFirstOrDefaultByIdAsync(id);
             if (application is null)
                 return null;
-            var applicationOutputDto = new ApplicationOutputDto
+            return  new ApplicationOutputDto
             {
                 Id = application.Id,
                 AppId = application.AppId,
                 Name = application.Name,
-            };
-
-            return new ApplicationOutput()
-            {
-                Application = applicationOutputDto,
-                
+                GitUrl = application.GitUrl,
+                Describe= application.Describe,
             };
         }
 

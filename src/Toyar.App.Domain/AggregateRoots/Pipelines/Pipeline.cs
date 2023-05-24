@@ -3,7 +3,7 @@ using System.Text.Json;
 using Luck.Framework.Exceptions;
 using Luck.Framework.Extensions;
 using Toyar.App.Domain.AggregateRoots.Applications;
-using Toyar.App.Domain.AggregateRoots.ValueObjects;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 using Toyar.App.Dto.ApplicationPipelines;
 using Toyar.App.Dto.ComponentIntegrations;

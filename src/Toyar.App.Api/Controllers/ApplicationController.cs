@@ -26,7 +26,7 @@ namespace Toyar.App.Api.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task CreateApplicationAsync([FromBody] ApplicationInputDto input) => _applicationService.AddApplicationAsync(input);
+        public Task CreateApplicationAsync([FromBody] ApplicationInputDto input) => _applicationService.CreateApplicationAsync(input);
 
         /// <summary>
         /// 
@@ -44,7 +44,7 @@ namespace Toyar.App.Api.Controllers
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public Task<ApplicationOutput> GetApplicationDetailForIdAsync(string id, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDetailForIdAsync(id);
+        public Task<ApplicationOutputDto?> GetApplicationDetailForIdAsync(string id, [FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetApplicationDetailForIdAsync(id);
 
         /// <summary>
         /// 

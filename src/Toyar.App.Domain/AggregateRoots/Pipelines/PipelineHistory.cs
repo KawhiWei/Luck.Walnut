@@ -1,4 +1,4 @@
-using Toyar.App.Domain.AggregateRoots.ValueObjects;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 
 namespace Toyar.App.Domain.AggregateRoots.Pipelines;

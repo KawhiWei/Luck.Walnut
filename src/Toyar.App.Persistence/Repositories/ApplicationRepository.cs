@@ -56,29 +56,29 @@ public class ApplicationRepository : EfCoreAggregateRootRepository<Application, 
         if (application is null)
             throw new BusinessException($"应用不存在");
 
-        ApplicationOutputDto dto = new ApplicationOutputDto()
-        {
-            Id = application.Id,
-            AppId = application.AppId,
-            GitUrl = application.GitUrl,
-        };
-        return dto;
+        return CreateApplicationOutputDto(application);
     }
 
     public async Task<(ApplicationOutputDto[] Data, int TotalCount)> GetApplicationPageListAsync(ApplicationQueryDto query)
     {
         var queryable = FindAll()
-            .Select(application => new ApplicationOutputDto
-            {
-                Id = application.Id,
-                AppId = application.AppId,
-                GitUrl = application.GitUrl,
-                Name = application.Name,
-            })
             .WhereIf(x => x.AppId.Contains(query.AppId), !query.AppId.IsNullOrWhiteSpace())
             .OrderByDescending(x => x.Id);
         var list = await queryable.ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
         var totalCount = await queryable.CountAsync();
-        return (list, totalCount);
+        return (list.Select(application => CreateApplicationOutputDto(application)).ToArray(), totalCount);
     }
+
+    private ApplicationOutputDto CreateApplicationOutputDto(Application application)
+    {
+        return new ApplicationOutputDto
+        {
+            Id = application.Id,
+            AppId = application.AppId,
+            GitUrl = application.GitUrl,
+            Name = application.Name,
+            Describe = application.Describe,
+        };
+    }
+   
 }

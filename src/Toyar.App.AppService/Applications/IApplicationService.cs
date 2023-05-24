@@ -11,7 +11,7 @@ namespace Toyar.App.AppService.Applications
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AddApplicationAsync(ApplicationInputDto input);
+        Task CreateApplicationAsync(ApplicationInputDto input);
         
         /// <summary>
         /// 修改应用

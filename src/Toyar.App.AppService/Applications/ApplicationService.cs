@@ -17,10 +17,12 @@ namespace Toyar.App.AppService.Applications
             _applicationRepository = applicationRepository;
         }
 
-        public async Task AddApplicationAsync(ApplicationInputDto input)
+        public async Task CreateApplicationAsync(ApplicationInputDto input)
         {
             await CheckAppIdAsync(input.AppId);
-            _applicationRepository.Add(new Application("", input.Name, input.AppId, input.GitUrl));
+            var application = new Application("", input.Name, input.AppId, input.GitUrl);
+            application.SetDescribe(input.Describe ?? "");
+            _applicationRepository.Add(application);
             await _unitOfWork.CommitAsync();
         }
 
@@ -35,6 +37,7 @@ namespace Toyar.App.AppService.Applications
         public async Task UpdateApplicationAsync(string id, ApplicationInputDto input)
         {
             var application = await GetApplicationByIdAsync(id);
+            application.SetDescribe(input.Describe ?? "");
             await _unitOfWork.CommitAsync();
         }
 
@@ -45,9 +48,9 @@ namespace Toyar.App.AppService.Applications
             await _unitOfWork.CommitAsync();
         }
 
-        private Task<Domain.AggregateRoots.Applications.Application?> GetApplicationByAppIdAsync(string appId) => _applicationRepository.FindFirstOrDefaultByAppIdAsync(appId);
+        private Task<Application?> GetApplicationByAppIdAsync(string appId) => _applicationRepository.FindFirstOrDefaultByAppIdAsync(appId);
 
-        private async Task<Domain.AggregateRoots.Applications.Application> GetApplicationByIdAsync(string id)
+        private async Task<Application> GetApplicationByIdAsync(string id)
         {
             var application = await _applicationRepository.FindFirstOrDefaultByIdAsync(id);
             if (application is null)
