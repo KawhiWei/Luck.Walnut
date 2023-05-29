@@ -1,4 +1,5 @@
-﻿using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
+﻿using Luck.Framework.Exceptions;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.Domain.AggregateRoots.Templates
 {
@@ -28,6 +29,11 @@ namespace Toyar.App.Domain.AggregateRoots.Templates
         public string ContinuousIntegrationImageId { get; private set; }
 
         /// <summary>
+        /// 是否默认
+        /// </summary>
+        public bool IsDefault { get; private set; }
+
+        /// <summary>
         /// 流水线Dsl
         /// </summary>
         public ICollection<Stage> PipelineScript { get; private set; } = new HashSet<Stage>();
@@ -42,6 +48,14 @@ namespace Toyar.App.Domain.AggregateRoots.Templates
         public void SetPipelineScript(ICollection<Stage> pipelineScript)
         {
             PipelineScript = pipelineScript;
+        }
+
+        public void CheckIsDefalut()
+        {
+            if(IsDefault)
+            {
+                throw new BusinessException($"默认流水线不允许删除！");
+            }
         }
     }
 }

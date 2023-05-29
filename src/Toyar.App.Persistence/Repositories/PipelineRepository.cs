@@ -5,6 +5,7 @@ using Toyar.App.Domain.AggregateRoots.Pipelines;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Domain.Shared.Enums;
 using Toyar.App.Dto.ApplicationPipelines;
+using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.Persistence.Repositories;
 
