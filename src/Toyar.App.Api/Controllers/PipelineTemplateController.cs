@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using Toyar.App.AppService.PipelineTemplates;
+using Toyar.App.Dto.Applications;
+using Toyar.App.Dto;
 using Toyar.App.Dto.PipelineTemplates;
+using Toyar.App.Query.Applications;
+using Toyar.App.Query.PipelineTemplates;
+using Toyar.App.Dto.ApplicationPipelines;
 
 namespace Toyar.App.Api.Controllers
 {
@@ -13,7 +18,7 @@ namespace Toyar.App.Api.Controllers
 
         public PipelineTemplateController(ILogger<PipelineTemplateController> logger)
         {
-            _logger= logger;
+            _logger = logger;
         }
 
         /// <summary>
@@ -44,5 +49,26 @@ namespace Toyar.App.Api.Controllers
         /// <returns></returns>
         [HttpDelete("{id}")]
         public Task DeletePipelineTemplateAsync([FromServices] IPipelineTemplateServices pipelineTemplateServices, string id) => pipelineTemplateServices.DeletePipelineTemplateAsync(id);
+
+
+        /// <summary>
+        /// 获取一个流水线
+        /// </summary>
+        /// <param name="pipelineTemplateServices"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public Task GetPipelineTemplateByIdFirstOrDefault([FromServices] IPipelineTemplateQueryService pipelineTemplateQueryService, string id) => pipelineTemplateQueryService.GetPipelineTemplateByIdFirstOrDefaultAsync(id);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="applicationQueryDto"></param>
+        /// <param name="applicationQueryService"></param>
+        /// <returns></returns>
+        [HttpGet("page")]
+        public Task<PageBaseResult<PipelineOutputDto>> GetPipelineTemplatePageList([FromServices] IPipelineTemplateQueryService pipelineTemplateQueryService, [FromQuery] PipelineTemplateQueryDto queryDto) => pipelineTemplateQueryService.GetPipelineTemplatePageListAsync(queryDto);
+
     }
 }

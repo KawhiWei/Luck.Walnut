@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Toyar.App.Dto.ApplicationPipelines;
+﻿using Toyar.App.Dto.ApplicationPipelines;
 using Toyar.App.Dto;
 using Toyar.App.Dto.PipelineTemplates;
 
@@ -18,6 +13,13 @@ namespace Toyar.App.Query.PipelineTemplates
         /// <param name="query"></param>
         /// <returns></returns>
         Task<PageBaseResult<PipelineOutputDto>> GetPipelineTemplatePageListAsync(PipelineTemplateQueryDto query);
+
+        /// <summary>
+        /// 根据Id获取一个流水线模板
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<PipelineTemplateOutputDto?> GetPipelineTemplateByIdFirstOrDefaultAsync(string id);
 
     }
 }

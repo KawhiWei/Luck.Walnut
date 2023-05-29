@@ -21,7 +21,7 @@ namespace Toyar.App.Query.PipelineTemplates
             throw new NotImplementedException();
         }
 
-        public async Task<PipelineTemplateOutputDto?> GetPipelineTemplateFirstOrDefaultById(string id)
+        public async Task<PipelineTemplateOutputDto?> GetPipelineTemplateByIdFirstOrDefaultAsync(string id)
         {
             var pipelineTemplate = await _pipelineTemplateRepository.FindPipelineTemplateById(id);
             return pipelineTemplate is null ? null : GetPipelineTemplateOutputDto(pipelineTemplate);
@@ -34,6 +34,8 @@ namespace Toyar.App.Query.PipelineTemplates
                 ComponentIntegrationId = pipelineTemplate.ComponentIntegrationId,
                 ContinuousIntegrationImageId = pipelineTemplate.ContinuousIntegrationImageId,
                 Id = pipelineTemplate.Id,
+                TemplateName = pipelineTemplate.TemplateName,
+                IsDefault = pipelineTemplate.IsDefault,
             };
         }
     }

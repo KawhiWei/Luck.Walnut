@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
+﻿using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.Dto.PipelineTemplates
 {
@@ -13,7 +8,7 @@ namespace Toyar.App.Dto.PipelineTemplates
         /// <summary>
         /// 模板名称
         /// </summary>
-        public string TemplateName { get; private set; }
+        public string TemplateName { get;  set; }
 
         /// <summary>
         /// 流水线集成Id
