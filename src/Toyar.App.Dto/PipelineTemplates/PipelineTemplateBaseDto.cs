@@ -9,6 +9,12 @@ namespace Toyar.App.Dto.PipelineTemplates
 {
     public class PipelineTemplateBaseDto
     {
+
+        /// <summary>
+        /// 模板名称
+        /// </summary>
+        public string TemplateName { get; private set; }
+
         /// <summary>
         /// 流水线集成Id
         /// </summary>

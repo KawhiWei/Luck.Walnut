@@ -43,6 +43,7 @@ namespace Toyar.App.Domain.AggregateRoots.Templates
             TemplateName = templateName;
             ComponentIntegrationId = componentIntegrationId;
             ContinuousIntegrationImageId = continuousIntegrationImageId;
+            PipelineScript = pipelineScript;
         }
 
         public void SetPipelineScript(ICollection<Stage> pipelineScript)
@@ -56,6 +57,24 @@ namespace Toyar.App.Domain.AggregateRoots.Templates
             {
                 throw new BusinessException($"默认流水线不允许删除！");
             }
+        }
+
+        public PipelineTemplate SetTemplateName(string templateName)
+        {
+            TemplateName = templateName;
+            return this;
+        }
+
+        public PipelineTemplate SetComponentIntegrationId(string componentIntegrationId)
+        {
+            ComponentIntegrationId = componentIntegrationId;
+            return this;
+        }
+
+        public PipelineTemplate SetContinuousIntegrationImageId(string continuousIntegrationImageId)
+        {
+            ContinuousIntegrationImageId = continuousIntegrationImageId;
+            return this;
         }
     }
 }

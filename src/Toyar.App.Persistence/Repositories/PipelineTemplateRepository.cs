@@ -17,10 +17,12 @@ namespace Toyar.App.Persistence.Repositories
 
         public async Task<PipelineTemplate?> FindPipelineTemplateById(string id)
         {
-
             return await FindAll().FirstOrDefaultAsync(x => x.Id == id);
+        }
 
-
+        public async Task<PipelineTemplate?> FindPipelineTemplateByName(string name)
+        {
+            return await FindAll().FirstOrDefaultAsync(x => x.TemplateName == name);
         }
 
 
