@@ -12,4 +12,11 @@ public interface IPipelineTemplateRepository : IAggregateRootRepository<Pipeline
     /// <param name="id"></param>
     /// <returns></returns>
     Task<PipelineTemplate?> FindPipelineTemplateById(string id);
+
+    /// <summary>
+    /// 根据name查询一个模板
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    Task<PipelineTemplate?> FindPipelineTemplateByName(string name);
 }
