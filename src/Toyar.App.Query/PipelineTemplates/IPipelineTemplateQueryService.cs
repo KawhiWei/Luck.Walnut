@@ -12,7 +12,7 @@ namespace Toyar.App.Query.PipelineTemplates
         /// <param name="appId"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        Task<PageBaseResult<PipelineOutputDto>> GetPipelineTemplatePageListAsync(PipelineTemplateQueryDto query);
+        Task<PageBaseResult<PipelineTemplateOutputDto>> GetPipelineTemplatePageListAsync(PipelineTemplateQueryDto query);
 
         /// <summary>
         /// 根据Id获取一个流水线模板

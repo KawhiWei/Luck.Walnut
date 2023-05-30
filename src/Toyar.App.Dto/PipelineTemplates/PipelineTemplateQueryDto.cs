@@ -2,6 +2,6 @@
 {
     public class PipelineTemplateQueryDto : PageBaseInputDto
     {
-        public string? Name { get; set; }
+        public string? TemplateName { get; set; }
     }
 }

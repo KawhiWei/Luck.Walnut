@@ -2,7 +2,7 @@
 
 namespace Toyar.App.AppService.PipelineTemplates
 {
-    public interface IPipelineTemplateServices
+    public interface IPipelineTemplateServices : IScopedDependency
     {
         /// <summary>
         /// 

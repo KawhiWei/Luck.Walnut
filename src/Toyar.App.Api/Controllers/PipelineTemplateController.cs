@@ -68,7 +68,7 @@ namespace Toyar.App.Api.Controllers
         /// <param name="applicationQueryService"></param>
         /// <returns></returns>
         [HttpGet("page")]
-        public Task<PageBaseResult<PipelineOutputDto>> GetPipelineTemplatePageList([FromServices] IPipelineTemplateQueryService pipelineTemplateQueryService, [FromQuery] PipelineTemplateQueryDto queryDto) => pipelineTemplateQueryService.GetPipelineTemplatePageListAsync(queryDto);
+        public Task<PageBaseResult<PipelineTemplateOutputDto>> GetPipelineTemplatePageList([FromServices] IPipelineTemplateQueryService pipelineTemplateQueryService, [FromQuery] PipelineTemplateQueryDto queryDto) => pipelineTemplateQueryService.GetPipelineTemplatePageListAsync(queryDto);
 
     }
 }
