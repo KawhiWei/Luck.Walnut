@@ -42,6 +42,11 @@
         /// </summary>
         public string? Describe { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="describe"></param>
+        /// <returns></returns>
         public Application SetDescribe(string describe)
         {
             Describe = describe;

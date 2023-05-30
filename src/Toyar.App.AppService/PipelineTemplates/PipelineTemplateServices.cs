@@ -33,14 +33,9 @@ namespace Toyar.App.AppService.PipelineTemplates
         {
             if (await CheckAndGetPipelineTemplateByName(input.TemplateName) is not null) throw new("已存在流水线模板名称");
 
-            List<Stage> stage = new();
-            if (input.PipelineScript is not null)
-            {
-                stage = input.PipelineScript.Select(p => 
-                    new Stage(p.Name, p.Steps.Select(x => new Step(x.Name, x.StepType, x.Content)
-                    ).ToList())).ToList();
-            }
-            var pipelineTemplate = new PipelineTemplate(input.TemplateName, input.ComponentIntegrationId, input.ContinuousIntegrationImageId, stage);
+            var pipelineTemplate = new PipelineTemplate(input.TemplateName, input.ComponentIntegrationId, input.ContinuousIntegrationImageId)
+                .SetDescribe(input.Describe ?? "")
+                .SetPipelineScript(input.PipelineScript);
             _pipelineTemplateRepository.Add(pipelineTemplate);
             await _unitOfWork.CommitAsync();
         }
@@ -48,10 +43,12 @@ namespace Toyar.App.AppService.PipelineTemplates
         public async Task UpdatePipelineTemplateAsync(string id, PipelineTemplateInputDto input)
         {
 
-            var pipelineScript = input.PipelineScript?.Select(p => new Stage(p.Name, p.Steps.Select(x => new Step(x.Name, x.StepType, x.Content)
-                    ).ToList())).ToList();
+
             var pipelineTemplate = await CheckAndGetPipelineTemplate(id);
-            pipelineTemplate.SetComponentIntegrationId(input.ComponentIntegrationId).SetTemplateName(input.TemplateName).SetContinuousIntegrationImageId(input.ContinuousIntegrationImageId).SetPipelineScript(pipelineScript);
+
+            pipelineTemplate.SetComponentIntegrationId(input.ComponentIntegrationId).SetTemplateName(input.TemplateName).SetContinuousIntegrationImageId(input.ContinuousIntegrationImageId)
+                .SetDescribe(input.Describe ?? "")
+                .SetPipelineScript(input.PipelineScript);
             _pipelineTemplateRepository.Update(pipelineTemplate);
             await _unitOfWork.CommitAsync();
         }

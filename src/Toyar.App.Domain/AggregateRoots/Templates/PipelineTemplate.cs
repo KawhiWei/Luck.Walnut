@@ -1,16 +1,16 @@
 ﻿using Luck.Framework.Exceptions;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
+using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.Domain.AggregateRoots.Templates
 {
     public class PipelineTemplate : FullAggregateRoot
     {
-        public PipelineTemplate(string templateName, string componentIntegrationId, string continuousIntegrationImageId, ICollection<Stage> pipelineScript)
+        public PipelineTemplate(string templateName, string componentIntegrationId, string continuousIntegrationImageId)
         {
             TemplateName = templateName;
             ComponentIntegrationId = componentIntegrationId;
             ContinuousIntegrationImageId = continuousIntegrationImageId;
-            PipelineScript = pipelineScript;
         }
 
         /// <summary>
@@ -34,26 +34,34 @@ namespace Toyar.App.Domain.AggregateRoots.Templates
         public bool IsDefault { get; private set; }
 
         /// <summary>
+        /// 应用描述
+        /// </summary>
+        public string? Describe { get; private set; }
+
+        /// <summary>
         /// 流水线Dsl
         /// </summary>
         public ICollection<Stage> PipelineScript { get; private set; } = new HashSet<Stage>();
 
-        public void Update(string templateName, string componentIntegrationId, string continuousIntegrationImageId, ICollection<Stage> pipelineScript)
+        public PipelineTemplate SetPipelineScript(ICollection<StageDto>? pipelineScript)
         {
-            TemplateName = templateName;
-            ComponentIntegrationId = componentIntegrationId;
-            ContinuousIntegrationImageId = continuousIntegrationImageId;
-            PipelineScript = pipelineScript;
-        }
-
-        public void SetPipelineScript(ICollection<Stage> pipelineScript)
-        {
-            PipelineScript = pipelineScript;
+            if (pipelineScript is null)
+            {
+                PipelineScript = new HashSet<Stage>();
+            }
+            else
+            {
+                PipelineScript = pipelineScript
+                    .Select(p => new Stage(p.Name, p.Steps.Select(x => new Step(x.Name, x.StepType, x.Content)
+                    ).
+                    ToList())).ToList();
+            }
+            return this;
         }
 
         public void CheckIsDefalut()
         {
-            if(IsDefault)
+            if (IsDefault)
             {
                 throw new BusinessException($"默认流水线不允许删除！");
             }
@@ -74,6 +82,12 @@ namespace Toyar.App.Domain.AggregateRoots.Templates
         public PipelineTemplate SetContinuousIntegrationImageId(string continuousIntegrationImageId)
         {
             ContinuousIntegrationImageId = continuousIntegrationImageId;
+            return this;
+        }
+
+        public PipelineTemplate SetDescribe(string describe)
+        {
+            Describe = describe;
             return this;
         }
     }

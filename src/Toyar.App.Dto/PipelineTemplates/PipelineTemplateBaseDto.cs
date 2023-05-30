@@ -21,6 +21,11 @@ namespace Toyar.App.Dto.PipelineTemplates
         public string ContinuousIntegrationImageId { get; set; } = default!;
 
         /// <summary>
+        /// 应用描述
+        /// </summary>
+        public string? Describe { get;  set; }
+
+        /// <summary>
         /// 流水线Dsl
         /// </summary>
         public ICollection<StageDto>? PipelineScript { get;  set; }
