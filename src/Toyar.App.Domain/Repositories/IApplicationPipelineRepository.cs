@@ -3,7 +3,7 @@ using Toyar.App.Domain.AggregateRoots.Pipelines;
 
 namespace Toyar.App.Domain.Repositories;
 
-public interface IPipelineRepository : IAggregateRootRepository<Pipeline, string>, IScopedDependency
+public interface IApplicationPipelineRepository : IAggregateRootRepository<ApplicationPipeline, string>, IScopedDependency
 {
     
     /// <summary>
@@ -11,7 +11,7 @@ public interface IPipelineRepository : IAggregateRootRepository<Pipeline, string
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<Pipeline> FindFirstByIdAsync(string id);
+    Task<ApplicationPipeline> FindFirstByIdAsync(string id);
 
 
     /// <summary>
@@ -26,5 +26,5 @@ public interface IPipelineRepository : IAggregateRootRepository<Pipeline, string
     /// 查询运行记录有存在运行状态的所有流水线和运行状态的运行记录
     /// </summary>
     /// <returns></returns>
-    Task<Pipeline[]> GetRunningApplicationPipelineAsync();
+    Task<ApplicationPipeline[]> GetRunningApplicationPipelineAsync();
 }

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Pipelines\ApplicationPipelineService.cs~RF9e4277.TMP" />
+    <None Remove="PipelineTemplates\PipelineTemplateServices.cs~RF1ff887fd.TMP" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,14 +2,14 @@ using Toyar.App.Dto.ApplicationPipelines;
 
 namespace Toyar.App.AppService.Pipelines;
 
-public interface IPipelineService: IScopedDependency
+public interface IApplicationPipelineService: IScopedDependency
 {
     /// <summary>
     /// 创建流水线
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    Task CreateAsync(PipelineInputDto input);
+    Task<string> CreatePipelineAsync(ApplicationPipelineInputDto input);
 
     /// <summary>
     /// 修改流水线
@@ -17,7 +17,7 @@ public interface IPipelineService: IScopedDependency
     /// <param name="id"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    Task UpdateAsync(string id, PipelineInputDto input);
+    Task UpdateAsync(string id, ApplicationPipelineInputDto input);
 
 
     /// <summary>

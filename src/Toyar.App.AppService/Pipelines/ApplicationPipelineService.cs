@@ -14,9 +14,9 @@ using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.AppService.Pipelines;
 
-public class PipelineService : IPipelineService
+public class ApplicationPipelineService : IApplicationPipelineService
 {
-    private readonly IPipelineRepository _pipelineRepository;
+    private readonly IApplicationPipelineRepository _pipelineRepository;
 
     private readonly IJenkinsIntegration _jenkinsIntegration;
 
@@ -28,7 +28,7 @@ public class PipelineService : IPipelineService
 
     private readonly IApplicationPipelineExecutedRecordRepository _applicationPipelineExecutedRecordRepository;
 
-    public PipelineService(IPipelineRepository applicationPipelineRepository, IUnitOfWork unitOfWork, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository,
+    public ApplicationPipelineService(IApplicationPipelineRepository applicationPipelineRepository, IUnitOfWork unitOfWork, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository,
         IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository, IApplicationRepository applicationRepository)
     {
         _pipelineRepository = applicationPipelineRepository;
@@ -39,7 +39,7 @@ public class PipelineService : IPipelineService
         _applicationRepository = applicationRepository;
     }
 
-    public async Task CreateAsync(PipelineInputDto input)
+    public async Task<string> CreatePipelineAsync(ApplicationPipelineInputDto input)
     {
         var pipelineScript = input.PipelineScript.Select(stage =>
             {
@@ -47,15 +47,16 @@ public class PipelineService : IPipelineService
                 return new Stage(stage.Name, stageList.ToList());
             }
         ).ToList();
-        var applicationPipeline = new Pipeline(input.AppId, input.Name, input.AppEnvironmentId, false, input.ComponentIntegrationId,":");
+        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId,":");
 
         //pipelineScript,
         _pipelineRepository.Add(applicationPipeline);
         await _unitOfWork.CommitAsync();
+        return applicationPipeline.Id;
     }
 
 
-    public async Task UpdateAsync(string id, PipelineInputDto input)
+    public async Task UpdateAsync(string id, ApplicationPipelineInputDto input)
     {
         var pipelineScript = input.PipelineScript.Select(stage =>
             {
@@ -66,7 +67,7 @@ public class PipelineService : IPipelineService
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
         applicationPipeline
             .SetName(input.Name).SetPipelineScript(pipelineScript)
-            .SetComponentIntegrationId(input.ComponentIntegrationId).SetPublished(false);
+            .SetComponentIntegrationId(input.BuildComponentId).SetPublished(false);
         _pipelineRepository.Update(applicationPipeline);
         await _unitOfWork.CommitAsync();
     }
@@ -85,7 +86,7 @@ public class PipelineService : IPipelineService
         {
             throw new BusinessException($"应用不存在!");
         }
-        await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
+        await BuildJenkinsIntegration(applicationPipeline.BuildComponentId);
 
         var xmlDocument = new XmlDocument();
         xmlDocument.LoadXml(JenkinsPipeLineTemplates.PipelineXml);
@@ -128,7 +129,7 @@ public class PipelineService : IPipelineService
     public async Task ExecuteJobAsync(string id)
     {
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
-        await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
+        await BuildJenkinsIntegration(applicationPipeline.BuildComponentId);
         var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
 
         var branchName = "Release";
@@ -173,7 +174,7 @@ public class PipelineService : IPipelineService
     public async Task WebHookSyncJenkinsExecutedRecordAsync(string id, uint jenkinsBuildNumber)
     {
         var applicationPipeline = await _pipelineRepository.FindFirstByIdAsync(id);
-        await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
+        await BuildJenkinsIntegration(applicationPipeline.BuildComponentId);
 
         var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, jenkinsBuildNumber);
 
@@ -201,7 +202,7 @@ public class PipelineService : IPipelineService
 
         foreach (var applicationPipeline in list)
         {
-            await BuildJenkinsIntegration(applicationPipeline.ComponentIntegrationId);
+            await BuildJenkinsIntegration(applicationPipeline.BuildComponentId);
             foreach (var applicationPipelineExecutedRecord in applicationPipeline.PipelineHistories)
             {
                 var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
@@ -255,7 +256,7 @@ public class PipelineService : IPipelineService
     }
 
 
-    private async Task<Pipeline> GetApplicationPipelineByIdAsync(string id)
+    private async Task<ApplicationPipeline> GetApplicationPipelineByIdAsync(string id)
     {
         return await _pipelineRepository.FindFirstByIdAsync(id);
     }

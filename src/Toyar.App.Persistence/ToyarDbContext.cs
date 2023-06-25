@@ -9,9 +9,9 @@ using Toyar.App.Domain.AggregateRoots.Templates;
 
 namespace Toyar.App.Persistence
 {
-    public class WalnutDbContext : LuckDbContextBase
+    public class ToyarDbContext : LuckDbContextBase
     {
-        public WalnutDbContext(DbContextOptions options, IServiceProvider serviceProvider) : base(options, serviceProvider)
+        public ToyarDbContext(DbContextOptions options, IServiceProvider serviceProvider) : base(options, serviceProvider)
         {
         }
 
@@ -21,11 +21,9 @@ namespace Toyar.App.Persistence
 
         public DbSet<AppEnvironment> Environments => Set<AppEnvironment>();
 
-        
-
         public DbSet<ComponentIntegration> ComponentIntegrations => Set<ComponentIntegration>();
 
-        public DbSet<Pipeline> Pipelines => Set<Pipeline>();
+        public DbSet<ApplicationPipeline> Pipelines => Set<ApplicationPipeline>();
 
         public DbSet<PipelineHistory> PipelineHistories => Set<PipelineHistory>();
 

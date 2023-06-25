@@ -9,18 +9,18 @@ using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.Persistence.Repositories;
 
-public class PipelineRepository : EfCoreAggregateRootRepository<Pipeline, string>, IPipelineRepository
+public class ApplicationPipelineRepository : EfCoreAggregateRootRepository<ApplicationPipeline, string>, IApplicationPipelineRepository
 {
-    private readonly IDictionary<string, Pipeline> _applicationPipelineForId;
+    private readonly IDictionary<string, ApplicationPipeline> _applicationPipelineForId;
 
 
-    public PipelineRepository(ILuckDbContext dbContext) : base(dbContext)
+    public ApplicationPipelineRepository(ILuckDbContext dbContext) : base(dbContext)
     {
-        _applicationPipelineForId = new Dictionary<string, Pipeline>();
+        _applicationPipelineForId = new Dictionary<string, ApplicationPipeline>();
     }
 
 
-    public async Task<Pipeline> FindFirstByIdAsync(string id)
+    public async Task<ApplicationPipeline> FindFirstByIdAsync(string id)
     {
         if (_applicationPipelineForId.ContainsKey(id))
         {
@@ -50,7 +50,6 @@ public class PipelineRepository : EfCoreAggregateRootRepository<Pipeline, string
             Id = x.Id,
             Name = x.Name,
             Published = x.Published,
-            AppEnvironmentId = x.Environment,
             PipelineScript = x.PipelineScript.Select(stage =>
             {
                 var steps = stage.Steps.Select(step => new StepDto()
@@ -75,7 +74,7 @@ public class PipelineRepository : EfCoreAggregateRootRepository<Pipeline, string
     /// 查询运行记录有存在运行状态的所有流水线和运行状态的运行记录
     /// </summary>
     /// <returns></returns>
-    public async Task<Pipeline[]> GetRunningApplicationPipelineAsync()
+    public async Task<ApplicationPipeline[]> GetRunningApplicationPipelineAsync()
     {
         var list = await FindAll(x => x.PipelineHistories.Any(record => record.PipelineBuildState == PipelineBuildStateEnum.Running))
             .Include(x => x.PipelineHistories.Where(x => x.PipelineBuildState == PipelineBuildStateEnum.Running)).ToArrayAsync();

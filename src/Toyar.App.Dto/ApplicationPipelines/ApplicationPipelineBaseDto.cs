@@ -10,20 +10,6 @@ public class ApplicationPipelineBaseDto
     /// </summary>
     public string AppId { get; set; } = default!;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public string AppEnvironmentId { get; set; } = default!;
-
-    /// <summary>
-    /// 组件集成Id
-    /// </summary>
-    public string ComponentIntegrationId { get; set; } = default!;
-
-    /// <summary>
-    /// 代码仓库地址
-    /// </summary>
-    public string? CodeWarehouseAddress { get; set; }
 
     /// <summary>
     /// 流水线名称
@@ -31,12 +17,18 @@ public class ApplicationPipelineBaseDto
     public string Name { get; set; } = default!;
 
     /// <summary>
+    /// 组件集成Id
+    /// </summary>
+    public string BuildComponentId { get; set; } = default!;
+
+    /// <summary>
+    /// CI构建镜像
+    /// </summary>
+    public string ContinuousIntegrationImage { get;  set; } = default!;
+
+    /// <summary>
     /// 流水线Dsl
     /// </summary>
     public ICollection<StageDto> PipelineScript { get; set; } = default!;
 
-    /// <summary>
-    /// 下一流水线Id
-    /// </summary>
-    public string? NextPipelineId { get; set; }
 }

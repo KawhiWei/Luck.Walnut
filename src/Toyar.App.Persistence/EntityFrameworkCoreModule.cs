@@ -10,7 +10,7 @@ namespace Toyar.App.Persistence
     {
         protected override void AddDbContextWithUnitOfWork(IServiceCollection services)
         {
-            services.AddLuckDbContext<WalnutDbContext>(x =>
+            services.AddLuckDbContext<ToyarDbContext>(x =>
             {
                 x.ConnectionString = "User ID=postgres;Password=wzw0126..;Host=39.101.165.187;Port=8832;Database=toyar.app";
                 x.Type = DataBaseType.PostgreSQL;

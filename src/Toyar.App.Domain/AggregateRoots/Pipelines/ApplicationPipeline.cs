@@ -10,17 +10,16 @@ using Toyar.App.Dto.ComponentIntegrations;
 
 namespace Toyar.App.Domain.AggregateRoots.Pipelines;
 
-public class Pipeline : FullAggregateRoot
+public class ApplicationPipeline : FullAggregateRoot
 {
 
-    public Pipeline(string appId, string name, string environment, bool published, string componentIntegrationId,string continuousIntegrationImageId)
+    public ApplicationPipeline(string appId, string name, bool published, string buildComponentId,string continuousIntegrationImage)
     {
         AppId = appId;
         Name = name;
-        Environment = environment;
         Published = published;
-        ComponentIntegrationId = componentIntegrationId;
-        ContinuousIntegrationImageId = continuousIntegrationImageId;
+        BuildComponentId = buildComponentId;
+        ContinuousIntegrationImage = continuousIntegrationImage;
     }
 
     /// <summary>
@@ -34,19 +33,14 @@ public class Pipeline : FullAggregateRoot
     public string Name { get; private set; }
 
     /// <summary>
-    /// 流水线Dsl
+    /// 流水线集成Id
     /// </summary>
-    public ICollection<Stage> PipelineScript { get; private set; } = new HashSet<Stage>();
+    public string BuildComponentId { get; private set; }
 
     /// <summary>
-    /// 
+    /// CI Runner 镜像Id
     /// </summary>
-    public string Environment { get; private set; }
-
-    /// <summary>
-    /// Jenkins下一次Build的Id
-    /// </summary>
-    public uint NextBuildNumber { get; private set; } = default!;
+    public string ContinuousIntegrationImage { get; private set; }
 
     /// <summary>
     /// 是否发布
@@ -54,14 +48,14 @@ public class Pipeline : FullAggregateRoot
     public bool Published { get; private set; }
 
     /// <summary>
-    /// 流水线集成Id
+    /// Jenkins下一次Build的Id
     /// </summary>
-    public string ComponentIntegrationId { get; private set; }
+    public int NextBuildNumber { get; private set; } = default!;
 
     /// <summary>
-    /// CI Runner 镜像Id
+    /// 流水线Dsl
     /// </summary>
-    public string ContinuousIntegrationImageId { get; private set; }
+    public ICollection<Stage> PipelineScript { get; private set; } = new HashSet<Stage>();
 
     /// <summary>
     /// 执行记录
@@ -73,13 +67,13 @@ public class Pipeline : FullAggregateRoot
     /// </summary>
     /// <param name="pipelineScript"></param>
     /// <returns></returns>
-    public Pipeline SetPipelineScript(ICollection<Stage> pipelineScript)
+    public ApplicationPipeline SetPipelineScript(ICollection<Stage> pipelineScript)
     {
         PipelineScript = pipelineScript;
         return this;
     }
 
-    public Pipeline SetName(string name)
+    public ApplicationPipeline SetName(string name)
     {
         Name = name;
         return this;
@@ -90,9 +84,9 @@ public class Pipeline : FullAggregateRoot
     /// </summary>
     /// <param name="componentIntegrationId"></param>
     /// <returns></returns>
-    public Pipeline SetComponentIntegrationId(string componentIntegrationId)
+    public ApplicationPipeline SetComponentIntegrationId(string componentIntegrationId)
     {
-        ComponentIntegrationId = componentIntegrationId;
+        BuildComponentId = componentIntegrationId;
         return this;
     }
 
@@ -101,7 +95,7 @@ public class Pipeline : FullAggregateRoot
     /// </summary>
     /// <param name="published"></param>
     /// <returns></returns>
-    public Pipeline SetPublished(bool published)
+    public ApplicationPipeline SetPublished(bool published)
     {
         Published = published;
         return this;
@@ -127,7 +121,7 @@ public class Pipeline : FullAggregateRoot
     /// </summary>
     /// <param name="nextBuildNumber"></param>
     /// <returns></returns>
-    public Pipeline AddApplicationPipelineExecutedRecord(uint nextBuildNumber,string imageVersion)
+    public ApplicationPipeline AddApplicationPipelineExecutedRecord(uint nextBuildNumber,string imageVersion)
     {
         var applicationPipelineExecutedRecord = new PipelineHistory(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber, imageVersion);
         PipelineHistories.Add(applicationPipelineExecutedRecord);

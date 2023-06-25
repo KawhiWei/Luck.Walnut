@@ -1,8 +1,6 @@
 ﻿using Toyar.App.Domain.AggregateRoots.Templates;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Dto;
-using Toyar.App.Dto.ApplicationPipelines;
-using Toyar.App.Dto.Applications;
 using Toyar.App.Dto.PipelineTemplates;
 
 namespace Toyar.App.Query.PipelineTemplates
@@ -18,9 +16,9 @@ namespace Toyar.App.Query.PipelineTemplates
 
         public async Task<PageBaseResult<PipelineTemplateOutputDto>> GetPipelineTemplatePageListAsync(PipelineTemplateQueryDto query)
         {
-var result= await            _pipelineTemplateRepository.FindPipelineTemplatePageListAsync(query);
+            var result = await _pipelineTemplateRepository.FindPipelineTemplatePageListAsync(query);
 
-            var list=result.Data.Select(x => GetPipelineTemplateOutputDto(x)).ToArray();
+            var list = result.Data.Select(x => GetPipelineTemplateOutputDto(x)).ToArray();
             return new PageBaseResult<PipelineTemplateOutputDto>(result.TotalCount, list);
         }
 
@@ -39,6 +37,7 @@ var result= await            _pipelineTemplateRepository.FindPipelineTemplatePag
                 Id = pipelineTemplate.Id,
                 TemplateName = pipelineTemplate.TemplateName,
                 IsDefault = pipelineTemplate.IsDefault,
+                Describe = pipelineTemplate.Describe,
             };
         }
     }

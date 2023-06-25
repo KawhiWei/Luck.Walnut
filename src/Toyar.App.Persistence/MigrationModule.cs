@@ -12,7 +12,7 @@ namespace Toyar.App.Persistence
         //SQL删除    drop schema "toyar.app" cascade;
         public override void ApplicationInitialization(ApplicationContext context)
         {
-            var moduleDbContext = context.ServiceProvider.GetService<WalnutDbContext>();
+            var moduleDbContext = context.ServiceProvider.GetService<ToyarDbContext>();
             if (moduleDbContext == null) return;
             var isExist = moduleDbContext.Database.EnsureCreated();
 

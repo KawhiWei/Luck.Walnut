@@ -23,7 +23,7 @@ public class JenkinsExecutedRecordSyncBackgroundService : BackgroundService
         {
             using (var scope = _rootServiceProvider.CreateScope())
             {
-                var applicationPipelineService = scope.ServiceProvider.GetRequiredService<IPipelineService>();
+                var applicationPipelineService = scope.ServiceProvider.GetRequiredService<IApplicationPipelineService>();
                 try
                 {
                     await applicationPipelineService.SyncExecutedRecordAsync();

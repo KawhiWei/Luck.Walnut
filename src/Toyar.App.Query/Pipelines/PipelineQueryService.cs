@@ -9,13 +9,13 @@ namespace Toyar.App.Query.Pipelines;
 
 public class PipelineQueryService : IPipelineQueryService
 {
-    private readonly IPipelineRepository _pipelineRepository;
+    private readonly IApplicationPipelineRepository _pipelineRepository;
     private readonly IApplicationRepository _applicationRepository;
     private readonly IComponentIntegrationRepository _componentIntegrationRepository;
     private readonly IJenkinsIntegration _jenkinsIntegration;
     private readonly IApplicationPipelineExecutedRecordRepository _applicationPipelineExecutedRecordRepository;
 
-    public PipelineQueryService(IPipelineRepository applicationPipelineRepository, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository, IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository, IApplicationRepository applicationRepository)
+    public PipelineQueryService(IApplicationPipelineRepository applicationPipelineRepository, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository, IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository, IApplicationRepository applicationRepository)
     {
         _pipelineRepository = applicationPipelineRepository;
         _jenkinsIntegration = jenkinsIntegration;
@@ -68,9 +68,8 @@ public class PipelineQueryService : IPipelineQueryService
             Id = applicationPipeline.Id,
             Name = applicationPipeline.Name,
             Published = applicationPipeline.Published,
-            AppEnvironmentId = applicationPipeline.Environment,
             AppId = applicationPipeline.AppId,
-            ComponentIntegrationId = applicationPipeline.ComponentIntegrationId,
+            BuildComponentId = applicationPipeline.BuildComponentId,
             PipelineScript = applicationPipeline.PipelineScript.Select(stage =>
             {
                 var steps = stage.Steps.Select(step => new StepDto()
@@ -102,7 +101,7 @@ public class PipelineQueryService : IPipelineQueryService
     {
         var applicationPipelineExecutedRecord = await _applicationPipelineExecutedRecordRepository.FindFirstByIdAsync(id);
         var applicationPipeline = await _pipelineRepository.FindFirstByIdAsync(applicationPipelineId);
-        var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.ComponentIntegrationId);
+        var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.BuildComponentId);
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
         return await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
     }
