@@ -1,4 +1,5 @@
 using Toyar.App.Dto.ApplicationPipelines;
+using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.AppService.Pipelines;
 
@@ -19,6 +20,8 @@ public interface IApplicationPipelineService: IScopedDependency
     /// <returns></returns>
     Task UpdateAsync(string id, ApplicationPipelineInputDto input);
 
+
+    Task UpdatePipelineFlowAsync(string id, ApplicationUpdatePipelineInputDto input);
 
     /// <summary>
     /// 发布流水线

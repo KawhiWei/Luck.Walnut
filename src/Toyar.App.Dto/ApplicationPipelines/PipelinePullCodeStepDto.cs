@@ -3,10 +3,9 @@ namespace Toyar.App.Dto.ApplicationPipelines;
 public class PipelinePullCodeStepDto
 {
     /// <summary>
-    /// git地址
+    /// 分支
     /// </summary>
-    public string Git { get; set; } = default!;
-    
+    public string Name { get; set; } = default!;
     /// <summary>
     /// 分支
     /// </summary>

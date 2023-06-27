@@ -82,11 +82,22 @@ public class ApplicationPipeline : FullAggregateRoot
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="componentIntegrationId"></param>
+    /// <param name="buildComponentId"></param>
     /// <returns></returns>
-    public ApplicationPipeline SetComponentIntegrationId(string componentIntegrationId)
+    public ApplicationPipeline SetBuildComponentId(string buildComponentId)
     {
-        BuildComponentId = componentIntegrationId;
+        BuildComponentId = buildComponentId;
+        return this;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="buildComponentId"></param>
+    /// <returns></returns>
+    public ApplicationPipeline SetContinuousIntegrationImage(string continuousIntegrationImage)
+    {
+        ContinuousIntegrationImage = continuousIntegrationImage;
         return this;
     }
 
@@ -129,7 +140,7 @@ public class ApplicationPipeline : FullAggregateRoot
     }
     
     
-    public (string BuildImage,string PipelineScript) GetPipelineScript(Application app)
+    public (string BuildImage,string PipelineScript) GetPipelineScript(Application application)
     {
         var buildImage = "";
         var stringBuilder = new StringBuilder();
@@ -156,7 +167,7 @@ public class ApplicationPipeline : FullAggregateRoot
                         checkout([
                              $class: 'GitSCM', branches: [[name: ""${{BRANCH_NAME}}""]],
                              doGenerateSubmoduleConfigurations: false,extensions: [[$class:'CheckoutOption',timeout:30],[$class:'CloneOption',depth:0,noTags:false,reference:'',shallow:false,timeout:3600]], submoduleCfg: [],
-                             userRemoteConfigs: [[ url: ""{pipelinePullCodeStep?.Git}""]]
+                             userRemoteConfigs: [[ url: ""{application.GitUrl}""]]
                         ])");
                         break;
                     case StepTypeEnum.CompilePublish:
@@ -191,7 +202,7 @@ public class ApplicationPipeline : FullAggregateRoot
                         {
                             Auths = new Dictionary<string, AuthDto>()
                         };
-                        byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes($"{app}:{app}");
+                        byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes($"{application}:{application}");
                         dockerRegistry.Auths.Add("", new AuthDto()
                         {
                             Auth= Convert.ToBase64String(toEncodeAsBytes)//"MTU4NTk1NTM3NUBxcS5jb206d3p3MDEyNi4u"
@@ -207,7 +218,7 @@ public class ApplicationPipeline : FullAggregateRoot
                                echo '{jsonStr}' > /kaniko/.docker/config.json
                             '''
                             sh '''#!/busybox/sh 
-                               /kaniko/executor -f {pipelineBuildImageStep.DockerFileSrc} -c . --destination={app}/toyar/{app.AppId}:""${{BRANCH_NAME}}""""${{VERSION_NAME}}""  --insecure --skip-tls-verify -v=debug
+                               /kaniko/executor -f {pipelineBuildImageStep.DockerFileSrc} -c . --destination={application}/toyar/{application.AppId}:""${{BRANCH_NAME}}""""${{VERSION_NAME}}""  --insecure --skip-tls-verify -v=debug
                             '''
                         }}");
                         break;

@@ -47,7 +47,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
                 return new Stage(stage.Name, stageList.ToList());
             }
         ).ToList();
-        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId,":");
+        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId,input.ContinuousIntegrationImage);
 
         //pipelineScript,
         _pipelineRepository.Add(applicationPipeline);
@@ -58,16 +58,30 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
     public async Task UpdateAsync(string id, ApplicationPipelineInputDto input)
     {
+        var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
+        applicationPipeline.SetName(input.Name)
+            .SetBuildComponentId(input.BuildComponentId)
+            .SetContinuousIntegrationImage(input.ContinuousIntegrationImage)
+            .SetPublished(false);
+        _pipelineRepository.Update(applicationPipeline);
+        await _unitOfWork.CommitAsync();
+    }
+
+    public async Task UpdatePipelineFlowAsync(string id, ApplicationUpdatePipelineInputDto input)
+    {
         var pipelineScript = input.PipelineScript.Select(stage =>
-            {
-                var stageList = stage.Steps.Select(step => new Step(step.Name, step.StepType, step.Content));
-                return new Stage(stage.Name, stageList.ToList());
-            }
+        {
+            var stageList = stage.Steps.Select(step => new Step(step.Name, step.StepType, step.Content));
+            return new Stage(stage.Name, stageList.ToList());
+        }
         ).ToList();
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
         applicationPipeline
-            .SetName(input.Name).SetPipelineScript(pipelineScript)
-            .SetComponentIntegrationId(input.BuildComponentId).SetPublished(false);
+            .SetName(input.Name)
+            .SetBuildComponentId(input.BuildComponentId)
+            .SetContinuousIntegrationImage(input.ContinuousIntegrationImage)
+            .SetPublished(false)
+            .SetPipelineScript(pipelineScript);
         _pipelineRepository.Update(applicationPipeline);
         await _unitOfWork.CommitAsync();
     }

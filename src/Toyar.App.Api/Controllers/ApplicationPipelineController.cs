@@ -32,6 +32,17 @@ public class ApplicationPipelineController : BaseController
         => pipelineService.UpdateAsync(id, input);
 
     /// <summary>
+    /// 修改流水线
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="pipelineService"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPut("{id}")]
+    public Task UpdatePipelineAsync(string id, [FromServices] IApplicationPipelineService pipelineService, [FromBody] ApplicationPipelineInputDto input)
+        => pipelineService.UpdateAsync(id, input);
+
+    /// <summary>
     /// 删除流水线
     /// </summary>
     /// <param name="id"></param>
@@ -47,7 +58,6 @@ public class ApplicationPipelineController : BaseController
     /// </summary>
     /// <param name="appId"></param>
     /// <param name="query"></param>
-    /// 
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
     [HttpGet("{appId}/page/list")]
