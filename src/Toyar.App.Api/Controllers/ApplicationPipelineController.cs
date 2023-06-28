@@ -38,9 +38,9 @@ public class ApplicationPipelineController : BaseController
     /// <param name="pipelineService"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPut("{id}")]
-    public Task UpdatePipelineAsync(string id, [FromServices] IApplicationPipelineService pipelineService, [FromBody] ApplicationPipelineInputDto input)
-        => pipelineService.UpdateAsync(id, input);
+    [HttpPut("{id}/pipeline/flow")]
+    public Task UpdatePipelineFlowAsync(string id, [FromServices] IApplicationPipelineService pipelineService, [FromBody] ApplicationPipelineFlowUpdateInputDto input)
+        => pipelineService.UpdatePipelineFlowAsync(id, input);
 
     /// <summary>
     /// 删除流水线
@@ -61,7 +61,7 @@ public class ApplicationPipelineController : BaseController
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
     [HttpGet("{appId}/page/list")]
-    public Task<PageBaseResult<PipelineOutputDto>> GetPipelinePageListAsync(string appId, [FromQuery] PipelineQueryDto query, [FromServices] IPipelineQueryService applicationPipelineQueryService)
+    public Task<PageBaseResult<ApplicationPipelinePipelineOutputDto>> GetPipelinePageListAsync(string appId, [FromQuery] PipelineQueryDto query, [FromServices] IPipelineQueryService applicationPipelineQueryService)
         => applicationPipelineQueryService.GetPipelinePageListAsync(appId, query);
 
 
@@ -72,7 +72,7 @@ public class ApplicationPipelineController : BaseController
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public Task<PipelineOutputDto> GetPipelineDetailForIdAsync(string id, [FromServices] IPipelineQueryService applicationPipelineQueryService)
+    public Task<ApplicationPipelinePipelineOutputDto> GetPipelineDetailForIdAsync(string id, [FromServices] IPipelineQueryService applicationPipelineQueryService)
         => applicationPipelineQueryService.GetApplicationPipelineDetailForIdAsync(id);
 
 

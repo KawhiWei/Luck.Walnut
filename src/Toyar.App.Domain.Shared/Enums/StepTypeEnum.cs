@@ -23,7 +23,7 @@ public enum StepTypeEnum{
     /// 构建Docker镜像
     /// </summary>
     [Description("构建Docker镜像")]
-    BuildDockerImage=3,
+    DockerFilePublishAndBuildImage=3,
     
     /// <summary>
     /// 执行命令

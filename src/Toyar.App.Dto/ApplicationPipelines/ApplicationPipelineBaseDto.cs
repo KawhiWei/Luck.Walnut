@@ -26,16 +26,6 @@ public class ApplicationPipelineBaseDto
     /// </summary>
     public string ContinuousIntegrationImage { get; set; } = default!;
 
-    /// <summary>
-    /// 流水线Dsl
-    /// </summary>
-    public ICollection<StageDto> PipelineScript { get; set; } = default!;
 
-}
-
-
-public class ApplicationUpdatePipelineInputDto
-{
-    public ICollection<StageDto> PipelineScript { get; set; } = default!;
 }
 

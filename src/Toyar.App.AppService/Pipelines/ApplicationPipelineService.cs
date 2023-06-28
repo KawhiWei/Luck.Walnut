@@ -41,15 +41,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
     public async Task<string> CreatePipelineAsync(ApplicationPipelineInputDto input)
     {
-        var pipelineScript = input.PipelineScript.Select(stage =>
-            {
-                var stageList = stage.Steps.Select(step => new Step(step.Name, step.StepType, step.Content));
-                return new Stage(stage.Name, stageList.ToList());
-            }
-        ).ToList();
         var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId,input.ContinuousIntegrationImage);
-
-        //pipelineScript,
         _pipelineRepository.Add(applicationPipeline);
         await _unitOfWork.CommitAsync();
         return applicationPipeline.Id;
@@ -67,7 +59,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         await _unitOfWork.CommitAsync();
     }
 
-    public async Task UpdatePipelineFlowAsync(string id, ApplicationUpdatePipelineInputDto input)
+    public async Task UpdatePipelineFlowAsync(string id, ApplicationPipelineFlowUpdateInputDto input)
     {
         var pipelineScript = input.PipelineScript.Select(stage =>
         {
@@ -77,9 +69,6 @@ public class ApplicationPipelineService : IApplicationPipelineService
         ).ToList();
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
         applicationPipeline
-            .SetName(input.Name)
-            .SetBuildComponentId(input.BuildComponentId)
-            .SetContinuousIntegrationImage(input.ContinuousIntegrationImage)
             .SetPublished(false)
             .SetPipelineScript(pipelineScript);
         _pipelineRepository.Update(applicationPipeline);
@@ -109,12 +98,11 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             throw new BusinessException($"流水线的基础xml格式错误");
         }
-        var (buildImage, pipelineScript) = applicationPipeline.GetPipelineScript(application);
+        var pipelineScript = applicationPipeline.GetPipelineScript(application);
+
         var defaultImageList = GetDefaultContainerList();
-        if (!buildImage.IsNullOrEmpty())
-        {
-            defaultImageList.Add(new Container("build", buildImage, "/home/jenkins/agent").SetCommandArr(new[] { "sleep" }).SetArgsArr(new[] { "99d" }));
-        }
+
+        defaultImageList.Add(new Container("build", applicationPipeline.ContinuousIntegrationImage, "/home/jenkins/agent").SetCommandArr(new[] { "sleep" }).SetArgsArr(new[] { "99d" }));
         var pipelineMetaData = new PipelineMetaData(defaultImageList, applicationPipeline.PipelineScript.ToList(), pipelineScript);
         var template = GetPipelineTemplate();
         var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);

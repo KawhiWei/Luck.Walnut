@@ -140,9 +140,8 @@ public class ApplicationPipeline : FullAggregateRoot
     }
     
     
-    public (string BuildImage,string PipelineScript) GetPipelineScript(Application application)
+    public string  GetPipelineScript(Application application)
     {
-        var buildImage = "";
         var stringBuilder = new StringBuilder();
         foreach (var stage in this.PipelineScript)
         {
@@ -179,7 +178,6 @@ public class ApplicationPipeline : FullAggregateRoot
                         {
                             break;
                         }
-                        buildImage = $"{compilePublishStep.BuildImageName}:{compilePublishStep.Version}";
                         stringBuilder.Append($@"
                         container('build') {{
                         sh '''
@@ -187,8 +185,8 @@ public class ApplicationPipeline : FullAggregateRoot
                         '''
                         }}");
                         break;
-                    case StepTypeEnum.BuildDockerImage:
-                        var pipelineBuildImageStep = step.Content.Deserialize<PipelineBuildImageStepDto>(new JsonSerializerOptions()
+                    case StepTypeEnum.DockerFilePublishAndBuildImage:
+                        var pipelineBuildImageStep = step.Content.Deserialize<PipelineDockerPublishAndBuildImageStepDto>(new JsonSerializerOptions()
                         {
                             PropertyNameCaseInsensitive = true
                         });
@@ -196,7 +194,6 @@ public class ApplicationPipeline : FullAggregateRoot
                         {
                             break;
                         }
-                        buildImage = $"{pipelineBuildImageStep.BuildImageName}:{pipelineBuildImageStep.Version}";
 
                         var dockerRegistry = new DockerRegistry()
                         {
@@ -233,6 +230,6 @@ public class ApplicationPipeline : FullAggregateRoot
             }");
         }
 
-        return (buildImage,stringBuilder.ToString());
+        return stringBuilder.ToString();
     }
 }

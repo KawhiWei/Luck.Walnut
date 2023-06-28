@@ -1,4 +1,5 @@
 using Toyar.App.Adapter.JenkinsAdapter;
+using Toyar.App.Domain.AggregateRoots.ContinuousIntegrationImages;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Domain.Shared.Enums;
 using Toyar.App.Dto;
@@ -24,7 +25,7 @@ public class PipelineQueryService : IPipelineQueryService
         _applicationRepository = applicationRepository;
     }
 
-    public async Task<PageBaseResult<PipelineOutputDto>> GetPipelinePageListAsync(string appId, PipelineQueryDto query)
+    public async Task<PageBaseResult<ApplicationPipelinePipelineOutputDto>> GetPipelinePageListAsync(string appId, PipelineQueryDto query)
     {
         var (Data, TotalCount) = await _pipelineRepository.GetApplicationPipelinePageListAsync(appId, query);
 
@@ -45,7 +46,7 @@ public class PipelineQueryService : IPipelineQueryService
                 applicationPipeline.PipelineBuildState = PipelineBuildStateEnum.Ready;
             }
         }
-        return new PageBaseResult<PipelineOutputDto>(TotalCount, Data.ToArray());
+        return new PageBaseResult<ApplicationPipelinePipelineOutputDto>(TotalCount, Data.ToArray());
     }
 
 
@@ -55,7 +56,7 @@ public class PipelineQueryService : IPipelineQueryService
         return new PageBaseResult<ApplicationPipelineExecutedRecordOutputDto>(result.TotalCount, result.Data.ToArray());
     }
 
-    public async Task<PipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id)
+    public async Task<ApplicationPipelinePipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id)
     {
         var applicationPipeline = await _pipelineRepository.FindFirstByIdAsync(id);
         var application = await _applicationRepository.FindFirstOrDefaultByAppIdAsync(applicationPipeline.AppId);
@@ -63,12 +64,13 @@ public class PipelineQueryService : IPipelineQueryService
         {
             throw new BusinessException($"应用不存在");
         }
-        return new PipelineOutputDto()
+        return new ApplicationPipelinePipelineOutputDto()
         {
             Id = applicationPipeline.Id,
             Name = applicationPipeline.Name,
             Published = applicationPipeline.Published,
             AppId = applicationPipeline.AppId,
+            ContinuousIntegrationImage=applicationPipeline.ContinuousIntegrationImage,
             BuildComponentId = applicationPipeline.BuildComponentId,
             PipelineScript = applicationPipeline.PipelineScript.Select(stage =>
             {

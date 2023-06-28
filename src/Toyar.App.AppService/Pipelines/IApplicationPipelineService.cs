@@ -21,7 +21,7 @@ public interface IApplicationPipelineService: IScopedDependency
     Task UpdateAsync(string id, ApplicationPipelineInputDto input);
 
 
-    Task UpdatePipelineFlowAsync(string id, ApplicationUpdatePipelineInputDto input);
+    Task UpdatePipelineFlowAsync(string id, ApplicationPipelineFlowUpdateInputDto input);
 
     /// <summary>
     /// 发布流水线

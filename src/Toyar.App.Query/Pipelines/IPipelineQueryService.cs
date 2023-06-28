@@ -11,14 +11,14 @@ public interface IPipelineQueryService : IScopedDependency
     /// <param name="appId"></param>
     /// <param name="query"></param>
     /// <returns></returns>
-    Task<PageBaseResult<PipelineOutputDto>> GetPipelinePageListAsync(string appId, PipelineQueryDto query);
+    Task<PageBaseResult<ApplicationPipelinePipelineOutputDto>> GetPipelinePageListAsync(string appId, PipelineQueryDto query);
     
     /// <summary>
     /// 获取流水线详情
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<PipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id);
+    Task<ApplicationPipelinePipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id);
 
 
     // /// <summary>
