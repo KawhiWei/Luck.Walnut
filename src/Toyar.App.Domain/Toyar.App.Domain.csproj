@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="AggregateRoots\Pipelines\ApplicationPipeline.cs~RF33e63856.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Toyar.App.Domain.Shared\Toyar.App.Domain.Shared.csproj" />
     <ProjectReference Include="..\Toyar.App.Dto\Toyar.App.Dto.csproj" />
   </ItemGroup>

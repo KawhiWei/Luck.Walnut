@@ -72,6 +72,7 @@ public class PipelineQueryService : IPipelineQueryService
             AppId = applicationPipeline.AppId,
             ContinuousIntegrationImage=applicationPipeline.ContinuousIntegrationImage,
             BuildComponentId = applicationPipeline.BuildComponentId,
+            ImageWareHouseComponentId = applicationPipeline.ImageWareHouseComponentId,
             PipelineScript = applicationPipeline.PipelineScript.Select(stage =>
             {
                 var steps = stage.Steps.Select(step => new StepDto()

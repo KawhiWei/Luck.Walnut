@@ -13,7 +13,7 @@ public interface IJenkinsIntegration : IScopedDependency
     /// <summary>
     /// 密钥
     /// </summary>
-    string Token { get;   set;}
+    string PassWord { get;   set;}
 
     /// <summary>
     /// 基础Url地址

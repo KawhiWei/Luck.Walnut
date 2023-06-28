@@ -11,6 +11,7 @@ using System.Xml;
 using Luck.Framework.Extensions;
 using Toyar.App.Domain.AggregateRoots.Pipelines;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
+using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
 
 namespace Toyar.App.AppService.Pipelines;
 
@@ -41,7 +42,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
     public async Task<string> CreatePipelineAsync(ApplicationPipelineInputDto input)
     {
-        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId,input.ContinuousIntegrationImage);
+        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId,input.ContinuousIntegrationImage,input.ImageWareHouseComponentId);
         _pipelineRepository.Add(applicationPipeline);
         await _unitOfWork.CommitAsync();
         return applicationPipeline.Id;
@@ -54,6 +55,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         applicationPipeline.SetName(input.Name)
             .SetBuildComponentId(input.BuildComponentId)
             .SetContinuousIntegrationImage(input.ContinuousIntegrationImage)
+            .SetImageWareHouseComponentId(input.ImageWareHouseComponentId)
             .SetPublished(false);
         _pipelineRepository.Update(applicationPipeline);
         await _unitOfWork.CommitAsync();
@@ -91,6 +93,12 @@ public class ApplicationPipelineService : IApplicationPipelineService
         }
         await BuildJenkinsIntegration(applicationPipeline.BuildComponentId);
 
+        var imageWareHouseComponentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.ImageWareHouseComponentId);
+        if (imageWareHouseComponentIntegration is null)
+        {
+            throw new BusinessException($"docker镜像仓库组件不存在!");
+        }
+
         var xmlDocument = new XmlDocument();
         xmlDocument.LoadXml(JenkinsPipeLineTemplates.PipelineXml);
         var node = xmlDocument.SelectSingleNode("flow-definition/definition/script");
@@ -98,7 +106,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             throw new BusinessException($"流水线的基础xml格式错误");
         }
-        var pipelineScript = applicationPipeline.GetPipelineScript(application);
+        var pipelineScript = applicationPipeline.GetPipelineScript(application, imageWareHouseComponentIntegration);
 
         var defaultImageList = GetDefaultContainerList();
 
@@ -108,17 +116,17 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
         node.InnerText = dslScript;
 
-        var job = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
+        var job = await _jenkinsIntegration.GetJenkinsJobDetailAsync($"{application.AppId}.{applicationPipeline.Name}");
         if (job is null)
         {
-            await _jenkinsIntegration.CreateJenkinsJobAsync(applicationPipeline.Name, xmlDocument.InnerXml);
+            await _jenkinsIntegration.CreateJenkinsJobAsync($"{application.AppId}.{applicationPipeline.Name}", xmlDocument.InnerXml);
         }
         else
         {
-            await _jenkinsIntegration.UpdateJenkinsJobAsync(applicationPipeline.Name, xmlDocument.InnerXml);
+            await _jenkinsIntegration.UpdateJenkinsJobAsync($"{application.AppId}.{applicationPipeline.Name}", xmlDocument.InnerXml);
         }
 
-        await _jenkinsIntegration.BuildJobAsync(applicationPipeline.Name);
+        await _jenkinsIntegration.BuildJobAsync($"{application.AppId}.{applicationPipeline.Name}");
 
         applicationPipeline.SetPublished(true);
         await _unitOfWork.CommitAsync();
@@ -223,7 +231,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
     private async Task BuildJenkinsIntegration(string componentIntegrationId)
     {
         var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(componentIntegrationId);
-        _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
+        _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.PassWord ?? "");
     }
 
 

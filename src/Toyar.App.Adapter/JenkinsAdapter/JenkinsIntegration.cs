@@ -15,7 +15,7 @@ public class JenkinsIntegration : IJenkinsIntegration
 {
     private readonly IHttpClientFactory _httpClientFactory;
     public string UserName { get; set; }
-    public string Token { get; set; }
+    public string PassWord { get; set; }
     public string UrlAddress { get; set; }
 
 
@@ -28,7 +28,7 @@ public class JenkinsIntegration : IJenkinsIntegration
     {
         UrlAddress = urlAddress;
         UserName = userName;
-        Token = token;
+        PassWord = token;
     }
 
 
@@ -194,7 +194,7 @@ public class JenkinsIntegration : IJenkinsIntegration
 
     private void SetRequestHeadersBasicAuth(HttpClient client)
     {
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{UserName}:{Token}")));
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{UserName}:{PassWord}")));
     }
 
     private async Task<string> HttpResponseMessage(HttpResponseMessage httpResponseMessage)

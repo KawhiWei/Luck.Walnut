@@ -3,6 +3,7 @@ using System.Text.Json;
 using Luck.Framework.Exceptions;
 using Luck.Framework.Extensions;
 using Toyar.App.Domain.AggregateRoots.Applications;
+using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 using Toyar.App.Dto.ApplicationPipelines;
@@ -13,13 +14,14 @@ namespace Toyar.App.Domain.AggregateRoots.Pipelines;
 public class ApplicationPipeline : FullAggregateRoot
 {
 
-    public ApplicationPipeline(string appId, string name, bool published, string buildComponentId,string continuousIntegrationImage)
+    public ApplicationPipeline(string appId, string name, bool published, string buildComponentId, string continuousIntegrationImage, string imageWareHouseComponentId)
     {
         AppId = appId;
         Name = name;
         Published = published;
         BuildComponentId = buildComponentId;
         ContinuousIntegrationImage = continuousIntegrationImage;
+        ImageWareHouseComponentId = imageWareHouseComponentId;
     }
 
     /// <summary>
@@ -41,6 +43,11 @@ public class ApplicationPipeline : FullAggregateRoot
     /// CI Runner 镜像Id
     /// </summary>
     public string ContinuousIntegrationImage { get; private set; }
+
+    /// <summary>
+    /// 镜像仓库组件Id
+    /// </summary>
+    public string ImageWareHouseComponentId { get; private set; }
 
     /// <summary>
     /// 是否发布
@@ -104,6 +111,17 @@ public class ApplicationPipeline : FullAggregateRoot
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="buildComponentId"></param>
+    /// <returns></returns>
+    public ApplicationPipeline SetImageWareHouseComponentId(string imageWareHouseComponentId)
+    {
+        ImageWareHouseComponentId = imageWareHouseComponentId;
+        return this;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="published"></param>
     /// <returns></returns>
     public ApplicationPipeline SetPublished(bool published)
@@ -140,7 +158,7 @@ public class ApplicationPipeline : FullAggregateRoot
     }
     
     
-    public string  GetPipelineScript(Application application)
+    public string  GetPipelineScript(Application application, ComponentIntegration componentIntegration)
     {
         var stringBuilder = new StringBuilder();
         foreach (var stage in this.PipelineScript)
@@ -199,10 +217,10 @@ public class ApplicationPipeline : FullAggregateRoot
                         {
                             Auths = new Dictionary<string, AuthDto>()
                         };
-                        byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes($"{application}:{application}");
-                        dockerRegistry.Auths.Add("", new AuthDto()
+                        byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes($"{componentIntegration.Credential.UserName}:{componentIntegration.Credential.PassWord}");
+                        dockerRegistry.Auths.Add($"{componentIntegration.Credential.ComponentLinkUrl}", new AuthDto()
                         {
-                            Auth= Convert.ToBase64String(toEncodeAsBytes)//"MTU4NTk1NTM3NUBxcS5jb206d3p3MDEyNi4u"
+                            Auth= Convert.ToBase64String(toEncodeAsBytes)
                         });
                         
                         var jsonStr = dockerRegistry.Serialize(new JsonSerializerOptions()
@@ -215,7 +233,7 @@ public class ApplicationPipeline : FullAggregateRoot
                                echo '{jsonStr}' > /kaniko/.docker/config.json
                             '''
                             sh '''#!/busybox/sh 
-                               /kaniko/executor -f {pipelineBuildImageStep.DockerFileSrc} -c . --destination={application}/toyar/{application.AppId}:""${{BRANCH_NAME}}""""${{VERSION_NAME}}""  --insecure --skip-tls-verify -v=debug
+                               /kaniko/executor -f {pipelineBuildImageStep.DockerFileSrc} -c . --destination={componentIntegration.Credential.ComponentLinkUrl}/toyar/{application.AppId.ToLower()}:""${{BRANCH_NAME}}""""${{VERSION_NAME}}""  --insecure --skip-tls-verify -v=debug
                             '''
                         }}");
                         break;
@@ -232,4 +250,6 @@ public class ApplicationPipeline : FullAggregateRoot
 
         return stringBuilder.ToString();
     }
+
+    
 }
