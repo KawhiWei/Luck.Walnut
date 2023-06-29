@@ -116,17 +116,17 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
         node.InnerText = dslScript;
 
-        var job = await _jenkinsIntegration.GetJenkinsJobDetailAsync($"{application.AppId}.{applicationPipeline.Name}");
+        var job = await _jenkinsIntegration.GetJenkinsJobDetailAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}");
         if (job is null)
         {
-            await _jenkinsIntegration.CreateJenkinsJobAsync($"{application.AppId}.{applicationPipeline.Name}", xmlDocument.InnerXml);
+            await _jenkinsIntegration.CreateJenkinsJobAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}", xmlDocument.InnerXml);
         }
         else
         {
-            await _jenkinsIntegration.UpdateJenkinsJobAsync($"{application.AppId}.{applicationPipeline.Name}", xmlDocument.InnerXml);
+            await _jenkinsIntegration.UpdateJenkinsJobAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}", xmlDocument.InnerXml);
         }
 
-        await _jenkinsIntegration.BuildJobAsync($"{application.AppId}.{applicationPipeline.Name}");
+        await _jenkinsIntegration.BuildJobAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}");
 
         applicationPipeline.SetPublished(true);
         await _unitOfWork.CommitAsync();
@@ -140,7 +140,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
     {
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
         await BuildJenkinsIntegration(applicationPipeline.BuildComponentId);
-        var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobDetailAsync(applicationPipeline.Name);
+        var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobDetailAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}");
 
         var branchName = "Release";
         var version = DateTime.Now.ToString("yyyy.MMdd.HHmm.ss");
@@ -160,7 +160,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
             { "APPLICATIONPIPELINEID", id },
 
         };
-        await _jenkinsIntegration.BuildJobWithParametersAsync(applicationPipeline.Name, paramsDic);
+        await _jenkinsIntegration.BuildJobWithParametersAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}", paramsDic);
         await _unitOfWork.CommitAsync();
     }
 
@@ -186,7 +186,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var applicationPipeline = await _pipelineRepository.FindFirstByIdAsync(id);
         await BuildJenkinsIntegration(applicationPipeline.BuildComponentId);
 
-        var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, jenkinsBuildNumber);
+        var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}", jenkinsBuildNumber);
 
         var applicationPipelineExecutedRecord = applicationPipeline.GetExecutedRecordForJenkinsNumber(jenkinsBuildNumber);
 
@@ -215,7 +215,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
             await BuildJenkinsIntegration(applicationPipeline.BuildComponentId);
             foreach (var applicationPipelineExecutedRecord in applicationPipeline.PipelineHistories)
             {
-                var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
+                var jenkinsJobDetailDto = await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}", applicationPipelineExecutedRecord.JenkinsBuildNumber);
                 if (jenkinsJobDetailDto is not null)
                 {
                     applicationPipelineExecutedRecord.SetPipelineBuildState(jenkinsJobDetailDto.Result != "SUCCESS" ? PipelineBuildStateEnum.Fail : PipelineBuildStateEnum.Success);

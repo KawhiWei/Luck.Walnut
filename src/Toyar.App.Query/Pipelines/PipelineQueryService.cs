@@ -90,22 +90,13 @@ public class PipelineQueryService : IPipelineQueryService
         };
     }
 
-    // public async Task<object> GetJenkinsJobBuildDetailAsync(string id)
-    // {
-    //     var applicationPipeline = await _applicationPipelineRepository.FindFirstByIdAsync(id);
-    //     var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.ComponentIntegrationId);
-    //     _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
-    //     return await _jenkinsIntegration.GetJenkinsJobBuildDetailAsync(applicationPipeline.Name, 23);
-    //     return "";
-    // }
-
 
     public async Task<string> GetJenkinsJobBuildLogsAsync(string applicationPipelineId, string id)
     {
         var applicationPipelineExecutedRecord = await _applicationPipelineExecutedRecordRepository.FindFirstByIdAsync(id);
         var applicationPipeline = await _pipelineRepository.FindFirstByIdAsync(applicationPipelineId);
         var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.BuildComponentId);
-        _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.Token ?? "");
-        return await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync(applicationPipeline.Name, applicationPipelineExecutedRecord.JenkinsBuildNumber);
+        _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.PassWord ?? "");
+        return await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}", applicationPipelineExecutedRecord.JenkinsBuildNumber);
     }
 }
