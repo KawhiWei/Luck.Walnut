@@ -136,8 +136,8 @@ public class ApplicationPipeline : FullAggregateRoot
     /// <returns></returns>
     public PipelineHistory GetExecutedRecordForJenkinsNumber(uint jenkinsNumber)
     {
-        var applicationPipelineExecutedRecord= PipelineHistories.FirstOrDefault(r => r.JenkinsBuildNumber == jenkinsNumber);
-        if(applicationPipelineExecutedRecord is null)
+        var applicationPipelineExecutedRecord = PipelineHistories.FirstOrDefault(r => r.JenkinsBuildNumber == jenkinsNumber);
+        if (applicationPipelineExecutedRecord is null)
         {
             throw new BusinessException($"{Name}-------{jenkinsNumber}执行记录不存在");
         }
@@ -150,15 +150,15 @@ public class ApplicationPipeline : FullAggregateRoot
     /// </summary>
     /// <param name="nextBuildNumber"></param>
     /// <returns></returns>
-    public ApplicationPipeline AddApplicationPipelineExecutedRecord(uint nextBuildNumber,string imageVersion)
+    public ApplicationPipeline AddApplicationPipelineExecutedRecord(uint nextBuildNumber, string imageVersion)
     {
         var applicationPipelineExecutedRecord = new PipelineHistory(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber, imageVersion);
         PipelineHistories.Add(applicationPipelineExecutedRecord);
         return this;
     }
-    
-    
-    public string  GetPipelineScript(Application application, ComponentIntegration componentIntegration)
+
+
+    public string GetPipelineScript(Application application, ComponentIntegration componentIntegration)
     {
         var stringBuilder = new StringBuilder();
         foreach (var stage in this.PipelineScript)
@@ -176,7 +176,7 @@ public class ApplicationPipeline : FullAggregateRoot
                         {
                             PropertyNameCaseInsensitive = true
                         });
-                        if(pipelinePullCodeStep is null)
+                        if (pipelinePullCodeStep is null)
                         {
                             break;
                         }
@@ -220,9 +220,9 @@ public class ApplicationPipeline : FullAggregateRoot
                         byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes($"{componentIntegration.Credential.UserName}:{componentIntegration.Credential.PassWord}");
                         dockerRegistry.Auths.Add($"{componentIntegration.Credential.ComponentLinkUrl}", new AuthDto()
                         {
-                            Auth= Convert.ToBase64String(toEncodeAsBytes)
+                            Auth = Convert.ToBase64String(toEncodeAsBytes)
                         });
-                        
+
                         var jsonStr = dockerRegistry.Serialize(new JsonSerializerOptions()
                         {
                             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -251,5 +251,5 @@ public class ApplicationPipeline : FullAggregateRoot
         return stringBuilder.ToString();
     }
 
-    
+
 }

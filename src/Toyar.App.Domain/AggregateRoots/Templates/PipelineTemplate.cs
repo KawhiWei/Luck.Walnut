@@ -41,7 +41,7 @@ namespace Toyar.App.Domain.AggregateRoots.Templates
         /// <summary>
         /// 流水线Dsl
         /// </summary>
-        public ICollection<Stage> PipelineScript { get; private set; } = new HashSet<Stage>();
+        public ICollection<Stage>? PipelineScript { get; private set; } = new HashSet<Stage>();
 
         public PipelineTemplate SetPipelineScript(ICollection<StageDto>? pipelineScript)
         {

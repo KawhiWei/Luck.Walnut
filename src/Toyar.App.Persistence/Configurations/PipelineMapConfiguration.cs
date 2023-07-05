@@ -1,4 +1,4 @@
-using Toyar.App.Domain.AggregateRoots.Pipelines;
+﻿using Toyar.App.Domain.AggregateRoots.Pipelines;
 
 namespace Toyar.App.Persistence.Configurations;
 

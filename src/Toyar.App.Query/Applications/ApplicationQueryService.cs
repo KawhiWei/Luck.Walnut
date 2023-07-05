@@ -1,11 +1,6 @@
-﻿using Luck.Framework.Extensions;
-using Toyar.App.Domain.AggregateRoots.Languages;
-using Toyar.App.Domain.Repositories;
-using Toyar.App.Domain.Shared.Enums;
+﻿using Toyar.App.Domain.Repositories;
 using Toyar.App.Dto;
 using Toyar.App.Dto.Applications;
-using Toyar.App.Dto.Environments;
-using Toyar.App.Infrastructure;
 using Microsoft.Extensions.Logging;
 
 namespace Toyar.App.Query.Applications
@@ -18,7 +13,7 @@ namespace Toyar.App.Query.Applications
         private readonly IContinuousIntegrationImageRepository _buildImageRepository;
         private readonly IBuildImageVersionRepository _buildImageVersionRepository;
         private readonly IComponentIntegrationRepository _componentIntegrationRepository;
-        public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository, IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger,IContinuousIntegrationImageRepository buildImageRepository,
+        public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository, IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger, IContinuousIntegrationImageRepository buildImageRepository,
             IBuildImageVersionRepository buildImageVersionRepository, IComponentIntegrationRepository componentIntegrationRepository)
         {
             _appEnvironmentRepository = appEnvironmentRepository;
@@ -33,14 +28,8 @@ namespace Toyar.App.Query.Applications
         public async Task<PageBaseResult<ApplicationOutputDto>> GetApplicationPageListAsync(ApplicationQueryDto query)
         {
             var result = await _applicationRepository.GetApplicationPageListAsync(query);
-           
+
             return new PageBaseResult<ApplicationOutputDto>(result.TotalCount, result.Data.ToArray());
-        }
-
-
-        public async Task<List<AppEnvironmentListOutputDto>> GetEnvironmentAsync(string appId)
-        {
-            return await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
         }
 
         public async Task<ApplicationOutputDto?> GetApplicationDetailForIdAsync(string id)
@@ -48,31 +37,14 @@ namespace Toyar.App.Query.Applications
             var application = await _applicationRepository.FindFirstOrDefaultByIdAsync(id);
             if (application is null)
                 return null;
-            return  new ApplicationOutputDto
+            return new ApplicationOutputDto
             {
                 Id = application.Id,
                 AppId = application.AppId,
                 Name = application.Name,
                 GitUrl = application.GitUrl,
-                Describe= application.Describe,
+                Describe = application.Describe,
             };
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Language> GetLanguageListAsync()
-        {
-            List<Language> languages = new List<Language>()
-            {
-                new Language(".Net", LanguageTypeEnum.DotNet),
-                new Language("Python", LanguageTypeEnum.Python),
-                new Language("Java", LanguageTypeEnum.Java),
-                new Language("Go", LanguageTypeEnum.Go),
-                new Language("Node", LanguageTypeEnum.NodeJs),
-            };
-            return languages.ToArray();
         }
 
         /// <summary>
@@ -82,11 +54,9 @@ namespace Toyar.App.Query.Applications
         public async Task<ApplicationOutput> GetApplicationDashboardDetailAsync(string appId)
         {
             var application = await _applicationRepository.FindFirstOrDefaultOutputDtoByAppIdAsync(appId);
-            var environmentList = await _appEnvironmentRepository.GetEnvironmentListForApplicationId(appId);
             return new ApplicationOutput()
             {
                 Application = application,
-                EnvironmentList = environmentList,
             };
         }
 

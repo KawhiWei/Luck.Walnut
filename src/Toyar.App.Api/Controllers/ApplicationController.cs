@@ -1,5 +1,4 @@
 using Toyar.App.AppService.Applications;
-using Toyar.App.Domain.AggregateRoots.Languages;
 using Toyar.App.Dto;
 using Toyar.App.Dto.Applications;
 using Toyar.App.Query.Applications;
@@ -62,14 +61,6 @@ namespace Toyar.App.Api.Controllers
         /// <returns></returns>
         [HttpDelete("{id}")]
         public Task DeleteApplicationAsync(string id) => _applicationService.DeleteApplicationAsync(id);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="applicationQueryService"></param>
-        /// <returns></returns>
-        [HttpGet("language/list")]
-        public IEnumerable<Language> GetLanguageList([FromServices] IApplicationQueryService applicationQueryService) => applicationQueryService.GetLanguageListAsync();
 
         /// <summary>
         /// 

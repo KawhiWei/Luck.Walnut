@@ -108,14 +108,14 @@ public class JenkinsIntegration : IJenkinsIntegration
     /// <summary>
     /// 触发构建一个任务执行build
     /// </summary>
-    public async Task<string> BuildJobWithParametersAsync(string jobName ,IDictionary<string, string> paramsDic)
+    public async Task<string> BuildJobWithParametersAsync(string jobName, IDictionary<string, string> paramsDic)
     {
         try
         {
             var client = _httpClientFactory.CreateClient();
             SetRequestHeadersBasicAuth(client);
             var paramsStr = new StringBuilder();
-            foreach ( var param in paramsDic )
+            foreach (var param in paramsDic)
             {
                 paramsStr.Append($"{param.Key}={param.Value}&");
             }
@@ -130,7 +130,7 @@ public class JenkinsIntegration : IJenkinsIntegration
     }
 
 
-    
+
 
     /// <summary>
     /// 查询Jenkins执行Job的日志
@@ -154,11 +154,11 @@ public class JenkinsIntegration : IJenkinsIntegration
     /// <summary>
     /// 在Jenkins内创建job
     /// </summary>
-    public async Task<string> CreateJenkinsJobAsync(string jobName,string xmlBody)
+    public async Task<string> CreateJenkinsJobAsync(string jobName, string xmlBody)
     {
         var client = _httpClientFactory.CreateClient();
         SetRequestHeadersBasicAuth(client);
-        var response = await client.PostAsync($"{UrlAddress}/createItem?name={jobName}",new StringContent(xmlBody,Encoding.UTF8,"application/xml"));
+        var response = await client.PostAsync($"{UrlAddress}/createItem?name={jobName}", new StringContent(xmlBody, Encoding.UTF8, "application/xml"));
         return await HttpResponseMessage(response);
     }
 
@@ -166,11 +166,11 @@ public class JenkinsIntegration : IJenkinsIntegration
     /// <summary>
     /// 修改jenkins内的job
     /// </summary>
-    public async Task<string> UpdateJenkinsJobAsync(string jobName,string xmlBody)
+    public async Task<string> UpdateJenkinsJobAsync(string jobName, string xmlBody)
     {
         var client = _httpClientFactory.CreateClient();
         SetRequestHeadersBasicAuth(client);
-        var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/config.xml",new StringContent(xmlBody,Encoding.UTF8,"application/xml"));
+        var response = await client.PostAsync($"{UrlAddress}/job/{jobName}/config.xml", new StringContent(xmlBody, Encoding.UTF8, "application/xml"));
         return await HttpResponseMessage(response);
     }
 

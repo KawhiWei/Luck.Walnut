@@ -7,22 +7,19 @@ namespace Toyar.App.Api.GrpcServices
 {
     public class GetConfigService : GetConfig.GetConfigBase
     {
-        private readonly IEnvironmentQueryService _environmentQueryService;
+        private readonly IAppEnvironmentQueryService _environmentQueryService;
 
-        public GetConfigService(IEnvironmentQueryService environmentQueryService)
+        public GetConfigService(IAppEnvironmentQueryService environmentQueryService)
         {
             _environmentQueryService = environmentQueryService;
         }
 
         public override async Task<ApplicationConfigResponse> GetAppliactionConfig(ApplicationConfigRequest request, ServerCallContext context)
         {
-            var configs = await _environmentQueryService.GetAppConfigurationByAppIdAndEnvironmentNameAsync(request.AppId, request.EnvironmentName);
-                        var response = new ApplicationConfigResponse();
-            
-            
-            
-            
-            return response;
+
+
+
+            return new ApplicationConfigResponse();
         }
     }
 }

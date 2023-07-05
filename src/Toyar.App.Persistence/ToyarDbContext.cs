@@ -19,7 +19,7 @@ namespace Toyar.App.Persistence
 
         public DbSet<AppConfiguration> Configurations => Set<AppConfiguration>();
 
-        public DbSet<AppEnvironment> Environments => Set<AppEnvironment>();
+        public DbSet<AppEnvironment> Environments => base.Set<AppEnvironment>();
 
         public DbSet<ComponentIntegration> ComponentIntegrations => Set<ComponentIntegration>();
 
@@ -30,6 +30,7 @@ namespace Toyar.App.Persistence
         public DbSet<ContinuousIntegrationImage> ContinuousIntegrationImages => Set<ContinuousIntegrationImage>();
 
         public DbSet<ContinuousIntegrationImageVersion> CIRunnerImageVersions => Set<ContinuousIntegrationImageVersion>();
+
         public DbSet<PipelineTemplate> PipelineTemplates => Set<PipelineTemplate>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -12,7 +12,7 @@
             Name = name;
             AppId = appId;
             GitUrl = gitUrl;
-            
+
         }
 
 
@@ -41,6 +41,11 @@
         /// 应用描述
         /// </summary>
         public string? Describe { get; private set; }
+
+        /// <summary>
+        /// 应用部署环境
+        /// </summary>
+        public ICollection<string> AppEnvironments = new HashSet<string>();
 
         /// <summary>
         /// 
