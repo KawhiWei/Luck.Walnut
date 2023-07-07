@@ -36,4 +36,9 @@ public class Cluster : FullAggregateRoot
         Config = config;
         return this;
     }
+    public Cluster SetClusterVersion(string clusterVersion)
+    {
+        ClusterVersion = clusterVersion;
+        return this;
+    }
 }
