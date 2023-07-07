@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Luck.Walnut.Kube.Domain.AggregateRoots.SideCarPlugins
+namespace Luck.Walnut.Kube.Domain.AggregateRoots.SideCar
 {
-   public class SideCarPluginVersion:FullEntity
-   {
+    public class SideCarPluginVersion : FullEntity
+    {
         public SideCarPluginVersion(string sideCarPluginId, string version, SideCarPlugin sideCarPlugin)
         {
             SideCarPluginId = sideCarPluginId;
@@ -30,5 +30,5 @@ namespace Luck.Walnut.Kube.Domain.AggregateRoots.SideCarPlugins
         /// 
         /// </summary>
         public SideCarPlugin SideCarPlugin { get; } = default!;
-   }
+    }
 }

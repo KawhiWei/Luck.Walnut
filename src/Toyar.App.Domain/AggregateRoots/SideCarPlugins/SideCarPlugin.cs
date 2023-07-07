@@ -3,7 +3,7 @@ using Toyar.App.Domain.AggregateRoots.ValueObject.DeploymentValueObjects;
 using Toyar.App.Dto.K8s.DeploymentsBaseDto;
 using Toyar.App.Dto.SideCarPlugins;
 
-namespace Luck.Walnut.Kube.Domain.AggregateRoots.SideCarPlugins
+namespace Luck.Walnut.Kube.Domain.AggregateRoots.SideCar
 {
     /// <summary>
     /// 初始容器配置
@@ -28,7 +28,7 @@ namespace Luck.Walnut.Kube.Domain.AggregateRoots.SideCarPlugins
         /// <summary>
         /// 镜像名称
         /// </summary>
-        public string? Image { get; private set; }
+        public string Image { get; private set; }
 
         /// <summary>
         /// 重启策略

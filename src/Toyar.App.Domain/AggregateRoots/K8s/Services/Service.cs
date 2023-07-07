@@ -51,7 +51,7 @@ public partial class Service : FullAggregateRoot
     /// <summary>
     /// 服务端口配置
     /// </summary>
-    public ICollection<ServicePort> ServicePorts { get; private set; } = new HashSet<ServicePort>();
+    public ICollection<ServicePort>? ServicePorts { get; private set; } = new HashSet<ServicePort>();
 
 
     public void RemoveCheck()

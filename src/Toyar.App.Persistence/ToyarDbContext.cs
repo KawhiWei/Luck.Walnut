@@ -6,6 +6,10 @@ using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
 using Toyar.App.Domain.AggregateRoots.Environments;
 using Toyar.App.Domain.AggregateRoots.ContinuousIntegrationImages;
 using Toyar.App.Domain.AggregateRoots.Templates;
+using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
+using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
+using Toyar.App.Domain.AggregateRoots.K8s.Services;
+using Toyar.App.Domain.AggregateRoots.K8s.Deployments;
 
 namespace Toyar.App.Persistence
 {
@@ -32,6 +36,16 @@ namespace Toyar.App.Persistence
         public DbSet<ContinuousIntegrationImageVersion> CIRunnerImageVersions => Set<ContinuousIntegrationImageVersion>();
 
         public DbSet<PipelineTemplate> PipelineTemplates => Set<PipelineTemplate>();
+
+        public DbSet<Cluster> Clusters => Set<Cluster>();
+
+        public DbSet<NameSpace> NameSpaces => Set<NameSpace>();
+
+        public DbSet<Service> Services => Set<Service>();
+
+        public DbSet<Deployment> Deployments => Set<Deployment>();
+
+        public DbSet<DeploymentContainer> DeploymentContainers => Set<DeploymentContainer>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
