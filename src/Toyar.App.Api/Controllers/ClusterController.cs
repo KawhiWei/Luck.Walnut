@@ -53,4 +53,12 @@ public class ClusterController : BaseController
     /// <returns></returns>
     [HttpGet("page/list")]
     public Task<PageBaseResult<ClusterOutputDto>> GetClusterPageListAsync([FromQuery] ClusterQueryDto query, [FromServices] IClusterQueryService clusterQueryService) => clusterQueryService.GetClusterPageListAsync(query);
+
+    /// <summary>
+    /// 获取集群列表
+    /// </summary>
+    /// <param name="applicationQueryService"></param>
+    /// <returns></returns>
+    [HttpGet("list")]
+    public Task<List<ClusterOutputDto>> GetClusterListAsync([FromServices] IClusterQueryService clusterQueryService) => clusterQueryService.GetClusterListAsync();
 }

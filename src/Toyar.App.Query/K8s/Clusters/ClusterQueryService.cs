@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
+﻿using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Dto;
 using Toyar.App.Dto.K8s.Clusters;
@@ -24,6 +23,14 @@ namespace Toyar.App.Query.K8s.Clusters
         {
             var result = await _clusterRepository.GetClusterPageListAsync(query);
             return new PageBaseResult<ClusterOutputDto>(result.TotalCount, result.Data.Select(cluster => StructureClusterOutputDto(cluster)).ToArray());
+
+        }
+
+
+        public async Task<List<ClusterOutputDto>> GetClusterListAsync()
+        {
+            var result = await _clusterRepository.GetClusterListAsync();
+            return result.Select(cluster => StructureClusterOutputDto(cluster)).ToList();
 
         }
 

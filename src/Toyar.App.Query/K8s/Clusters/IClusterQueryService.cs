@@ -10,5 +10,8 @@ namespace Toyar.App.Query.K8s.Clusters
 
 
         Task<PageBaseResult<ClusterOutputDto>> GetClusterPageListAsync(ClusterQueryDto query);
+
+
+        Task<List<ClusterOutputDto>> GetClusterListAsync();
     }
 }

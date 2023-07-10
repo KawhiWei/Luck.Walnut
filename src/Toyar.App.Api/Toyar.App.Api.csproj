@@ -40,6 +40,7 @@
 		<ProjectReference Include="..\Toyar.App.Query\Toyar.App.Query.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Controllers\NameSpaceController.cs~RF34eec1f5.TMP" />
 	  <None Remove="Luck.WebSocket.Server" />
 	</ItemGroup>
 	<ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
