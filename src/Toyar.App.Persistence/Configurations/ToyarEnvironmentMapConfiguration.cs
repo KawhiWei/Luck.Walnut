@@ -2,15 +2,15 @@
 
 namespace Toyar.App.Persistence
 {
-    public class AppEnvironmentMapConfiguration : IEntityTypeConfiguration<AppEnvironment>
+    public class ToyarEnvironmentMapConfiguration : IEntityTypeConfiguration<ToyarEnvironment>
     {
-        public void Configure(EntityTypeBuilder<AppEnvironment> builder)
+        public void Configure(EntityTypeBuilder<ToyarEnvironment> builder)
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Name);
             builder.HasIndex(x => x.Name, "name_unique_index")
                 .IsUnique();
-            builder.ToTable("app_environments");
+            builder.ToTable("toyar_environments");
         }
     }
 }

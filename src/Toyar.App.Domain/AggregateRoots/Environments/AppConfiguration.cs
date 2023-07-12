@@ -45,7 +45,7 @@
         /// <summary>
         /// 
         /// </summary>
-        public AppEnvironment AppEnvironment { get; } = default!;
+        public ToyarEnvironment AppEnvironment { get; } = default!;
 
 
         /// <summary>

@@ -1,15 +1,16 @@
 ﻿namespace Toyar.App.Dto.Environments
 {
-    public class AppEnvironmentInputDto
+    public class ToyarEnvironmentBaseDto
     {
 
         /// <summary>
         /// 环境中文名称
         /// </summary>
-        public string EnvironmentChinesName { get; set; } = default!;
+        public string ChinesName { get; set; } = default!;
         /// <summary>
         /// 环境名称
         /// </summary>
-        public string EnvironmentName { get; set; } = default!;
+        public string Name { get; set; } = default!;
+
     }
 }

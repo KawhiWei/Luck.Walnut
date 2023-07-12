@@ -11,12 +11,7 @@ public class DeploymentContainerMapConfiguration : IEntityTypeConfiguration<Depl
     public void Configure(EntityTypeBuilder<DeploymentContainer> builder)
     {
         builder.HasKey(e => e.Id);
-        builder.Property(e => e.ReadinessProbe).HasJsonConversion();
-        builder.Property(e => e.LiveNessProbe).HasJsonConversion();
-        builder.Property(e => e.Limits).HasJsonConversion();
-        builder.Property(e => e.Requests).HasJsonConversion();
-        builder.Property(e => e.Environments).HasJsonConversion();
-        builder.Property(e => e.ContainerPortConfigurations).HasJsonConversion();
+        builder.Property(e => e.ContainerPlugins).HasJsonConversion();
         builder.ToTable("deployment_containers");
     }
 }

@@ -7,13 +7,13 @@ namespace Toyar.App.Query.Applications
 {
     public class ApplicationQueryService : IApplicationQueryService
     {
-        private readonly IEnvironmentRepository _appEnvironmentRepository;
+        private readonly IToyarEnvironmentRepository _appEnvironmentRepository;
         private readonly IApplicationRepository _applicationRepository;
         private readonly ILogger<ApplicationQueryService> _logger;
         private readonly IContinuousIntegrationImageRepository _buildImageRepository;
         private readonly IBuildImageVersionRepository _buildImageVersionRepository;
         private readonly IComponentIntegrationRepository _componentIntegrationRepository;
-        public ApplicationQueryService(IEnvironmentRepository appEnvironmentRepository, IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger, IContinuousIntegrationImageRepository buildImageRepository,
+        public ApplicationQueryService(IToyarEnvironmentRepository appEnvironmentRepository, IApplicationRepository applicationRepository, ILogger<ApplicationQueryService> logger, IContinuousIntegrationImageRepository buildImageRepository,
             IBuildImageVersionRepository buildImageVersionRepository, IComponentIntegrationRepository componentIntegrationRepository)
         {
             _appEnvironmentRepository = appEnvironmentRepository;

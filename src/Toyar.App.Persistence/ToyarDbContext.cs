@@ -23,7 +23,7 @@ namespace Toyar.App.Persistence
 
         public DbSet<AppConfiguration> Configurations => Set<AppConfiguration>();
 
-        public DbSet<AppEnvironment> Environments => base.Set<AppEnvironment>();
+        public DbSet<ToyarEnvironment> ToyarEnvironments => base.Set<ToyarEnvironment>();
 
         public DbSet<ComponentIntegration> ComponentIntegrations => Set<ComponentIntegration>();
 

@@ -40,7 +40,7 @@ namespace Toyar.App.Query.K8s.Clusters
             return cluster is null ? throw new BusinessException($"集群不存在") : cluster;
         }
 
-        private ClusterOutputDto StructureClusterOutputDto(Cluster cluster)
+        private static ClusterOutputDto StructureClusterOutputDto(Cluster cluster)
         {
             return new ClusterOutputDto
             {

@@ -7,9 +7,9 @@ namespace Toyar.App.Api.GrpcServices
 {
     public class GetConfigService : GetConfig.GetConfigBase
     {
-        private readonly IAppEnvironmentQueryService _environmentQueryService;
+        private readonly IToyarEnvironmentQueryService _environmentQueryService;
 
-        public GetConfigService(IAppEnvironmentQueryService environmentQueryService)
+        public GetConfigService(IToyarEnvironmentQueryService environmentQueryService)
         {
             _environmentQueryService = environmentQueryService;
         }

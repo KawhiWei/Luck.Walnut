@@ -2,7 +2,7 @@
 
 namespace Toyar.App.AppService.Environments
 {
-    public interface IEnvironmentService : IScopedDependency
+    public interface IToyarEnvironmentService : IScopedDependency
     {
 
         /// <summary>
@@ -10,7 +10,7 @@ namespace Toyar.App.AppService.Environments
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task CreateEnvironmentAsync(AppEnvironmentInputDto input);
+        Task CreateEnvironmentAsync(ToyarEnvironmentInputDto input);
 
         /// <summary>
         /// 删除环境

@@ -5,10 +5,10 @@ namespace Toyar.App.Domain.AggregateRoots.Environments
     /// <summary>
     /// 环境
     /// </summary>
-    public class AppEnvironment : FullAggregateRoot
+    public class ToyarEnvironment : FullAggregateRoot
     {
 
-        public AppEnvironment(string name, string chinesName)
+        public ToyarEnvironment(string name, string chinesName)
         {
 
             Name = name;

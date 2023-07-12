@@ -82,9 +82,9 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.Deployments
         public bool IsPublish { get; private set; }
 
         /// <summary>
-        /// 更新策略
+        /// Deployment除基础配置外，其他插件列表，字典Key是约定，value是详细的配置
         /// </summary>
-        public Strategy? Strategy { get; private set; } = null;
+        public IDictionary<string, string>? DeploymentPlugins { get; private set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// 主应用容器配置

@@ -47,34 +47,9 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.Deployments
         public string ImagePullPolicy { get; private set; }
 
         /// <summary>
-        /// 准备完成探针配置
+        /// 容器除基础配置外，其他插件列表，字典Key是约定，value是详细的配置
         /// </summary>
-        public ContainerSurviveConfiguration? ReadinessProbe { get; private set; }
-
-        /// <summary>
-        /// 存活探针配置
-        /// </summary>
-        public ContainerSurviveConfiguration? LiveNessProbe { get; private set; }
-
-        /// <summary>
-        /// 容器Cpu资源限制
-        /// </summary>
-        public ContainerResourceQuantity? Limits { get; private set; }
-
-        /// <summary>
-        /// 容器内存资源限制
-        /// </summary>
-        public ContainerResourceQuantity? Requests { get; private set; }
-
-        /// <summary>
-        /// 环境变量
-        /// </summary>
-        public List<KeyValuePair<string, string>>? Environments { get; private set; } = default!;
-
-        /// <summary>
-        /// 容器端口配置
-        /// </summary>
-        public ICollection<ContainerPortConfiguration>? ContainerPortConfigurations { get; private set; } = new HashSet<ContainerPortConfiguration>();
+        public IDictionary<string, string>? ContainerPlugins { get; private set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// 
