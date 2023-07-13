@@ -24,14 +24,27 @@ public class DeploymentService : IDeploymentService
     public async Task CreateDeploymentAsync(DeploymentInputDto input)
     {
 
-
-
+        Deployment deployment = new(input.AppId, input.ChineseName, input.Name, input.EnvironmentName, input.ApplicationRuntimeType, input.DeploymentType, input.ClusterId, input.NameSpace, input.Replicas, input.ImagePullSecretId);
+        if (input.SideCarPlugins.Any())
+        {
+            deployment.SetSideCars(input.SideCarPlugins);
+        }
+        _deploymentRepository.Add(deployment);
         await _unitOfWork.CommitAsync();
     }
 
     public async Task UpdateDeploymentAsync(string id, DeploymentInputDto input)
     {
         var deployment = await CheckAndGetDeploymentAsync(id);
+
+        deployment.SetSideCars(input.SideCarPlugins)
+            .SetReplicas(input.Replicas)
+            .SetImagePullSecretId(input.ImagePullSecretId)
+            .SetDeploymentType(input.DeploymentType)
+            .SetEnvironmentName(input.EnvironmentName)
+            .SetApplicationRuntimeType(input.ApplicationRuntimeType)
+            .SetClusterId(input.ClusterId)
+            .SetNameSpace(input.NameSpace);
         await _unitOfWork.CommitAsync();
     }
 

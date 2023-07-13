@@ -8,7 +8,7 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
     /// </summary>
     public class Deployment : FullAggregateRoot
     {
-        public Deployment(string appId, string chineseName, string name, string environmentName, ApplicationRuntimeTypeEnum applicationRuntimeType, DeploymentTypeEnum deploymentType, string clusterId, string nameSpace, int replicas, string? imagePullSecretId, bool isPublish)
+        public Deployment(string appId, string chineseName, string name, string environmentName, ApplicationRuntimeTypeEnum applicationRuntimeType, DeploymentTypeEnum deploymentType, string clusterId, string nameSpace, int replicas, string? imagePullSecretId, bool isPublish = false)
         {
             AppId = appId;
             ChineseName = chineseName;
@@ -94,6 +94,55 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
         /// <summary>
         /// 初始容器配置列表
         /// </summary>
-        public ICollection<string> SideCars { get; private set; } = new HashSet<string>();
+        public List<string> SideCars { get; private set; } = new List<string>();
+
+        public Deployment SetSideCars(ICollection<string> sideCars)
+        {
+            SideCars.Clear();
+            SideCars.AddRange(sideCars);
+            return this;
+        }
+
+        public Deployment SetImagePullSecretId(string? imagePullSecretId)
+        {
+            ImagePullSecretId = imagePullSecretId;
+            return this;
+        }
+
+        public Deployment SetEnvironmentName(string environmentName)
+        {
+            EnvironmentName = environmentName;
+            return this;
+        }
+
+        public Deployment SetApplicationRuntimeType(ApplicationRuntimeTypeEnum applicationRuntimeType)
+        {
+            ApplicationRuntimeType = applicationRuntimeType;
+            return this;
+        }
+
+        public Deployment SetDeploymentType(DeploymentTypeEnum deploymentType)
+        {
+            DeploymentType = deploymentType;
+            return this;
+        }
+
+        public Deployment SetClusterId(string clusterId)
+        {
+            ClusterId = clusterId;
+            return this;
+        }
+
+        public Deployment SetNameSpace(string nameSpace)
+        {
+            NameSpace = nameSpace;
+            return this;
+        }
+        public Deployment SetReplicas(int replicas)
+        {
+            Replicas = replicas;
+            return this;
+        }
+
     }
 }
