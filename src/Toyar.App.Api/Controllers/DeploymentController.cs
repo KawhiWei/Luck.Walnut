@@ -58,6 +58,6 @@ public class DeploymentController : BaseController
     /// <param name="query"></param>
     /// <returns></returns>
     [HttpGet("{appId}/page/list")]
-    public Task<PageBaseResult<DeploymentOutputDto>> GetDeploymentPageListAsync([FromServices] IDeploymentQueryService deploymentQueryService, string appId, DeploymentQueryDto query) => deploymentQueryService.GetDeploymentPageListAsync(appId, query);
+    public Task<PageBaseResult<DeploymentOutputDto>> GetDeploymentPageListAsync([FromServices] IDeploymentQueryService deploymentQueryService, string appId,[FromQuery] DeploymentQueryDto query) => deploymentQueryService.GetDeploymentPageListAsync(appId, query);
 
 }
