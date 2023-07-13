@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.DeploymentConfigurations;
+﻿namespace Toyar.App.Dto.Deployments;
 
 public class StrategyInputDto
 {

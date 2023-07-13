@@ -82,7 +82,10 @@ public partial class Service : FullAggregateRoot
         {
             return this;
         }
-
+        if (ServicePorts is null)
+        {
+            ServicePorts = new HashSet<ServicePort>();
+        }
         foreach (var servicePortInput in input.ServicePorts)
         {
             ServicePorts.Add(new ServicePort(servicePortInput.PortType, servicePortInput.PortName, servicePortInput.SourcePort, servicePortInput.TargetPort));

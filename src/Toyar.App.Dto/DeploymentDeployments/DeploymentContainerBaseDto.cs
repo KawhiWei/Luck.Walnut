@@ -1,8 +1,8 @@
 ﻿using Toyar.App.Dto.K8s.DeploymentsBaseDto;
 
-namespace Toyar.App.Dto.DeploymentConfigurations;
+namespace Toyar.App.Dto.Deployments;
 
-public class MasterContainerConfigurationBaseDto
+public class DeploymentContainerBaseDto
 {
     /// <summary>
     /// 容器名称

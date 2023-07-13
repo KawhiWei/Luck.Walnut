@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="AggregateRoots\Pipelines\ApplicationPipeline.cs~RF33e63856.TMP" />
+    <None Remove="Repositories\IToyarEnvironmentRepository.cs~RF43747334.TMP" />
   </ItemGroup>
 
   <ItemGroup>

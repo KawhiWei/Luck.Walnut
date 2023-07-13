@@ -9,7 +9,7 @@ using Toyar.App.Domain.AggregateRoots.Templates;
 using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
 using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Domain.AggregateRoots.K8s.Services;
-using Toyar.App.Domain.AggregateRoots.K8s.Deployments;
+using Toyar.App.Domain.AggregateRoots.Deployments;
 
 namespace Toyar.App.Persistence
 {

@@ -1,6 +1,6 @@
 ﻿using Toyar.App.Domain.AggregateRoots.ValueObject.DeploymentValueObjects;
 
-namespace Toyar.App.Domain.AggregateRoots.K8s.Deployments
+namespace Toyar.App.Domain.AggregateRoots.Deployments
 {
     public class DeploymentContainer : FullEntity
     {

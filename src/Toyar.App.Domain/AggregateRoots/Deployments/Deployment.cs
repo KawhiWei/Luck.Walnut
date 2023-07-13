@@ -1,7 +1,7 @@
 ﻿using Toyar.App.Domain.AggregateRoots.ValueObject.DeploymentValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 
-namespace Toyar.App.Domain.AggregateRoots.K8s.Deployments
+namespace Toyar.App.Domain.AggregateRoots.Deployments
 {
     /// <summary>
     /// 部署领域
@@ -94,6 +94,6 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.Deployments
         /// <summary>
         /// 初始容器配置列表
         /// </summary>
-        public ICollection<string>? SideCars { get; private set; } = new HashSet<string>();
+        public ICollection<string> SideCars { get; private set; } = new HashSet<string>();
     }
 }

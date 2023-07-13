@@ -1,8 +1,8 @@
 ﻿using Toyar.App.Domain.Shared.Enums;
 
-namespace Toyar.App.Dto.DeploymentConfigurations;
+namespace Toyar.App.Dto.Deployments;
 
-public class DeploymentConfigurationBaseDto
+public class DeploymentBaseDto
 {
     /// <summary>
     /// 部署环境
