@@ -10,6 +10,7 @@ using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
 using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Domain.AggregateRoots.K8s.Services;
 using Toyar.App.Domain.AggregateRoots.Deployments;
+using Luck.Walnut.Kube.Domain.AggregateRoots.SideCar;
 
 namespace Toyar.App.Persistence
 {
@@ -36,6 +37,8 @@ namespace Toyar.App.Persistence
         public DbSet<ContinuousIntegrationImageVersion> CIRunnerImageVersions => Set<ContinuousIntegrationImageVersion>();
 
         public DbSet<PipelineTemplate> PipelineTemplates => Set<PipelineTemplate>();
+
+        public DbSet<SideCarPlugin> SideCarPlugins => Set<SideCarPlugin>();
 
         public DbSet<Cluster> Clusters => Set<Cluster>();
 

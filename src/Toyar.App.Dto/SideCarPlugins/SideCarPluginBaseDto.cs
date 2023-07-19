@@ -1,6 +1,4 @@
-﻿
-
-using Toyar.App.Dto.K8s.DeploymentsBaseDto;
+﻿using Toyar.App.Dto.ValueObjects.DeploymentValueObjects;
 
 namespace Toyar.App.Dto.SideCarPlugins
 {

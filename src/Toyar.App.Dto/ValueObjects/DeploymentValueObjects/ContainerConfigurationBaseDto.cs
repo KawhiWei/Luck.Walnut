@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.K8s.DeploymentsBaseDto
+﻿namespace Toyar.App.Dto.ValueObjects.DeploymentValueObjects
 {
     public class ContainerConfigurationBaseDto
     {

@@ -1,4 +1,4 @@
-namespace Toyar.App.Dto.K8s.DeploymentsBaseDto;
+namespace Toyar.App.Dto.ValueObjects.DeploymentValueObjects;
 
 /// <summary>
 /// 资源配置
@@ -8,10 +8,10 @@ public class ContainerResourceQuantityDto
     /// <summary>
     /// 
     /// </summary>
-    public string? Cpu { get; set; }
+    public string Cpu { get; set; } = default!;
 
     /// <summary>
     /// 
     /// </summary>
-    public string? Memory { get; set; }
+    public string Memory { get; set; } = default!;
 }

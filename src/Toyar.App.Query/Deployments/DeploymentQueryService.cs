@@ -32,23 +32,27 @@ public class DeploymentQueryService : IDeploymentQueryService
         return StructureDeploymentOutputDto(deployment);
     }
 
-
     public async Task<PageBaseResult<DeploymentOutputDto>> GetDeploymentPageListAsync(string appId, DeploymentQueryDto query)
     {
         var (Data, TotalCount) = await _deploymentRepository.GetDeploymentPageListAsync(appId, query);
-        return new PageBaseResult<DeploymentOutputDto>(TotalCount, Data.Select(cluster => StructureDeploymentOutputDto(cluster)).ToArray());
+        return new PageBaseResult<DeploymentOutputDto>(TotalCount, Data.Select(deployment => StructureDeploymentOutputDto(deployment)).ToArray());
     }
-
-
-
-
 
 
     private static DeploymentOutputDto StructureDeploymentOutputDto(Deployment deployment)
     {
         return new DeploymentOutputDto
         {
-
+            Id = deployment.Id,
+            Name = deployment.Name,
+            NameSpace = deployment.NameSpace,
+            ChineseName = deployment.ChineseName,
+            Replicas = deployment.Replicas,
+            SideCarPlugins = deployment.SideCars,
+            DeploymentType = deployment.DeploymentType,
+            ApplicationRuntimeType = deployment.ApplicationRuntimeType,
+            EnvironmentName = deployment.EnvironmentName,
+            AppId = deployment.AppId,
         };
 
     }

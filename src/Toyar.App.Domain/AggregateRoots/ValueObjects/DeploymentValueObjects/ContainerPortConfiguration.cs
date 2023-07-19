@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Toyar.App.Domain.AggregateRoots.ValueObject.DeploymentValueObjects;
+namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
 
 /// <summary>
 /// 容器端口配置

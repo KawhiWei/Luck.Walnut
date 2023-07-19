@@ -23,12 +23,14 @@ public class DeploymentService : IDeploymentService
 
     public async Task CreateDeploymentAsync(DeploymentInputDto input)
     {
-
         Deployment deployment = new(input.AppId, input.ChineseName, input.Name, input.EnvironmentName, input.ApplicationRuntimeType, input.DeploymentType, input.ClusterId, input.NameSpace, input.Replicas, input.ImagePullSecretId);
         if (input.SideCarPlugins.Any())
         {
             deployment.SetSideCars(input.SideCarPlugins);
         }
+
+        deployment.InitializeDeploymentPlugin();
+        deployment.InitializeDeploymentContainer();
         _deploymentRepository.Add(deployment);
         await _unitOfWork.CommitAsync();
     }
@@ -61,5 +63,4 @@ public class DeploymentService : IDeploymentService
         var deployment = await _deploymentRepository.FirstOrDefaultByIdAsync(id);
         return deployment is null ? throw new BusinessException($"{FindDeploymentNotExistErrorMsg}") : deployment;
     }
-
 }

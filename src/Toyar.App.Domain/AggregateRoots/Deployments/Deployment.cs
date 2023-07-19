@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.AggregateRoots.ValueObject.DeploymentValueObjects;
+﻿using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 
 namespace Toyar.App.Domain.AggregateRoots.Deployments
@@ -84,7 +84,7 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
         /// <summary>
         /// Deployment除基础配置外，其他插件列表，字典Key是约定，value是详细的配置
         /// </summary>
-        public IDictionary<string, string>? DeploymentPlugins { get; private set; } = new Dictionary<string, string>();
+        public DeploymentPlugin DeploymentPlugins { get; private set; }
 
         /// <summary>
         /// 主应用容器配置
@@ -95,6 +95,7 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
         /// 初始容器配置列表
         /// </summary>
         public List<string> SideCars { get; private set; } = new List<string>();
+
 
         public Deployment SetSideCars(ICollection<string> sideCars)
         {
@@ -141,6 +142,49 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
         public Deployment SetReplicas(int replicas)
         {
             Replicas = replicas;
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deploymentPlugin"></param>
+        /// <returns></returns>
+        public Deployment SetDeploymentPlugin(DeploymentPlugin deploymentPlugin)
+        {
+
+            //deploymentPlugins.SetStrategy();
+
+            return this;
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// 初始化主容器
+        /// </summary>
+        /// <returns></returns>
+        public Deployment InitializeDeploymentContainer()
+        {
+            var deploymentContainer = new DeploymentContainer(Id, "", "always", "IfNotPresent", false, "");
+            deploymentContainer.InitializeContainerPlugins();
+            Containers.Add(deploymentContainer);
+            return this;
+        }
+
+        /// <summary>
+        /// 初始化K8s部分部署插件
+        /// </summary>
+        /// <returns></returns>
+        public Deployment InitializeDeploymentPlugin()
+        {
+            var deploymentPlugins = new DeploymentPlugin(new Strategy("RollingUpdate", "1", "1"));
+
+            DeploymentPlugins = deploymentPlugins;
             return this;
         }
 

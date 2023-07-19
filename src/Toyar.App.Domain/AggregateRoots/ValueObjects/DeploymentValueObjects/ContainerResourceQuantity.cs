@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Toyar.App.Domain.AggregateRoots.ValueObject.DeploymentValueObjects;
+namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
 
 /// <summary>
 /// 资源配置
@@ -8,8 +8,10 @@ namespace Toyar.App.Domain.AggregateRoots.ValueObject.DeploymentValueObjects;
 public class ContainerResourceQuantity
 {
     [JsonConstructor] //这个特性 可以写私有，标识你要用哪个构造函数
-    public ContainerResourceQuantity()
+    public ContainerResourceQuantity(string cpu, string memory)
     {
+        Cpu = cpu;
+        Memory = memory;
     }
 
     public string Cpu { get; private set; } = default!;

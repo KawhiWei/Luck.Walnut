@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Toyar.App.Infrastructure\Toyar.App.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ValueObjects\DeploymentValueObjects\" />
-  </ItemGroup>
-
 </Project>

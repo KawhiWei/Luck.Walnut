@@ -3,7 +3,6 @@ using Luck.Framework.Extensions;
 using Toyar.App.Domain.AggregateRoots.Deployments;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Dto.Deployments;
-using Toyar.App.Dto.Environments;
 
 namespace Toyar.App.Persistence.Repositories;
 
@@ -20,7 +19,7 @@ public class DeploymentRepository : EfCoreAggregateRootRepository<Deployment, st
 
     public Task<Deployment?> FirstOrDefaultByIdAsync(string id)
     {
-        return FindAll(x => x.Id == id).FirstOrDefaultAsync();
+        return FindAll(x => x.Id == id).Include(x => x.Containers).FirstOrDefaultAsync();
     }
 
     public async Task<(Deployment[] Data, int TotalCount)> GetDeploymentPageListAsync(string appId, DeploymentQueryDto query)

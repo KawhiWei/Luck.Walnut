@@ -1,4 +1,6 @@
-﻿namespace Toyar.App.Domain.AggregateRoots.ValueObject.DeploymentValueObjects;
+﻿using System.Text.Json.Serialization;
+
+namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
 
 /// <summary>
 /// 部署更新策略对象
@@ -11,6 +13,7 @@ public record Strategy
     /// <param name="type"></param>
     /// <param name="maxSurge"></param>
     /// <param name="maxUnavailable"></param>
+    [JsonConstructor]//这个特性 可以写私有，标识你要用哪个构造函数
     public Strategy(string type, string maxSurge, string maxUnavailable)
     {
         Type = type;
