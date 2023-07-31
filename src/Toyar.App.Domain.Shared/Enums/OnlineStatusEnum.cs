@@ -10,13 +10,13 @@ namespace Toyar.App.Domain.Shared.Enums
         /// <summary>
         /// 上线
         /// </summary>
-        [Description("上线")]
+        [Description("已上线")]
         Online = 0,
 
         /// <summary>
         /// 下线
         /// </summary>
-        [Description("下线")]
+        [Description("下线中")]
         Offline = 5,
     }
 }

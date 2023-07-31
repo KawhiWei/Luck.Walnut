@@ -19,8 +19,4 @@ public class NameSpaceBaseDto
     /// </summary>
     public string ClusterId { get; set; } = default!;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public OnlineStatusEnum OnlineStatus { get; set; }
 }

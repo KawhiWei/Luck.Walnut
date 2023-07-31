@@ -1,4 +1,5 @@
-﻿using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
+﻿using System.Diagnostics;
+using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Dto;
 using Toyar.App.Dto.K8s.NameSpaces;
@@ -52,6 +53,7 @@ public class NameSpaceQueryService : INameSpaceQueryService
 
     private NameSpaceOutputDto CreateNameSpaceOutputDto(NameSpace nameSpace)
     {
+
         return new NameSpaceOutputDto()
         {
             Name = nameSpace.Name,

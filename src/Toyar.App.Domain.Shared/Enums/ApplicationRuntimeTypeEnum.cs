@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace Toyar.App.Domain.Shared.Enums;
 
 /// <summary>
@@ -8,5 +10,6 @@ public enum ApplicationRuntimeTypeEnum
     /// <summary>
     /// Kubernetes
     /// </summary>
+    [Description("Kubernetes")]
     Kubernetes = 0,
 }

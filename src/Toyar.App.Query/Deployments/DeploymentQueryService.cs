@@ -13,14 +13,13 @@ namespace Toyar.App.Query.Deployments;
 public class DeploymentQueryService : IDeploymentQueryService
 {
     private readonly IDeploymentRepository _deploymentRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
+    private readonly IClusterRepository _clusterRepository;
     private const string FindDeploymentNotExistErrorMsg = "部署不存在!!!!";
 
-    public DeploymentQueryService(IDeploymentRepository deploymentRepository, IUnitOfWork unitOfWork)
+    public DeploymentQueryService(IDeploymentRepository deploymentRepository, IClusterRepository clusterRepository)
     {
         _deploymentRepository = deploymentRepository;
-        _unitOfWork = unitOfWork;
+        _clusterRepository = clusterRepository;
     }
 
     public async Task<DeploymentOutputDto> GetDeploymentForIdAsync(string id)
@@ -35,7 +34,24 @@ public class DeploymentQueryService : IDeploymentQueryService
     public async Task<PageBaseResult<DeploymentOutputDto>> GetDeploymentPageListAsync(string appId, DeploymentQueryDto query)
     {
         var (Data, TotalCount) = await _deploymentRepository.GetDeploymentPageListAsync(appId, query);
-        return new PageBaseResult<DeploymentOutputDto>(TotalCount, Data.Select(deployment => StructureDeploymentOutputDto(deployment)).ToArray());
+
+        var clusterList = await _clusterRepository.GetClusterByIdListAsync(Data.Select(x => x.ClusterId).ToList());
+
+        return new PageBaseResult<DeploymentOutputDto>(TotalCount, Data.Select(deployment =>
+        {
+            var dto = StructureDeploymentOutputDto(deployment);
+            var cluster = clusterList.FirstOrDefault(x => x.Id == dto.ClusterId);
+            dto.ClusterName = cluster is null ? "" : cluster.Name;
+
+            return dto;
+
+
+        }
+
+
+
+
+        ).ToArray());
     }
 
 
@@ -53,6 +69,7 @@ public class DeploymentQueryService : IDeploymentQueryService
             ApplicationRuntimeType = deployment.ApplicationRuntimeType,
             EnvironmentName = deployment.EnvironmentName,
             AppId = deployment.AppId,
+            ClusterId = deployment.ClusterId,
         };
 
     }

@@ -8,6 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="K8sAdapter\NameSpaces\NameSpaceAdaper.cs~RF14775d96.TMP" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KubernetesClient" Version="11.0.44" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\Toyar.App.Domain\Toyar.App.Domain.csproj" />
       <ProjectReference Include="..\Toyar.App.Infrastructure\Toyar.App.Infrastructure.csproj" />
     </ItemGroup>

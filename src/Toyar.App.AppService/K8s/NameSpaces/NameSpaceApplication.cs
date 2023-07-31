@@ -1,5 +1,7 @@
 using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
+using Toyar.App.Adapter.K8sAdapter.NameSpaces;
+using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
 using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Domain.Shared.Enums;
@@ -15,16 +17,16 @@ public class NameSpaceApplication : INameSpaceApplication
 
 
     private readonly IClusterRepository _clusterRepository;
-    //private readonly INameSpaceAdaper _nameSpaceAdaper;
+    private readonly INameSpaceAdaper _nameSpaceAdaper;
 
     public NameSpaceApplication(INameSpaceRepository nameSpaceRepository, IUnitOfWork unitOfWork, IClusterRepository clusterRepository
-        //, INameSpaceAdaper nameSpaceAdaper
+        , INameSpaceAdaper nameSpaceAdaper
         )
     {
         _nameSpaceRepository = nameSpaceRepository;
         _unitOfWork = unitOfWork;
         _clusterRepository = clusterRepository;
-        // _nameSpaceAdaper = nameSpaceAdaper;
+        _nameSpaceAdaper = nameSpaceAdaper;
     }
 
 
@@ -70,8 +72,8 @@ public class NameSpaceApplication : INameSpaceApplication
     public async Task OnlineNameSpaceAsync(string id)
     {
         var nameSpace = await GetAndCheckNameSpaceAsync(id);
-        var cluster = await _clusterRepository.FirstOrDefaultByIdAsync(nameSpace.ClusterId);
-        //await _nameSpaceAdaper.CreateNameSpaceAsync(CreateKubernetesNameSpacePublishContext(nameSpace, cluster));
+        var cluster = await CheckAndGetCluster(nameSpace.ClusterId);
+        await _nameSpaceAdaper.CreateNameSpaceAsync(CreateKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
         nameSpace.SetOnline(OnlineStatusEnum.Online);
         await _unitOfWork.CommitAsync();
     }
@@ -85,8 +87,8 @@ public class NameSpaceApplication : INameSpaceApplication
     public async Task OfflineNameSpaceAsync(string id)
     {
         var nameSpace = await GetAndCheckNameSpaceAsync(id);
-        var cluster = await _clusterRepository.FirstOrDefaultByIdAsync(nameSpace.ClusterId);
-        //await _nameSpaceAdaper.DeleteNameSpaceAsync(CreateKubernetesNameSpacePublishContext(nameSpace, cluster));
+        var cluster = await CheckAndGetCluster(nameSpace.ClusterId);
+        await _nameSpaceAdaper.DeleteNameSpaceAsync(CreateKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
         nameSpace.SetOnline(OnlineStatusEnum.Offline);
         await _unitOfWork.CommitAsync();
     }
@@ -117,6 +119,11 @@ public class NameSpaceApplication : INameSpaceApplication
             throw new BusinessException($"NameSpace不存在，请刷新页面");
         }
 
+        if (nameSpace.OnlineStatus == OnlineStatusEnum.Online)
+        {
+            throw new BusinessException($"不可重复发布，请刷新页面");
+        }
+
         return nameSpace;
     }
 
@@ -132,15 +139,22 @@ public class NameSpaceApplication : INameSpaceApplication
         return nameSpace is not null;
     }
 
-    ///// <summary>
-    ///// 创建
-    ///// </summary>
-    ///// <param name="nameSpace"></param>
-    ///// <param name="cluster"></param>
-    ///// <returns></returns>
-    //private KubernetesNameSpacePublishContext CreateKubernetesNameSpacePublishContext(NameSpace nameSpace, ClusterOutputDto cluster)
-    //{
-    //    return new KubernetesNameSpacePublishContext(cluster.Config, nameSpace);
-    //}
+    private async Task<Cluster> CheckAndGetCluster(string id)
+    {
+        var cluster = await _clusterRepository.FirstOrDefaultByIdAsync(id);
+        return cluster is null ? throw new BusinessException($"集群不存在") : cluster;
+    }
+
+
+    /// <summary>
+    /// 创建
+    /// </summary>
+    /// <param name="nameSpace"></param>
+    /// <param name="connectStr"></param>
+    /// <returns></returns>
+    private static KubernetesNameSpacePublishContext CreateKubernetesNameSpacePublishContext(NameSpace nameSpace, string connectStr)
+    {
+        return new KubernetesNameSpacePublishContext(connectStr, nameSpace);
+    }
 
 }
