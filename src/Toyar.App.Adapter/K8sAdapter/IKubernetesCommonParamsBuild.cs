@@ -3,7 +3,7 @@ using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
 
 namespace Toyar.App.Adapter.K8sAdapter
 {
-    public interface IKubernetesCommonParamsBuild
+    public interface IKubernetesCommonParamsBuild:IScopedDependency
     {
         /// <summary>
         /// 
@@ -33,11 +33,12 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// 构建K8s容器对象
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="image"></param>
         /// <param name="imagePullPolicy"></param>
-        /// <param name="ContainerPlugins"></param>
+        /// <param name="containerPlugins"></param>
         /// <returns></returns>
         V1Container StructureV1Container(string name, string image, string imagePullPolicy,
-             DeploymentContainerPlugin ContainerPlugins);
+             DeploymentContainerPlugin containerPlugins);
     }
 
 }

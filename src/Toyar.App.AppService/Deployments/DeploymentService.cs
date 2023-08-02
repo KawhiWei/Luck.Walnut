@@ -1,5 +1,6 @@
 ﻿using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
+using Toyar.App.Adapter.K8sAdapter.WorkLoads;
 using Toyar.App.AppService.K8s.Clusters;
 using Toyar.App.Domain.AggregateRoots.Deployments;
 using Toyar.App.Domain.AggregateRoots.K8s.Deployments;
@@ -14,13 +15,14 @@ public class DeploymentService : IDeploymentService
     private readonly IDeploymentRepository _deploymentRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClusterService _clusterService;
-
+    private readonly IWorkLoadAdapter _workLoadAdapter;
     private const string FindDeploymentNotExistErrorMsg = "部署不存在!!!!";
 
-    public DeploymentService(IDeploymentRepository deploymentRepository, IUnitOfWork unitOfWork, IClusterService clusterService = null)
+    public DeploymentService(IDeploymentRepository deploymentRepository, IUnitOfWork unitOfWork, IWorkLoadAdapter workLoadAdapter, IClusterService clusterService = null)
     {
         _deploymentRepository = deploymentRepository;
         _unitOfWork = unitOfWork;
+        _workLoadAdapter = workLoadAdapter;
         _clusterService = clusterService;
     }
 
@@ -58,24 +60,17 @@ public class DeploymentService : IDeploymentService
     public async Task PublishDeploymentAsync(string id)
     {
         var deployment = await CheckAndGetDeploymentAsync(id);
-
-        var cluster = await _clusterService.CheckAndGetCluster(deployment.ClusterId);
-
-
-
         deployment.SetIsPublish();
         await _unitOfWork.CommitAsync();
     }
 
-    public async Task DeployByDeploymentIdAsync(string id, string imageVersion)
+    public async Task DeployApplicationAsync(string id, string imageVersion)
     {
         var deployment = await CheckAndGetDeploymentAsync(id);
         deployment.CheckIsPublishWithTrue();
         var cluster = await _clusterService.CheckAndGetCluster(deployment.ClusterId);
-        var kubernetesDeploymentPublishContext = StructureKubernetesDeploymentPublishContext(cluster.Config, deployment, imageVersion);
-
-
-
+        var kubernetesDeploymentPublishContext = StructureKubernetesDeploymentPublishContext(cluster.Config, deployment, $":{imageVersion}");
+        await _workLoadAdapter.CreateWorkLoadAsync(kubernetesDeploymentPublishContext);
     }
 
 
@@ -89,14 +84,15 @@ public class DeploymentService : IDeploymentService
     private async Task<Deployment> CheckAndGetDeploymentAsync(string id)
     {
         var deployment = await _deploymentRepository.FirstOrDefaultByIdAsync(id);
-        return deployment is null ? throw new BusinessException($"{FindDeploymentNotExistErrorMsg}") : deployment;
+        return deployment ?? throw new BusinessException($"{FindDeploymentNotExistErrorMsg}");
     }
 
     /// <summary>
     /// 构建推送到K8s上下文
     /// </summary>
-    /// <param name="nameSpace"></param>
+    /// <param name="deployment"></param>
     /// <param name="connectStr"></param>
+    /// <param name="image"></param>
     /// <returns></returns>
     private static KubernetesDeploymentPublishContext StructureKubernetesDeploymentPublishContext(string connectStr, Deployment deployment, string image)
     {

@@ -35,10 +35,10 @@ namespace Toyar.App.Adapter.K8sAdapter
 
 
         public V1Container StructureV1Container(string name, string image, string imagePullPolicy,
-             DeploymentContainerPlugin ContainerPlugins)
+             DeploymentContainerPlugin containerPlugins)
         {
 
-            var v1ResourceRequirements = StructureV1ResourceRequirements(ContainerPlugins.Limit, ContainerPlugins.Request);
+            var v1ResourceRequirements = StructureV1ResourceRequirements(containerPlugins.Limit, containerPlugins.Request);
 
             return new V1Container(name: name, image: image, resources: v1ResourceRequirements, imagePullPolicy: imagePullPolicy);
         }

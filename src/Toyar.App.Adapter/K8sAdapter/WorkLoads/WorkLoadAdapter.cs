@@ -2,19 +2,18 @@
 using Luck.Framework.Exceptions;
 using Toyar.App.Adapter.K8sAdapter.Constants;
 using Toyar.App.Adapter.K8sAdapter.Factories;
-using Toyar.App.Domain.AggregateRoots.Deployments;
 using Toyar.App.Domain.AggregateRoots.K8s.Deployments;
 using Toyar.App.Domain.Shared.Enums;
 
 namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
 {
-    public class WorkLoadAdaper : IWorkLoadAdaper
+    public class WorkLoadAdapter : IWorkLoadAdapter
     {
         private readonly IKubernetesClientFactory _kubernetesClientFactory;
-        private const string DeploymenExceptionErrorMsg = "未实现";
+        private const string DeploymentExceptionErrorMsg = "未实现";
         private readonly IKubernetesCommonParamsBuild _kubernetesCommonParamsBuild;
 
-        public WorkLoadAdaper(IKubernetesClientFactory kubernetesClientFactory, IKubernetesCommonParamsBuild kubernetesCommonParamsBuild)
+        public WorkLoadAdapter(IKubernetesClientFactory kubernetesClientFactory, IKubernetesCommonParamsBuild kubernetesCommonParamsBuild)
         {
 
             _kubernetesClientFactory = kubernetesClientFactory;
@@ -28,20 +27,20 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
             switch (kubernetesDeploymentPublishContext.Deployment.DeploymentType)
             {
                 case DeploymentTypeEnum.Pod:
-                    throw new BusinessException($"{DeploymenExceptionErrorMsg}Pod部署");
+                    throw new BusinessException($"{DeploymentExceptionErrorMsg}Pod部署");
                 case DeploymentTypeEnum.Deployment:
-                    var v1Deployment = StructureV1Deployment(kubernetesDeploymentPublishContext.Deployment);
+                    var v1Deployment = StructureV1Deployment(kubernetesDeploymentPublishContext);
                     break;
                 case DeploymentTypeEnum.DaemonSet:
-                    throw new BusinessException($"{DeploymenExceptionErrorMsg}Pod部署");
+                    throw new BusinessException($"{DeploymentExceptionErrorMsg}DaemonSet部署");
                 case DeploymentTypeEnum.StatefulSet:
-                    throw new BusinessException($"{DeploymenExceptionErrorMsg}Pod部署");
+                    throw new BusinessException($"{DeploymentExceptionErrorMsg}StatefulSet部署");
                 case DeploymentTypeEnum.ReplicaSet:
-                    throw new BusinessException($"{DeploymenExceptionErrorMsg}Pod部署");
+                    throw new BusinessException($"{DeploymentExceptionErrorMsg}ReplicaSet部署");
                 case DeploymentTypeEnum.Job:
-                    throw new BusinessException($"{DeploymenExceptionErrorMsg}Pod部署");
+                    throw new BusinessException($"{DeploymentExceptionErrorMsg}Job部署");
                 case DeploymentTypeEnum.CronJob:
-                    throw new BusinessException($"{DeploymenExceptionErrorMsg}Pod部署");
+                    throw new BusinessException($"{DeploymentExceptionErrorMsg}CronJob部署");
             }
             //await kubernetesClient.CoreV1.CreateNamespaceAsync(GetV1Namespace(kubernetesNameSpacePublishContext.NameSpace));
         }
@@ -66,9 +65,9 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
             var podMeta = _kubernetesCommonParamsBuild.StructureV1ObjectMeta(labels: labels);
 
 
-            var v1PodtemplateSpec = _kubernetesCommonParamsBuild.StructureV1PodTemplateSpec(podMeta, v1PodSpec);
+            var v1PodTemplateSpec = _kubernetesCommonParamsBuild.StructureV1PodTemplateSpec(podMeta, v1PodSpec);
 
-            var v1DeploymentSpec = StructureV1DeploymentSpec(deployment.Replicas, v1PodtemplateSpec);
+            var v1DeploymentSpec = StructureV1DeploymentSpec(deployment.Replicas, v1PodTemplateSpec);
 
             return new V1Deployment(metadata: deploymentMeta, spec: v1DeploymentSpec);
 
