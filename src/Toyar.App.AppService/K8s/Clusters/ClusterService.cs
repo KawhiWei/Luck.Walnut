@@ -41,7 +41,7 @@ namespace Toyar.App.AppService.K8s.Clusters
             await _unitOfWork.CommitAsync();
         }
 
-        private async Task<Cluster> CheckAndGetCluster(string id)
+        public async Task<Cluster> CheckAndGetCluster(string id)
         {
             var cluster = await _clusterRepository.FirstOrDefaultByIdAsync(id);
             return cluster is null ? throw new BusinessException($"集群不存在") : cluster;

@@ -1,7 +1,7 @@
 using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
 using Toyar.App.Adapter.K8sAdapter.NameSpaces;
-using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
+using Toyar.App.AppService.K8s.Clusters;
 using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Domain.Shared.Enums;
@@ -10,22 +10,20 @@ using Toyar.App.Dto.K8s.NameSpaces;
 
 namespace Toyar.App.AppService.K8s.NameSpaces;
 
-public class NameSpaceApplication : INameSpaceApplication
+public class NameSpaceService : INameSpaceService
 {
     private readonly INameSpaceRepository _nameSpaceRepository;
     private readonly IUnitOfWork _unitOfWork;
-
-
-    private readonly IClusterRepository _clusterRepository;
+    private readonly IClusterService _clusterService;
     private readonly INameSpaceAdaper _nameSpaceAdaper;
 
-    public NameSpaceApplication(INameSpaceRepository nameSpaceRepository, IUnitOfWork unitOfWork, IClusterRepository clusterRepository
+    public NameSpaceService(INameSpaceRepository nameSpaceRepository, IUnitOfWork unitOfWork, IClusterService clusterService
         , INameSpaceAdaper nameSpaceAdaper
         )
     {
         _nameSpaceRepository = nameSpaceRepository;
         _unitOfWork = unitOfWork;
-        _clusterRepository = clusterRepository;
+        _clusterService = clusterService;
         _nameSpaceAdaper = nameSpaceAdaper;
     }
 
@@ -72,8 +70,13 @@ public class NameSpaceApplication : INameSpaceApplication
     public async Task OnlineNameSpaceAsync(string id)
     {
         var nameSpace = await GetAndCheckNameSpaceAsync(id);
-        var cluster = await CheckAndGetCluster(nameSpace.ClusterId);
-        await _nameSpaceAdaper.CreateNameSpaceAsync(CreateKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
+
+        if (nameSpace.OnlineStatus == OnlineStatusEnum.Online)
+        {
+            throw new BusinessException($"不可重复发布，请刷新页面");
+        }
+        var cluster = await _clusterService.CheckAndGetCluster(nameSpace.ClusterId);
+        await _nameSpaceAdaper.CreateNameSpaceAsync(StructureKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
         nameSpace.SetOnline(OnlineStatusEnum.Online);
         await _unitOfWork.CommitAsync();
     }
@@ -87,8 +90,8 @@ public class NameSpaceApplication : INameSpaceApplication
     public async Task OfflineNameSpaceAsync(string id)
     {
         var nameSpace = await GetAndCheckNameSpaceAsync(id);
-        var cluster = await CheckAndGetCluster(nameSpace.ClusterId);
-        await _nameSpaceAdaper.DeleteNameSpaceAsync(CreateKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
+        var cluster = await _clusterService.CheckAndGetCluster(nameSpace.ClusterId);
+        await _nameSpaceAdaper.DeleteNameSpaceAsync(StructureKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
         nameSpace.SetOnline(OnlineStatusEnum.Offline);
         await _unitOfWork.CommitAsync();
     }
@@ -114,17 +117,7 @@ public class NameSpaceApplication : INameSpaceApplication
     private async Task<NameSpace> GetAndCheckNameSpaceAsync(string id)
     {
         var nameSpace = await _nameSpaceRepository.FindNameSpaceByIdAsync(id);
-        if (nameSpace is null)
-        {
-            throw new BusinessException($"NameSpace不存在，请刷新页面");
-        }
-
-        if (nameSpace.OnlineStatus == OnlineStatusEnum.Online)
-        {
-            throw new BusinessException($"不可重复发布，请刷新页面");
-        }
-
-        return nameSpace;
+        return nameSpace is null ? throw new BusinessException($"NameSpace不存在，请刷新页面") : nameSpace;
     }
 
     /// <summary>
@@ -139,20 +132,14 @@ public class NameSpaceApplication : INameSpaceApplication
         return nameSpace is not null;
     }
 
-    private async Task<Cluster> CheckAndGetCluster(string id)
-    {
-        var cluster = await _clusterRepository.FirstOrDefaultByIdAsync(id);
-        return cluster is null ? throw new BusinessException($"集群不存在") : cluster;
-    }
-
 
     /// <summary>
-    /// 创建
+    /// 构建推送到K8s上下文
     /// </summary>
     /// <param name="nameSpace"></param>
     /// <param name="connectStr"></param>
     /// <returns></returns>
-    private static KubernetesNameSpacePublishContext CreateKubernetesNameSpacePublishContext(NameSpace nameSpace, string connectStr)
+    private static KubernetesNameSpacePublishContext StructureKubernetesNameSpacePublishContext(NameSpace nameSpace, string connectStr)
     {
         return new KubernetesNameSpacePublishContext(connectStr, nameSpace);
     }

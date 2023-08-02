@@ -38,8 +38,6 @@ public class DeploymentBaseDto
     /// </summary>
     public DeploymentTypeEnum DeploymentType { get; set; }
 
-
-
     /// <summary>
     /// 应用Id
     /// </summary>

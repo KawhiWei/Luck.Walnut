@@ -1,4 +1,5 @@
-﻿using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
+﻿using Luck.Framework.Exceptions;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 
 namespace Toyar.App.Domain.AggregateRoots.Deployments
@@ -158,11 +159,10 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
             return this;
         }
 
-
-
-
-
-
+        public void SetIsPublish()
+        {
+            IsPublish = true;
+        }
 
         /// <summary>
         /// 初始化主容器
@@ -186,6 +186,14 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
 
             DeploymentPlugins = deploymentPlugins;
             return this;
+        }
+
+        public void CheckIsPublishWithTrue()
+        {
+            if (!IsPublish)
+            {
+                throw new BusinessException($"部署状态为未发布，请先发布部署【{Name}】");
+            }
         }
 
     }

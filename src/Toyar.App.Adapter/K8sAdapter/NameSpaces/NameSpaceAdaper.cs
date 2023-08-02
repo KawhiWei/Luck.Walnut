@@ -3,6 +3,8 @@ using System.Text.Json;
 using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Adapter.K8sAdapter.Factories;
 using k8s;
+using Toyar.App.Infrastructure;
+using Toyar.App.Adapter.K8sAdapter.Constants;
 
 namespace Toyar.App.Adapter.K8sAdapter.NameSpaces
 {
@@ -53,13 +55,13 @@ namespace Toyar.App.Adapter.K8sAdapter.NameSpaces
         /// <returns></returns>
         private V1Namespace GetV1Namespace(NameSpace nameSpace)
         {
-            //var labels = new // Constants.GetKubeDefalutLabels();
+            var labels = ConstantsLabels.GetKubeDefalutLabels();
             return new V1Namespace()
             {
                 Metadata = new V1ObjectMeta()
                 {
                     Name = nameSpace.Name,
-                    //Labels = labels
+                    Labels = labels
                 }
             };
 

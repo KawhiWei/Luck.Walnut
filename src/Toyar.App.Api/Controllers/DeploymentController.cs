@@ -31,6 +31,16 @@ public class DeploymentController : BaseController
 
 
     /// <summary>
+    /// 修改部署
+    /// </summary>
+    /// <param name="deploymentService"></param>
+    /// <param name="id"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPut("{id}")]
+    public Task PublishDeploymentAsync([FromServices] IDeploymentService deploymentService, string id, [FromBody] DeploymentInputDto input) => deploymentService.UpdateDeploymentAsync(id, input);
+
+    /// <summary>
     /// 删除部署
     /// </summary>
     /// <param name="deploymentService"></param>
@@ -58,6 +68,6 @@ public class DeploymentController : BaseController
     /// <param name="query"></param>
     /// <returns></returns>
     [HttpGet("{appId}/page/list")]
-    public Task<PageBaseResult<DeploymentOutputDto>> GetDeploymentPageListAsync([FromServices] IDeploymentQueryService deploymentQueryService, string appId,[FromQuery] DeploymentQueryDto query) => deploymentQueryService.GetDeploymentPageListAsync(appId, query);
+    public Task<PageBaseResult<DeploymentOutputDto>> GetDeploymentPageListAsync([FromServices] IDeploymentQueryService deploymentQueryService, string appId, [FromQuery] DeploymentQueryDto query) => deploymentQueryService.GetDeploymentPageListAsync(appId, query);
 
 }

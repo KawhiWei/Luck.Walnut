@@ -3,7 +3,7 @@ using Toyar.App.Dto.K8s.NameSpaces;
 
 namespace Toyar.App.AppService.K8s.NameSpaces;
 
-public interface INameSpaceApplication : IScopedDependency
+public interface INameSpaceService : IScopedDependency
 {
     /// <summary>
     /// 创建名称空间
@@ -26,6 +26,8 @@ public interface INameSpaceApplication : IScopedDependency
     /// <param name="id"></param>
     /// <returns></returns>
     Task OnlineNameSpaceAsync(string id);
+
+    Task OfflineNameSpaceAsync(string id);
 
     /// <summary>
     /// 删除名称空间

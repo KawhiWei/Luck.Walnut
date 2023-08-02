@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <None Remove="K8sAdapter\NameSpaces\NameSpaceAdaper.cs~RF14775d96.TMP" />
+      <None Remove="K8sAdapter\WorkLoads\WorkLoadAdaper.cs~RF1a700528.TMP" />
     </ItemGroup>
 
     <ItemGroup>

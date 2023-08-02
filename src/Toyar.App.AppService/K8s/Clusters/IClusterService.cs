@@ -1,4 +1,5 @@
-﻿using Toyar.App.Dto.K8s.Clusters;
+﻿using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
+using Toyar.App.Dto.K8s.Clusters;
 
 namespace Toyar.App.AppService.K8s.Clusters
 {
@@ -27,5 +28,13 @@ namespace Toyar.App.AppService.K8s.Clusters
         /// <param name="id"></param>
         /// <returns></returns>
         Task DeleteClusterAsync(string id);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<Cluster> CheckAndGetCluster(string id);
     }
 }

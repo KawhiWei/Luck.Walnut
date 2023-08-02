@@ -21,7 +21,7 @@ public class NameSpaceRepository : EfCoreAggregateRootRepository<NameSpace, stri
         var queryable = this.FindAll();
 
         var totalCount = await queryable.CountAsync();
-        var list = await queryable.ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
+        var list = await queryable.OrderByDescending(x => x.Id).ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
 
         return (list, totalCount);
     }

@@ -19,7 +19,7 @@ public class NameSpaceController : BaseController
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task CreateNameSpace([FromServices] INameSpaceApplication nameSpaceApplication, [FromBody] NameSpaceInputDto input)
+    public Task CreateNameSpace([FromServices] INameSpaceService nameSpaceApplication, [FromBody] NameSpaceInputDto input)
         => nameSpaceApplication.CreateNameSpaceAsync(input);
 
 
@@ -31,7 +31,7 @@ public class NameSpaceController : BaseController
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    public Task UpdateNameSpace([FromServices] INameSpaceApplication nameSpaceApplication, string id, [FromBody] NameSpaceInputDto input)
+    public Task UpdateNameSpace([FromServices] INameSpaceService nameSpaceApplication, string id, [FromBody] NameSpaceInputDto input)
         => nameSpaceApplication.UpdateNameSpaceAsync(id, input);
 
     /// <summary>
@@ -41,7 +41,7 @@ public class NameSpaceController : BaseController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpPut("{id}/online")]
-    public Task OnlineNameSpace([FromServices] INameSpaceApplication nameSpaceApplication, string id)
+    public Task OnlineNameSpace([FromServices] INameSpaceService nameSpaceApplication, string id)
         => nameSpaceApplication.OnlineNameSpaceAsync(id);
 
     /// <summary>
@@ -61,8 +61,8 @@ public class NameSpaceController : BaseController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpPut("{id}/offline")]
-    public Task OfflineNameSpace([FromServices] INameSpaceApplication nameSpaceApplication, string id)
-        => nameSpaceApplication.OnlineNameSpaceAsync(id);
+    public Task OfflineNameSpace([FromServices] INameSpaceService nameSpaceApplication, string id)
+        => nameSpaceApplication.OfflineNameSpaceAsync(id);
 
 
     /// <summary>
@@ -72,7 +72,7 @@ public class NameSpaceController : BaseController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
-    public Task DeleteNameSpace([FromServices] INameSpaceApplication nameSpaceApplication, string id)
+    public Task DeleteNameSpace([FromServices] INameSpaceService nameSpaceApplication, string id)
         => nameSpaceApplication.DeleteNameSpaceAsync(id);
 
     /// <summary>

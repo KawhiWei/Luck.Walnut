@@ -47,7 +47,7 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
         /// <summary>
         /// 容器除基础配置外，其他插件列表
         /// </summary>
-        public DeploymentContainerPlugin? ContainerPlugins { get; private set; }
+        public DeploymentContainerPlugin ContainerPlugins { get; private set; } = default!;
 
         /// <summary>
         /// 
