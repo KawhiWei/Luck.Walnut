@@ -1,4 +1,5 @@
-﻿using k8s.Models;
+﻿using k8s;
+using k8s.Models;
 using Luck.Framework.Exceptions;
 using Toyar.App.Adapter.K8sAdapter.Constants;
 using Toyar.App.Adapter.K8sAdapter.Factories;
@@ -30,6 +31,7 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}Pod部署");
                 case DeploymentTypeEnum.Deployment:
                     var v1Deployment = StructureV1Deployment(kubernetesDeploymentPublishContext);
+                    await kubernetesClient.AppsV1.CreateNamespacedDeploymentAsync(v1Deployment,kubernetesDeploymentPublishContext.Deployment.NameSpace);
                     break;
                 case DeploymentTypeEnum.DaemonSet:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}DaemonSet部署");
@@ -53,21 +55,30 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
         {
 
             var image = kubernetesDeploymentPublishContext.Image;
+            kubernetesDeploymentPublishContext.Deployment.SetAppId(kubernetesDeploymentPublishContext.Deployment.AppId.Replace(".","-"));
             var deployment = kubernetesDeploymentPublishContext.Deployment;
-            var labels = ConstantsLabels.GetKubeDefalutLabels();
+            //var labels = ConstantsLabels.GetKubeDefalutLabels();
 
             var deploymentMeta = _kubernetesCommonParamsBuild.StructureV1ObjectMeta(name: deployment.AppId, deployment.NameSpace);
 
-            var v1Containers = deployment.Containers.Select(deploymentContainer => _kubernetesCommonParamsBuild.StructureV1Container(deployment.Name, $"{image}", deploymentContainer.ImagePullPolicy, deploymentContainer.ContainerPlugins)).ToList();
+            var v1Containers = deployment.Containers.Select(deploymentContainer => _kubernetesCommonParamsBuild.StructureV1Container(deployment.AppId, $"{image}", deploymentContainer.ImagePullPolicy, deploymentContainer.ContainerPlugins)).ToList();
 
-            var v1PodSpec = _kubernetesCommonParamsBuild.StructureV1PodSpec(v1Containers);
+            var v1PodSpec = _kubernetesCommonParamsBuild.StructureV1PodSpec(v1Containers,deployment.Containers.First().RestartPolicy);
 
-            var podMeta = _kubernetesCommonParamsBuild.StructureV1ObjectMeta(labels: labels);
+            var labels = new Dictionary<string, string>()
+            {
+                {"app",deployment.AppId},
+            };
+            var podMetaLabels= ConstantsLabels.GetKubeDefalutLabels();
+            podMetaLabels.Add("app",deployment.AppId);
+            var podMeta = _kubernetesCommonParamsBuild.StructureV1ObjectMeta(labels:podMetaLabels);
 
 
             var v1PodTemplateSpec = _kubernetesCommonParamsBuild.StructureV1PodTemplateSpec(podMeta, v1PodSpec);
 
-            var v1DeploymentSpec = StructureV1DeploymentSpec(deployment.Replicas, v1PodTemplateSpec);
+            var v1LabelSelector = _kubernetesCommonParamsBuild.StructureV1LabelSelector(matchLabels: labels);
+            
+            var v1DeploymentSpec = StructureV1DeploymentSpec(deployment.Replicas, v1PodTemplateSpec,v1LabelSelector:v1LabelSelector);
 
             return new V1Deployment(metadata: deploymentMeta, spec: v1DeploymentSpec);
 

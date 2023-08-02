@@ -36,8 +36,8 @@ public class DeploymentController : BaseController
     /// <param name="id"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPut("{id}")]
-    public Task PublishDeploymentAsync([FromServices] IDeploymentService deploymentService, string id, [FromBody] DeploymentInputDto input) => deploymentService.UpdateDeploymentAsync(id, input);
+    [HttpPut("{id}/publish")]
+    public Task PublishDeploymentAsync([FromServices] IDeploymentService deploymentService, string id) => deploymentService.PublishDeploymentAsync(id);
 
     /// <summary>
     /// 部署应用
@@ -46,7 +46,7 @@ public class DeploymentController : BaseController
     /// <param name="id"></param>
     /// <param name="imageVersion"></param>
     /// <returns></returns>
-    [HttpPut("{id}/{imageVersion}")]
+    [HttpPut("{id}/{imageVersion}/deploy")]
     public Task DeployApplicationAsync([FromServices] IDeploymentService deploymentService, string id, string imageVersion) => deploymentService.DeployApplicationAsync(id, imageVersion);
     
     /// <summary>

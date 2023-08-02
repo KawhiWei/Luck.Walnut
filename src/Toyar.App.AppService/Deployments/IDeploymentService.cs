@@ -10,6 +10,7 @@ public interface IDeploymentService : IScopedDependency
     Task UpdateDeploymentAsync(string id, DeploymentInputDto input);
 
 
+    Task PublishDeploymentAsync(string id);
     /// <summary>
     /// 部署应用
     /// </summary>

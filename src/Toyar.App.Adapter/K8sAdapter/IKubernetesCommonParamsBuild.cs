@@ -10,6 +10,7 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// </summary>
         /// <param name="name"></param>
         /// <param name="nameSpace"></param>
+        /// <param name="labels"></param>
         /// <returns></returns>
         V1ObjectMeta StructureV1ObjectMeta(string? name = null, string? nameSpace = null, IDictionary<string, string>? labels = null);
 
@@ -18,8 +19,9 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// 
         /// </summary>
         /// <param name="containers"></param>
+        /// <param name="restartPolicy"></param>
         /// <returns></returns>
-        V1PodSpec StructureV1PodSpec(IList<V1Container> containers);
+        V1PodSpec  StructureV1PodSpec(IList<V1Container> containers,string restartPolicy);
 
         /// <summary>
         /// 
@@ -39,6 +41,16 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// <returns></returns>
         V1Container StructureV1Container(string name, string image, string imagePullPolicy,
              DeploymentContainerPlugin containerPlugins);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matchExpressions"></param>
+        /// <param name="matchLabels"></param>
+        /// <returns></returns>
+        V1LabelSelector StructureV1LabelSelector(IList<V1LabelSelectorRequirement>? matchExpressions = null,
+            IDictionary<string, string>? matchLabels = null);
+
     }
 
 }

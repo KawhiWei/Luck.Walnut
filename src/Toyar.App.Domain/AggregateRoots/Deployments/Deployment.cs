@@ -105,6 +105,12 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
             return this;
         }
 
+        public void SetAppId(string appId)
+        {
+            AppId = appId;
+        }
+        
+        
         public Deployment SetImagePullSecretId(string? imagePullSecretId)
         {
             ImagePullSecretId = imagePullSecretId;

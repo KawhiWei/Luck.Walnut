@@ -18,7 +18,7 @@ public class DeploymentService : IDeploymentService
     private readonly IWorkLoadAdapter _workLoadAdapter;
     private const string FindDeploymentNotExistErrorMsg = "部署不存在!!!!";
 
-    public DeploymentService(IDeploymentRepository deploymentRepository, IUnitOfWork unitOfWork, IWorkLoadAdapter workLoadAdapter, IClusterService clusterService = null)
+    public DeploymentService(IDeploymentRepository deploymentRepository, IUnitOfWork unitOfWork, IWorkLoadAdapter workLoadAdapter, IClusterService clusterService)
     {
         _deploymentRepository = deploymentRepository;
         _unitOfWork = unitOfWork;
@@ -69,7 +69,7 @@ public class DeploymentService : IDeploymentService
         var deployment = await CheckAndGetDeploymentAsync(id);
         deployment.CheckIsPublishWithTrue();
         var cluster = await _clusterService.CheckAndGetCluster(deployment.ClusterId);
-        var kubernetesDeploymentPublishContext = StructureKubernetesDeploymentPublishContext(cluster.Config, deployment, $":{imageVersion}");
+        var kubernetesDeploymentPublishContext = StructureKubernetesDeploymentPublishContext(cluster.Config, deployment, $"registry.cn-hangzhou.aliyuncs.com/toyar/{deployment.AppId}:{imageVersion}");
         await _workLoadAdapter.CreateWorkLoadAsync(kubernetesDeploymentPublishContext);
     }
 

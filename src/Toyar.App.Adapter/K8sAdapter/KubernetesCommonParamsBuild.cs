@@ -16,9 +16,15 @@ namespace Toyar.App.Adapter.K8sAdapter
         }
 
 
-        public V1PodSpec StructureV1PodSpec(IList<V1Container> containers)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="containers"></param>
+        /// <param name="restartPolicy"></param>
+        /// <returns></returns>
+        public V1PodSpec StructureV1PodSpec(IList<V1Container> containers,string restartPolicy)
         {
-            return new V1PodSpec(containers: containers);
+            return new V1PodSpec(containers: containers,restartPolicy:restartPolicy);
         }
 
 
@@ -39,14 +45,16 @@ namespace Toyar.App.Adapter.K8sAdapter
         {
 
             var v1ResourceRequirements = StructureV1ResourceRequirements(containerPlugins.Limit, containerPlugins.Request);
-
-            return new V1Container(name: name, image: image, resources: v1ResourceRequirements, imagePullPolicy: imagePullPolicy);
+            //resources: v1ResourceRequirements
+            return new V1Container(name: name, image: image, imagePullPolicy: imagePullPolicy);
         }
 
+        public V1LabelSelector StructureV1LabelSelector(IList<V1LabelSelectorRequirement>? matchExpressions = null, IDictionary<string, string>? matchLabels = null)
+        {
 
+            return new V1LabelSelector(matchLabels: matchLabels);
 
-
-
+        }
 
 
         private V1ResourceRequirements StructureV1ResourceRequirements(ContainerResourceQuantity limits, ContainerResourceQuantity requests)
