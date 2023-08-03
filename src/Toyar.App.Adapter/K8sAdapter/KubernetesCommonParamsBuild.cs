@@ -6,6 +6,9 @@ namespace Toyar.App.Adapter.K8sAdapter
     public class KubernetesCommonParamsBuild : IKubernetesCommonParamsBuild
     {
 
+        #region MyRegion
+
+        #endregion
         /// <summary>
         /// 构建K8s内V1ObjectMeta对象
         /// </summary>
@@ -22,9 +25,9 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// <param name="containers"></param>
         /// <param name="restartPolicy"></param>
         /// <returns></returns>
-        public V1PodSpec StructureV1PodSpec(IList<V1Container> containers,string restartPolicy)
+        public V1PodSpec StructureV1PodSpec(IList<V1Container> containers, string restartPolicy)
         {
-            return new V1PodSpec(containers: containers,restartPolicy:restartPolicy);
+            return new V1PodSpec(containers: containers, restartPolicy: restartPolicy);
         }
 
 
@@ -55,7 +58,6 @@ namespace Toyar.App.Adapter.K8sAdapter
             return new V1LabelSelector(matchLabels: matchLabels);
 
         }
-
 
         private V1ResourceRequirements StructureV1ResourceRequirements(ContainerResourceQuantity limits, ContainerResourceQuantity requests)
         {

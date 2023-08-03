@@ -108,7 +108,7 @@ public class ApplicationPipelineController : BaseController
     /// <param name="id"></param>
     /// <param name="pipelineService"></param>
     /// <returns></returns>
-    [HttpPut("{id}/{jenkinsBuildNumber}/webhook/sync/jenkins/status")]
+    [HttpPut("{id}/{jenkinsBuildNumber}/webhook/status")]
     public Task WebHookSyncJenkinsExecutedRecord(string id,uint jenkinsBuildNumber, [FromServices] IApplicationPipelineService pipelineService)
         => pipelineService.WebHookSyncJenkinsExecutedRecordAsync(id, jenkinsBuildNumber);
 

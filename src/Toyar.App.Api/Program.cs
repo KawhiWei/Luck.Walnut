@@ -5,11 +5,12 @@ using Luck.Framework.Infrastructure;
 using Luck.Framework.Threading;
 using Toyar.App.Api.AppModules;
 using Toyar.App.Api.GrpcServices;
-using Toyar.App.AppService.BackgroundServices;
+using Toyar.App.Infrastructure;
 using Luck.WebSocket.Server;
 using Luck.WebSocket.Server.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Options;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -49,6 +50,9 @@ builder.Services.AddWebSocketConfigRouterEndpoint(x =>
     };
     x.ApplicationServiceCollection = builder.Services;
 });
+var configuration= builder.Services.GetConfiguration();
+builder.Services.Configure<ToyarConfig>(configuration.GetSection("ToyarConfig"));
+
 
 builder.Services.AddMediatR(AssemblyHelper.AllAssemblies);
 builder.Services.AddHttpContextAccessor();

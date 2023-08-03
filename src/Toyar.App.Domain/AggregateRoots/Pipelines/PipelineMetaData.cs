@@ -5,11 +5,12 @@ namespace Toyar.App.Domain.AggregateRoots.Pipelines;
 
 public class PipelineMetaData
 {
-    public PipelineMetaData(List<Container> containers, List<Stage> stages, string pipelineScript)
+    public PipelineMetaData(List<Container> containers, List<Stage> stages, string pipelineScript, string webHookUrl)
     {
         Containers = containers;
         Stages = stages;
         PipelineScript = pipelineScript;
+        WebHookUrl = webHookUrl;
     }
 
     /// <summary>
@@ -25,4 +26,9 @@ public class PipelineMetaData
     /// 流水线数据
     /// </summary>
     public string PipelineScript { get; private set; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public string WebHookUrl { get; private set; }
 }

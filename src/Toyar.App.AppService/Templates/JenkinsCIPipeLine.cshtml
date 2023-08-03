@@ -44,4 +44,24 @@ spec:
     stages{
         @Raw(metadata.PipelineScript)
     }
+    post 
+    {
+        always
+        {
+            script 
+            {
+                def url = "@Raw(metadata.WebHookUrl)"
+                echo "Webhook URL: ${url}"
+
+                def response = httpRequest(
+                    url: url,
+                    httpMode: 'PUT'
+                    )
+                if (response.status != 200) 
+                {
+                    error("Failed to call API: ${response.status} ${response.content}")
+                }
+            }
+        }
+    }
 }

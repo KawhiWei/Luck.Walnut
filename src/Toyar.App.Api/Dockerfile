@@ -26,4 +26,7 @@ RUN dotnet publish "Toyar.App.Api.csproj" -c Release -o /app/publish /p:UseAppHo
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://*:8080
 ENTRYPOINT ["dotnet", "Toyar.App.Api.dll"]

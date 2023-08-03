@@ -109,8 +109,8 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
         {
             AppId = appId;
         }
-        
-        
+
+
         public Deployment SetImagePullSecretId(string? imagePullSecretId)
         {
             ImagePullSecretId = imagePullSecretId;

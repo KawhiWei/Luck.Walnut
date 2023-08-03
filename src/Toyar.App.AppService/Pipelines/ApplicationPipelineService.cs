@@ -9,9 +9,11 @@ using RazorEngine.Templating;
 using System.Reflection;
 using System.Xml;
 using Luck.Framework.Extensions;
+using Microsoft.Extensions.Options;
 using Toyar.App.Domain.AggregateRoots.Pipelines;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
+using Toyar.App.Infrastructure;
 
 namespace Toyar.App.AppService.Pipelines;
 
@@ -29,8 +31,10 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
     private readonly IApplicationPipelineExecutedRecordRepository _applicationPipelineExecutedRecordRepository;
 
+    private readonly ToyarConfig _toyarConfig;
+
     public ApplicationPipelineService(IApplicationPipelineRepository applicationPipelineRepository, IUnitOfWork unitOfWork, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository,
-        IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository, IApplicationRepository applicationRepository)
+        IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository, IApplicationRepository applicationRepository,IOptionsSnapshot<ToyarConfig> options)
     {
         _pipelineRepository = applicationPipelineRepository;
         _unitOfWork = unitOfWork;
@@ -38,6 +42,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         _componentIntegrationRepository = componentIntegrationRepository;
         _applicationPipelineExecutedRecordRepository = applicationPipelineExecutedRecordRepository;
         _applicationRepository = applicationRepository;
+        _toyarConfig = options.Value;
     }
 
     public async Task<string> CreatePipelineAsync(ApplicationPipelineInputDto input)
@@ -111,7 +116,12 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var defaultImageList = GetDefaultContainerList();
 
         defaultImageList.Add(new Container("build", applicationPipeline.ContinuousIntegrationImage, "/home/jenkins/agent").SetCommandArr(new[] { "sleep" }).SetArgsArr(new[] { "99d" }));
-        var pipelineMetaData = new PipelineMetaData(defaultImageList, applicationPipeline.PipelineScript.ToList(), pipelineScript);
+
+        var webHookUrl = $"{_toyarConfig.RunHostName}/${{APPLICATIONPIPELINEID}}/${{currentBuild.number}}/webhook/status";
+        
+        
+        
+        var pipelineMetaData = new PipelineMetaData(defaultImageList, applicationPipeline.PipelineScript.ToList(), pipelineScript,webHookUrl);
         var template = GetPipelineTemplate();
         var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
         node.InnerText = dslScript;
