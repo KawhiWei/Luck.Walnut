@@ -117,7 +117,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
         defaultImageList.Add(new Container("build", applicationPipeline.ContinuousIntegrationImage, "/home/jenkins/agent").SetCommandArr(new[] { "sleep" }).SetArgsArr(new[] { "99d" }));
 
-        var webHookUrl = $"{_toyarConfig.RunHostName}/${{APPLICATIONPIPELINEID}}/${{currentBuild.number}}/webhook/status";
+        var webHookUrl = $"{_toyarConfig.RunHostName}/walnut/api/applicationpipelines/${{APPLICATIONPIPELINEID}}/${{currentBuild.number}}/webhook/status";
         
         
         
