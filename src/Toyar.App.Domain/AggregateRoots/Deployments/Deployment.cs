@@ -176,7 +176,7 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
         /// <returns></returns>
         public Deployment InitializeDeploymentContainer()
         {
-            var deploymentContainer = new DeploymentContainer(Id, "", "always", "IfNotPresent", false, "");
+            var deploymentContainer = new DeploymentContainer(Id, "", "Always", "IfNotPresent", false, "");
             deploymentContainer.InitializeContainerPlugins();
             Containers.Add(deploymentContainer);
             return this;

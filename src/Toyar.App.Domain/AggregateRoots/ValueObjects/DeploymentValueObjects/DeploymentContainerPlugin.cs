@@ -5,9 +5,9 @@ namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects
     public class DeploymentContainerPlugin
     {
         [JsonConstructor]
-        public DeploymentContainerPlugin(ContainerSurviveConfiguration readiNess, ContainerSurviveConfiguration liveNess, ContainerResourceQuantity request, ContainerResourceQuantity limit, List<ContainerPortConfiguration> containerPorts)
+        public DeploymentContainerPlugin(ContainerSurviveConfiguration readNess, ContainerSurviveConfiguration liveNess, ContainerResourceQuantity request, ContainerResourceQuantity limit, List<ContainerPortConfiguration> containerPorts)
         {
-            ReadiNess = readiNess;
+            ReadNess = readNess;
             LiveNess = liveNess;
             Request = request;
             Limit = limit;
@@ -17,32 +17,32 @@ namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects
         /// <summary>
         /// 
         /// </summary>
-        public ContainerSurviveConfiguration ReadiNess { get; private set; } = default!;
+        public ContainerSurviveConfiguration ReadNess { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public ContainerSurviveConfiguration LiveNess { get; private set; } = default!;
+        public ContainerSurviveConfiguration LiveNess { get; private set; }
 
 
         /// <summary>
         /// request资源配置
         /// </summary>
-        public ContainerResourceQuantity Request { get; private set; } = default!;
+        public ContainerResourceQuantity Request { get; private set; }
 
         /// <summary>
         /// limit资源配置
         /// </summary>
-        public ContainerResourceQuantity Limit { get; private set; } = default!;
+        public ContainerResourceQuantity Limit { get; private set; }
 
         /// <summary>
         /// 容器端口配置
         /// </summary>
-        public List<ContainerPortConfiguration> ContainerPorts { get; private set; } = new List<ContainerPortConfiguration>();
+        public List<ContainerPortConfiguration> ContainerPorts { get; private set; }
 
         public void SetReadiNess(ContainerSurviveConfiguration readiNess)
         {
-            ReadiNess = readiNess;
+            ReadNess = readiNess;
         }
 
 
