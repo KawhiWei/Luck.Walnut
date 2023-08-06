@@ -26,7 +26,6 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
         public async Task CreateWorkLoadAsync(KubernetesDeploymentPublishContext kubernetesDeploymentPublishContext)
         {
             var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesDeploymentPublishContext.ConfigString);
-
             switch (kubernetesDeploymentPublishContext.Deployment.DeploymentType)
             {
                 case DeploymentTypeEnum.Pod:
@@ -51,7 +50,13 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
 
         public async Task UpdateWorkLoadAsync(KubernetesDeploymentPublishContext kubernetesDeploymentPublishContext)
         {
+            var image = kubernetesDeploymentPublishContext.Image;
+            kubernetesDeploymentPublishContext.Deployment.SetAppId(kubernetesDeploymentPublishContext.Deployment.AppId.Replace(".", "-"));
+            var deployment = kubernetesDeploymentPublishContext.Deployment;
             var appId = kubernetesDeploymentPublishContext.Deployment.AppId;
+            
+            
+            
             var nameSpace = kubernetesDeploymentPublishContext.Deployment.NameSpace;
             var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesDeploymentPublishContext.ConfigString);
             switch (kubernetesDeploymentPublishContext.Deployment.DeploymentType)
@@ -68,6 +73,7 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
                         ["date"] = now.ToString()
                     };
                     v1Deployment.Spec.Template.Metadata.Annotations = restart;
+                    v1Deployment.Spec.Replicas=
                     var expected = JsonSerializer.SerializeToDocument(v1Deployment);
                     var patch = oldV1Deployment.CreatePatch(expected);
                     await kubernetesClient.AppsV1.PatchNamespacedDeploymentAsync(new V1Patch(patch, V1Patch.PatchType.JsonPatch),appId,nameSpace);
@@ -126,7 +132,6 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
         {
 
             var image = kubernetesDeploymentPublishContext.Image;
-            kubernetesDeploymentPublishContext.Deployment.SetAppId(kubernetesDeploymentPublishContext.Deployment.AppId.Replace(".", "-"));
             var deployment = kubernetesDeploymentPublishContext.Deployment;
 
             var deploymentMeta = _kubernetesCommonParamsBuild.StructureV1ObjectMeta(name: deployment.AppId, deployment.NameSpace);
