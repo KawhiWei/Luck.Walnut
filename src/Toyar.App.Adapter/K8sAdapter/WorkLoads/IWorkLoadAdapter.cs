@@ -4,6 +4,6 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
 {
     public interface IWorkLoadAdapter : IScopedDependency
     {
-        Task CreateDeployWorkLoadAsync(KubernetesDeploymentPublishContext kubernetesDeploymentPublishContext);
+        Task DeployWorkLoadAsync(KubernetesDeploymentPublishContext kubernetesDeploymentPublishContext);
     }
 }
