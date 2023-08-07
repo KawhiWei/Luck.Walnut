@@ -71,7 +71,7 @@ public class DeploymentService : IDeploymentService
         var cluster = await _clusterService.CheckAndGetCluster(deployment.ClusterId);
         deployment.SetAppId(deployment.AppId.Replace(".", "-"));
         var kubernetesDeploymentPublishContext = StructureKubernetesDeploymentPublishContext(cluster.Config, deployment, $"registry.cn-hangzhou.aliyuncs.com/toyar/{deployment.AppId}:{imageVersion}");
-        await _workLoadAdapter.CreateWorkLoadAsync(kubernetesDeploymentPublishContext);
+        await _workLoadAdapter.CreateDeployWorkLoadAsync(kubernetesDeploymentPublishContext);
     }
 
 
