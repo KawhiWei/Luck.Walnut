@@ -70,6 +70,16 @@ public class DeploymentQueryService : IDeploymentQueryService
             EnvironmentName = deployment.EnvironmentName,
             AppId = deployment.AppId,
             ClusterId = deployment.ClusterId,
+            DeploymentPlugins = new DeploymentPluginsDto
+            {
+                Strategy= new StrategyDto
+                {
+                    Type=deployment.DeploymentPlugins.Strategy.Type,
+                    MaxSurge=deployment.DeploymentPlugins.Strategy.MaxSurge,
+                    MaxUnavailable=deployment.DeploymentPlugins.Strategy.MaxUnavailable,
+                }
+            }
+            
         };
 
     }

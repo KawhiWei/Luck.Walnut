@@ -1,6 +1,6 @@
 ﻿namespace Toyar.App.Dto.Deployments;
 
-public class StrategyInputDto
+public class StrategyDto
 {
 
     /// <summary>
@@ -18,4 +18,3 @@ public class StrategyInputDto
     /// </summary>
     public string MaxUnavailable { get; set; } = default!;
 }
-

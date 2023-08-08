@@ -19,7 +19,10 @@ public class DeploymentRepository : EfCoreAggregateRootRepository<Deployment, st
 
     public Task<Deployment?> FirstOrDefaultByIdAsync(string id)
     {
-        return FindAll(x => x.Id == id).Include(x => x.Containers).FirstOrDefaultAsync();
+        return FindAll(x => x.Id == id)
+            .Include(x => x.Containers)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync();
     }
 
     public async Task<(Deployment[] Data, int TotalCount)> GetDeploymentPageListAsync(string appId, DeploymentQueryDto query)

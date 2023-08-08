@@ -9,7 +9,11 @@ public class DeploymentOutputDto : DeploymentBaseDto
     public string ClusterName { get; set; } = default!;
 
 
-    public string deploymentTypeName => DeploymentType.ToDescription();
+    /// <summary>
+    /// 部署更新策略
+    /// </summary>
+    public DeploymentPluginsDto DeploymentPlugins { get; set; } = default!;
+    public string DeploymentTypeName => DeploymentType.ToDescription();
 
 
 

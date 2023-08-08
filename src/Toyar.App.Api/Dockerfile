@@ -15,7 +15,7 @@ COPY ["src/Toyar.App.Dto/Toyar.App.Dto.csproj", "src/Toyar.App.Dto/"]
 COPY ["src/Toyar.App.Infrastructure/Toyar.App.Infrastructure.csproj", "src/Toyar.App.Infrastructure/"]
 COPY ["src/Toyar.App.Persistence/Toyar.App.Persistence.csproj", "src/Toyar.App.Persistence/"]
 COPY ["src/Toyar.App.Query/Toyar.App.Query.csproj", "src/Toyar.App.Query/"]
-RUN dotnet restore --source https://nuget.cdn.azure.cn/v3/index.json "src/Toyar.App.Api/Toyar.App.Api.csproj"
+RUN dotnet restore  "src/Toyar.App.Api/Toyar.App.Api.csproj"
 COPY . .
 WORKDIR "/src/src/Toyar.App.Api"
 RUN dotnet build "Toyar.App.Api.csproj" -c Release -o /app/build

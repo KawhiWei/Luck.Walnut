@@ -57,12 +57,7 @@ public class DeploymentBaseDto
     /// 镜像拉取证书
     /// </summary>
     public string? ImagePullSecretId { get; set; }
-
-    /// <summary>
-    /// 部署更新策略
-    /// </summary>
-    public StrategyInputDto? Strategy { get; set; }
-
+    
     /// <summary>
     /// 初始容器配置列表
     /// </summary>
