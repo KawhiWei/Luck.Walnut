@@ -14,15 +14,12 @@ namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects
         /// <summary>
         /// 
         /// </summary>
-        public Strategy Strategy { get; private set; } = default!;
+        public Strategy Strategy { get; private set; }
 
 
         public void SetStrategy(Strategy strategy)
         {
             Strategy = strategy;
         }
-
-
-
     }
 }

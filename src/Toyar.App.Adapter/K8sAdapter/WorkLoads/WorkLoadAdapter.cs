@@ -78,18 +78,16 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
             var appId = kubernetesDeploymentPublishContext.Deployment.AppId;
             var nameSpace = kubernetesDeploymentPublishContext.Deployment.NameSpace;
             var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesDeploymentPublishContext.ConfigString);
+            
             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true };
+            
             var oldV1Deployment = JsonSerializer.SerializeToDocument(v1Deployment, options);
-            var now = DateTimeOffset.Now.ToUnixTimeSeconds();
-            var restart = new Dictionary<string, string>
-            {
-                ["date"] = now.ToString()
-            };
+            
             foreach (var specContainer in v1Deployment.Spec.Template.Spec.Containers)
             {
                 specContainer.Image = image;
-
             }
+            v1Deployment.Spec.Strategy = StructureV1DeploymentStrategy(kubernetesDeploymentPublishContext.Deployment.DeploymentPlugins.Strategy);
             var expected = JsonSerializer.SerializeToDocument(v1Deployment);
             var patch = oldV1Deployment.CreatePatch(expected);
             await kubernetesClient.AppsV1.PatchNamespacedDeploymentAsync(new V1Patch(patch, V1Patch.PatchType.JsonPatch),appId,nameSpace);
@@ -98,13 +96,14 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
         public async Task DeleteWorkLoadAsync(KubernetesDeploymentPublishContext kubernetesDeploymentPublishContext)
         {
             var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesDeploymentPublishContext.ConfigString);
-
+            var appId = kubernetesDeploymentPublishContext.Deployment.AppId;
+            var nameSpace = kubernetesDeploymentPublishContext.Deployment.NameSpace;
             switch (kubernetesDeploymentPublishContext.Deployment.DeploymentType)
             {
                 case DeploymentTypeEnum.Pod:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}Pod部署");
                 case DeploymentTypeEnum.Deployment:
-                    var v1Deployment = StructureV1Deployment(kubernetesDeploymentPublishContext);
+                    await kubernetesClient.AppsV1.DeleteNamespacedDeploymentAsync(appId, nameSpace);
                     break;
                 case DeploymentTypeEnum.DaemonSet:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}DaemonSet部署");
@@ -163,7 +162,7 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
         /// </summary>
         /// <param name="strategy"></param>
         /// <returns></returns>
-        private static V1DeploymentStrategy? StructureV1DeploymentStrategy(Strategy strategy)
+        private static V1DeploymentStrategy StructureV1DeploymentStrategy(Strategy strategy)
         {
             return new V1DeploymentStrategy(new V1RollingUpdateDeployment(strategy.MaxSurge, strategy.MaxUnavailable), strategy.Type);
         }

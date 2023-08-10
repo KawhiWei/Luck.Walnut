@@ -29,7 +29,6 @@ public class DeploymentController : BaseController
     [HttpPut("{id}")]
     public Task UpdateDeploymentAsync([FromServices] IDeploymentService deploymentService, string id, [FromBody] DeploymentInputDto input) => deploymentService.UpdateDeploymentAsync(id, input);
     
-        
     /// <summary>
     /// 删除部署
     /// </summary>
@@ -39,7 +38,6 @@ public class DeploymentController : BaseController
     [HttpDelete("{id}")]
     public Task DeleteDeploymentAsync([FromServices] IDeploymentService deploymentService, string id) => deploymentService.DeleteDeploymentAsync(id);
     
-
     /// <summary>
     /// 分页获取部署列表
     /// </summary>
@@ -49,7 +47,6 @@ public class DeploymentController : BaseController
     /// <returns></returns>
     [HttpGet("{appId}/page/list")]
     public Task<PageBaseResult<DeploymentOutputDto>> GetDeploymentPageListAsync([FromServices] IDeploymentQueryService deploymentQueryService, string appId, [FromQuery] DeploymentQueryDto query) => deploymentQueryService.GetDeploymentPageListAsync(appId, query);
-
     
     /// <summary>
     /// 查询部署明细
@@ -59,7 +56,6 @@ public class DeploymentController : BaseController
     /// <returns></returns>
     [HttpGet("{id}")]
     public Task<DeploymentOutputDto> GetDeploymentForIdAsync([FromServices] IDeploymentQueryService deploymentQueryService, string id) => deploymentQueryService.GetDeploymentForIdAsync(id);
-
     
     /// <summary>
     /// 修改部署
@@ -80,4 +76,13 @@ public class DeploymentController : BaseController
     [HttpPut("{id}/{imageVersion}/deploy")]
     public Task DeployApplicationAsync([FromServices] IDeploymentService deploymentService, string id, string imageVersion) => deploymentService.DeployApplicationAsync(id, imageVersion);
 
+    /// <summary>
+    /// 修改部署更新策略
+    /// </summary>
+    /// <param name="deploymentService"></param>
+    /// <param name="id"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPut("{id}/strategy")]
+    public Task UpdateDeploymentStrategyAsync([FromServices] IDeploymentService deploymentService, string id,[FromBody] StrategyInputDto input) => deploymentService.UpdateDeploymentStrategyAsync(id, input);
 }

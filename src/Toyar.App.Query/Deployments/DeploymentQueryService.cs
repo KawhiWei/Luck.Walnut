@@ -72,7 +72,7 @@ public class DeploymentQueryService : IDeploymentQueryService
             ClusterId = deployment.ClusterId,
             DeploymentPlugins = new DeploymentPluginsDto
             {
-                Strategy= new StrategyDto
+                StrategyBase= new StrategyBaseDto
                 {
                     Type=deployment.DeploymentPlugins.Strategy.Type,
                     MaxSurge=deployment.DeploymentPlugins.Strategy.MaxSurge,

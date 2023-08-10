@@ -4,7 +4,6 @@ using Toyar.App.Adapter.K8sAdapter.WorkLoads;
 using Toyar.App.AppService.K8s.Clusters;
 using Toyar.App.Domain.AggregateRoots.Deployments;
 using Toyar.App.Domain.AggregateRoots.K8s.Deployments;
-using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Dto.Deployments;
 
@@ -56,7 +55,23 @@ public class DeploymentService : IDeploymentService
             .SetNameSpace(input.NameSpace);
         await _unitOfWork.CommitAsync();
     }
+    
+    /// <summary>
+    /// 修改更新策略
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="input"></param>
+    public async Task UpdateDeploymentStrategyAsync(string id, StrategyInputDto input)
+    {
+        var deployment = await CheckAndGetDeploymentAsync(id);
+        deployment.SetStrategy(input);
+        await _unitOfWork.CommitAsync();
+    }
 
+    /// <summary>
+    /// 发布部署
+    /// </summary>
+    /// <param name="id"></param>
     public async Task PublishDeploymentAsync(string id)
     {
         var deployment = await CheckAndGetDeploymentAsync(id);
@@ -64,6 +79,11 @@ public class DeploymentService : IDeploymentService
         await _unitOfWork.CommitAsync();
     }
 
+    /// <summary>
+    /// 部署应用
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="imageVersion"></param>
     public async Task DeployApplicationAsync(string id, string imageVersion)
     {
         var deployment = await CheckAndGetDeploymentAsync(id);
@@ -74,13 +94,23 @@ public class DeploymentService : IDeploymentService
     }
 
 
+    /// <summary>
+    /// 删除部署
+    /// </summary>
+    /// <param name="id"></param>
     public async Task DeleteDeploymentAsync(string id)
     {
         var deployment = await CheckAndGetDeploymentAsync(id);
         _deploymentRepository.Remove(deployment);
         await _unitOfWork.CommitAsync();
     }
-
+    
+    /// <summary>
+    /// 校验并获取一个部署
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="BusinessException"></exception>
     private async Task<Deployment> CheckAndGetDeploymentAsync(string id)
     {
         var deployment = await _deploymentRepository.FirstOrDefaultByIdAsync(id);

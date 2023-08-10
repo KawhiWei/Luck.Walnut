@@ -1,6 +1,7 @@
 ﻿using Luck.Framework.Exceptions;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
 using Toyar.App.Domain.Shared.Enums;
+using Toyar.App.Dto.Deployments;
 
 namespace Toyar.App.Domain.AggregateRoots.Deployments
 {
@@ -193,7 +194,16 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
             DeploymentPlugins = deploymentPlugins;
             return this;
         }
-
+        
+        /// <summary>
+        /// 修改更新策略
+        /// </summary>
+        /// <returns></returns>
+        public Deployment SetStrategy(StrategyInputDto input)
+        {
+            DeploymentPlugins.SetStrategy(new Strategy(input.Type, input.MaxSurge, input.MaxUnavailable));
+            return this;
+        }
         public void CheckIsPublishWithTrue()
         {
             if (!IsPublish)

@@ -1,6 +1,6 @@
 ﻿namespace Toyar.App.Dto.Deployments;
 
-public class StrategyDto
+public class StrategyOutputDto:StrategyBaseDto
 {
 
     /// <summary>
