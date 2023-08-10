@@ -34,12 +34,13 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// <summary>
         /// 构建K8s容器对象
         /// </summary>
+        /// <param name="appId"></param>
         /// <param name="name"></param>
         /// <param name="image"></param>
         /// <param name="imagePullPolicy"></param>
         /// <param name="containerPlugins"></param>
         /// <returns></returns>
-        V1Container StructureV1Container(string name, string image, string imagePullPolicy,
+        V1Container StructureV1Container(string appId,string name, string image, string imagePullPolicy,
              DeploymentContainerPlugin containerPlugins);
 
         /// <summary>

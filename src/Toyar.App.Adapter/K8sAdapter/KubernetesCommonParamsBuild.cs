@@ -46,19 +46,23 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// <summary>
         /// 构建容器对象
         /// </summary>
+        /// <param name="appId"></param>
         /// <param name="name"></param>
         /// <param name="image"></param>
         /// <param name="imagePullPolicy"></param>
         /// <param name="containerPlugins"></param>
         /// <returns></returns>
-        public V1Container StructureV1Container(string name, string image, string imagePullPolicy,
+        public V1Container StructureV1Container(string appId,string name, string image, string imagePullPolicy,
             DeploymentContainerPlugin containerPlugins)
         {
             var v1ContainerPorts = containerPlugins.ContainerPorts.Select(x => new V1ContainerPort(containerPort: x.ContainerPort, name: x.Name, protocol: x.Protocol)).ToList();
-
+            
+            var v1EnvVars= containerPlugins.Env.Select(x => new V1EnvVar(x.Key, x.Value)).ToList();
+            //默认将APPID设置为环境变量
+            v1EnvVars.Add(new V1EnvVar("APPID", appId));
             var v1ResourceRequirements = StructureV1ResourceRequirements(containerPlugins.Limit, containerPlugins.Request);
             //resources: v1ResourceRequirements
-            return new V1Container(name: name, image: image, imagePullPolicy: imagePullPolicy, ports: v1ContainerPorts, resources: v1ResourceRequirements);
+            return new V1Container(name: name, image: image, imagePullPolicy: imagePullPolicy, ports: v1ContainerPorts, resources: v1ResourceRequirements,env:v1EnvVars);
         }
 
         /// <summary>
@@ -94,6 +98,8 @@ namespace Toyar.App.Adapter.K8sAdapter
             {
                 { nameof(limits.Cpu).ToLower(), StructureResourceQuantity(requests.Cpu) },
 
+                
+                
                 { nameof(limits.Memory).ToLower(), StructureResourceQuantity(requests.Memory) }
             };
 

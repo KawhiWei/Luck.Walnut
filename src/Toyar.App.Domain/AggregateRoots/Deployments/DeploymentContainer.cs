@@ -69,7 +69,7 @@ namespace Toyar.App.Domain.AggregateRoots.Deployments
                 new("", 8080, "")
             };
 
-            ContainerPlugins = new DeploymentContainerPlugin(readNess, liveNess, request, limit, containerPort);
+            ContainerPlugins = new DeploymentContainerPlugin(readNess, liveNess, request, limit, containerPort,new Dictionary<string, string>());
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
                 case DeploymentTypeEnum.Pod:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}Pod部署");
                 case DeploymentTypeEnum.Deployment:
-                    var v1Deployment= await GetDeploymentByNameAndNamespaceAsync(kubernetesDeploymentPublishContext.ConfigString,nameSpace,appId);
+                    var v1Deployment = await GetDeploymentByNameAndNamespaceAsync(kubernetesDeploymentPublishContext.ConfigString,nameSpace,appId);
                     if (v1Deployment is null)
                     {
                         v1Deployment = StructureV1Deployment(kubernetesDeploymentPublishContext);
@@ -88,6 +88,7 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
             foreach (var specContainer in v1Deployment.Spec.Template.Spec.Containers)
             {
                 specContainer.Image = image;
+
             }
             var expected = JsonSerializer.SerializeToDocument(v1Deployment);
             var patch = oldV1Deployment.CreatePatch(expected);
@@ -137,15 +138,14 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
 
             var deploymentMeta = _kubernetesCommonParamsBuild.StructureV1ObjectMeta(name: deployment.AppId, deployment.NameSpace);
 
-            var v1Containers = deployment.Containers.Select(deploymentContainer => _kubernetesCommonParamsBuild.StructureV1Container($"{deployment.AppId}-{deploymentContainer.Id}", $"{image}", deploymentContainer.ImagePullPolicy, deploymentContainer.ContainerPlugins)).ToList();
+            var v1Containers = deployment.Containers.Select(deploymentContainer => _kubernetesCommonParamsBuild.StructureV1Container(deployment.AppId,$"{deployment.AppId}-{deploymentContainer.Id}", $"{image}", deploymentContainer.ImagePullPolicy, deploymentContainer.ContainerPlugins)).ToList();
 
             var v1PodSpec = _kubernetesCommonParamsBuild.StructureV1PodSpec(v1Containers, deployment.Containers.First().RestartPolicy);
 
             var labels = ConstantsLabels.GetKubeDefalutLabels();
             labels.Add("app", deployment.AppId);
             var podMeta = _kubernetesCommonParamsBuild.StructureV1ObjectMeta(labels: labels);
-
-
+            
             var v1PodTemplateSpec = _kubernetesCommonParamsBuild.StructureV1PodTemplateSpec(podMeta, v1PodSpec);
 
             var v1LabelSelector = _kubernetesCommonParamsBuild.StructureV1LabelSelector(matchLabels: labels);
@@ -197,10 +197,10 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
         private async Task<V1Deployment?> GetDeploymentByNameAndNamespaceAsync(string configString,string nameSpace,string name)
         {
             var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(configString);
-            return await kubernetesClient.AppsV1.ReadNamespacedDeploymentAsync(name,nameSpace);
+            //暂时曲线救国，因为K8sApi标准是如果查询一个不存在的deployment的情况http状态码返回404，所以现在只能暂时这么写；
+            var v1Deployments = await kubernetesClient.AppsV1.ListNamespacedDeploymentAsync(nameSpace);
+            return v1Deployments.Items.Count<=0?null:v1Deployments.Items.FirstOrDefault(x=>x.Metadata.Name==name);
         }
         #endregion
-
-
     }
 }

@@ -5,13 +5,14 @@ namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects
     public class DeploymentContainerPlugin
     {
         [JsonConstructor]
-        public DeploymentContainerPlugin(ContainerSurviveConfiguration readNess, ContainerSurviveConfiguration liveNess, ContainerResourceQuantity request, ContainerResourceQuantity limit, List<ContainerPortConfiguration> containerPorts)
+        public DeploymentContainerPlugin(ContainerSurviveConfiguration readNess, ContainerSurviveConfiguration liveNess, ContainerResourceQuantity request, ContainerResourceQuantity limit, List<ContainerPortConfiguration> containerPorts,Dictionary<string, string> env)
         {
             ReadNess = readNess;
             LiveNess = liveNess;
             Request = request;
             Limit = limit;
             ContainerPorts = containerPorts;
+            Env = env;
         }
 
         /// <summary>
@@ -40,9 +41,16 @@ namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects
         /// </summary>
         public List<ContainerPortConfiguration> ContainerPorts { get; private set; }
 
-        public void SetReadiNess(ContainerSurviveConfiguration readiNess)
+        /// <summary>
+        /// 环境变量
+        /// </summary>
+        public Dictionary<string, string> Env { get; private set; } 
+        
+        
+
+        public void SetReadNess(ContainerSurviveConfiguration readNess)
         {
-            ReadNess = readiNess;
+            ReadNess = readNess;
         }
 
 
