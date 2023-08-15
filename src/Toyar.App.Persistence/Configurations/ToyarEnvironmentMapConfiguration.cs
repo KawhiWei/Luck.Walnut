@@ -1,6 +1,6 @@
 ﻿using Toyar.App.Domain.AggregateRoots.Environments;
 
-namespace Toyar.App.Persistence
+namespace Toyar.App.Persistence.Configurations
 {
     public class ToyarEnvironmentMapConfiguration : IEntityTypeConfiguration<ToyarEnvironment>
     {

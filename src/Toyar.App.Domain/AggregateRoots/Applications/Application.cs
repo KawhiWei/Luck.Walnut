@@ -45,7 +45,7 @@
         /// <summary>
         /// 应用部署环境
         /// </summary>
-        public ICollection<string> AppEnvironments = new HashSet<string>();
+        public ICollection<string> Environments = new HashSet<string>();
 
         /// <summary>
         /// 

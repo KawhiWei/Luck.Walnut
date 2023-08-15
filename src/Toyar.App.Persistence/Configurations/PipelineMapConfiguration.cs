@@ -7,7 +7,7 @@ public class PipelineMapConfiguration : IEntityTypeConfiguration<ApplicationPipe
     public void Configure(EntityTypeBuilder<ApplicationPipeline> builder)
     {
         builder.HasKey(e => e.Id);
-        builder.Property(e => e.PipelineScript).HasJsonConversion();
+        builder.Property(e => e.PipelineScript)!.HasJsonConversion();
         builder.HasMany(o => o.PipelineHistories)
             .WithOne()
             .HasForeignKey(x => x.PipelineId)
