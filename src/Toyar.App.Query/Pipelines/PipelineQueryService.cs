@@ -14,14 +14,14 @@ public class PipelineQueryService : IPipelineQueryService
     private readonly IApplicationRepository _applicationRepository;
     private readonly IComponentIntegrationRepository _componentIntegrationRepository;
     private readonly IJenkinsIntegration _jenkinsIntegration;
-    private readonly IApplicationPipelineExecutedRecordRepository _applicationPipelineExecutedRecordRepository;
+    private readonly IApplicationPipelineHistoryRepository _applicationPipelineHistoryRepository;
 
-    public PipelineQueryService(IApplicationPipelineRepository applicationPipelineRepository, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository, IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository, IApplicationRepository applicationRepository)
+    public PipelineQueryService(IApplicationPipelineRepository applicationPipelineRepository, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository, IApplicationPipelineHistoryRepository applicationPipelineHistoryRepository, IApplicationRepository applicationRepository)
     {
         _pipelineRepository = applicationPipelineRepository;
         _jenkinsIntegration = jenkinsIntegration;
         _componentIntegrationRepository = componentIntegrationRepository;
-        _applicationPipelineExecutedRecordRepository = applicationPipelineExecutedRecordRepository;
+        _applicationPipelineHistoryRepository = applicationPipelineHistoryRepository;
         _applicationRepository = applicationRepository;
     }
 
@@ -30,7 +30,7 @@ public class PipelineQueryService : IPipelineQueryService
         var (Data, TotalCount) = await _pipelineRepository.GetApplicationPipelinePageListAsync(appId, query);
 
 
-        var applicationPipelineExecutedRecordList = await _applicationPipelineExecutedRecordRepository.GetApplicationPipelineExecutedRecordListAsync(Data.Select(x => x.Id));
+        var applicationPipelineExecutedRecordList = await _applicationPipelineHistoryRepository.GetApplicationPipelineExecutedRecordListAsync(Data.Select(x => x.Id));
 
         foreach (var applicationPipeline in Data)
         {
@@ -52,7 +52,7 @@ public class PipelineQueryService : IPipelineQueryService
 
     public async Task<PageBaseResult<ApplicationPipelineExecutedRecordOutputDto>> GetPipelineExecutedRecordPageListAsync(string applicationPipelineId, ApplicationPipelineExecutedQueryDto query)
     {
-        var result = await _applicationPipelineExecutedRecordRepository.GetApplicationPipelineExecutedRecordPageListAsync(applicationPipelineId, query);
+        var result = await _applicationPipelineHistoryRepository.GetApplicationPipelineExecutedRecordPageListAsync(applicationPipelineId, query);
         return new PageBaseResult<ApplicationPipelineExecutedRecordOutputDto>(result.TotalCount, result.Data.ToArray());
     }
 
@@ -73,6 +73,7 @@ public class PipelineQueryService : IPipelineQueryService
             ContinuousIntegrationImage=applicationPipeline.ContinuousIntegrationImage,
             BuildComponentId = applicationPipeline.BuildComponentId,
             ImageWareHouseComponentId = applicationPipeline.ImageWareHouseComponentId,
+            Environment = applicationPipeline.Environment,
             PipelineScript = applicationPipeline.PipelineScript.Select(stage =>
             {
                 var steps = stage.Steps.Select(step => new StepDto()
@@ -93,7 +94,7 @@ public class PipelineQueryService : IPipelineQueryService
 
     public async Task<string> GetJenkinsJobBuildLogsAsync(string applicationPipelineId, string id)
     {
-        var applicationPipelineExecutedRecord = await _applicationPipelineExecutedRecordRepository.FindFirstByIdAsync(id);
+        var applicationPipelineExecutedRecord = await _applicationPipelineHistoryRepository.FindFirstByIdAsync(id);
         var applicationPipeline = await _pipelineRepository.FindFirstByIdAsync(applicationPipelineId);
         var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.BuildComponentId);
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.PassWord ?? "");

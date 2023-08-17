@@ -14,9 +14,9 @@ namespace Toyar.App.Adapter.JenkinsAdapter;
 public class JenkinsIntegration : IJenkinsIntegration
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    public string UserName { get; set; }
-    public string PassWord { get; set; }
-    public string UrlAddress { get; set; }
+    public string? UserName { get; set; }
+    public string? PassWord { get; set; }
+    public string? UrlAddress { get; set; }
 
 
     public JenkinsIntegration(IHttpClientFactory httpClientFactory)
@@ -197,7 +197,7 @@ public class JenkinsIntegration : IJenkinsIntegration
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{UserName}:{PassWord}")));
     }
 
-    private async Task<string> HttpResponseMessage(HttpResponseMessage httpResponseMessage)
+    private static async Task<string> HttpResponseMessage(HttpResponseMessage httpResponseMessage)
     {
         switch (httpResponseMessage.StatusCode)
         {

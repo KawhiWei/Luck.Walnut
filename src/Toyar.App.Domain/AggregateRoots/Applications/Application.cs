@@ -48,6 +48,15 @@
         public ICollection<string> Environments = new HashSet<string>();
 
         /// <summary>
+        /// 创建人
+        /// </summary>
+        public string CreateUser { get; private set; } = default!;
+        
+        /// <summary>
+        /// 最近修改人
+        /// </summary>
+        public string LastModificationUser { get; private set; } = default!;
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="describe"></param>
@@ -55,6 +64,11 @@
         public Application SetDescribe(string describe)
         {
             Describe = describe;
+            return this;
+        }
+        public Application SetEnvironments(List<string> environments)
+        {
+            Environments = environments;
             return this;
         }
 

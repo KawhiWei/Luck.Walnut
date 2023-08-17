@@ -21,7 +21,7 @@ namespace Toyar.App.AppService.Applications
         {
             await CheckAppIdAsync(input.AppId);
             var application = new Application("", input.Name, input.AppId, input.GitUrl);
-            application.SetDescribe(input.Describe ?? "");
+            application.SetDescribe(input.Describe ?? "").SetEnvironments(input.Environments);
             _applicationRepository.Add(application);
             await _unitOfWork.CommitAsync();
         }
@@ -38,6 +38,9 @@ namespace Toyar.App.AppService.Applications
         {
             var application = await GetApplicationByIdAsync(id);
             application.SetDescribe(input.Describe ?? "");
+            application
+                .SetDescribe(input.Describe ?? "")
+                .SetEnvironments(input.Environments);
             await _unitOfWork.CommitAsync();
         }
 

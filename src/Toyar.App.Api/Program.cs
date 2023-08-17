@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Hoyo.WebCore;
 using Luck.AspNetCore;
 using Luck.Framework.Infrastructure;
@@ -9,11 +8,7 @@ using Toyar.App.Infrastructure;
 using Luck.WebSocket.Server;
 using Luck.WebSocket.Server.Extensions;
 using MediatR;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Options;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
+using Luck.AppModule;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +45,7 @@ builder.Services.AddWebSocketConfigRouterEndpoint(x =>
     };
     x.ApplicationServiceCollection = builder.Services;
 });
-var configuration= builder.Services.GetConfiguration();
+var configuration = builder.Services.GetConfiguration();
 builder.Services.Configure<ToyarConfig>(configuration.GetSection("ToyarConfig"));
 
 
@@ -103,8 +98,8 @@ app.UseWebSocketServer(app.Services);
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 //}
 
 

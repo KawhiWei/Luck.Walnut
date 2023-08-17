@@ -11,6 +11,8 @@ public class ServiceMapConfiguration : IEntityTypeConfiguration<Service>
     {
         builder.HasKey(e => e.Id);
         builder.Property(e => e.ServicePorts).HasJsonConversion();
+        builder.Property(x => x.CreateUser).HasDefaultValue("");
+        builder.Property(x => x.LastModificationUser).HasDefaultValue("");
         builder.ToTable("services");
     }
 }

@@ -1,7 +1,7 @@
 using Luck.EntityFrameworkCore.DbContexts;
 using Luck.Framework.Exceptions;
 using Luck.Framework.Extensions;
-using Toyar.App.Domain.AggregateRoots.Pipelines;
+using Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Domain.Shared.Enums;
 using Toyar.App.Dto.ApplicationPipelines;
@@ -22,9 +22,9 @@ public class ApplicationPipelineRepository : EfCoreAggregateRootRepository<Appli
 
     public async Task<ApplicationPipeline> FindFirstByIdAsync(string id)
     {
-        if (_applicationPipelineForId.ContainsKey(id))
+        if (_applicationPipelineForId.TryGetValue(id, out var async))
         {
-            return _applicationPipelineForId[id];
+            return async;
         }
 
         var applicationPipeline = await FindAll(x => x.Id == id)

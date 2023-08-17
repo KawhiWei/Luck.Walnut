@@ -10,9 +10,8 @@ using System.Reflection;
 using System.Xml;
 using Luck.Framework.Extensions;
 using Microsoft.Extensions.Options;
-using Toyar.App.Domain.AggregateRoots.Pipelines;
+using Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
-using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
 using Toyar.App.Infrastructure;
 
 namespace Toyar.App.AppService.Pipelines;
@@ -29,25 +28,25 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
     private readonly IApplicationRepository _applicationRepository;
 
-    private readonly IApplicationPipelineExecutedRecordRepository _applicationPipelineExecutedRecordRepository;
+    private readonly IApplicationPipelineHistoryRepository _applicationPipelineHistoryRepository;
 
     private readonly ToyarConfig _toyarConfig;
 
     public ApplicationPipelineService(IApplicationPipelineRepository applicationPipelineRepository, IUnitOfWork unitOfWork, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository,
-        IApplicationPipelineExecutedRecordRepository applicationPipelineExecutedRecordRepository, IApplicationRepository applicationRepository,IOptionsSnapshot<ToyarConfig> options)
+        IApplicationPipelineHistoryRepository applicationPipelineHistoryRepository, IApplicationRepository applicationRepository,IOptionsSnapshot<ToyarConfig> options)
     {
         _pipelineRepository = applicationPipelineRepository;
         _unitOfWork = unitOfWork;
         _jenkinsIntegration = jenkinsIntegration;
         _componentIntegrationRepository = componentIntegrationRepository;
-        _applicationPipelineExecutedRecordRepository = applicationPipelineExecutedRecordRepository;
+        _applicationPipelineHistoryRepository = applicationPipelineHistoryRepository;
         _applicationRepository = applicationRepository;
         _toyarConfig = options.Value;
     }
 
     public async Task<string> CreatePipelineAsync(ApplicationPipelineInputDto input)
     {
-        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId,input.ContinuousIntegrationImage,input.ImageWareHouseComponentId);
+        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId,input.ContinuousIntegrationImage,input.ImageWareHouseComponentId,input.Environment??"");
         _pipelineRepository.Add(applicationPipeline);
         await _unitOfWork.CommitAsync();
         return applicationPipeline.Id;
@@ -61,7 +60,8 @@ public class ApplicationPipelineService : IApplicationPipelineService
             .SetBuildComponentId(input.BuildComponentId)
             .SetContinuousIntegrationImage(input.ContinuousIntegrationImage)
             .SetImageWareHouseComponentId(input.ImageWareHouseComponentId)
-            .SetPublished(false);
+            .SetPublished(false)
+            .SetEnvironment(input.Environment??"");
         _pipelineRepository.Update(applicationPipeline);
         await _unitOfWork.CommitAsync();
     }
@@ -158,7 +158,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
         if (jenkinsJobDetailDto is not null)
         {
-            applicationPipeline.AddApplicationPipelineExecutedRecord(jenkinsJobDetailDto.NextBuildNumber, imageVersion);
+            applicationPipeline.AddApplicationPipelineExecutedRecord(jenkinsJobDetailDto.NextBuildNumber, imageVersion,applicationPipeline.AppId);
         }
 
 

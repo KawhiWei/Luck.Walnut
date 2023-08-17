@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using Toyar.App.AppService.Environments.Events;
 
 namespace Toyar.App.AppService;
 

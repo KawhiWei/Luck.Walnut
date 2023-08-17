@@ -1,16 +1,12 @@
-using System.Collections.Concurrent;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Toyar.App.Api.Protos;
-using Toyar.App.AppService;
 using Toyar.App.AppService.Environments;
-using Toyar.App.AppService.Environments.Events;
-using MediatR;
 
 namespace Toyar.App.Api.GrpcServices;
 
 [AutoMapGrpcService]
-public class LuCatGrpcService : LuCat.LuCatBase, INotificationHandler<AppConfigurationEvent>
+public class LuCatGrpcService : LuCat.LuCatBase 
 {
     private readonly ILogger<LuCatGrpcService> _logger;
     private readonly IApplactionClientConcurrentQueue _applactionClientConcurrentQueue;
@@ -55,30 +51,5 @@ public class LuCatGrpcService : LuCat.LuCatBase, INotificationHandler<AppConfigu
         {
             Count = 80
         });
-    }
-
-    public async Task Handle(AppConfigurationEvent notification, CancellationToken cancellationToken)
-    {
-        await Task.CompletedTask;
-        // var conn = _test.GetResponseStream("test");
-        // if (conn is not null)
-        // {
-        //     try
-        //     {
-        //         if (conn.Value.responseStream is not null)
-        //         {
-        //             if (conn.Value.context.CancellationToken.IsCancellationRequested)
-        //             {
-        //                 await conn.Value.responseStream.WriteAsync(new BathTheCatResp()
-        //                     { Message = $"铲屎的成功给一只[{notification.AppId}+{Guid.NewGuid()}]洗了澡！" });
-        //             }
-        //         }
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Console.WriteLine(e);
-        //         throw;
-        //     }
-        // }
     }
 }

@@ -46,7 +46,17 @@ public partial class Service : FullAggregateRoot
     /// <summary>
     /// 是否发布
     /// </summary>
-    public bool IsPublish { get; private set; } = default!;
+    public bool IsPublish { get; private set; }
+    
+    /// <summary>
+    /// 创建人
+    /// </summary>
+    public string CreateUser { get; private set; } = default!;
+        
+    /// <summary>
+    /// 最近修改人
+    /// </summary>
+    public string LastModificationUser { get; private set; } = default!;
 
     /// <summary>
     /// 服务端口配置

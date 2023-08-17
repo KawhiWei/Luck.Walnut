@@ -16,9 +16,7 @@ namespace Toyar.App.Api.GrpcServices
 
         public override async Task<ApplicationConfigResponse> GetAppliactionConfig(ApplicationConfigRequest request, ServerCallContext context)
         {
-
-
-
+            await Task.CompletedTask;
             return new ApplicationConfigResponse();
         }
     }

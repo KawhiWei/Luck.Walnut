@@ -1,5 +1,5 @@
 using Toyar.App.Dto.ApplicationPipelines;
-using Toyar.App.Domain.AggregateRoots.Pipelines;
+using Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
 
 namespace Toyar.App.Domain.Repositories;
 

@@ -25,11 +25,17 @@ public class ApplicationPipelineBaseDto
     /// CI构建镜像
     /// </summary>
     public string ContinuousIntegrationImage { get; set; } = default!;
+    
 
     /// <summary>
     /// 
     /// </summary>
     public string ImageWareHouseComponentId { get;  set; } = default!;
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? Environment { get;  set; }
 
 
 }

@@ -8,6 +8,8 @@ namespace Toyar.App.Persistence
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.AppId);
+            builder.Property(x => x.CreateUser).HasDefaultValue("");
+            builder.Property(x => x.LastModificationUser).HasDefaultValue("");
             builder.Property(e => e.Environments)!.HasJsonConversion();
             builder.HasIndex(x => x.AppId,"appId_unique_index")
                 .IsUnique();

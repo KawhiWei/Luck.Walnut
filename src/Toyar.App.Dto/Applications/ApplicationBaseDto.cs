@@ -20,6 +20,11 @@ public class ApplicationBaseDto
     /// 代码仓库地址
     /// </summary>
     public string GitUrl { get; set; } = default!;
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public List<string> Environments{ get; set; } =new();
 
     /// <summary>
     /// 应用描述

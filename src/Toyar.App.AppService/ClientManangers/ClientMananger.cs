@@ -1,7 +1,5 @@
 using System.Collections.Concurrent;
 using Toyar.App.AppService.Environments;
-using Toyar.App.AppService.Environments.Events;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 
 namespace Toyar.App.AppService;

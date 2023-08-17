@@ -37,6 +37,16 @@ namespace Toyar.App.Domain.AggregateRoots.Templates
         /// 应用描述
         /// </summary>
         public string? Describe { get; private set; }
+        
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        public string CreateUser { get; private set; } = default!;
+        
+        /// <summary>
+        /// 最近修改人
+        /// </summary>
+        public string LastModificationUser { get; private set; } = default!;
 
         /// <summary>
         /// 流水线Dsl

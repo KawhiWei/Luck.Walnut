@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Luck.EntityFrameworkCore.DbContexts;
-using Toyar.App.Domain.AggregateRoots.Pipelines;
+using Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
 using Toyar.App.Domain.AggregateRoots.Applications;
 using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
 using Toyar.App.Domain.AggregateRoots.Environments;
@@ -9,8 +9,9 @@ using Toyar.App.Domain.AggregateRoots.Templates;
 using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
 using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Domain.AggregateRoots.K8s.Services;
-using Toyar.App.Domain.AggregateRoots.Deployments;
+using Toyar.App.Domain.AggregateRoots.WorkLoads;
 using Luck.Walnut.Kube.Domain.AggregateRoots.SideCar;
+using Toyar.App.Domain.AggregateRoots.KubernetesOperationHistories;
 
 namespace Toyar.App.Persistence
 {
@@ -21,21 +22,23 @@ namespace Toyar.App.Persistence
         }
 
         public DbSet<Application> Applications => Set<Application>();
-
-        public DbSet<AppConfiguration> Configurations => Set<AppConfiguration>();
-
+        
         public DbSet<ToyarEnvironment> ToyarEnvironments => base.Set<ToyarEnvironment>();
 
         public DbSet<ComponentIntegration> ComponentIntegrations => Set<ComponentIntegration>();
 
         public DbSet<ApplicationPipeline> Pipelines => Set<ApplicationPipeline>();
 
-        public DbSet<PipelineHistory> PipelineHistories => Set<PipelineHistory>();
+        public DbSet<ApplicationPipelineHistory> PipelineHistories => Set<ApplicationPipelineHistory>();
 
         public DbSet<ContinuousIntegrationImage> ContinuousIntegrationImages => Set<ContinuousIntegrationImage>();
 
-        public DbSet<ContinuousIntegrationImageVersion> CIRunnerImageVersions => Set<ContinuousIntegrationImageVersion>();
+        public DbSet<ContinuousIntegrationImageVersion> ContinuousIntegrationImageVersions => Set<ContinuousIntegrationImageVersion>();
 
+        public DbSet<KubernetesOperationHistory> KubernetesOperationHistories => Set<KubernetesOperationHistory>();
+
+
+        
         public DbSet<PipelineTemplate> PipelineTemplates => Set<PipelineTemplate>();
 
         public DbSet<SideCarPlugin> SideCarPlugins => Set<SideCarPlugin>();
@@ -46,9 +49,9 @@ namespace Toyar.App.Persistence
 
         public DbSet<Service> Services => Set<Service>();
 
-        public DbSet<Deployment> Deployments => Set<Deployment>();
+        public DbSet<WorkLoad> WorkLoads => Set<WorkLoad>();
 
-        public DbSet<DeploymentContainer> DeploymentContainers => Set<DeploymentContainer>();
+        public DbSet<WorkLoadContainer> WorkLoadContainers => Set<WorkLoadContainer>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

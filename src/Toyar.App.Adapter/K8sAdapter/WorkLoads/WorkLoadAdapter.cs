@@ -4,7 +4,7 @@ using k8s.Models;
 using Luck.Framework.Exceptions;
 using Toyar.App.Adapter.K8sAdapter.Constants;
 using Toyar.App.Adapter.K8sAdapter.Factories;
-using Toyar.App.Domain.AggregateRoots.K8s.Deployments;
+using Toyar.App.Domain.AggregateRoots.K8s.WorkLoads;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 
@@ -26,29 +26,29 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
         /// <summary>
         /// 创建应用部署
         /// </summary>
-        /// <param name="kubernetesDeploymentPublishContext"></param>
+        /// <param name="kubernetesWorkLoadPublishContext"></param>
         /// <exception cref="BusinessException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public async Task DeployWorkLoadAsync(KubernetesDeploymentPublishContext kubernetesDeploymentPublishContext)
+        public async Task DeployWorkLoadAsync(KubernetesWorkLoadPublishContext kubernetesWorkLoadPublishContext)
         {
-            kubernetesDeploymentPublishContext.Deployment.SetAppId(kubernetesDeploymentPublishContext.Deployment.AppId.Replace(".", "-"));
-            var appId = kubernetesDeploymentPublishContext.Deployment.AppId;
-            var nameSpace = kubernetesDeploymentPublishContext.Deployment.NameSpace;
-            var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesDeploymentPublishContext.ConfigString);
-            switch (kubernetesDeploymentPublishContext.Deployment.DeploymentType)
+            kubernetesWorkLoadPublishContext.WorkLoad.SetAppId(kubernetesWorkLoadPublishContext.WorkLoad.AppId.Replace(".", "-"));
+            var appId = kubernetesWorkLoadPublishContext.WorkLoad.AppId;
+            var nameSpace = kubernetesWorkLoadPublishContext.WorkLoad.NameSpace;
+            var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesWorkLoadPublishContext.ConfigString);
+            switch (kubernetesWorkLoadPublishContext.WorkLoad.DeploymentType)
             {
                 case DeploymentTypeEnum.Pod:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}Pod部署");
                 case DeploymentTypeEnum.Deployment:
-                    var v1Deployment = await GetDeploymentByNameAndNamespaceAsync(kubernetesDeploymentPublishContext.ConfigString,nameSpace,appId);
+                    var v1Deployment = await GetDeploymentByNameAndNamespaceAsync(kubernetesWorkLoadPublishContext.ConfigString,nameSpace,appId);
                     if (v1Deployment is null)
                     {
-                        v1Deployment = StructureV1Deployment(kubernetesDeploymentPublishContext);
-                        await kubernetesClient.AppsV1.CreateNamespacedDeploymentAsync(v1Deployment, kubernetesDeploymentPublishContext.Deployment.NameSpace);
+                        v1Deployment = StructureV1Deployment(kubernetesWorkLoadPublishContext);
+                        await kubernetesClient.AppsV1.CreateNamespacedDeploymentAsync(v1Deployment, kubernetesWorkLoadPublishContext.WorkLoad.NameSpace);
                     }
                     else
                     {
-                        await UpdateDeploymentImageAsync(kubernetesDeploymentPublishContext, v1Deployment);
+                        await UpdateDeploymentImageAsync(kubernetesWorkLoadPublishContext, v1Deployment);
                     }
                     break;
                 case DeploymentTypeEnum.DaemonSet:
@@ -69,15 +69,15 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
         /// <summary>
         /// 更新应用部署《仅限于更新镜像》
         /// </summary>
-        /// <param name="kubernetesDeploymentPublishContext"></param>
+        /// <param name="kubernetesWorkLoadPublishContext"></param>
         /// <param name="v1Deployment"></param>
         /// <exception cref="BusinessException"></exception>
-        private async Task UpdateDeploymentImageAsync(KubernetesDeploymentPublishContext kubernetesDeploymentPublishContext,V1Deployment v1Deployment)
+        private async Task UpdateDeploymentImageAsync(KubernetesWorkLoadPublishContext kubernetesWorkLoadPublishContext,V1Deployment v1Deployment)
         {
-            var image = kubernetesDeploymentPublishContext.Image;
-            var appId = kubernetesDeploymentPublishContext.Deployment.AppId;
-            var nameSpace = kubernetesDeploymentPublishContext.Deployment.NameSpace;
-            var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesDeploymentPublishContext.ConfigString);
+            var image = kubernetesWorkLoadPublishContext.Image;
+            var appId = kubernetesWorkLoadPublishContext.WorkLoad.AppId;
+            var nameSpace = kubernetesWorkLoadPublishContext.WorkLoad.NameSpace;
+            var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesWorkLoadPublishContext.ConfigString);
             
             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true };
             
@@ -87,18 +87,18 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
             {
                 specContainer.Image = image;
             }
-            v1Deployment.Spec.Strategy = StructureV1DeploymentStrategy(kubernetesDeploymentPublishContext.Deployment.DeploymentPlugins.Strategy);
+            v1Deployment.Spec.Strategy = StructureV1DeploymentStrategy(kubernetesWorkLoadPublishContext.WorkLoad.DeploymentPlugins.Strategy);
             var expected = JsonSerializer.SerializeToDocument(v1Deployment);
             var patch = oldV1Deployment.CreatePatch(expected);
             await kubernetesClient.AppsV1.PatchNamespacedDeploymentAsync(new V1Patch(patch, V1Patch.PatchType.JsonPatch),appId,nameSpace);
         }
         
-        public async Task DeleteWorkLoadAsync(KubernetesDeploymentPublishContext kubernetesDeploymentPublishContext)
+        public async Task DeleteWorkLoadAsync(KubernetesWorkLoadPublishContext kubernetesWorkLoadPublishContext)
         {
-            var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesDeploymentPublishContext.ConfigString);
-            var appId = kubernetesDeploymentPublishContext.Deployment.AppId;
-            var nameSpace = kubernetesDeploymentPublishContext.Deployment.NameSpace;
-            switch (kubernetesDeploymentPublishContext.Deployment.DeploymentType)
+            var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesWorkLoadPublishContext.ConfigString);
+            var appId = kubernetesWorkLoadPublishContext.WorkLoad.AppId;
+            var nameSpace = kubernetesWorkLoadPublishContext.WorkLoad.NameSpace;
+            switch (kubernetesWorkLoadPublishContext.WorkLoad.DeploymentType)
             {
                 case DeploymentTypeEnum.Pod:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}Pod部署");
@@ -127,13 +127,13 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="kubernetesDeploymentPublishContext"></param>
+        /// <param name="kubernetesWorkLoadPublishContext"></param>
         /// <returns></returns>
-        private V1Deployment StructureV1Deployment(KubernetesDeploymentPublishContext kubernetesDeploymentPublishContext)
+        private V1Deployment StructureV1Deployment(KubernetesWorkLoadPublishContext kubernetesWorkLoadPublishContext)
         {
 
-            var image = kubernetesDeploymentPublishContext.Image;
-            var deployment = kubernetesDeploymentPublishContext.Deployment;
+            var image = kubernetesWorkLoadPublishContext.Image;
+            var deployment = kubernetesWorkLoadPublishContext.WorkLoad;
 
             var deploymentMeta = _kubernetesCommonParamsBuild.StructureV1ObjectMeta(name: deployment.AppId, deployment.NameSpace);
 
