@@ -1,4 +1,5 @@
 using Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
+using Toyar.App.Dto;
 using Toyar.App.Dto.ApplicationPipelines;
 
 namespace Toyar.App.Domain.Repositories;
@@ -12,8 +13,10 @@ public interface IApplicationPipelineHistoryRepository:IEntityRepository<Applica
     /// <param name="applicationPipelineId"></param>
     /// <param name="query"></param>
     /// <returns></returns>
-    Task<(ApplicationPipelineExecutedRecordOutputDto[] Data, int TotalCount)> GetApplicationPipelineExecutedRecordPageListAsync(string applicationPipelineId, ApplicationPipelineExecutedQueryDto query);
+    Task<(ApplicationPipelineHistory[] Data, int TotalCount)> GetApplicationPipelineHistoryByPipeLineIdPageListAsync(string applicationPipelineId, ApplicationPipelineHistoryQueryDto query);
 
+
+    Task<(ApplicationPipelineHistory[] Data, int TotalCount)> GetPipelineHistoryForAppIdPageListAsync(string appId, ApplicationPipelineHistoryQueryDto query);
     Task<ApplicationPipelineHistory> FindFirstByIdAsync(string id);
     
     /// <summary>

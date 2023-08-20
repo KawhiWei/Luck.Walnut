@@ -8,6 +8,7 @@ public class ApplicationPipelineMapConfiguration : IEntityTypeConfiguration<Appl
     {
         builder.HasKey(e => e.Id);
         builder.Property(e => e.PipelineScript)!.HasJsonConversion();
+        builder.Property(e => e.PipelineParameters)!.HasJsonConversion();
         builder.Property(x => x.CreateUser).HasDefaultValue("");
         builder.Property(x => x.LastModificationUser).HasDefaultValue("");
         builder.HasMany(o => o.PipelineHistories)

@@ -2,7 +2,7 @@ using Toyar.App.Domain.Shared.Enums;
 
 namespace Toyar.App.Dto.ApplicationPipelines;
 
-public class ApplicationPipelineExecutedBaseDto
+public class ApplicationPipelineHistoryBaseDto
 {
     /// <summary>
     /// 流水线Id

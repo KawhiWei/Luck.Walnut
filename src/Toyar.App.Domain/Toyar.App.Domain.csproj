@@ -11,6 +11,6 @@
 		<ProjectReference Include="..\Toyar.App.Dto\Toyar.App.Dto.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Luck.DDD.Domain" Version="2.0.1" />
+		<PackageReference Include="Luck.DDD.Domain" Version="2.0.3" />
 	</ItemGroup>
 </Project>

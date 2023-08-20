@@ -3,6 +3,7 @@ using Luck.Framework.Exceptions;
 using Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Domain.Shared.Enums;
+using Toyar.App.Dto;
 using Toyar.App.Dto.ApplicationPipelines;
 
 namespace Toyar.App.Persistence.Repositories;
@@ -13,25 +14,27 @@ public class ApplicationPipelineHistoryRepository : EfCoreEntityRepository<Appli
     {
     }
 
-    public async Task<(ApplicationPipelineExecutedRecordOutputDto[] Data, int TotalCount)> GetApplicationPipelineExecutedRecordPageListAsync(string applicationPipelineId, ApplicationPipelineExecutedQueryDto query)
+    public async Task<(ApplicationPipelineHistory[] Data, int TotalCount)> GetApplicationPipelineHistoryByPipeLineIdPageListAsync(string applicationPipelineId, ApplicationPipelineHistoryQueryDto query)
     {
         var queryable = FindAll(x => x.PipelineId == applicationPipelineId)
             .WhereIf(x => x.PipelineBuildState == query.PipelineBuildState, query.PipelineBuildState.HasValue);
 
-        var list = await queryable.OrderByDescending(x=>x.CreationTime).ToPage(query.PageIndex, query.PageSize)
-            
-            .Select(row => new ApplicationPipelineExecutedRecordOutputDto
-            {
-                Id = row.Id,
-                ApplicationPipelineId = row.PipelineId,
-                JenkinsBuildNumber = row.JenkinsBuildNumber,
-                PipelineBuildState = row.PipelineBuildState,
-                ImageVersion = row.ImageVersion,
-            }).ToArrayAsync();
+        var list = await queryable.OrderByDescending(x=>x.CreationTime).ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
         var totalCount = await queryable.CountAsync();
         return (list, totalCount);
     }
 
+    public async Task<(ApplicationPipelineHistory[] Data, int TotalCount)> GetPipelineHistoryForAppIdPageListAsync(string appId, ApplicationPipelineHistoryQueryDto query)
+    {
+        var queryable = FindAll(x => x.AppId ==appId )
+            .WhereIf(x => x.PipelineBuildState == query.PipelineBuildState, query.PipelineBuildState.HasValue);
+
+        var list = await queryable.OrderByDescending(x=>x.CreationTime).ToPage(query.PageIndex, query.PageSize).ToArrayAsync();
+        var totalCount = await queryable.CountAsync();
+        return (list, totalCount);
+    }
+
+   
     public async Task<ApplicationPipelineHistory> FindFirstByIdAsync(string id)
     {
         var applicationPipelineExecutedRecord = await FindAll().FirstOrDefaultAsync(x => x.Id == id);
@@ -53,4 +56,5 @@ public class ApplicationPipelineHistoryRepository : EfCoreEntityRepository<Appli
         var list = await FindAll(x => applicationPipelineList.Contains(x.PipelineId)).ToArrayAsync();
         return list;
     }
+    
 }

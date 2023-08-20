@@ -37,9 +37,7 @@ spec:
         }
     }
     parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'main', description: '分支名称')
-        string(name: 'VERSION_NAME', defaultValue: 'main', description: '版本号')
-        string(name: 'APPLICATIONPIPELINEID', defaultValue: 'main', description: '执行流水线Id')
+        @Raw(metadata.Parameter)
     }
     stages{
         @Raw(metadata.PipelineScript)
@@ -60,6 +58,10 @@ spec:
                 if (response.status != 200) 
                 {
                     error("Failed to call API: ${response.status} ${response.content}")
+                }
+                else
+                {
+                    echo("Success to call API: ${response.content}")
                 }
             }
         }

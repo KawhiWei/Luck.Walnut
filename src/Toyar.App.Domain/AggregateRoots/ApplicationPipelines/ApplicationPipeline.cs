@@ -14,7 +14,6 @@ namespace Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
 
 public class ApplicationPipeline : FullAggregateRoot
 {
-
     public ApplicationPipeline(string appId, string name, bool published, string buildComponentId, string continuousIntegrationImage, string imageWareHouseComponentId, string environment)
     {
         AppId = appId;
@@ -70,11 +69,16 @@ public class ApplicationPipeline : FullAggregateRoot
     /// 执行记录
     /// </summary>
     public ICollection<ApplicationPipelineHistory> PipelineHistories { get; private set; } = new HashSet<ApplicationPipelineHistory>();
-    
+
     /// <summary>
     /// 环境
     /// </summary>
-    public string Environment { get;  private set; }
+    public string Environment { get; private set; }
+
+    /// <summary>
+    /// 流水线自定义参数
+    /// </summary>
+    public ICollection<PipelineParameterValueObject> PipelineParameters { get; private set; } = new List<PipelineParameterValueObject>();
 
     /// <summary>
     /// 
@@ -84,6 +88,16 @@ public class ApplicationPipeline : FullAggregateRoot
     public ApplicationPipeline SetPipelineScript(ICollection<Stage> pipelineScript)
     {
         PipelineScript = pipelineScript;
+        return this;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pipelineParameters"></param>
+    /// <returns></returns>
+    public ApplicationPipeline SetPipelineParameters(ICollection<PipelineParameterValueObject> pipelineParameters)
+    {
+        PipelineParameters = pipelineParameters;
         return this;
     }
 
@@ -130,12 +144,12 @@ public class ApplicationPipeline : FullAggregateRoot
     /// 创建人
     /// </summary>
     public string CreateUser { get; private set; } = default!;
-        
+
     /// <summary>
     /// 最近修改人
     /// </summary>
     public string LastModificationUser { get; private set; } = default!;
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -146,6 +160,7 @@ public class ApplicationPipeline : FullAggregateRoot
         Published = published;
         return this;
     }
+
     /// <summary>
     /// 
     /// </summary>
@@ -156,7 +171,7 @@ public class ApplicationPipeline : FullAggregateRoot
         Environment = environment;
         return this;
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -169,9 +184,9 @@ public class ApplicationPipeline : FullAggregateRoot
         {
             throw new BusinessException($"{Name}-------{jenkinsNumber}执行记录不存在");
         }
+
         return applicationPipelineExecutedRecord;
     }
-    
 
 
     /// <summary>
@@ -181,9 +196,9 @@ public class ApplicationPipeline : FullAggregateRoot
     /// <param name="imageVersion"></param>
     /// <param name="appId"></param>
     /// <returns></returns>
-    public ApplicationPipeline AddApplicationPipelineExecutedRecord(uint nextBuildNumber, string imageVersion,string appId)
+    public ApplicationPipeline AddApplicationPipelineExecutedRecord(uint nextBuildNumber, string imageVersion, string appId)
     {
-        var applicationPipelineExecutedRecord = new ApplicationPipelineHistory(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber, imageVersion,appId);
+        var applicationPipelineExecutedRecord = new ApplicationPipelineHistory(this.Id, PipelineBuildStateEnum.Running, this.PipelineScript, nextBuildNumber, imageVersion, appId);
         PipelineHistories.Add(applicationPipelineExecutedRecord);
         return this;
     }
@@ -211,6 +226,7 @@ public class ApplicationPipeline : FullAggregateRoot
                         {
                             break;
                         }
+
                         stringBuilder.Append($@"
                         checkout([
                              $class: 'GitSCM', branches: [[name: ""${{BRANCH_NAME}}""]],
@@ -227,6 +243,7 @@ public class ApplicationPipeline : FullAggregateRoot
                         {
                             break;
                         }
+
                         stringBuilder.Append($@"
                         container('build') {{
                         sh '''
@@ -274,6 +291,7 @@ public class ApplicationPipeline : FullAggregateRoot
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
             stringBuilder.Append(@"
                 }
             }");
@@ -282,5 +300,18 @@ public class ApplicationPipeline : FullAggregateRoot
         return stringBuilder.ToString();
     }
 
+    /// <summary>
+    /// 获取自定义参数
+    /// </summary>
+    /// <returns></returns>
+    public string GetParameterScriptStr()
+    {
+        var stringBuilder = new StringBuilder();
+        foreach (var parameter in PipelineParameters)
+        {
+            stringBuilder.Append($"string(name: '{parameter.Name}', defaultValue: '{parameter.DefaultValue}',description: '{parameter.Description}')\r\n");
+        }
 
+        return stringBuilder.ToString();
+    }
 }

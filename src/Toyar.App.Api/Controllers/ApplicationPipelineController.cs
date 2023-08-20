@@ -61,7 +61,7 @@ public class ApplicationPipelineController : BaseController
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
     [HttpGet("{appId}/page/list")]
-    public Task<PageBaseResult<ApplicationPipelinePipelineOutputDto>> GetPipelinePageListAsync(string appId, [FromQuery] PipelineQueryDto query, [FromServices] IPipelineQueryService applicationPipelineQueryService)
+    public Task<PageBaseResult<ApplicationPipelineOutputDto>> GetPipelinePageListAsync(string appId, [FromQuery] PipelineQueryDto query, [FromServices] IPipelineQueryService applicationPipelineQueryService)
         => applicationPipelineQueryService.GetPipelinePageListAsync(appId, query);
 
 
@@ -72,7 +72,7 @@ public class ApplicationPipelineController : BaseController
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public Task<ApplicationPipelinePipelineOutputDto> GetPipelineDetailForIdAsync(string id, [FromServices] IPipelineQueryService applicationPipelineQueryService)
+    public Task<ApplicationPipelineOutputDto> GetPipelineDetailForIdAsync(string id, [FromServices] IPipelineQueryService applicationPipelineQueryService)
         => applicationPipelineQueryService.GetApplicationPipelineDetailForIdAsync(id);
 
 
@@ -86,11 +86,7 @@ public class ApplicationPipelineController : BaseController
     [HttpPost("{id}/execute/job")]
     public Task ExecuteJobAsync([FromServices] IApplicationPipelineService pipelineService, string id)
         => pipelineService.ExecuteJobAsync(id);
-
-
-
-
-
+    
     /// <summary>
     /// 发布流水线
     /// </summary>
@@ -127,11 +123,22 @@ public class ApplicationPipelineController : BaseController
     /// <summary>
     /// 根据任务Id和Jenkins执行的BuildNumber获取执行日志
     /// </summary>
-    /// <param name="applicationPipelineId"></param>
+    /// <param name="pipelineId"></param>
     /// <param name="query"></param>
     /// <param name="applicationPipelineQueryService"></param>
     /// <returns></returns>
-    [HttpGet("{applicationPipelineId}/executed/record/page/list")]
-    public Task<PageBaseResult<ApplicationPipelineExecutedRecordOutputDto>> GetJenkinsJobBuildDetailAsync(string applicationPipelineId,[FromQuery] ApplicationPipelineExecutedQueryDto query, [FromServices] IPipelineQueryService applicationPipelineQueryService)
-        => applicationPipelineQueryService.GetPipelineExecutedRecordPageListAsync(applicationPipelineId, query);
+    [HttpGet("{pipelineId}/pipelineId/page/list")]
+    public Task<PageBaseResult<ApplicationPipelineHistoryOutputDto>> GetPipelineHistoryForPipeLineIdPageList(string pipelineId,[FromQuery] ApplicationPipelineHistoryQueryDto query, [FromServices] IPipelineQueryService applicationPipelineQueryService)
+        => applicationPipelineQueryService.GetPipelineHistoryForPipeLineIdPageListAsync(pipelineId, query);
+    
+    /// <summary>
+    /// 根据任务Id和Jenkins执行的BuildNumber获取执行日志
+    /// </summary>
+    /// <param name="appId"></param>
+    /// <param name="query"></param>
+    /// <param name="applicationPipelineQueryService"></param>
+    /// <returns></returns>
+    [HttpGet("{appId}/appId/page/list")]
+    public Task<PageBaseResult<ApplicationPipelineHistoryOutputDto>> GetPipelineHistoryForAppIdPageList(string appId,[FromQuery] ApplicationPipelineHistoryQueryDto query, [FromServices] IPipelineQueryService applicationPipelineQueryService)
+        => applicationPipelineQueryService.GetPipelineHistoryForAppIdPageListAsync(appId, query);
 }

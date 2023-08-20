@@ -1,5 +1,6 @@
+using Luck.Framework.Extensions;
 using Toyar.App.Adapter.JenkinsAdapter;
-using Toyar.App.Domain.AggregateRoots.ContinuousIntegrationImages;
+using Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Domain.Shared.Enums;
 using Toyar.App.Dto;
@@ -25,14 +26,14 @@ public class PipelineQueryService : IPipelineQueryService
         _applicationRepository = applicationRepository;
     }
 
-    public async Task<PageBaseResult<ApplicationPipelinePipelineOutputDto>> GetPipelinePageListAsync(string appId, PipelineQueryDto query)
+    public async Task<PageBaseResult<ApplicationPipelineOutputDto>> GetPipelinePageListAsync(string appId, PipelineQueryDto query)
     {
-        var (Data, TotalCount) = await _pipelineRepository.GetApplicationPipelinePageListAsync(appId, query);
+        var (data, totalCount) = await _pipelineRepository.GetApplicationPipelinePageListAsync(appId, query);
 
 
-        var applicationPipelineExecutedRecordList = await _applicationPipelineHistoryRepository.GetApplicationPipelineExecutedRecordListAsync(Data.Select(x => x.Id));
+        var applicationPipelineExecutedRecordList = await _applicationPipelineHistoryRepository.GetApplicationPipelineExecutedRecordListAsync(data.Select(x => x.Id));
 
-        foreach (var applicationPipeline in Data)
+        foreach (var applicationPipeline in data)
         {
             var applicationPipelineExecutedRecord = applicationPipelineExecutedRecordList.MaxBy(x => x.JenkinsBuildNumber);
             if (applicationPipelineExecutedRecord is not null)
@@ -46,17 +47,28 @@ public class PipelineQueryService : IPipelineQueryService
                 applicationPipeline.PipelineBuildState = PipelineBuildStateEnum.Ready;
             }
         }
-        return new PageBaseResult<ApplicationPipelinePipelineOutputDto>(TotalCount, Data.ToArray());
+        return new PageBaseResult<ApplicationPipelineOutputDto>(totalCount, data.ToArray());
     }
 
 
-    public async Task<PageBaseResult<ApplicationPipelineExecutedRecordOutputDto>> GetPipelineExecutedRecordPageListAsync(string applicationPipelineId, ApplicationPipelineExecutedQueryDto query)
+    public async Task<PageBaseResult<ApplicationPipelineHistoryOutputDto>> GetPipelineHistoryForPipeLineIdPageListAsync(string applicationPipelineId, ApplicationPipelineHistoryQueryDto query)
     {
-        var result = await _applicationPipelineHistoryRepository.GetApplicationPipelineExecutedRecordPageListAsync(applicationPipelineId, query);
-        return new PageBaseResult<ApplicationPipelineExecutedRecordOutputDto>(result.TotalCount, result.Data.ToArray());
+        var result = await _applicationPipelineHistoryRepository.GetApplicationPipelineHistoryByPipeLineIdPageListAsync(applicationPipelineId, query);
+        
+        return new PageBaseResult<ApplicationPipelineHistoryOutputDto>(result.TotalCount, result.Data.Select(StructurePipelineHistoryOutputDto).ToArray());
+    }
+    public async Task<PageBaseResult<ApplicationPipelineHistoryOutputDto>> GetPipelineHistoryForAppIdPageListAsync(string applicationPipelineId, ApplicationPipelineHistoryQueryDto query)
+    {
+        var result = await _applicationPipelineHistoryRepository.GetPipelineHistoryForAppIdPageListAsync(applicationPipelineId, query);
+        
+        return new PageBaseResult<ApplicationPipelineHistoryOutputDto>(result.TotalCount, result.Data.Select(StructurePipelineHistoryOutputDto).ToArray());
     }
 
-    public async Task<ApplicationPipelinePipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id)
+    
+    
+    
+    
+    public async Task<ApplicationPipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id)
     {
         var applicationPipeline = await _pipelineRepository.FindFirstByIdAsync(id);
         var application = await _applicationRepository.FindFirstOrDefaultByAppIdAsync(applicationPipeline.AppId);
@@ -64,7 +76,7 @@ public class PipelineQueryService : IPipelineQueryService
         {
             throw new BusinessException($"应用不存在");
         }
-        return new ApplicationPipelinePipelineOutputDto()
+        return new ApplicationPipelineOutputDto()
         {
             Id = applicationPipeline.Id,
             Name = applicationPipeline.Name,
@@ -99,5 +111,21 @@ public class PipelineQueryService : IPipelineQueryService
         var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.BuildComponentId);
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.PassWord ?? "");
         return await _jenkinsIntegration.GetJenkinsJobBuildLogsAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}", applicationPipelineExecutedRecord.JenkinsBuildNumber);
+    }
+    
+    
+    private static ApplicationPipelineHistoryOutputDto StructurePipelineHistoryOutputDto(ApplicationPipelineHistory applicationPipelineHistory)
+    {
+        return new ApplicationPipelineHistoryOutputDto
+        {
+            Id = applicationPipelineHistory.Id,
+            PipelineBuildState = applicationPipelineHistory.PipelineBuildState,
+            ApplicationPipelineId = applicationPipelineHistory.PipelineId,
+            JenkinsBuildNumber = applicationPipelineHistory.JenkinsBuildNumber,
+            ImageVersion = applicationPipelineHistory.ImageVersion,
+            CreationTime=applicationPipelineHistory.CreationTime,
+            CreateUser=applicationPipelineHistory.CreateUser.IsNullOrEmpty()?"Toyar(PaaS)":applicationPipelineHistory.CreateUser,
+        };
+
     }
 }

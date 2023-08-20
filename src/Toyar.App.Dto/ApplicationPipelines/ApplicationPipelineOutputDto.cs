@@ -4,7 +4,7 @@ using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.Dto.ApplicationPipelines;
 
-public class ApplicationPipelinePipelineOutputDto:ApplicationPipelineBaseDto
+public class ApplicationPipelineOutputDto:ApplicationPipelineBaseDto
 {
     public string Id { get; set; } = default!;
     

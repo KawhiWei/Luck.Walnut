@@ -30,7 +30,8 @@
 		<PackageReference Include="Serilog.Sinks.Map" Version="1.0.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.48.0" />
-		<PackageReference Include="Luck.AspNetCore" Version="2.0.1" />
+		<PackageReference Include="Luck.AspNetCore" Version="2.0.3" />
+		<PackageReference Include="Luck.Framework" Version="2.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -42,6 +43,7 @@
 	<ItemGroup>
 	  <None Remove="Controllers\NameSpaceController.cs~RF34eec1f5.TMP" />
 	  <None Remove="Luck.WebSocket.Server" />
+	  <None Remove="Program.cs~RF3167666.TMP" />
 	</ItemGroup>
 	<ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
 

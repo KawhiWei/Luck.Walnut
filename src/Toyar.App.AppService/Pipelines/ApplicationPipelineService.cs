@@ -27,26 +27,24 @@ public class ApplicationPipelineService : IApplicationPipelineService
     private readonly IUnitOfWork _unitOfWork;
 
     private readonly IApplicationRepository _applicationRepository;
-
-    private readonly IApplicationPipelineHistoryRepository _applicationPipelineHistoryRepository;
-
+    
     private readonly ToyarConfig _toyarConfig;
 
     public ApplicationPipelineService(IApplicationPipelineRepository applicationPipelineRepository, IUnitOfWork unitOfWork, IJenkinsIntegration jenkinsIntegration, IComponentIntegrationRepository componentIntegrationRepository,
-        IApplicationPipelineHistoryRepository applicationPipelineHistoryRepository, IApplicationRepository applicationRepository,IOptionsSnapshot<ToyarConfig> options)
+         IApplicationRepository applicationRepository, IOptionsSnapshot<ToyarConfig> options)
     {
         _pipelineRepository = applicationPipelineRepository;
         _unitOfWork = unitOfWork;
         _jenkinsIntegration = jenkinsIntegration;
         _componentIntegrationRepository = componentIntegrationRepository;
-        _applicationPipelineHistoryRepository = applicationPipelineHistoryRepository;
         _applicationRepository = applicationRepository;
         _toyarConfig = options.Value;
     }
 
     public async Task<string> CreatePipelineAsync(ApplicationPipelineInputDto input)
     {
-        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId,input.ContinuousIntegrationImage,input.ImageWareHouseComponentId,input.Environment??"");
+        var applicationPipeline = new ApplicationPipeline(input.AppId, input.Name, false, input.BuildComponentId, input.ContinuousIntegrationImage, input.ImageWareHouseComponentId, input.Environment ?? "");
+        applicationPipeline.SetPipelineParameters(DefaultPipelineParameters());
         _pipelineRepository.Add(applicationPipeline);
         await _unitOfWork.CommitAsync();
         return applicationPipeline.Id;
@@ -61,7 +59,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
             .SetContinuousIntegrationImage(input.ContinuousIntegrationImage)
             .SetImageWareHouseComponentId(input.ImageWareHouseComponentId)
             .SetPublished(false)
-            .SetEnvironment(input.Environment??"");
+            .SetEnvironment(input.Environment ?? "");
         _pipelineRepository.Update(applicationPipeline);
         await _unitOfWork.CommitAsync();
     }
@@ -69,10 +67,10 @@ public class ApplicationPipelineService : IApplicationPipelineService
     public async Task UpdatePipelineFlowAsync(string id, ApplicationPipelineFlowUpdateInputDto input)
     {
         var pipelineScript = input.PipelineScript.Select(stage =>
-        {
-            var stageList = stage.Steps.Select(step => new Step(step.Name, step.StepType, step.Content));
-            return new Stage(stage.Name, stageList.ToList());
-        }
+            {
+                var stageList = stage.Steps.Select(step => new Step(step.Name, step.StepType, step.Content));
+                return new Stage(stage.Name, stageList.ToList());
+            }
         ).ToList();
         var applicationPipeline = await GetApplicationPipelineByIdAsync(id);
         applicationPipeline
@@ -96,6 +94,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             throw new BusinessException($"应用不存在!");
         }
+
         await BuildJenkinsIntegration(applicationPipeline.BuildComponentId);
 
         var imageWareHouseComponentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(applicationPipeline.ImageWareHouseComponentId);
@@ -111,17 +110,18 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             throw new BusinessException($"流水线的基础xml格式错误");
         }
+
+        var parameterScriptStr = applicationPipeline.GetParameterScriptStr();
         var pipelineScript = applicationPipeline.GetPipelineScript(application, imageWareHouseComponentIntegration);
 
         var defaultImageList = GetDefaultContainerList();
 
         defaultImageList.Add(new Container("build", applicationPipeline.ContinuousIntegrationImage, "/home/jenkins/agent").SetCommandArr(new[] { "sleep" }).SetArgsArr(new[] { "99d" }));
 
-        var webHookUrl = $"{_toyarConfig.RunHostName}/walnut/api/applicationpipelines/${{APPLICATIONPIPELINEID}}/${{currentBuild.number}}/webhook/status";
-        
-        
-        
-        var pipelineMetaData = new PipelineMetaData(defaultImageList, applicationPipeline.PipelineScript.ToList(), pipelineScript,webHookUrl);
+        var webHookUrl = $"{_toyarConfig.RunHostName}/walnut/api/applicationpipelines/${{PIPELINEID}}/${{currentBuild.number}}/webhook/status";
+
+
+        var pipelineMetaData = new PipelineMetaData(defaultImageList, applicationPipeline.PipelineScript.ToList(), pipelineScript, webHookUrl, parameterScriptStr);
         var template = GetPipelineTemplate();
         var dslScript = Engine.Razor.RunCompile(template, Guid.NewGuid().ToString(), pipelineMetaData.GetType(), pipelineMetaData);
         node.InnerText = dslScript;
@@ -158,18 +158,24 @@ public class ApplicationPipelineService : IApplicationPipelineService
 
         if (jenkinsJobDetailDto is not null)
         {
-            applicationPipeline.AddApplicationPipelineExecutedRecord(jenkinsJobDetailDto.NextBuildNumber, imageVersion,applicationPipeline.AppId);
+            applicationPipeline.AddApplicationPipelineExecutedRecord(jenkinsJobDetailDto.NextBuildNumber, imageVersion, applicationPipeline.AppId);
         }
 
-
-        //await _jenkinsIntegration.BuildJobAsync(applicationPipeline.Name);
         var paramsDic = new Dictionary<string, string>
         {
             { "BRANCH_NAME", branchName },
-            { "VERSION_NAME", version  },
-            { "APPLICATIONPIPELINEID", id },
-
+            { "VERSION_NAME", version },
+            { "PIPELINEID", id },
         };
+
+        foreach (var pipelineParameterValueObject in applicationPipeline.PipelineParameters)
+        {
+            if (paramsDic.ContainsKey(pipelineParameterValueObject.Name))
+            {
+                continue;
+            }
+            paramsDic.Add(pipelineParameterValueObject.Name, pipelineParameterValueObject.Value);
+        }
         await _jenkinsIntegration.BuildJobWithParametersAsync($"{applicationPipeline.AppId}.{applicationPipeline.Name}", paramsDic);
         await _unitOfWork.CommitAsync();
     }
@@ -184,8 +190,6 @@ public class ApplicationPipelineService : IApplicationPipelineService
         _pipelineRepository.Remove(applicationPipeline);
         await _unitOfWork.CommitAsync();
     }
-
-
 
 
     /// <summary>
@@ -208,8 +212,8 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             applicationPipelineExecutedRecord.SetPipelineBuildState(PipelineBuildStateEnum.Fail);
         }
-        await _unitOfWork.CommitAsync();
 
+        await _unitOfWork.CommitAsync();
     }
 
 
@@ -229,7 +233,6 @@ public class ApplicationPipelineService : IApplicationPipelineService
                 if (jenkinsJobDetailDto is not null)
                 {
                     applicationPipelineExecutedRecord.SetPipelineBuildState(jenkinsJobDetailDto.Result != "SUCCESS" ? PipelineBuildStateEnum.Fail : PipelineBuildStateEnum.Success);
-
                 }
             }
         }
@@ -243,8 +246,6 @@ public class ApplicationPipelineService : IApplicationPipelineService
         var componentIntegration = await _componentIntegrationRepository.FindFirstByIdAsync(componentIntegrationId);
         _jenkinsIntegration.BuildJenkinsOptions(componentIntegration.Credential.ComponentLinkUrl, componentIntegration.Credential.UserName ?? "", componentIntegration.Credential.PassWord ?? "");
     }
-
-
 
 
     private List<Container> GetDefaultContainerList() => new()
@@ -264,6 +265,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         {
             throw new BusinessException("没有找到对应的程序集");
         }
+
         var resName = $"{projectName}.Templates.JenkinsCIPipeLine.cshtml";
         var stream = GetType().Assembly.GetManifestResourceStream(resName);
         if (stream == null)
@@ -279,5 +281,15 @@ public class ApplicationPipelineService : IApplicationPipelineService
     private async Task<ApplicationPipeline> GetApplicationPipelineByIdAsync(string id)
     {
         return await _pipelineRepository.FindFirstByIdAsync(id);
+    }
+
+    private static List<PipelineParameterValueObject> DefaultPipelineParameters()
+    {
+        return new List<PipelineParameterValueObject>()
+        {
+            new("BRANCH_NAME", "main", "分支名称", ""),
+            new("VERSION_NAME", "main", "版本号", ""),
+            new("PIPELINEID", "main", "流水线Id", ""),
+        };
     }
 }

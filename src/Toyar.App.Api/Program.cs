@@ -1,4 +1,3 @@
-using Hoyo.WebCore;
 using Luck.AspNetCore;
 using Luck.Framework.Infrastructure;
 using Luck.Framework.Threading;
@@ -9,6 +8,7 @@ using Luck.WebSocket.Server;
 using Luck.WebSocket.Server.Extensions;
 using MediatR;
 using Luck.AppModule;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,11 +28,8 @@ builder.Services.AddApplication<AppWebModule>();
 builder.Services.AddControllers()
     .AddJsonOptions(c =>
     {
-        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.TimeOnlyJsonConverter());
-        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateOnlyJsonConverter());
-        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.TimeOnlyNullJsonConverter());
-        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateOnlyNullJsonConverter());
-        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateTimeConverter());
+        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateTimeOffsetConverter());
+        c.JsonSerializerOptions.Converters.Add(new SystemTextJsonConvert.DateTimeOffsetNullConverter());
     });
 
 builder.Services.AddGrpc();

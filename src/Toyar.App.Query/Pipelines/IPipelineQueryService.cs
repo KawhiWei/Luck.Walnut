@@ -11,16 +11,22 @@ public interface IPipelineQueryService : IScopedDependency
     /// <param name="appId"></param>
     /// <param name="query"></param>
     /// <returns></returns>
-    Task<PageBaseResult<ApplicationPipelinePipelineOutputDto>> GetPipelinePageListAsync(string appId, PipelineQueryDto query);
+    Task<PageBaseResult<ApplicationPipelineOutputDto>> GetPipelinePageListAsync(string appId, PipelineQueryDto query);
     
     /// <summary>
     /// 获取流水线详情
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<ApplicationPipelinePipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id);
+    Task<ApplicationPipelineOutputDto> GetApplicationPipelineDetailForIdAsync(string id);
 
-
+    /// <summary>
+    /// 根据AppId获取最近的CI执行记录
+    /// </summary>
+    /// <param name="applicationPipelineId"></param>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    Task<PageBaseResult<ApplicationPipelineHistoryOutputDto>> GetPipelineHistoryForAppIdPageListAsync(string applicationPipelineId, ApplicationPipelineHistoryQueryDto query);
     // /// <summary>
     // /// 获取Job执行明细
     // /// </summary>
@@ -42,5 +48,5 @@ public interface IPipelineQueryService : IScopedDependency
     /// <param name="applicationPipelineId"></param>
     /// <param name="query"></param>
     /// <returns></returns>
-    Task<PageBaseResult<ApplicationPipelineExecutedRecordOutputDto>> GetPipelineExecutedRecordPageListAsync(string applicationPipelineId, ApplicationPipelineExecutedQueryDto query);
+    Task<PageBaseResult<ApplicationPipelineHistoryOutputDto>> GetPipelineHistoryForPipeLineIdPageListAsync(string applicationPipelineId, ApplicationPipelineHistoryQueryDto query);
 }
