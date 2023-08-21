@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Toyar.App.AppService.WorkLoads;
+using Toyar.App.AppService.K8s.WorkLoads;
 using Toyar.App.Dto;
-using Toyar.App.Dto.WorkLoads;
-using Toyar.App.Query.WorkLoads;
+using Toyar.App.Dto.K8s.WorkLoads;
+using Toyar.App.Query.K8s.WorkLoads;
 
 namespace Toyar.App.Api.Controllers;
 

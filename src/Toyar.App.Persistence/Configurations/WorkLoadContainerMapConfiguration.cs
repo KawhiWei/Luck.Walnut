@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.AggregateRoots.WorkLoads;
+﻿using Toyar.App.Domain.AggregateRoots.K8s.WorkLoads;
 
 namespace Toyar.App.Persistence.Configurations;
 
