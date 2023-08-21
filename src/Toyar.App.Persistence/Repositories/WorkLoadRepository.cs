@@ -1,8 +1,8 @@
 ﻿using Luck.EntityFrameworkCore.DbContexts;
 using Luck.Framework.Extensions;
-using Toyar.App.Domain.AggregateRoots.WorkLoads;
+using Toyar.App.Domain.AggregateRoots.K8s.WorkLoads;
 using Toyar.App.Domain.Repositories;
-using Toyar.App.Dto.WorkLoads;
+using Toyar.App.Dto.K8s.WorkLoads;
 
 namespace Toyar.App.Persistence.Repositories;
 

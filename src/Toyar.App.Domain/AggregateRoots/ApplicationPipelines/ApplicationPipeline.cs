@@ -204,7 +204,15 @@ public class ApplicationPipeline : FullAggregateRoot
     }
 
 
-    public string GetPipelineScript(Application application, ComponentIntegration componentIntegration)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="application"></param>
+    /// <param name="componentIntegration"></param>
+    /// <param name="registryNameSpace"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public string GetPipelineScript(Application application, ComponentIntegration componentIntegration,string registryNameSpace)
     {
         var stringBuilder = new StringBuilder();
         foreach (var stage in this.PipelineScript)
@@ -281,7 +289,7 @@ public class ApplicationPipeline : FullAggregateRoot
                                echo '{jsonStr}' > /kaniko/.docker/config.json
                             '''
                             sh '''#!/busybox/sh 
-                               /kaniko/executor -f {pipelineBuildImageStep.DockerFileSrc} -c . --destination={componentIntegration.Credential.ComponentLinkUrl}/toyar/{application.AppId.ToLower()}:""${{BRANCH_NAME}}""""${{VERSION_NAME}}""  --insecure --skip-tls-verify -v=debug
+                               /kaniko/executor -f {pipelineBuildImageStep.DockerFileSrc} -c . --destination={componentIntegration.Credential.ComponentLinkUrl}/{registryNameSpace}/{application.AppId.ToLower()}:""${{BRANCH_NAME}}""""${{VERSION_NAME}}""  --insecure --skip-tls-verify -v=debug
                             '''
                         }}");
                         break;

@@ -9,9 +9,9 @@ using Toyar.App.Domain.AggregateRoots.Templates;
 using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
 using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Domain.AggregateRoots.K8s.Services;
-using Toyar.App.Domain.AggregateRoots.WorkLoads;
 using Luck.Walnut.Kube.Domain.AggregateRoots.SideCar;
 using Toyar.App.Domain.AggregateRoots.KubernetesOperationHistories;
+using Toyar.App.Domain.AggregateRoots.K8s.WorkLoads;
 
 namespace Toyar.App.Persistence
 {
