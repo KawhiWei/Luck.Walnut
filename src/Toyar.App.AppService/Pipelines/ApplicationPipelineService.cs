@@ -112,7 +112,7 @@ public class ApplicationPipelineService : IApplicationPipelineService
         }
 
         var parameterScriptStr = applicationPipeline.GetParameterScriptStr();
-        var pipelineScript = applicationPipeline.GetPipelineScript(application, imageWareHouseComponentIntegration);
+        var pipelineScript = applicationPipeline.GetPipelineScript(application, imageWareHouseComponentIntegration,_toyarConfig.RegistryNameSpace);
 
         var defaultImageList = GetDefaultContainerList();
 
