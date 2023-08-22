@@ -4,7 +4,7 @@ namespace Toyar.App.AppService.K8s.WorkLoads;
 
 public interface IWorkLoadService : IScopedDependency
 {
-    Task CreateWorkLoadAsync(WorkLoadInputDto input);
+    Task<string>  CreateWorkLoadAsync(WorkLoadInputDto input);
 
 
     Task UpdateWorkLoadAsync(string id, WorkLoadInputDto input);

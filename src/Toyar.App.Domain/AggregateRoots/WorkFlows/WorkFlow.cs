@@ -15,7 +15,7 @@ public class WorkFlow : FullAggregateRoot
     /// <summary>
     /// 工作流Git配置
     /// </summary>
-    public WorkFlowGitConfigValueObject WorkFlowGitConfig { get; set; }
+    public WorkFlowGitConfigValueObject? WorkFlowGitConfig { get; set; }
 
     /// <summary>
     /// CI流水线Id
@@ -25,5 +25,5 @@ public class WorkFlow : FullAggregateRoot
     /// <summary>
     /// 部署流水线Id
     /// </summary>
-    public string DeploymentId { get; private set; }
+    public string WorkLoadId { get; private set; }
 }

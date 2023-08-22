@@ -1,9 +1,7 @@
-﻿
-using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
+﻿using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 using Toyar.App.Dto.SideCarPlugins;
-using Toyar.App.Dto.ValueObjects.DeploymentValueObjects;
 
-namespace Luck.Walnut.Kube.Domain.AggregateRoots.SideCar
+namespace Toyar.App.Domain.AggregateRoots.SideCarPlugins
 {
     /// <summary>
     /// 初始容器配置
@@ -44,7 +42,7 @@ namespace Luck.Walnut.Kube.Domain.AggregateRoots.SideCar
         /// <summary>
         /// 容器除基础配置外，其他插件列表
         /// </summary>
-        public DeploymentContainerPlugin? ContainerPlugins { get; private set; }
+        public WorkLoadContainerPlugin? ContainerPlugins { get; private set; }
 
         public SideCarPlugin Update(SideCarPluginInputDto input)
         {

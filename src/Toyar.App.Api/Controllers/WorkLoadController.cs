@@ -17,7 +17,7 @@ public class WorkLoadController : BaseController
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task CreateWorkLoadAsync([FromServices] IWorkLoadService workLoadService, [FromBody] WorkLoadInputDto input) => workLoadService.CreateWorkLoadAsync(input);
+    public Task<string>  CreateWorkLoadAsync([FromServices] IWorkLoadService workLoadService, [FromBody] WorkLoadInputDto input) => workLoadService.CreateWorkLoadAsync(input);
 
     /// <summary>
     /// 修改部署

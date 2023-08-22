@@ -4,14 +4,11 @@ namespace Toyar.App.Dto.K8s.WorkLoads;
 
 public class WorkLoadBaseDto
 {
-
-
     /// <summary>
     /// 应用Id
     /// </summary>
     public string AppId { get; set; } = default!;
-
-
+    
     /// <summary>
     /// 中文名称
     /// </summary>
@@ -21,8 +18,7 @@ public class WorkLoadBaseDto
     /// 名称
     /// </summary>
     public string Name { get; set; } = default!;
-
-
+    
     /// <summary>
     /// 部署环境
     /// </summary>
@@ -36,7 +32,7 @@ public class WorkLoadBaseDto
     /// <summary>
     /// 部署类型
     /// </summary>
-    public DeploymentTypeEnum DeploymentType { get; set; }
+    public WorkLoadTypeEnum WorkLoadType { get; set; }
 
     /// <summary>
     /// 应用Id

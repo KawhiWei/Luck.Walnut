@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
+namespace Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 
 /// <summary>
 /// 资源配置

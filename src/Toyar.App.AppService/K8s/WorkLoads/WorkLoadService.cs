@@ -29,18 +29,19 @@ public class WorkLoadService : IWorkLoadService
 
 
 
-    public async Task CreateWorkLoadAsync(WorkLoadInputDto input)
+    public async Task<string> CreateWorkLoadAsync(WorkLoadInputDto input)
     {
-        WorkLoad workLoad = new(input.AppId, input.ChineseName, input.Name, input.EnvironmentName, input.ApplicationRuntimeType, input.DeploymentType, input.ClusterId, input.NameSpace, input.Replicas, input.ImagePullSecretId);
+        WorkLoad workLoad = new(input.AppId, input.ChineseName, input.Name, input.EnvironmentName, input.ApplicationRuntimeType, input.WorkLoadType, input.ClusterId, input.NameSpace, input.Replicas, input.ImagePullSecretId);
         if (input.SideCarPlugins.Any())
         {
             workLoad.SetSideCars(input.SideCarPlugins);
         }
 
-        workLoad.InitializeDeploymentPlugin();
-        workLoad.InitializeDeploymentContainer();
+        workLoad.InitializeWorkLoadPlugin();
+        workLoad.InitializeWorkLoadContainer();
         _workLoadRepository.Add(workLoad);
         await _unitOfWork.CommitAsync();
+        return workLoad.Id;
     }
 
     public async Task UpdateWorkLoadAsync(string id, WorkLoadInputDto input)
@@ -50,7 +51,7 @@ public class WorkLoadService : IWorkLoadService
         deployment.SetSideCars(input.SideCarPlugins)
             .SetReplicas(input.Replicas)
             .SetImagePullSecretId(input.ImagePullSecretId)
-            .SetDeploymentType(input.DeploymentType)
+            .SetDeploymentType(input.WorkLoadType)
             .SetEnvironmentName(input.EnvironmentName)
             .SetApplicationRuntimeType(input.ApplicationRuntimeType)
             .SetClusterId(input.ClusterId)

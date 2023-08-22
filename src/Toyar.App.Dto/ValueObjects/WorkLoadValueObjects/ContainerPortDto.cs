@@ -1,6 +1,6 @@
-namespace Toyar.App.Dto.ValueObjects.DeploymentValueObjects;
+namespace Toyar.App.Dto.ValueObjects.WorkLoadValueObjects;
 
-public class ContainerPortConfigurationDto
+public class ContainerPortDto
 {
     /// <summary>
     /// 端口名称
@@ -10,7 +10,7 @@ public class ContainerPortConfigurationDto
     /// <summary>
     /// 容器端口
     /// </summary>
-    public uint ContainerPort { get; set; } = default!;
+    public int ContainerPort { get; set; } = default!;
 
     /// <summary>
     /// 端口协议

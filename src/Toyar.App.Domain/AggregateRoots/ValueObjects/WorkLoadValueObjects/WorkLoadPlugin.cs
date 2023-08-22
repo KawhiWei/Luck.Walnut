@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects
+namespace Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects
 {
 
-    public class DeploymentPlugin
+    public class WorkLoadPlugin
     {
         [JsonConstructor]//这个特性 可以写私有，标识你要用哪个构造函数
-        public DeploymentPlugin(Strategy strategy)
+        public WorkLoadPlugin(Strategy strategy)
         {
             Strategy = strategy;
         }

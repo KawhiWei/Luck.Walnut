@@ -1,40 +1,41 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects
+namespace Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects
 {
-    public class DeploymentContainerPlugin
+    public class WorkLoadContainerPlugin
     {
         [JsonConstructor]
-        public DeploymentContainerPlugin(ContainerSurviveConfiguration readNess, ContainerSurviveConfiguration liveNess, ContainerResourceQuantity request, ContainerResourceQuantity limit, List<ContainerPortConfiguration> containerPorts,Dictionary<string, string> env)
+        public WorkLoadContainerPlugin(List<ContainerPortConfiguration> containerPorts,Dictionary<string, string> env,ContainerSurviveConfiguration? readNess=null, ContainerSurviveConfiguration? liveNess=null, ContainerResourceQuantity? request=null, ContainerResourceQuantity? limit=null)
         {
+            ContainerPorts = containerPorts;
+            Env = env;
             ReadNess = readNess;
             LiveNess = liveNess;
             Request = request;
             Limit = limit;
-            ContainerPorts = containerPorts;
-            Env = env;
+
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public ContainerSurviveConfiguration ReadNess { get; private set; }
+        public ContainerSurviveConfiguration? ReadNess { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public ContainerSurviveConfiguration LiveNess { get; private set; }
+        public ContainerSurviveConfiguration? LiveNess { get; private set; }
 
 
         /// <summary>
         /// request资源配置
         /// </summary>
-        public ContainerResourceQuantity Request { get; private set; }
+        public ContainerResourceQuantity? Request { get; private set; }
 
         /// <summary>
         /// limit资源配置
         /// </summary>
-        public ContainerResourceQuantity Limit { get; private set; }
+        public ContainerResourceQuantity? Limit { get; private set; }
 
         /// <summary>
         /// 容器端口配置

@@ -1,4 +1,4 @@
-namespace Toyar.App.Dto.ValueObjects.DeploymentValueObjects;
+namespace Toyar.App.Dto.ValueObjects.WorkLoadValueObjects;
 
 /// <summary>
 /// 资源配置

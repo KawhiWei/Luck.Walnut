@@ -5,7 +5,7 @@ using Luck.Framework.Exceptions;
 using Toyar.App.Adapter.K8sAdapter.Constants;
 using Toyar.App.Adapter.K8sAdapter.Factories;
 using Toyar.App.Domain.AggregateRoots.K8s.WorkLoads;
-using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 
 namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
@@ -35,11 +35,11 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
             var appId = kubernetesWorkLoadPublishContext.WorkLoad.AppId;
             var nameSpace = kubernetesWorkLoadPublishContext.WorkLoad.NameSpace;
             var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesWorkLoadPublishContext.ConfigString);
-            switch (kubernetesWorkLoadPublishContext.WorkLoad.DeploymentType)
+            switch (kubernetesWorkLoadPublishContext.WorkLoad.WorkLoadType)
             {
-                case DeploymentTypeEnum.Pod:
+                case WorkLoadTypeEnum.Pod:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}Pod部署");
-                case DeploymentTypeEnum.Deployment:
+                case WorkLoadTypeEnum.Deployment:
                     var v1Deployment = await GetDeploymentByNameAndNamespaceAsync(kubernetesWorkLoadPublishContext.ConfigString,nameSpace,appId);
                     if (v1Deployment is null)
                     {
@@ -51,15 +51,15 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
                         await UpdateDeploymentImageAsync(kubernetesWorkLoadPublishContext, v1Deployment);
                     }
                     break;
-                case DeploymentTypeEnum.DaemonSet:
+                case WorkLoadTypeEnum.DaemonSet:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}DaemonSet部署");
-                case DeploymentTypeEnum.StatefulSet:
+                case WorkLoadTypeEnum.StatefulSet:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}StatefulSet部署");
-                case DeploymentTypeEnum.ReplicaSet:
+                case WorkLoadTypeEnum.ReplicaSet:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}ReplicaSet部署");
-                case DeploymentTypeEnum.Job:
+                case WorkLoadTypeEnum.Job:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}Job部署");
-                case DeploymentTypeEnum.CronJob:
+                case WorkLoadTypeEnum.CronJob:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}CronJob部署");
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -87,7 +87,7 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
             {
                 specContainer.Image = image;
             }
-            v1Deployment.Spec.Strategy = StructureV1DeploymentStrategy(kubernetesWorkLoadPublishContext.WorkLoad.DeploymentPlugins.Strategy);
+            v1Deployment.Spec.Strategy = StructureV1DeploymentStrategy(kubernetesWorkLoadPublishContext.WorkLoad.WorkLoadPlugins.Strategy);
             var expected = JsonSerializer.SerializeToDocument(v1Deployment);
             var patch = oldV1Deployment.CreatePatch(expected);
             await kubernetesClient.AppsV1.PatchNamespacedDeploymentAsync(new V1Patch(patch, V1Patch.PatchType.JsonPatch),appId,nameSpace);
@@ -98,22 +98,22 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
             var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesWorkLoadPublishContext.ConfigString);
             var appId = kubernetesWorkLoadPublishContext.WorkLoad.AppId;
             var nameSpace = kubernetesWorkLoadPublishContext.WorkLoad.NameSpace;
-            switch (kubernetesWorkLoadPublishContext.WorkLoad.DeploymentType)
+            switch (kubernetesWorkLoadPublishContext.WorkLoad.WorkLoadType)
             {
-                case DeploymentTypeEnum.Pod:
+                case WorkLoadTypeEnum.Pod:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}Pod部署");
-                case DeploymentTypeEnum.Deployment:
+                case WorkLoadTypeEnum.Deployment:
                     await kubernetesClient.AppsV1.DeleteNamespacedDeploymentAsync(appId, nameSpace);
                     break;
-                case DeploymentTypeEnum.DaemonSet:
+                case WorkLoadTypeEnum.DaemonSet:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}DaemonSet部署");
-                case DeploymentTypeEnum.StatefulSet:
+                case WorkLoadTypeEnum.StatefulSet:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}StatefulSet部署");
-                case DeploymentTypeEnum.ReplicaSet:
+                case WorkLoadTypeEnum.ReplicaSet:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}ReplicaSet部署");
-                case DeploymentTypeEnum.Job:
+                case WorkLoadTypeEnum.Job:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}Job部署");
-                case DeploymentTypeEnum.CronJob:
+                case WorkLoadTypeEnum.CronJob:
                     throw new BusinessException($"{DeploymentExceptionErrorMsg}CronJob部署");
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -149,7 +149,7 @@ namespace Toyar.App.Adapter.K8sAdapter.WorkLoads
 
             var v1LabelSelector = _kubernetesCommonParamsBuild.StructureV1LabelSelector(matchLabels: labels);
 
-            var v1DeploymentStrategy = StructureV1DeploymentStrategy(deployment.DeploymentPlugins.Strategy);
+            var v1DeploymentStrategy = StructureV1DeploymentStrategy(deployment.WorkLoadPlugins.Strategy);
 
             var v1DeploymentSpec = StructureV1DeploymentSpec(deployment.Replicas, v1PodTemplateSpec, v1DeploymentStrategy, v1LabelSelector);
 

@@ -1,5 +1,5 @@
 ﻿using Luck.Framework.Exceptions;
-using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 using Toyar.App.Dto.K8s.WorkLoads;
 
@@ -10,14 +10,14 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
     /// </summary>
     public class WorkLoad : FullAggregateRoot
     {
-        public WorkLoad(string appId, string chineseName, string name, string environmentName, ApplicationRuntimeTypeEnum applicationRuntimeType, DeploymentTypeEnum deploymentType, string clusterId, string nameSpace, int replicas, string? imagePullSecretId, bool isPublish = false)
+        public WorkLoad(string appId, string chineseName, string name, string environmentName, ApplicationRuntimeTypeEnum applicationRuntimeType, WorkLoadTypeEnum workLoadType, string clusterId, string nameSpace, int replicas, string? imagePullSecretId, bool isPublish = false)
         {
             AppId = appId;
             ChineseName = chineseName;
             Name = name;
             EnvironmentName = environmentName;
             ApplicationRuntimeType = applicationRuntimeType;
-            DeploymentType = deploymentType;
+            WorkLoadType = workLoadType;
             ClusterId = clusterId;
             NameSpace = nameSpace;
             Replicas = replicas;
@@ -56,7 +56,7 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
         /// <summary>
         /// 部署类型
         /// </summary>
-        public DeploymentTypeEnum DeploymentType { get; private set; }
+        public WorkLoadTypeEnum WorkLoadType { get; private set; }
 
         /// <summary>
         /// 应用Id
@@ -86,7 +86,7 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
         /// <summary>
         /// Deployment除基础配置外，其他插件列表，字典Key是约定，value是详细的配置
         /// </summary>
-        public DeploymentPlugin DeploymentPlugins { get; private set; }
+        public WorkLoadPlugin WorkLoadPlugins { get; private set; } = null!;
 
         /// <summary>
         /// 主应用容器配置
@@ -140,9 +140,9 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
             return this;
         }
 
-        public WorkLoad SetDeploymentType(DeploymentTypeEnum deploymentType)
+        public WorkLoad SetDeploymentType(WorkLoadTypeEnum workLoadType)
         {
-            DeploymentType = deploymentType;
+            WorkLoadType = workLoadType;
             return this;
         }
 
@@ -168,7 +168,7 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
         /// </summary>
         /// <param name="deploymentPlugin"></param>
         /// <returns></returns>
-        public WorkLoad SetDeploymentPlugin(DeploymentPlugin deploymentPlugin)
+        public WorkLoad SetDeploymentPlugin(WorkLoadPlugin deploymentPlugin)
         {
 
             //deploymentPlugins.SetStrategy();
@@ -185,7 +185,7 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
         /// 初始化主容器
         /// </summary>
         /// <returns></returns>
-        public WorkLoad InitializeDeploymentContainer()
+        public WorkLoad InitializeWorkLoadContainer()
         {
             var deploymentContainer = new WorkLoadContainer(Id, "", "Always", "IfNotPresent", false, "");
             deploymentContainer.InitializeContainerPlugins();
@@ -197,11 +197,11 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
         /// 初始化K8s部分部署插件
         /// </summary>
         /// <returns></returns>
-        public WorkLoad InitializeDeploymentPlugin()
+        public WorkLoad InitializeWorkLoadPlugin()
         {
-            var deploymentPlugins = new DeploymentPlugin(new Strategy("RollingUpdate", "1", "1"));
+            var workLoadPlugins = new WorkLoadPlugin(new Strategy("RollingUpdate", "1", "1"));
 
-            DeploymentPlugins = deploymentPlugins;
+            WorkLoadPlugins = workLoadPlugins;
             return this;
         }
 
@@ -211,7 +211,7 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
         /// <returns></returns>
         public WorkLoad SetStrategy(StrategyInputDto input)
         {
-            DeploymentPlugins.SetStrategy(new Strategy(input.Type, input.MaxSurge, input.MaxUnavailable));
+            WorkLoadPlugins.SetStrategy(new Strategy(input.Type, input.MaxSurge, input.MaxUnavailable));
             return this;
         }
         public void CheckIsPublishWithTrue()
