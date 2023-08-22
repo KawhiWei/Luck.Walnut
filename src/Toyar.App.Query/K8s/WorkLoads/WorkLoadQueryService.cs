@@ -2,6 +2,7 @@
 using Toyar.App.Domain.Repositories;
 using Toyar.App.Dto;
 using Toyar.App.Dto.K8s.WorkLoads;
+using Toyar.App.Dto.ValueObjects.WorkLoadValueObjects;
 
 namespace Toyar.App.Query.K8s.WorkLoads;
 
@@ -49,7 +50,7 @@ public class WorkLoadQueryService : IWorkLoadQueryService
             ChineseName = workLoad.ChineseName,
             Replicas = workLoad.Replicas,
             SideCarPlugins = workLoad.SideCars,
-            DeploymentType = workLoad.DeploymentType,
+            WorkLoadType = workLoad.WorkLoadType,
             ApplicationRuntimeType = workLoad.ApplicationRuntimeType,
             EnvironmentName = workLoad.EnvironmentName,
             AppId = workLoad.AppId,
@@ -59,10 +60,61 @@ public class WorkLoadQueryService : IWorkLoadQueryService
             {
                 Strategy = new StrategyBaseDto
                 {
-                    Type = workLoad.DeploymentPlugins.Strategy.Type,
-                    MaxSurge = workLoad.DeploymentPlugins.Strategy.MaxSurge,
-                    MaxUnavailable = workLoad.DeploymentPlugins.Strategy.MaxUnavailable,
+                    Type = workLoad.WorkLoadPlugins.Strategy.Type,
+                    MaxSurge = workLoad.WorkLoadPlugins.Strategy.MaxSurge,
+                    MaxUnavailable = workLoad.WorkLoadPlugins.Strategy.MaxUnavailable,
                 }
+            },
+            WorkLoadContainers = workLoad.Containers.Select(StructureWorkLoadContainerOutputDto).ToList()
+        };
+    }
+    
+    private static WorkLoadContainerOutputDto StructureWorkLoadContainerOutputDto(WorkLoadContainer workLoadContainer)
+    {
+        var containerPlugins = workLoadContainer.ContainerPlugins;
+        return new WorkLoadContainerOutputDto
+        {
+            Id = workLoadContainer.Id,
+            ContainerName = workLoadContainer.ContainerName,
+            RestartPolicy=workLoadContainer.RestartPolicy,
+            ImagePullPolicy=workLoadContainer.ImagePullPolicy,
+            WorkLoadContainerPlugins = new WorkLoadContainerPluginDto()
+            {
+                Request = containerPlugins.Request is not null?new ContainerResourceQuantityDto
+                {
+                    Cpu = containerPlugins.Request.Cpu,
+                    Memory = containerPlugins.Request.Memory,
+                }:null,
+                Limit = containerPlugins.Limit is not null?new ContainerResourceQuantityDto
+                {
+                    Cpu = containerPlugins.Limit.Cpu,
+                    Memory = containerPlugins.Limit.Memory,
+                }:null,
+                ReadNess = containerPlugins.ReadNess is not null?new ContainerSurviveConfigurationDto
+                {
+                    Path = containerPlugins.ReadNess.Path,
+                    Scheme = containerPlugins.ReadNess.Scheme,
+                    Port= containerPlugins.ReadNess.Port,
+                    InitialDelaySeconds= containerPlugins.ReadNess.InitialDelaySeconds,
+                    PeriodSeconds= containerPlugins.ReadNess.PeriodSeconds,
+                    
+                }:null,
+                LiveNess = containerPlugins.LiveNess is not null?new ContainerSurviveConfigurationDto
+                {
+                    Path = containerPlugins.LiveNess.Path,
+                    Scheme = containerPlugins.LiveNess.Scheme,
+                    Port= containerPlugins.LiveNess.Port,
+                    InitialDelaySeconds= containerPlugins.LiveNess.InitialDelaySeconds,
+                    PeriodSeconds= containerPlugins.LiveNess.PeriodSeconds,
+                    
+                }:null,
+                Env=containerPlugins.Env,
+                ContainerPorts = containerPlugins.ContainerPorts.Select(x=>new ContainerPortDto
+                {
+                    Name= x.Name,
+                    ContainerPort = x.ContainerPort,
+                    Protocol = x.Protocol,                    
+                }).ToList()
             }
         };
     }

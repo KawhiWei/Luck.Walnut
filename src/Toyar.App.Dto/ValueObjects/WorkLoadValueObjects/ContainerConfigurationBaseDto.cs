@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.ValueObjects.DeploymentValueObjects
+﻿namespace Toyar.App.Dto.ValueObjects.WorkLoadValueObjects
 {
     public class ContainerConfigurationBaseDto
     {
@@ -58,6 +58,6 @@
         /// <summary>
         /// 容器端口配置
         /// </summary>
-        public List<ContainerPortConfigurationDto>? ContainerPortConfigurations { get; set; } = null;
+        public List<ContainerPortDto>? ContainerPortConfigurations { get; set; } = null;
     }
 }

@@ -8,7 +8,7 @@ namespace Toyar.App.Dto.PipelineTemplates
         /// <summary>
         /// 模板名称
         /// </summary>
-        public string TemplateName { get;  set; }
+        public string TemplateName { get;  set; }= default!;
 
         /// <summary>
         /// 流水线集成Id

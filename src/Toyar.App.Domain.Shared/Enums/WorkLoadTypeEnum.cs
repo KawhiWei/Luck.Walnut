@@ -1,6 +1,6 @@
 ﻿namespace Toyar.App.Domain.Shared.Enums;
 
-public enum DeploymentTypeEnum
+public enum WorkLoadTypeEnum
 {
     /// <summary>
     /// Deployment

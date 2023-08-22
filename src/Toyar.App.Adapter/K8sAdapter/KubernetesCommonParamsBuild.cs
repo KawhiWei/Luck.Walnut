@@ -1,5 +1,5 @@
 ﻿using k8s.Models;
-using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 
 namespace Toyar.App.Adapter.K8sAdapter
 {
@@ -53,15 +53,15 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// <param name="containerPlugins"></param>
         /// <returns></returns>
         public V1Container StructureV1Container(string appId,string name, string image, string imagePullPolicy,
-            DeploymentContainerPlugin containerPlugins)
+            WorkLoadContainerPlugin containerPlugins)
         {
             var v1ContainerPorts = containerPlugins.ContainerPorts.Select(x => new V1ContainerPort(containerPort: x.ContainerPort, name: x.Name, protocol: x.Protocol)).ToList();
             
             var v1EnvVars= containerPlugins.Env.Select(x => new V1EnvVar(x.Key, x.Value)).ToList();
             //默认将APPID设置为环境变量
             v1EnvVars.Add(new V1EnvVar("APPID", appId));
+            v1EnvVars.AddRange(containerPlugins.Env.Select(env => new V1EnvVar(env.Key, env.Value)));
             var v1ResourceRequirements = StructureV1ResourceRequirements(containerPlugins.Limit, containerPlugins.Request);
-            //resources: v1ResourceRequirements
             return new V1Container(name: name, image: image, imagePullPolicy: imagePullPolicy, ports: v1ContainerPorts, resources: v1ResourceRequirements,env:v1EnvVars);
         }
 
@@ -82,30 +82,30 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// <param name="limits"></param>
         /// <param name="requests"></param>
         /// <returns></returns>
-        private static V1ResourceRequirements StructureV1ResourceRequirements(ContainerResourceQuantity limits, ContainerResourceQuantity requests)
+        private static V1ResourceRequirements StructureV1ResourceRequirements(ContainerResourceQuantity? limits, ContainerResourceQuantity? requests)
         {
             var v1ResourceRequirements = new V1ResourceRequirements();
 
-            var limitsDic = new Dictionary<string, ResourceQuantity>
+            if (limits is not null)
             {
-                { nameof(limits.Cpu).ToLower(), StructureResourceQuantity(limits.Cpu) },
+                var limitsDic = new Dictionary<string, ResourceQuantity>
+                {
+                    { nameof(limits.Cpu).ToLower(), StructureResourceQuantity(limits.Cpu) },
+                    { nameof(limits.Memory).ToLower(), StructureResourceQuantity(limits.Memory) }
+                };
+                v1ResourceRequirements.Limits = limitsDic;
+            }
 
-                { nameof(limits.Memory).ToLower(), StructureResourceQuantity(limits.Memory) }
-            };
-
-            v1ResourceRequirements.Limits = limitsDic;
+            if (requests is null)
+            {
+                return v1ResourceRequirements;
+            }
             var requestsDic = new Dictionary<string, ResourceQuantity>
             {
                 { nameof(limits.Cpu).ToLower(), StructureResourceQuantity(requests.Cpu) },
-
-                
-                
                 { nameof(limits.Memory).ToLower(), StructureResourceQuantity(requests.Memory) }
             };
-
             v1ResourceRequirements.Requests = requestsDic;
-
-
             return v1ResourceRequirements;
         }
 

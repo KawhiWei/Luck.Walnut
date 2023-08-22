@@ -1,5 +1,5 @@
 ﻿using k8s.Models;
-using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 
 namespace Toyar.App.Adapter.K8sAdapter
 {
@@ -41,7 +41,7 @@ namespace Toyar.App.Adapter.K8sAdapter
         /// <param name="containerPlugins"></param>
         /// <returns></returns>
         V1Container StructureV1Container(string appId,string name, string image, string imagePullPolicy,
-             DeploymentContainerPlugin containerPlugins);
+             WorkLoadContainerPlugin containerPlugins);
 
         /// <summary>
         /// 

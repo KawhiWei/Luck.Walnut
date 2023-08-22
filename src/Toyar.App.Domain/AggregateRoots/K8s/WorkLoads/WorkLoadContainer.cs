@@ -1,12 +1,13 @@
-﻿using Toyar.App.Domain.AggregateRoots.ValueObjects.DeploymentValueObjects;
+﻿
+using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 
 namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
 {
     public class WorkLoadContainer : FullEntity
     {
-        public WorkLoadContainer(string deploymentId, string containerName, string restartPolicy, string imagePullPolicy, bool isInitContainer, string image)
+        public WorkLoadContainer(string workLoadId, string containerName, string restartPolicy, string imagePullPolicy, bool isInitContainer, string image)
         {
-            DeploymentId = deploymentId;
+            WorkLoadId = workLoadId;
             ContainerName = containerName;
             RestartPolicy = restartPolicy;
             ImagePullPolicy = imagePullPolicy;
@@ -17,7 +18,7 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
         /// <summary>
         /// 流水线Id
         /// </summary>
-        public string DeploymentId { get; private set; }
+        public string WorkLoadId { get; private set; }
 
         /// <summary>
         /// 容器名称
@@ -47,7 +48,7 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
         /// <summary>
         /// 容器除基础配置外，其他插件列表
         /// </summary>
-        public DeploymentContainerPlugin ContainerPlugins { get; private set; } = default!;
+        public WorkLoadContainerPlugin ContainerPlugins { get; private set; } = default!;
 
         /// <summary>
         /// 
@@ -66,19 +67,9 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
 
         public void InitializeContainerPlugins()
         {
-
-            var readNess = new ContainerSurviveConfiguration("", "0.25", 8080, 10, 10);
-            var liveNess = new ContainerSurviveConfiguration("", "0.25", 8080, 10, 10);
-
-            var limit = new ContainerResourceQuantity("2", "2Gi");
-            var request = new ContainerResourceQuantity("2", "2Gi");
-
-            var containerPort = new List<ContainerPortConfiguration>
-            {
-                new("", 8080, "")
-            };
-
-            ContainerPlugins = new DeploymentContainerPlugin(readNess, liveNess, request, limit, containerPort, new Dictionary<string, string>());
+            var containerPort = new List<ContainerPortConfiguration>();
+            var env = new Dictionary<string, string>();
+            ContainerPlugins = new WorkLoadContainerPlugin(containerPort,env);
         }
     }
 }

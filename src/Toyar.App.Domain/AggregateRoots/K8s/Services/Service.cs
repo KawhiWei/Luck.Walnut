@@ -8,10 +8,10 @@ namespace Toyar.App.Domain.AggregateRoots.K8s.Services;
 /// </summary>
 public partial class Service : FullAggregateRoot
 {
-    public Service(string name, string deploymentId, string nameSpaceId, string clusterId, string appId, bool isPublish = false)
+    public Service(string name, string workLoadId, string nameSpaceId, string clusterId, string appId, bool isPublish = false)
     {
         Name = name;
-        DeploymentId = deploymentId;
+        WorkLoadId = workLoadId;
         NameSpaceId = nameSpaceId;
         ClusterId = clusterId;
         AppId = appId;
@@ -31,7 +31,7 @@ public partial class Service : FullAggregateRoot
     /// <summary>
     /// 部署配置Id
     /// </summary>
-    public string DeploymentId { get; private set; }
+    public string WorkLoadId { get; private set; }
 
     /// <summary>
     /// 命名空间Id
@@ -75,7 +75,7 @@ public partial class Service : FullAggregateRoot
     public Service Update(string name, string deploymentId, string nameSpaceId, string clusterId)
     {
         Name = name;
-        DeploymentId = deploymentId;
+        WorkLoadId = deploymentId;
         NameSpaceId = nameSpaceId;
         ClusterId = clusterId;
         return this;

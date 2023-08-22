@@ -10,7 +10,7 @@ public class ServiceBaseDto
     /// <summary>
     /// 部署配置Id
     /// </summary>
-    public string DeploymentId { get; set; } = default!;
+    public string WorkLoadId { get; set; } = default!;
 
     /// <summary>
     /// 命名空间Id

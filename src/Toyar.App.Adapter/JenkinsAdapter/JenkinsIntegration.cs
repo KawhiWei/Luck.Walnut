@@ -14,9 +14,9 @@ namespace Toyar.App.Adapter.JenkinsAdapter;
 public class JenkinsIntegration : IJenkinsIntegration
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    public string? UserName { get; set; }
-    public string? PassWord { get; set; }
-    public string? UrlAddress { get; set; }
+    public string UserName { get; set; } = null!;
+    public string PassWord { get; set; }= null!;
+    public string UrlAddress { get; set; }= null!;
 
 
     public JenkinsIntegration(IHttpClientFactory httpClientFactory)

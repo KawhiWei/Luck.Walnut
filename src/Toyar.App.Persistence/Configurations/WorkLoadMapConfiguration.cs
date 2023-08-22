@@ -12,10 +12,10 @@ public class WorkLoadMapConfiguration : IEntityTypeConfiguration<WorkLoad>
         builder.HasKey(e => e.Id);
         builder.HasMany(o => o.Containers)
             .WithOne()
-            .HasForeignKey(x => x.DeploymentId)
+            .HasForeignKey(x => x.WorkLoadId)
             .OnDelete(DeleteBehavior.Cascade);
         builder.Property(e => e.SideCars)!.HasJsonConversion();
-        builder.Property(e => e.DeploymentPlugins)!.HasJsonConversion();
+        builder.Property(e => e.WorkLoadPlugins)!.HasJsonConversion();
         builder.HasIndex(x => x.AppId, "appid_unique_index");
         builder.Property(x => x.CreateUser).HasDefaultValue("");
         builder.Property(x => x.LastModificationUser).HasDefaultValue("");

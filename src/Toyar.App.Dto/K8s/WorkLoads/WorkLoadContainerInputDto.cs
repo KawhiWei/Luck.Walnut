@@ -3,4 +3,3 @@
 public class WorkLoadContainerInputDto : WorkLoadContainerBaseDto
 {
 }
-
