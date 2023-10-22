@@ -37,8 +37,6 @@ namespace Toyar.App.Persistence
         public DbSet<ContinuousIntegrationImageVersion> ContinuousIntegrationImageVersions => Set<ContinuousIntegrationImageVersion>();
 
         public DbSet<KubernetesOperationHistory> KubernetesOperationHistories => Set<KubernetesOperationHistory>();
-
-
         
         public DbSet<PipelineTemplate> PipelineTemplates => Set<PipelineTemplate>();
 
