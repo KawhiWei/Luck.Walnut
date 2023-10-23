@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.K8s.WorkLoads;
+namespace Toyar.App.Dto.K8s.WorkLoads;
 
 public class StrategyOutputDto : StrategyBaseDto
 {

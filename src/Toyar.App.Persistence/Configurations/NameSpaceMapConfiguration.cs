@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
+using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 
 namespace Toyar.App.Persistence.Configurations;
 

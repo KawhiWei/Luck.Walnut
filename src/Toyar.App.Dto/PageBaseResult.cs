@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto
+namespace Toyar.App.Dto
 {
     public class PageBaseResult<T>
     {

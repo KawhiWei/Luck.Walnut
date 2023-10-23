@@ -1,4 +1,4 @@
-﻿using Luck.Framework.Extensions;
+using Luck.Framework.Extensions;
 
 namespace Toyar.App.Dto.K8s.WorkLoads;
 

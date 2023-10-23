@@ -1,4 +1,4 @@
-﻿using Luck.Framework.Exceptions;
+using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
 using System.Xml.Linq;
 

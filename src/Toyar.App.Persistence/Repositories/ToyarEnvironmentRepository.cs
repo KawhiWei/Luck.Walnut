@@ -1,4 +1,4 @@
-﻿using Luck.EntityFrameworkCore.DbContexts;
+using Luck.EntityFrameworkCore.DbContexts;
 using Luck.Framework.Extensions;
 using Toyar.App.Domain.AggregateRoots.Environments;
 using Toyar.App.Domain.Repositories;

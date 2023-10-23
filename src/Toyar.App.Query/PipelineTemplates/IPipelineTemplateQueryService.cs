@@ -1,4 +1,4 @@
-﻿using Toyar.App.Dto.ApplicationPipelines;
+using Toyar.App.Dto.ApplicationPipelines;
 using Toyar.App.Dto;
 using Toyar.App.Dto.PipelineTemplates;
 

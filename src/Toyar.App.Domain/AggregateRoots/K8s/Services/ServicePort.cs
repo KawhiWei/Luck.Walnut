@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using Toyar.App.Domain.Shared.Enums;
 
 namespace Toyar.App.Domain.AggregateRoots.K8s.Services;

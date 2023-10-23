@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.Environments
+namespace Toyar.App.Dto.Environments
 {
     public class ToyarEnvironmentQueryDto : PageBaseInputDto
     {

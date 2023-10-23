@@ -5,7 +5,7 @@ namespace Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
 
 public class ApplicationPipelineHistory : FullEntity
 {
-    public ApplicationPipelineHistory(string pipelineId, PipelineBuildStateEnum pipelineBuildState, ICollection<Stage>? pipelineScript, uint jenkinsBuildNumber, string imageVersion, string appId)
+    public ApplicationPipelineHistory(string pipelineId, PipelineBuildStateEnum pipelineBuildState, IEnumerable<Stage>? pipelineScript, uint jenkinsBuildNumber, string imageVersion, string appId)
     {
         PipelineId = pipelineId;
         PipelineBuildState = pipelineBuildState;
@@ -33,7 +33,7 @@ public class ApplicationPipelineHistory : FullEntity
     /// <summary>
     /// 流水线Dsl
     /// </summary>
-    public ICollection<Stage>? PipelineScript { get; private set; }
+    public IEnumerable<Stage> PipelineScript { get; private set; }
 
     /// <summary>
     /// Jenkins执行Build的编号

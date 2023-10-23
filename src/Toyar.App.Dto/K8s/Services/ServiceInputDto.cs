@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.K8s.Services;
+namespace Toyar.App.Dto.K8s.Services;
 
 public class ServiceInputDto : ServiceBaseDto
 {

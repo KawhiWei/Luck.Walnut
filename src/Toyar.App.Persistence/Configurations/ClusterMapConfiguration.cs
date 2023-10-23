@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
+using Toyar.App.Domain.AggregateRoots.K8s.Clusters;
 
 namespace Toyar.App.Persistence.Configurations;
 

@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Api.GrpcServices
+namespace Toyar.App.Api.GrpcServices
 {
     public static class GrpcEndpointRouteBuilderExtensions1
     {

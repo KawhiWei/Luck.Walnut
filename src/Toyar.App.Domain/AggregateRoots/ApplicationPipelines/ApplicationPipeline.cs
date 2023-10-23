@@ -63,12 +63,12 @@ public class ApplicationPipeline : FullAggregateRoot
     /// <summary>
     /// 流水线Dsl
     /// </summary>
-    public ICollection<Stage> PipelineScript { get; private set; } = new HashSet<Stage>();
+    public ICollection<Stage> PipelineScript { get; private set; } = new List<Stage>();
 
     /// <summary>
     /// 执行记录
     /// </summary>
-    public ICollection<ApplicationPipelineHistory> PipelineHistories { get; private set; } = new HashSet<ApplicationPipelineHistory>();
+    public ICollection<ApplicationPipelineHistory> PipelineHistories { get; private set; } =new List<ApplicationPipelineHistory>();
 
     /// <summary>
     /// 环境

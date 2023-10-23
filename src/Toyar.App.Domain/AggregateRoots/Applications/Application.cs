@@ -1,9 +1,8 @@
-﻿namespace Toyar.App.Domain.AggregateRoots.Applications
+namespace Toyar.App.Domain.AggregateRoots.Applications
 {
     /// <summary>
     /// 应用
     /// </summary>
-
     public class Application : FullAggregateRoot
     {
         public Application(string projectId, string name, string appId, string gitUrl)
@@ -12,7 +11,6 @@
             Name = name;
             AppId = appId;
             GitUrl = gitUrl;
-
         }
 
 
@@ -45,17 +43,18 @@
         /// <summary>
         /// 应用部署环境
         /// </summary>
-        public ICollection<string> Environments = new HashSet<string>();
+        public ICollection<string> Environments = new List<string>();
 
         /// <summary>
         /// 创建人
         /// </summary>
         public string CreateUser { get; private set; } = default!;
-        
+
         /// <summary>
         /// 最近修改人
         /// </summary>
         public string LastModificationUser { get; private set; } = default!;
+
         /// <summary>
         /// 
         /// </summary>
@@ -66,12 +65,11 @@
             Describe = describe;
             return this;
         }
+
         public Application SetEnvironments(List<string> environments)
         {
             Environments = environments;
             return this;
         }
-
-
     }
 }

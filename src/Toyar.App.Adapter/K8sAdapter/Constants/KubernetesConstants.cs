@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Adapter.K8sAdapter.Constants;
+namespace Toyar.App.Adapter.K8sAdapter.Constants;
 public class KubernetesConstants
 {
     public const string Cpu = "cpu";

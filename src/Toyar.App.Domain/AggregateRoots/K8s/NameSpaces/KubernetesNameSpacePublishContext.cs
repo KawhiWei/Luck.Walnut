@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Domain.AggregateRoots.K8s.NameSpaces
+namespace Toyar.App.Domain.AggregateRoots.K8s.NameSpaces
 {
     public class KubernetesNameSpacePublishContext : KubernetesPublishBaseContext
     {

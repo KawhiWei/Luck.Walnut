@@ -1,4 +1,4 @@
-﻿using k8s;
+using k8s;
 
 namespace Toyar.App.Adapter.K8sAdapter.Factories;
 

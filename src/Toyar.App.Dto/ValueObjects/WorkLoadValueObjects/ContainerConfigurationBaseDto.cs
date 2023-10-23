@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.ValueObjects.WorkLoadValueObjects
+namespace Toyar.App.Dto.ValueObjects.WorkLoadValueObjects
 {
     public class ContainerConfigurationBaseDto
     {

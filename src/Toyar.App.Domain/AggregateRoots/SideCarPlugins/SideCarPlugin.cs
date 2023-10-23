@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
+using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 using Toyar.App.Dto.SideCarPlugins;
 
 namespace Toyar.App.Domain.AggregateRoots.SideCarPlugins

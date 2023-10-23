@@ -1,4 +1,4 @@
-﻿using Luck.AspNetCore.ApiResults;
+using Luck.AspNetCore.ApiResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Toyar.App.Api.Controllers

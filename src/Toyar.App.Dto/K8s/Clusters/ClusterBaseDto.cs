@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.K8s.Clusters
+namespace Toyar.App.Dto.K8s.Clusters
 {
     public class ClusterBaseDto
     {

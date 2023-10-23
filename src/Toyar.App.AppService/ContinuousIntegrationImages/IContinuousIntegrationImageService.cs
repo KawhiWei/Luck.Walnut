@@ -1,4 +1,4 @@
-﻿using Toyar.App.Dto.ContinuousIntegrationImages;
+using Toyar.App.Dto.ContinuousIntegrationImages;
 
 namespace Toyar.App.AppService.ContinuousIntegrationImages
 {

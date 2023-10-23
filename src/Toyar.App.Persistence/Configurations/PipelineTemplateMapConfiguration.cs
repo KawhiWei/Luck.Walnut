@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.AggregateRoots.Templates;
+using Toyar.App.Domain.AggregateRoots.Templates;
 
 namespace Toyar.App.Persistence.Configurations;
 

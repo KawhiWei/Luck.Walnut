@@ -1,4 +1,4 @@
-﻿using k8s.Models;
+using k8s.Models;
 using System.Text.Json;
 using Toyar.App.Domain.AggregateRoots.K8s.NameSpaces;
 using Toyar.App.Adapter.K8sAdapter.Factories;

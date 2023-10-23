@@ -1,4 +1,4 @@
-﻿using Grpc.Core;
+using Grpc.Core;
 using Toyar.App.AppService.Environments;
 using Toyar.App.Query.Environments;
 using Toyar.App.V1;

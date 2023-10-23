@@ -1,4 +1,4 @@
-﻿using Toyar.App.Dto.K8s.WorkLoads;
+using Toyar.App.Dto.K8s.WorkLoads;
 
 namespace Toyar.App.AppService.K8s.WorkLoads;
 

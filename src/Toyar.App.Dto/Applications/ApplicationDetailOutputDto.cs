@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.Applications
+namespace Toyar.App.Dto.Applications
 {
     public class ApplicationDetailOutputDto: ApplicationOutputDto
     {

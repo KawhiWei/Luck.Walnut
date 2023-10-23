@@ -1,4 +1,4 @@
-﻿
+
 
 using Luck.EntityFrameworkCore;
 using Luck.EntityFrameworkCore.DbContextDrivenProvides;

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Luck.EntityFrameworkCore.DbContexts;
 using Toyar.App.Domain.AggregateRoots.ApplicationPipelines;
 using Toyar.App.Domain.AggregateRoots.Applications;

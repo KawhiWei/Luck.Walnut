@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 using Toyar.App.AppService.PipelineTemplates;
 using Toyar.App.Dto.Applications;

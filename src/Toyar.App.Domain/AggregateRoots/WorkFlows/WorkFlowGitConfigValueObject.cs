@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Domain.AggregateRoots.WorkFlows;
+namespace Toyar.App.Domain.AggregateRoots.WorkFlows;
 
 /// <summary>
 /// 工作流Git配置

@@ -1,4 +1,4 @@
-﻿using Toyar.App.Dto;
+using Toyar.App.Dto;
 using Toyar.App.Dto.Applications;
 
 namespace Toyar.App.Query.Applications

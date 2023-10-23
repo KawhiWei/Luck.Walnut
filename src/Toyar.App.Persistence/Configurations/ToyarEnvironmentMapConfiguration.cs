@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.AggregateRoots.Environments;
+using Toyar.App.Domain.AggregateRoots.Environments;
 
 namespace Toyar.App.Persistence.Configurations
 {

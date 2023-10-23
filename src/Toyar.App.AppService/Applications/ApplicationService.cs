@@ -1,4 +1,4 @@
-﻿using Luck.Framework.Exceptions;
+using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
 using Toyar.App.Domain.AggregateRoots.Applications;
 using Toyar.App.Domain.Repositories;

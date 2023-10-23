@@ -1,4 +1,4 @@
-﻿using Luck.AppModule;
+using Luck.AppModule;
 using Luck.AutoDependencyInjection;
 using Luck.Framework.Infrastructure;
 

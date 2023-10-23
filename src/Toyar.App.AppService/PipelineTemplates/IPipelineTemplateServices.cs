@@ -1,4 +1,4 @@
-﻿using Toyar.App.Dto.PipelineTemplates;
+using Toyar.App.Dto.PipelineTemplates;
 
 namespace Toyar.App.AppService.PipelineTemplates
 {

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Toyar.App.AppService.K8s.Clusters;
 using Toyar.App.Dto;
 using Toyar.App.Dto.K8s.Clusters;

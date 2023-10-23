@@ -1,4 +1,4 @@
-﻿using Toyar.App.Dto.ComponentIntegrations;
+using Toyar.App.Dto.ComponentIntegrations;
 
 namespace Toyar.App.Dto.Applications
 {

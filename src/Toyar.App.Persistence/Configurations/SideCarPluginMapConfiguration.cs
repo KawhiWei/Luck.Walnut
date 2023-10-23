@@ -1,4 +1,4 @@
-﻿using Luck.Walnut.Kube.Domain.AggregateRoots.SideCar;
+using Luck.Walnut.Kube.Domain.AggregateRoots.SideCar;
 using Toyar.App.Domain.AggregateRoots.SideCarPlugins;
 
 namespace Toyar.App.Persistence.Configurations;

@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.Shared.Enums;
+using Toyar.App.Domain.Shared.Enums;
 
 namespace Toyar.App.Dto.K8s.WorkLoads;
 

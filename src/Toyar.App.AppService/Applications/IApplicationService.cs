@@ -1,4 +1,4 @@
-﻿using Luck.Framework.Extensions;
+using Luck.Framework.Extensions;
 using Toyar.App.Dto.Applications;
 using Microsoft.EntityFrameworkCore;
 

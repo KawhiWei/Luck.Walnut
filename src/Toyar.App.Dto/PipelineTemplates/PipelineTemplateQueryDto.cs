@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.PipelineTemplates
+namespace Toyar.App.Dto.PipelineTemplates
 {
     public class PipelineTemplateQueryDto : PageBaseInputDto
     {

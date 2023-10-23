@@ -1,4 +1,4 @@
-﻿using Luck.DDD.Domain.Repositories;
+using Luck.DDD.Domain.Repositories;
 using Luck.Framework.Threading;
 using Toyar.App.Domain.AggregateRoots.Environments;
 using Toyar.App.Domain.Repositories;

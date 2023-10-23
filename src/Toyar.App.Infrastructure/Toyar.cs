@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Infrastructure;
+namespace Toyar.App.Infrastructure;
 
 public class ToyarConfig
 {

@@ -1,4 +1,4 @@
-﻿using Luck.DDD.Domain.Exceptions;
+using Luck.DDD.Domain.Exceptions;
 
 namespace Toyar.App.Domain.AggregateRoots.Environments
 {

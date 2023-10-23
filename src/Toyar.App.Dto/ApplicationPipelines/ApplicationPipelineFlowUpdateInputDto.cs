@@ -1,4 +1,4 @@
-﻿using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
+using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
 
 namespace Toyar.App.Dto.ApplicationPipelines;
 

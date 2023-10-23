@@ -1,4 +1,4 @@
-﻿using Luck.Framework.Exceptions;
+using Luck.Framework.Exceptions;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 using Toyar.App.Domain.Shared.Enums;
 using Toyar.App.Dto.K8s.WorkLoads;

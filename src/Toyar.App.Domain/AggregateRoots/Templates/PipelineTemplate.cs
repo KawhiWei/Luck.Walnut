@@ -1,4 +1,4 @@
-﻿using Luck.Framework.Exceptions;
+using Luck.Framework.Exceptions;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.PipelinesValueObjects;
 using Toyar.App.Dto.ValueObjects.PipelinesValueObjects;
 

@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
+namespace Toyar.App.Domain.AggregateRoots.K8s.WorkLoads
 {
     /// <summary>
     /// 部署到K8s传输上下文

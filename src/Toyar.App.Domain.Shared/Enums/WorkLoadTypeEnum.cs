@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Domain.Shared.Enums;
+namespace Toyar.App.Domain.Shared.Enums;
 
 public enum WorkLoadTypeEnum
 {

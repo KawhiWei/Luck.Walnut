@@ -20,7 +20,7 @@ public class ComponentIntegration : FullAggregateRoot
     /// <summary>
     /// 组件名称
     /// </summary>
-    public string Name { get; private set; } = default!;
+    public string Name { get; private set; }
 
     /// <summary>
     /// 组件类型

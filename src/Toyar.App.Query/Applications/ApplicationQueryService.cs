@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.Repositories;
+using Toyar.App.Domain.Repositories;
 using Toyar.App.Dto;
 using Toyar.App.Dto.Applications;
 using Microsoft.Extensions.Logging;

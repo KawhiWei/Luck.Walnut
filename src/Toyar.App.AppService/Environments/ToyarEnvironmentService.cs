@@ -1,4 +1,4 @@
-﻿using Luck.Framework.Exceptions;
+using Luck.Framework.Exceptions;
 using Luck.Framework.Threading;
 using Luck.Framework.UnitOfWorks;
 using Toyar.App.Domain.AggregateRoots.Environments;

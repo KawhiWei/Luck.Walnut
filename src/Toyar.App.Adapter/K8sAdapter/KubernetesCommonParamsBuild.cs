@@ -1,4 +1,4 @@
-﻿using k8s.Models;
+using k8s.Models;
 using Toyar.App.Domain.AggregateRoots.ValueObjects.WorkLoadValueObjects;
 
 namespace Toyar.App.Adapter.K8sAdapter

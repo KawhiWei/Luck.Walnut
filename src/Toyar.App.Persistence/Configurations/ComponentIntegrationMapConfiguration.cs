@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
+using Toyar.App.Domain.AggregateRoots.ComponentIntegrations;
 
 namespace Toyar.App.Persistence.Configurations;
 

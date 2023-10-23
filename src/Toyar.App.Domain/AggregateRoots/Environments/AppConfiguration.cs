@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Domain.AggregateRoots.Environments
+namespace Toyar.App.Domain.AggregateRoots.Environments
 {
     public class AppConfiguration : FullEntity
     {

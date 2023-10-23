@@ -1,4 +1,4 @@
-﻿using Luck.Framework.Exceptions;
+using Luck.Framework.Exceptions;
 using Luck.Framework.UnitOfWorks;
 using Microsoft.Extensions.Options;
 using Toyar.App.Adapter.K8sAdapter.WorkLoads;

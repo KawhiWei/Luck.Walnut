@@ -1,4 +1,4 @@
-﻿namespace Toyar.App.Dto.ContinuousIntegrationImages;
+namespace Toyar.App.Dto.ContinuousIntegrationImages;
 
 /// <summary>
 /// 镜像版本inputDto

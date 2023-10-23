@@ -1,4 +1,4 @@
-﻿using Luck.AppModule;
+using Luck.AppModule;
 using Luck.Framework.Infrastructure;
 using Serilog;
 using Serilog.Events;

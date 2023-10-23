@@ -1,4 +1,4 @@
-﻿using Toyar.App.Domain.AggregateRoots.Templates;
+using Toyar.App.Domain.AggregateRoots.Templates;
 using Toyar.App.Dto.PipelineTemplates;
 
 namespace Toyar.App.Domain.Repositories;

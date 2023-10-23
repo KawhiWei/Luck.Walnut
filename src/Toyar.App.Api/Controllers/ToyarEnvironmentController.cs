@@ -1,4 +1,4 @@
-﻿using Luck.Framework.Utilities;
+using Luck.Framework.Utilities;
 using Toyar.App.AppService.Environments;
 using Toyar.App.Dto;
 using Toyar.App.Dto.Environments;
