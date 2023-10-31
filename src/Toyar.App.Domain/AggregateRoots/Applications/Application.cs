@@ -11,6 +11,8 @@ namespace Toyar.App.Domain.AggregateRoots.Applications
             Name = name;
             AppId = appId;
             GitUrl = gitUrl;
+            ApplicationEnvironments = new List<ApplicationEnvironment>();
+            ApplicationAuthorities = new List<ApplicationAuthority>();
         }
 
 
@@ -39,12 +41,7 @@ namespace Toyar.App.Domain.AggregateRoots.Applications
         /// 应用描述
         /// </summary>
         public string? Describe { get; private set; }
-
-        /// <summary>
-        /// 应用部署环境
-        /// </summary>
-        public ICollection<string> Environments = new List<string>();
-
+        
         /// <summary>
         /// 创建人
         /// </summary>
@@ -56,6 +53,13 @@ namespace Toyar.App.Domain.AggregateRoots.Applications
         public string LastModificationUser { get; private set; } = default!;
 
         /// <summary>
+        /// 应用配置环境
+        /// </summary>
+        public ICollection<ApplicationEnvironment> ApplicationEnvironments { get; private set; }
+
+        public ICollection<ApplicationAuthority> ApplicationAuthorities { get; private set; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="describe"></param>
@@ -63,12 +67,6 @@ namespace Toyar.App.Domain.AggregateRoots.Applications
         public Application SetDescribe(string describe)
         {
             Describe = describe;
-            return this;
-        }
-
-        public Application SetEnvironments(List<string> environments)
-        {
-            Environments = environments;
             return this;
         }
     }
