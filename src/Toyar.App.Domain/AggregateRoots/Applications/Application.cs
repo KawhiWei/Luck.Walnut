@@ -1,3 +1,5 @@
+using Toyar.App.Domain.AggregateRoots.Authorities;
+
 namespace Toyar.App.Domain.AggregateRoots.Applications
 {
     /// <summary>
@@ -12,7 +14,6 @@ namespace Toyar.App.Domain.AggregateRoots.Applications
             AppId = appId;
             GitUrl = gitUrl;
             ApplicationEnvironments = new List<ApplicationEnvironment>();
-            ApplicationAuthorities = new List<ApplicationAuthority>();
         }
 
 
@@ -56,8 +57,6 @@ namespace Toyar.App.Domain.AggregateRoots.Applications
         /// 应用配置环境
         /// </summary>
         public ICollection<ApplicationEnvironment> ApplicationEnvironments { get; private set; }
-
-        public ICollection<ApplicationAuthority> ApplicationAuthorities { get; private set; }
 
         /// <summary>
         /// 

@@ -16,11 +16,6 @@ namespace Toyar.App.Persistence.Configurations
                 .WithOne()
                 .HasForeignKey(x => x.ApplicationId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
-            builder.HasMany(o => o.ApplicationAuthorities)
-                .WithOne()
-                .HasForeignKey(x => x.ApplicationId)
-                .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
             #region 索引

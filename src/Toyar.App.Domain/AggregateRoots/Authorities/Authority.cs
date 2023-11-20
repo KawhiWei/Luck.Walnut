@@ -1,15 +1,17 @@
-namespace Toyar.App.Domain.AggregateRoots.Applications;
+namespace Toyar.App.Domain.AggregateRoots.Authorities;
 
 /// <summary>
-/// 应用权限
+/// 应用权限关联关系
 /// </summary>
-public class ApplicationAuthority : FullEntity
+public class Authority : FullAggregateRoot
 {
-    public ApplicationAuthority(string userId, string userName, string applicationId)
+    public Authority(string userId, string userName, string applicationId, string? environmentId,string? roleId)
     {
         UserId = userId;
         UserName = userName;
         ApplicationId = applicationId;
+        EnvironmentId = environmentId;
+        RoleId = roleId;
     }
 
     /// <summary>
@@ -23,19 +25,19 @@ public class ApplicationAuthority : FullEntity
     public string UserName { get; private set; }
     
     /// <summary>
-    /// 环境Id
-    /// </summary>
-    public string EnvironmentId { get; private set; }
-
-    /// <summary>
     /// 应用Id 
     /// </summary>
     public string ApplicationId { get; private set; }
 
     /// <summary>
-    /// 
+    /// 环境Id
     /// </summary>
-    public Application Application { get; } = default!;
+    public string? EnvironmentId { get; private set; }
+    
+    /// <summary>
+    /// 角色Id
+    /// </summary>
+    public string? RoleId { get; private set;  }
 
     /// <summary>
     /// 创建人
@@ -46,4 +48,5 @@ public class ApplicationAuthority : FullEntity
     /// 最近修改人
     /// </summary>
     public string LastModificationUser { get; private set; } = default!;
+    
 }

@@ -15,16 +15,16 @@ public class NameSpaceService : INameSpaceService
     private readonly INameSpaceRepository _nameSpaceRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IClusterService _clusterService;
-    private readonly INameSpaceAdaper _nameSpaceAdaper;
+    private readonly INameSpaceAdapter _nameSpaceAdapter;
 
     public NameSpaceService(INameSpaceRepository nameSpaceRepository, IUnitOfWork unitOfWork, IClusterService clusterService
-        , INameSpaceAdaper nameSpaceAdaper
+        , INameSpaceAdapter nameSpaceAdapter
         )
     {
         _nameSpaceRepository = nameSpaceRepository;
         _unitOfWork = unitOfWork;
         _clusterService = clusterService;
-        _nameSpaceAdaper = nameSpaceAdaper;
+        _nameSpaceAdapter = nameSpaceAdapter;
     }
 
 
@@ -76,7 +76,7 @@ public class NameSpaceService : INameSpaceService
             throw new BusinessException($"不可重复发布，请刷新页面");
         }
         var cluster = await _clusterService.CheckAndGetCluster(nameSpace.ClusterId);
-        await _nameSpaceAdaper.CreateNameSpaceAsync(StructureKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
+        await _nameSpaceAdapter.CreateNameSpaceAsync(StructureKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
         nameSpace.SetOnline(OnlineStatusEnum.Online);
         await _unitOfWork.CommitAsync();
     }
@@ -91,7 +91,7 @@ public class NameSpaceService : INameSpaceService
     {
         var nameSpace = await GetAndCheckNameSpaceAsync(id);
         var cluster = await _clusterService.CheckAndGetCluster(nameSpace.ClusterId);
-        await _nameSpaceAdaper.DeleteNameSpaceAsync(StructureKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
+        await _nameSpaceAdapter.DeleteNameSpaceAsync(StructureKubernetesNameSpacePublishContext(nameSpace, cluster.Config));
         nameSpace.SetOnline(OnlineStatusEnum.Offline);
         await _unitOfWork.CommitAsync();
     }

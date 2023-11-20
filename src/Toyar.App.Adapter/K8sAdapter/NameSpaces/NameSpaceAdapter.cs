@@ -8,43 +8,35 @@ using Toyar.App.Adapter.K8sAdapter.Constants;
 
 namespace Toyar.App.Adapter.K8sAdapter.NameSpaces
 {
-    public class NameSpaceAdaper : INameSpaceAdaper
+    public class NameSpaceAdapter(IKubernetesClientFactory kubernetesClientFactory) : INameSpaceAdapter
     {
-        private readonly IKubernetesClientFactory _kubernetesClientFactory;
-
-        public NameSpaceAdaper(IKubernetesClientFactory kubernetesClientFactory)
-        {
-
-            _kubernetesClientFactory = kubernetesClientFactory;
-        }
-
-
         public async Task CreateNameSpaceAsync(KubernetesNameSpacePublishContext kubernetesNameSpacePublishContext)
         {
-            var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesNameSpacePublishContext.ConfigString);
+            var kubernetesClient = kubernetesClientFactory.GetKubernetesClient(kubernetesNameSpacePublishContext.ConfigString);
             await kubernetesClient.CoreV1.CreateNamespaceAsync(GetV1Namespace(kubernetesNameSpacePublishContext.NameSpace));
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="kubernetes"></param>
-        /// <param name="name"></param>
+        /// <param name="kubernetesNameSpacePublishContext"></param>
         /// <returns></returns>
         public async Task UpdateNameSpaceAsync(KubernetesNameSpacePublishContext kubernetesNameSpacePublishContext)
         {
-
-
-            var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesNameSpacePublishContext.ConfigString);
+            var kubernetesClient = kubernetesClientFactory.GetKubernetesClient(kubernetesNameSpacePublishContext.ConfigString);
             var v1NameSpace = await kubernetesClient.CoreV1.ReadNamespaceAsync(kubernetesNameSpacePublishContext.NameSpace.Name);
             await kubernetesClient.CoreV1.PatchNamespaceAsync(GetPatchNameSpaceV1NameSpace(kubernetesNameSpacePublishContext.NameSpace, v1NameSpace), kubernetesNameSpacePublishContext.NameSpace.Name);
         }
 
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kubernetesNameSpacePublishContext"></param>
         public async Task DeleteNameSpaceAsync(KubernetesNameSpacePublishContext kubernetesNameSpacePublishContext)
         {
-            var kubernetesClient = _kubernetesClientFactory.GetKubernetesClient(kubernetesNameSpacePublishContext.ConfigString);
+            var kubernetesClient = kubernetesClientFactory.GetKubernetesClient(kubernetesNameSpacePublishContext.ConfigString);
             await kubernetesClient.CoreV1.DeleteNamespaceAsync(kubernetesNameSpacePublishContext.NameSpace.Name);
         }
 
@@ -53,7 +45,7 @@ namespace Toyar.App.Adapter.K8sAdapter.NameSpaces
         /// </summary>
         /// <param name="nameSpace"></param>
         /// <returns></returns>
-        private V1Namespace GetV1Namespace(NameSpace nameSpace)
+        private static V1Namespace GetV1Namespace(NameSpace nameSpace)
         {
             var labels = ConstantsLabels.GetKubeDefalutLabels();
             return new V1Namespace()
@@ -68,13 +60,13 @@ namespace Toyar.App.Adapter.K8sAdapter.NameSpaces
         }
 
 
-
         /// <summary>
         /// 转换为K8s对象
         /// </summary>
         /// <param name="nameSpace"></param>
+        /// <param name="oldV1Namespace"></param>
         /// <returns></returns>
-        private V1Patch GetPatchNameSpaceV1NameSpace(NameSpace nameSpace, V1Namespace oldV1Namespace)
+        private static V1Patch GetPatchNameSpaceV1NameSpace(NameSpace nameSpace, V1Namespace oldV1Namespace)
         {
             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true };
 
