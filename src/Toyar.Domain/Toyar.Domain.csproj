@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Toyar.Domain</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Toyar.Domain.Shared\Toyar.Domain.Shared.csproj" />
+		<ProjectReference Include="..\Toyar.Dto\Toyar.Dto.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Luck.DDD.Domain" Version="2.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Repositories\" />
+	</ItemGroup>
+</Project>

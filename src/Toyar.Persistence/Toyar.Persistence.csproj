@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Toyar.Persistence</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="MigrationModule.cs~RFa25e4ab.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Toyar.Domain\Toyar.Domain.csproj" />
+    <ProjectReference Include="..\Toyar.Dto\Toyar.Dto.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Luck.EntityFrameworkCore" Version="2.0.3" />
+    <PackageReference Include="Luck.EntityFrameworkCore.PostgreSQL" Version="2.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+</Project>

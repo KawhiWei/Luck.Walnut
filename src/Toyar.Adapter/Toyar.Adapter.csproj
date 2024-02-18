@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>Toyar.Adapter</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="K8sAdapter\NameSpaces\NameSpaceAdaper.cs~RF14775d96.TMP" />
+      <None Remove="K8sAdapter\WorkLoads\WorkLoadAdaper.cs~RF1a700528.TMP" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="KubernetesClient" Version="11.0.44" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Toyar.Domain\Toyar.Domain.csproj" />
+      <ProjectReference Include="..\Toyar.Infrastructure\Toyar.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="K8sAdapter\NetWorks\" />
+    </ItemGroup>
+
+</Project>

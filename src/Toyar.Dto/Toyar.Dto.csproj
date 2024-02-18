@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Toyar.Dto</RootNamespace>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Toyar.Domain.Shared\Toyar.Domain.Shared.csproj" />
+    <ProjectReference Include="..\Toyar.Infrastructure\Toyar.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

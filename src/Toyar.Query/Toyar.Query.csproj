@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Toyar.Query</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Environments\IToyarEnvironmentQueryService.cs~RF3f00836a.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Toyar.Adapter\Toyar.Adapter.csproj" />
+    <ProjectReference Include="..\Toyar.Domain\Toyar.Domain.csproj" />
+    <ProjectReference Include="..\Toyar.Dto\Toyar.Dto.csproj" />
+    <ProjectReference Include="..\Toyar.Persistence\Toyar.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>

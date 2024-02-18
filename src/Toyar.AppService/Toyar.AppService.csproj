@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Toyar.AppService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="K8s\Clusters\IClusterService.cs~RF24a8796a.TMP" />
+    <None Remove="Pipelines\ApplicationPipelineService.cs~RF9e4277.TMP" />
+    <None Remove="PipelineTemplates\PipelineTemplateServices.cs~RF1ff887fd.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Toyar.Adapter\Toyar.Adapter.csproj" />
+    <ProjectReference Include="..\Toyar.Domain\Toyar.Domain.csproj" />
+    <ProjectReference Include="..\Toyar.Dto\Toyar.Dto.csproj" />
+    <ProjectReference Include="..\Toyar.Persistence\Toyar.Persistence.csproj" />
+    <ProjectReference Include="..\Toyar.Query\Toyar.Query.csproj" />
+  </ItemGroup>
+
+<ItemGroup>
+  <PackageReference Include="Luck.WebSocket.Server" Version="1.0.0" />
+</ItemGroup>
+
+<ItemGroup>
+  <EmbeddedResource Include="Templates\JenkinsCIPipeLine.cshtml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </EmbeddedResource>
+</ItemGroup>
+</Project>
