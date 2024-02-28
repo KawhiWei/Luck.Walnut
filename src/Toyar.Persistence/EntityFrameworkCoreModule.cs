@@ -10,7 +10,7 @@ namespace Toyar.Persistence
         {
             services.AddLuckDbContext<ToyarDbContext>(x =>
             {
-                x.ConnectionString = "User ID=postgres;Password=wzw0126..;Host=39.101.165.187;Port=8832;Database=toyar.app";
+                x.ConnectionString = "User ID=postgres;Password=wzw0126..;Host=localhost;Port=5432;Database=toyar.paas";
                 x.Type = DataBaseType.PostgreSQL;
             });
         }
