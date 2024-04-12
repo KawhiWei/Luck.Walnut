@@ -1,4 +1,4 @@
-using Toyar.Domain.AggregateRoots.Environments;
+using Toyar.Domain.AggregateRoots.ToyarEnvironments;
 
 namespace Toyar.Persistence.Configurations;
 
@@ -6,23 +6,18 @@ public class ToyarEnvironmentConfiguration: IEntityTypeConfiguration<ToyarEnviro
 {
     public void Configure(EntityTypeBuilder<ToyarEnvironment> builder)
     {
-        #region 属性
-
-        builder.HasKey(e => e.Id);
-        builder.Property(x => x.CreateUserName).HasDefaultValue("");
-        builder.Property(x => x.LastModificationUserName).HasDefaultValue("");
-        builder.Property(x => x.LastModificationUserId).HasDefaultValue("");
-        
-        #endregion
-
-        #region 索引
-
-        builder.HasIndex(x => x.CreateUserId, "idx_create_user_id");
-        builder.HasIndex(x => x.LastModificationUserId, "idx_last_modification_user_id");
-
-        #endregion
-
         builder.ToTable("toyar_environment");
+        builder.HasKey(e => e.Id);
+        builder.Property(x => x.EnglishName).HasColumnName("english_name");
+        builder.Property(x => x.ChinesName).HasColumnName("chines_name");
+        builder.Property(x => x.CreateUserName).HasColumnName("create_user_name");
+        builder.Property(x => x.CreateUserId).HasColumnName("create_user_id");
+        builder.Property(x => x.CreationTime).HasColumnName("creation_time");
+        builder.Property(x => x.LastModificationUserName).HasColumnName("last_modification_user_name");
+        builder.Property(x => x.LastModificationUserId).HasColumnName("last_modification_user_id");
+        builder.Property(x => x.LastModificationTime).HasColumnName("last_modification_time");
+        builder.Property(x => x.DeletionTime).HasColumnName("deletion_time");
+        
     }
     
 }

@@ -1,4 +1,4 @@
-using Toyar.Domain.AggregateRoots.Environments;
+using Toyar.Domain.AggregateRoots.ToyarEnvironments;
 
 namespace Toyar.Domain.Repositories;
 

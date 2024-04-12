@@ -1,5 +1,5 @@
 using Luck.EntityFrameworkCore.DbContexts;
-using Toyar.Domain.AggregateRoots.Environments;
+using Toyar.Domain.AggregateRoots.ToyarEnvironments;
 using Toyar.Domain.Repositories;
 
 namespace Toyar.Persistence.Repositories;
@@ -12,5 +12,5 @@ public class ToyarEnvironmentRepository : EfCoreAggregateRootRepository<ToyarEnv
     }
 
     public Task<ToyarEnvironment?> FindToyarEnvironmentByName(string name) =>
-        FindAll(x => x.Name == name).FirstOrDefaultAsync();
+        FindAll(x => x.EnglishName == name).FirstOrDefaultAsync();
 }

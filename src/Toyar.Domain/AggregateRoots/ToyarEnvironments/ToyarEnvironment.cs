@@ -1,14 +1,14 @@
-namespace Toyar.Domain.AggregateRoots.Environments
+namespace Toyar.Domain.AggregateRoots.ToyarEnvironments
 {
     /// <summary>
     /// 环境
     /// </summary>
     public class ToyarEnvironment : FullAggregateRoot
     {
-        public ToyarEnvironment(string name, string chinesName, string createUserName, string createUserId,
+        public ToyarEnvironment(string englishName, string chinesName, string createUserName, string createUserId,
             string lastModificationUserName, string lastModificationUserId, bool isSystemDefault = false)
         {
-            Name = name;
+            EnglishName = englishName;
             ChinesName = chinesName;
             CreateUserName = createUserName;
             CreateUserId = createUserId;
@@ -18,9 +18,9 @@ namespace Toyar.Domain.AggregateRoots.Environments
         }
 
         /// <summary>
-        /// 环境名称
+        /// 环境英文名称
         /// </summary>
-        public string Name { get; private set; }
+        public string EnglishName { get; private set; }
 
         /// <summary>
         /// 环境中文名称

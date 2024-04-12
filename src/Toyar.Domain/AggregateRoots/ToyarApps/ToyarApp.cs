@@ -2,7 +2,7 @@ using Toyar.Infrastructure;
 
 namespace Toyar.Domain.AggregateRoots.ToyarApps;
 
-public class ToyarApp
+public class ToyarApp : FullAggregateRoot
 {
     /// <summary>
     /// 应用标识
@@ -35,9 +35,9 @@ public class ToyarApp
     public DeployTypeEnum DeployType { get; private set; } = DeployTypeEnum.Kubernetes;
 
     /// <summary>
-    /// 应用负责人
+    /// 应用部署状态类型
     /// </summary>
-    public string AppState { get; private set; } = string.Empty;
+    public string AppDeployStatusType { get; private set; } = string.Empty;
 
     /// <summary>
     /// 应用描述
