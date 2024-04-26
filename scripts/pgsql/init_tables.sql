@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS toyar_environment
 (
-    id VARCHAR(255) NOT NULL PRIMARY KEY,
+    id VARCHAR(50) NOT NULL PRIMARY KEY,
     english_name VARCHAR(50) NOT NULL DEFAULT '',
-    chines_name VARCHAR(80) NOT NULL DEFAULT '',
+    chines_name VARCHAR(50) NOT NULL DEFAULT '',
     is_system_default BOOLEAN NOT NULL DEFAULT false,
     create_user_name VARCHAR(50) NOT NULL DEFAULT '',
     create_user_id VARCHAR(50) NOT NULL DEFAULT '',
@@ -31,10 +31,10 @@ VALUES ('123456789012345681', 'product', '生产环境', true, 'system', '987654
 
 CREATE TABLE IF NOT EXISTS toyar_app
 (
-    id VARCHAR(255) NOT NULL PRIMARY KEY,
-    app_id VARCHAR(80) NOT NULL DEFAULT '',
+    id VARCHAR(50) NOT NULL PRIMARY KEY,
+    app_id VARCHAR(50) NOT NULL DEFAULT '',
     app_name VARCHAR(50) NOT NULL DEFAULT '',
-    module_git VARCHAR(200) NOT NULL DEFAULT '',
+    module_git VARCHAR(300) NOT NULL DEFAULT '',
     app_type VARCHAR(50) NOT NULL DEFAULT '',
     owned_user VARCHAR(50) NOT NULL DEFAULT '',
     deploy_type  int NOT NULL,
@@ -52,4 +52,42 @@ CREATE TABLE IF NOT EXISTS toyar_app
 CREATE INDEX idx_toyar_app_id on toyar_app (id);
 CREATE INDEX idx_toyar_app_app_id on toyar_app (app_id);
 CREATE INDEX idx_toyar_app_app_name on toyar_app (app_name);
+
+CREATE TABLE IF NOT EXISTS toyar_role
+(
+    id VARCHAR(50) NOT NULL PRIMARY KEY,
+    english_name VARCHAR(50) NOT NULL DEFAULT '',
+    chines_name VARCHAR(50) NOT NULL DEFAULT '',
+    create_user_name VARCHAR(50) NOT NULL DEFAULT '',
+    create_user_id VARCHAR(50) NOT NULL DEFAULT '',
+    creation_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_modification_user_name VARCHAR(50) NOT NULL DEFAULT '',
+    last_modification_user_id VARCHAR(50) NOT NULL DEFAULT '',
+    last_modification_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX idx_toyar_role_id on toyar_app_role (id);
+CREATE INDEX idx_toyar_role_english_name on toyar_app_role (english_name);
+CREATE INDEX idx_toyar_role_chines_name on toyar_app_role (chines_name);
+
+
+CREATE TABLE IF NOT EXISTS toyar_role_user_environment_relation
+(
+    id VARCHAR(50) NOT NULL PRIMARY KEY,
+    role_id VARCHAR(50) NOT NULL DEFAULT '',
+    user_id VARCHAR(50) NOT NULL DEFAULT '',
+    environment_id VARCHAR(50) NOT NULL DEFAULT '',
+    create_user_name VARCHAR(50) NOT NULL DEFAULT '',
+    create_user_id VARCHAR(50) NOT NULL DEFAULT '',
+    creation_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_modification_user_name VARCHAR(50) NOT NULL DEFAULT '',
+    last_modification_user_id VARCHAR(50) NOT NULL DEFAULT '',
+    last_modification_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_toyar_role_user_environment_relation_role_id on toyar_role_user_environment_relation (role_id);
+CREATE INDEX idx_toyar_role_user_environment_relation_environment_id on toyar_role_user_environment_relation (environment_id);
+CREATE INDEX idx_toyar_role_user_environment_relation_user_id on toyar_role_user_environment_relation (user_id);
+
 
