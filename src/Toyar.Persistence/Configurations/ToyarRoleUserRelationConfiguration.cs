@@ -1,16 +1,16 @@
-using Toyar.Domain.AggregateRoots.ToyarEnvironments;
+using Toyar.Domain.AggregateRoots.ToyarRoles;
 
 namespace Toyar.Persistence.Configurations;
 
-public class ToyarEnvironmentConfiguration : IEntityTypeConfiguration<ToyarEnvironment>
+public class ToyarRoleUserRelationConfiguration : IEntityTypeConfiguration<ToyarRoleUserRelation>
 {
-    public void Configure(EntityTypeBuilder<ToyarEnvironment> builder)
+    public void Configure(EntityTypeBuilder<ToyarRoleUserRelation> builder)
     {
-        builder.ToTable("toyar_environment");
+        builder.ToTable("toyar_role_user_relation");
         builder.HasKey(e => e.Id);
-        builder.Property(x => x.EnglishName).HasColumnName("english_name");
-        builder.Property(x => x.ChinesName).HasColumnName("chines_name");
-        builder.Property(x => x.IsSystemDefault).HasColumnName("is_system_default");
+        builder.Property(x => x.Id).HasColumnName("id");
+        builder.Property(x => x.RoleId).HasColumnName("role_id");
+        builder.Property(x => x.UserId).HasColumnName("user_id");
         builder.Property(x => x.CreateUserName).HasColumnName("create_user_name");
         builder.Property(x => x.CreateUserId).HasColumnName("create_user_id");
         builder.Property(x => x.CreationTime).HasColumnName("creation_time");

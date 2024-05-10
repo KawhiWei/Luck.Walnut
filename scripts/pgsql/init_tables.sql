@@ -74,11 +74,11 @@ CREATE INDEX idx_toyar_role_chines_name on toyar_role (chines_name);
 
 
 --应用用户关联关系表
-CREATE TABLE IF NOT EXISTS toyar_user_app_relation
+CREATE TABLE IF NOT EXISTS toyar_app_user_relation
 (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
-    user_id VARCHAR(50) NOT NULL DEFAULT '',
     app_id VARCHAR(50) NOT NULL DEFAULT '',
+    user_id VARCHAR(50) NOT NULL DEFAULT '',
     create_user_name VARCHAR(50) NOT NULL DEFAULT '',
     create_user_id VARCHAR(50) NOT NULL DEFAULT '',
     creation_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -87,11 +87,12 @@ CREATE TABLE IF NOT EXISTS toyar_user_app_relation
     last_modification_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX idx_toyar_user_app_relation_user_id on toyar_user_app_relation (user_id);
-CREATE INDEX idx_toyar_user_app_relation_app_id on toyar_user_app_relation (app_id);
+CREATE INDEX idx_toyar_app_user_relation_app_id on toyar_app_user_relation (app_id);
+CREATE INDEX idx_toyar_app_user_relation_user_id on toyar_app_user_relation (user_id);
 
---用户角色关联关系
-CREATE TABLE IF NOT EXISTS toyar_user_role_relation
+
+--角色用户关联关系
+CREATE TABLE IF NOT EXISTS toyar_role_user_relation
 (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
     role_id VARCHAR(50) NOT NULL DEFAULT '',
@@ -105,11 +106,11 @@ CREATE TABLE IF NOT EXISTS toyar_user_role_relation
     deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_toyar_user_role_relation_role_id on toyar_user_role_relation (role_id);
-CREATE INDEX idx_toyar_user_role_relation_user_id on toyar_user_role_relation (user_id);
+CREATE INDEX idx_toyar_role_user_relation_role_id on toyar_role_user_relation (role_id);
+CREATE INDEX idx_toyar_role_user_relation_user_id on toyar_role_user_relation (user_id);
 
---用户环境关联关系
-CREATE TABLE IF NOT EXISTS toyar_user_environment_relation
+--环境用户关联关系
+CREATE TABLE IF NOT EXISTS toyar_environment_user_relation
 (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
     environment_id VARCHAR(50) NOT NULL DEFAULT '',
@@ -123,7 +124,7 @@ CREATE TABLE IF NOT EXISTS toyar_user_environment_relation
     deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_toyar_user_environment_relation_environment_id on toyar_user_environment_relation (environment_id);
-CREATE INDEX idx_toyar_user_environment_relation_user_id on toyar_user_environment_relation (user_id);
+CREATE INDEX idx_toyar_environment_user_relation_environment_id on toyar_environment_user_relation (environment_id);
+CREATE INDEX idx_toyar_environment_user_relation_user_id on toyar_environment_user_relation (user_id);
 
 
