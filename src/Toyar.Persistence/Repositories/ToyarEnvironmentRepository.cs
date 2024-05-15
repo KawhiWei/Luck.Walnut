@@ -11,6 +11,7 @@ public class ToyarEnvironmentRepository : EfCoreAggregateRootRepository<ToyarEnv
     {
     }
 
-    public Task<ToyarEnvironment?> FindToyarEnvironmentByName(string name) =>
-        FindAll(x => x.EnglishName == name).FirstOrDefaultAsync();
+    public Task<ToyarEnvironment?> FindToyarEnvironmentByEnglishName(string englishName) =>
+        FindAll(x => x.EnglishName == englishName)
+            .FirstOrDefaultAsync();
 }

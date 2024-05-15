@@ -91,6 +91,28 @@ CREATE INDEX idx_toyar_app_user_relation_app_id on toyar_app_user_relation (app_
 CREATE INDEX idx_toyar_app_user_relation_user_id on toyar_app_user_relation (user_id);
 
 
+--应用用户关联关系表
+CREATE TABLE IF NOT EXISTS toyar_app_environment_relation
+(
+    id VARCHAR(50) NOT NULL PRIMARY KEY,
+    app_id VARCHAR(50) NOT NULL DEFAULT '',
+    environment_id VARCHAR(50) NOT NULL DEFAULT '',
+    create_user_name VARCHAR(50) NOT NULL DEFAULT '',
+    create_user_id VARCHAR(50) NOT NULL DEFAULT '',
+    creation_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_modification_user_name VARCHAR(50) NOT NULL DEFAULT '',
+    last_modification_user_id VARCHAR(50) NOT NULL DEFAULT '',
+    last_modification_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                                );
+CREATE INDEX idx_toyar_app_environment_relation_app_id on toyar_app_environment_relation (app_id);
+CREATE INDEX idx_toyar_app_environment_relation_environment_id on toyar_app_environment_relation (environment_id);
+
+
+
+
+
+
 --角色用户关联关系
 CREATE TABLE IF NOT EXISTS toyar_role_user_relation
 (

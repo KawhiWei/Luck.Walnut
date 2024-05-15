@@ -1,15 +1,16 @@
-using Toyar.Domain.AggregateRoots.ToyarRoles;
+using Toyar.Domain.AggregateRoots.ToyarApps;
 
 namespace Toyar.Persistence.Configurations;
 
-public class ToyarRoleConfiguration : IEntityTypeConfiguration<ToyarRole>
+public class ToyarAppEnvironmentRelationConfiguration : IEntityTypeConfiguration<ToyarAppEnvironmentRelation>
 {
-    public void Configure(EntityTypeBuilder<ToyarRole> builder)
+    public void Configure(EntityTypeBuilder<ToyarAppEnvironmentRelation> builder)
     {
-        builder.ToTable("toyar_role");
+        builder.ToTable("toyar_app_environment_relation");
         builder.HasKey(e => e.Id);
-        builder.Property(x => x.EnglishName).HasColumnName("english_name");
-        builder.Property(x => x.ChinesName).HasColumnName("chines_name");
+        builder.Property(x => x.Id).HasColumnName("id");
+        builder.Property(x => x.AppId).HasColumnName("app_id");
+        builder.Property(x => x.EnvironmentId).HasColumnName("environment_id");
         builder.Property(x => x.CreateUserName).HasColumnName("create_user_name");
         builder.Property(x => x.CreateUserId).HasColumnName("create_user_id");
         builder.Property(x => x.CreationTime).HasColumnName("creation_time");
@@ -17,9 +18,5 @@ public class ToyarRoleConfiguration : IEntityTypeConfiguration<ToyarRole>
         builder.Property(x => x.LastModificationUserId).HasColumnName("last_modification_user_id");
         builder.Property(x => x.LastModificationTime).HasColumnName("last_modification_time");
         builder.Property(x => x.DeletionTime).HasColumnName("deletion_time");
-        builder.HasMany(o => o.ToyarRoleUserRelations)
-            .WithOne()
-            .HasForeignKey(x => x.RoleId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

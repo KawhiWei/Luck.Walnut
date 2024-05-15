@@ -1,10 +1,9 @@
 using Luck.Framework.UnitOfWorks;
-using Toyar.Domain.AggregateRoots.ToyarEnvironments;
 using Toyar.Domain.Repositories;
 using Toyar.Dto.Environments;
 using Toyar.Infrastructure;
 
-namespace Toyar.AppService.Environments;
+namespace Toyar.AppService.ToyarEnvironment;
 
 public class ToyarEnvironmentService : IToyarEnvironmentService
 {
@@ -25,7 +24,7 @@ public class ToyarEnvironmentService : IToyarEnvironmentService
             throw new BusinessException($"环境【{input.Name}】已存在");
         }
 
-        toyarEnvironment = new ToyarEnvironment(
+        toyarEnvironment = new Domain.AggregateRoots.ToyarEnvironments.ToyarEnvironment(
             input.Name,
             input.ChinesName,
             ToyarDefaultConstants.DefaultUserName,

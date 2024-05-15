@@ -25,5 +25,10 @@ public class ToyarAppConfiguration : IEntityTypeConfiguration<ToyarApp>
         builder.Property(x => x.LastModificationUserId).HasColumnName("last_modification_user_id");
         builder.Property(x => x.LastModificationTime).HasColumnName("last_modification_time");
         builder.Property(x => x.DeletionTime).HasColumnName("deletion_time");
+
+        builder.HasMany(o => o.ToyarAppUserRelations)
+            .WithOne()
+            .HasForeignKey(x => x.AppId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -1,17 +1,17 @@
-namespace Toyar.Domain.AggregateRoots.ToyarRoles;
+namespace Toyar.Domain.AggregateRoots.ToyarApps;
 
-public class ToyarRole : FullAggregateRoot
+public class ToyarAppEnvironmentRelation : FullEntity
 {
     /// <summary>
-    /// 英文名称
+    /// 应用标识
     /// </summary>
-    public string EnglishName { get; private set; } = string.Empty;
+    public string AppId { get; private set; } = string.Empty;
 
     /// <summary>
-    /// 中文名称
+    /// 环境Id
     /// </summary>
-    public string ChinesName { get; private set; } = string.Empty;
-    
+    public string EnvironmentId { get; private set; } = string.Empty;
+
     /// <summary>
     /// 环境中文名称
     /// </summary>
@@ -31,6 +31,4 @@ public class ToyarRole : FullAggregateRoot
     /// 最后修改人Id
     /// </summary>
     public string LastModificationUserId { get; private set; } = string.Empty;
-
-    public ICollection<ToyarRoleUserRelation> ToyarRoleUserRelations = new List<ToyarRoleUserRelation>();
 }
