@@ -1,4 +1,4 @@
-namespace Toyar.Dto.Environments;
+namespace Toyar.Dto.ToyarEnvironments;
 
 public class ToyarEnvironmentInputDto : ToyarEnvironmentBaseDto
 {

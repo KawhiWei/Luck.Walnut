@@ -1,4 +1,4 @@
-using Toyar.Dto.Environments;
+using Toyar.Dto.ToyarEnvironments;
 
 namespace Toyar.AppService.ToyarEnvironment;
 

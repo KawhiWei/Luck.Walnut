@@ -12,6 +12,6 @@ public class ToyarRoleRepository : EfCoreAggregateRootRepository<ToyarRole, stri
     }
 
     public Task<ToyarRole?> FindToyarRoleByEnglishName(string englishName) => FindAll()
-            .FirstOrDefaultAsync(x => x.EnglishName == englishName);
-    
+        .Include(x => x.ToyarRoleUserRelations)
+        .FirstOrDefaultAsync(x => x.EnglishName == englishName);
 }

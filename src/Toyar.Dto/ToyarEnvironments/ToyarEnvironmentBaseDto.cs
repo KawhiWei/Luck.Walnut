@@ -1,11 +1,11 @@
-namespace Toyar.Dto.Environments;
+namespace Toyar.Dto.ToyarEnvironments;
 
 public class ToyarEnvironmentBaseDto
 {
     /// <summary>
     /// 环境名称
     /// </summary>
-    public string Name { get; set; } = string.Empty;
+    public string EnglishName { get; set; } = string.Empty;
 
     /// <summary>
     /// 环境中文名称

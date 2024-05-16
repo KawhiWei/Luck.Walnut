@@ -68,14 +68,10 @@ public class ToyarApp : FullAggregateRoot
     /// 最后修改人Id
     /// </summary>
     public string LastModificationUserId { get; private set; } = string.Empty;
-    
+
     public ICollection<ToyarAppUserRelation> ToyarAppUserRelations { get; private set; } =
         new List<ToyarAppUserRelation>();
-    
+
     public ICollection<ToyarAppEnvironmentRelation> ToyarAppEnvironmentRelations { get; private set; } =
         new List<ToyarAppEnvironmentRelation>();
-
-    
-    
-
 }
