@@ -1,6 +1,6 @@
 using Toyar.Dto.ToyarEnvironments;
 
-namespace Toyar.AppService.ToyarEnvironment;
+namespace Toyar.AppService.ToyarEnvironmentApp;
 
 public interface IToyarEnvironmentService : IScopedDependency
 {

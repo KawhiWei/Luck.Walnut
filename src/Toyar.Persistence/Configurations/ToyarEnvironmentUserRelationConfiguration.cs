@@ -6,7 +6,7 @@ public class ToyarEnvironmentUserRelationConfiguration : IEntityTypeConfiguratio
 {
     public void Configure(EntityTypeBuilder<ToyarEnvironmentUserRelation> builder)
     {
-        builder.ToTable("toyar_role_user_relation");
+        builder.ToTable("toyar_environment_user_relation");
         builder.HasKey(e => e.Id);
         builder.Property(x => x.Id).HasColumnName("id");
         builder.Property(x => x.EnvironmentId).HasColumnName("environment_id");

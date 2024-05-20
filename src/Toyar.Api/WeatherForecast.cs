@@ -1,6 +1,6 @@
 namespace Toyar.App.Api
 {
-    public class WeatherForecast
+    public class AncillaryController
     {
         public DateTime Date { get; set; }
 

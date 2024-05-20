@@ -46,9 +46,6 @@
 	  <None Remove="Luck.WebSocket.Server" />
 	  <None Remove="Program.cs~RF3167666.TMP" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Controllers\" />
-	</ItemGroup>
 	<ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
 
 

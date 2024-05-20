@@ -3,7 +3,7 @@ using Toyar.Domain.Repositories;
 using Toyar.Dto.ToyarEnvironments;
 using Toyar.Infrastructure;
 
-namespace Toyar.AppService.ToyarEnvironment;
+namespace Toyar.AppService.ToyarEnvironmentApp;
 
 public class ToyarEnvironmentService : IToyarEnvironmentService
 {

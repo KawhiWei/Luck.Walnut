@@ -2,7 +2,7 @@ using Toyar.Domain.AggregateRoots.ToyarApps;
 
 namespace Toyar.Persistence.Configurations;
 
-public class ToyarUserAppRelationConfiguration : IEntityTypeConfiguration<ToyarAppUserRelation>
+public class ToyarAppUserRelationConfiguration : IEntityTypeConfiguration<ToyarAppUserRelation>
 {
     public void Configure(EntityTypeBuilder<ToyarAppUserRelation> builder)
     {

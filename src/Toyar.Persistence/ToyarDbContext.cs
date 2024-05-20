@@ -18,7 +18,7 @@ namespace Toyar.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.HasDefaultSchema("toyar");
+            modelBuilder.HasDefaultSchema("toyar_infra");
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

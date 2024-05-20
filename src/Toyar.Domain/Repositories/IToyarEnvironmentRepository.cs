@@ -10,4 +10,7 @@ public interface IToyarEnvironmentRepository : IAggregateRootRepository<ToyarEnv
     /// <param name="englishName"></param>
     /// <returns></returns>
     Task<ToyarEnvironment?> FindToyarEnvironmentByEnglishName(string englishName);
+
+
+    Task<ToyarEnvironment?> FindEnvironmentDetailForIdAsync(string id);
 }

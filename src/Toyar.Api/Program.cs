@@ -105,8 +105,3 @@ app.UseRouting();
 app.MapControllers();
 app.InitializeApplication();
 app.Run();
-
-
-public partial class Program
-{
-}
