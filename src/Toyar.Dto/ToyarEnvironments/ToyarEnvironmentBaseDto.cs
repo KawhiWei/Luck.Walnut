@@ -1,6 +1,6 @@
 namespace Toyar.Dto.ToyarEnvironments;
 
-public class ToyarEnvironmentBaseDto
+public abstract  class ToyarEnvironmentBaseDto
 {
     /// <summary>
     /// 环境名称

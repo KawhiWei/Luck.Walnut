@@ -9,6 +9,10 @@ public interface IToyarAppRepository : IAggregateRootRepository<ToyarApp, string
     /// 
     /// </summary>
     /// <param name="appId"></param>
+    /// <param name="isInclude"></param>
     /// <returns></returns>
-    Task<ToyarApp?> FindToyarAppByAppId(string appId);
+    Task<ToyarApp?> FindToyarAppByAppId(string appId,bool isInclude);
+
+    
+    Task<ToyarApp?> FindToyarAppById(string id, bool isInclude);
 }

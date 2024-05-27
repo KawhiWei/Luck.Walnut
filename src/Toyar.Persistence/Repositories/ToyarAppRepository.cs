@@ -10,8 +10,29 @@ public class ToyarAppRepository : EfCoreAggregateRootRepository<ToyarApp, string
     {
     }
 
-    public Task<ToyarApp?> FindToyarAppByAppId(string appId) => FindAll()
-        .Include(x => x.ToyarAppEnvironmentRelations)
-        .Include(x => x.ToyarAppUserRelations)
-        .FirstOrDefaultAsync(x => x.AppId == appId);
+    public Task<ToyarApp?> FindToyarAppByAppId(string appId,bool isInclude)
+    {
+        var queryable=FindAll();
+        if (isInclude)
+        {
+            queryable = queryable
+                .Include(x => x.ToyarAppEnvironmentRelations)
+                .Include(x => x.ToyarAppUserRelations);
+        }
+           
+        return queryable.FirstOrDefaultAsync(x => x.AppId == appId);
+    }
+    
+    public Task<ToyarApp?> FindToyarAppById(string id,bool isInclude)
+    {
+        var queryable=FindAll();
+        if (isInclude)
+        {
+            queryable = queryable
+                .Include(x => x.ToyarAppEnvironmentRelations)
+                .Include(x => x.ToyarAppUserRelations);
+        }
+           
+        return queryable.FirstOrDefaultAsync(x => x.Id == id);
+    }
 }

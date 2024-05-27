@@ -19,16 +19,16 @@ CREATE INDEX idx_toyar_environment_english_name on toyar_environment (english_na
 CREATE INDEX idx_toyar_environment_chines_name on toyar_environment (chines_name);
 
 INSERT INTO toyar_environment (id, english_name, chines_name, is_system_default, create_user_name, create_user_id, last_modification_user_name, last_modification_user_id) 
-VALUES ('123456789012345678', 'qa', '开发联调环境', true, 'system', '987654321098765435', 'system', '987654321098765435');
+VALUES ('580302534535569409', 'qa', '开发联调环境', true, 'system', '580302534690758661', 'system', '580302534690758661');
 
 INSERT INTO toyar_environment (id, english_name, chines_name, is_system_default, create_user_name, create_user_id, last_modification_user_name, last_modification_user_id) 
-VALUES ('123456789012345679', 'uat', '质量保证环境', true, 'system', '987654321098765435', 'system', '987654321098765435');
+VALUES ('580302534690758658', 'uat', '质量保证环境', true, 'system', '580302534690758661', 'system', '580302534690758661');
 
 INSERT INTO toyar_environment (id, english_name, chines_name, is_system_default, create_user_name, create_user_id, last_modification_user_name, last_modification_user_id) 
-VALUES ('123456789012345680', 'stage', '预发环境', true, 'system', '987654321098765435', 'system', '987654321098765435');
+VALUES ('580302534690758659', 'stage', '预发环境', true, 'system', '580302534690758661', 'system', '580302534690758661');
 
 INSERT INTO toyar_environment (id, english_name, chines_name, is_system_default, create_user_name, create_user_id, last_modification_user_name, last_modification_user_id) 
-VALUES ('123456789012345681', 'product', '生产环境', true, 'system', '987654321098765435', 'system', '987654321098765435');
+VALUES ('580302534690758660', 'product', '生产环境', true, 'system', '580302534690758661', 'system', '580302534690758661');
 
 --应用基础数据
 CREATE TABLE IF NOT EXISTS toyar_app
