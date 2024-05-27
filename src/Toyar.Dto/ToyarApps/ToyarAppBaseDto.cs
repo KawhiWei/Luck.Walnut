@@ -49,8 +49,3 @@ public abstract class ToyarAppBaseDto
     /// </summary>
     public bool IsUseDeployTemplate { get;  set; }
 }
-
-public class ToyarAppInputDto : ToyarAppBaseDto
-{
-    
-}

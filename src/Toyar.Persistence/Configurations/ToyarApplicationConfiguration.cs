@@ -1,12 +1,12 @@
-using Toyar.Domain.AggregateRoots.ToyarApps;
+using Toyar.Domain.AggregateRoots.ToyarApplications;
 
 namespace Toyar.Persistence.Configurations;
 
-public class ToyarAppConfiguration : IEntityTypeConfiguration<ToyarApp>
+public class ToyarApplicationConfiguration : IEntityTypeConfiguration<ToyarApplication>
 {
-    public void Configure(EntityTypeBuilder<ToyarApp> builder)
+    public void Configure(EntityTypeBuilder<ToyarApplication> builder)
     {
-        builder.ToTable("toyar_app");
+        builder.ToTable("toyar_application");
         builder.HasKey(e => e.Id);
         builder.Property(x => x.Id).HasColumnName("id");
         builder.Property(x => x.AppId).HasColumnName("app_id");

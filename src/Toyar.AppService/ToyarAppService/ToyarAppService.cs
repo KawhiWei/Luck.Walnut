@@ -1,5 +1,5 @@
 ﻿using Luck.Framework.UnitOfWorks;
-using Toyar.Domain.AggregateRoots.ToyarApps;
+using Toyar.Domain.AggregateRoots.ToyarApplications;
 using Toyar.Domain.Repositories;
 using Toyar.Dto.ToyarApps;
 
@@ -24,7 +24,7 @@ public class ToyarAppService : IToyarAppService
             throw new NotImplementedException();
         }
 
-        var toyarApp = new ToyarApp(input.AppId, input.AppName, input.ModuleGit, input.AppType, input.OwnedUser,
+        var toyarApp = new ToyarApplication(input.AppId, input.AppName, input.ModuleGit, input.AppType, input.OwnedUser,
             input.DeployType, input.AppDeployStatusType, input.Note, input.IsUseDeployTemplate);
 
         _toyarAppRepository.Add(toyarApp);
@@ -43,10 +43,27 @@ public class ToyarAppService : IToyarAppService
         await _unitOfWork.CommitAsync();
     }
 
+    public async Task AddToyarAppUserRelationAsync(ToyarAppUserRelationInputDto input)
+    {
+        var toyarApp = await FindToyarAppByAppId(input.AppId, true);
+        if (toyarApp is null)
+        {
+            throw new NotImplementedException(); 
+        }
+        
+        toyarApp.AddToyarAppUserRelations(input.UserIdList);
+        
+    }
+
     private async Task<bool> CheckToyarAppExistAsync(string appId)
     {
-        var toyarApp = await _toyarAppRepository.FindToyarAppByAppId(appId, false);
+        var toyarApp = await FindToyarAppByAppId(appId);
 
         return toyarApp is null;
+    }
+    
+    private async Task<ToyarApplication?> FindToyarAppByAppId(string appId,bool isInclude=false)
+    {
+        return await _toyarAppRepository.FindToyarAppByAppId(appId, isInclude);
     }
 }

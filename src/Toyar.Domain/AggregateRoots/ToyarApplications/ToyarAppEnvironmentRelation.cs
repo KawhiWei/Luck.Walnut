@@ -1,4 +1,4 @@
-namespace Toyar.Domain.AggregateRoots.ToyarApps;
+namespace Toyar.Domain.AggregateRoots.ToyarApplications;
 
 public class ToyarAppEnvironmentRelation : FullEntity
 {

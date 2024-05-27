@@ -1,4 +1,5 @@
-using Toyar.Domain.AggregateRoots.ToyarApps;
+using Toyar.Domain.AggregateRoots.ToyarApplications;
+using Toyar.Domain.AggregateRoots.ToyarApplications;
 
 namespace Toyar.Persistence.Configurations;
 

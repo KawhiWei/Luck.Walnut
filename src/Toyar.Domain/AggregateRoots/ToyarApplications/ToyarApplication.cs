@@ -1,10 +1,11 @@
+using Toyar.Domain.AggregateRoots.ToyarApplications;
 using Toyar.Infrastructure;
 
-namespace Toyar.Domain.AggregateRoots.ToyarApps;
+namespace Toyar.Domain.AggregateRoots.ToyarApplications;
 
-public class ToyarApp : FullAggregateRoot
+public class ToyarApplication : FullAggregateRoot
 {
-    public ToyarApp(string appId, string appName, string moduleGit, string appType, string ownedUser, 
+    public ToyarApplication(string appId, string appName, string moduleGit, string appType, string ownedUser, 
         DeployTypeEnum deployType, string appDeployStatusType, string note, bool isUseDeployTemplate)
     {
         AppId = appId;
@@ -88,4 +89,21 @@ public class ToyarApp : FullAggregateRoot
 
     public ICollection<ToyarAppEnvironmentRelation> ToyarAppEnvironmentRelations { get; private set; } =
         new List<ToyarAppEnvironmentRelation>();
+
+    public void AddToyarAppUserRelations(List<string> userIds)
+    {
+        foreach (var userId in userIds.Where(userId => ToyarAppUserRelations.Any(x => x.UserId != userId)))
+        {
+            ToyarAppUserRelations.Add(new ToyarAppUserRelation(AppId,userId));
+        }
+    }
+    
+    public void AddToyarAppEnvironmentRelations(List<string> environmentIds)
+    {
+        foreach (var environment in environmentIds.Where(environment => ToyarAppEnvironmentRelations.Any(x => x.EnvironmentId != environment)))
+        {
+            ToyarAppUserRelations.Add(new ToyarAppUserRelation(AppId,environment));
+        }
+    }
 }
+

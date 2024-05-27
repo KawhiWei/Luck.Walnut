@@ -31,7 +31,7 @@ INSERT INTO toyar_environment (id, english_name, chines_name, is_system_default,
 VALUES ('580302534690758660', 'product', '生产环境', true, 'system', '580302534690758661', 'system', '580302534690758661');
 
 --应用基础数据
-CREATE TABLE IF NOT EXISTS toyar_app
+CREATE TABLE IF NOT EXISTS toyar_application
 (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
     app_id VARCHAR(50) NOT NULL DEFAULT '',
@@ -52,9 +52,9 @@ CREATE TABLE IF NOT EXISTS toyar_app
     last_modification_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX idx_toyar_app_id on toyar_app (id);
-CREATE INDEX idx_toyar_app_app_id on toyar_app (app_id);
-CREATE INDEX idx_toyar_app_app_name on toyar_app (app_name);
+CREATE INDEX idx_toyar_app_id on toyar_application (id);
+CREATE INDEX idx_toyar_app_app_id on toyar_application (app_id);
+CREATE INDEX idx_toyar_app_app_name on toyar_application (app_name);
 
 --角色基础数据
 CREATE TABLE IF NOT EXISTS toyar_role

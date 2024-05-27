@@ -1,9 +1,9 @@
-using Toyar.Domain.AggregateRoots.ToyarApps;
+using Toyar.Domain.AggregateRoots.ToyarApplications;
 using Toyar.Domain.AggregateRoots.ToyarEnvironments;
 
 namespace Toyar.Domain.Repositories;
 
-public interface IToyarAppRepository : IAggregateRootRepository<ToyarApp, string>, IScopedDependency
+public interface IToyarAppRepository : IAggregateRootRepository<ToyarApplication, string>, IScopedDependency
 {
     /// <summary>
     /// 
@@ -11,8 +11,8 @@ public interface IToyarAppRepository : IAggregateRootRepository<ToyarApp, string
     /// <param name="appId"></param>
     /// <param name="isInclude"></param>
     /// <returns></returns>
-    Task<ToyarApp?> FindToyarAppByAppId(string appId,bool isInclude);
+    Task<ToyarApplication?> FindToyarAppByAppId(string appId,bool isInclude);
 
     
-    Task<ToyarApp?> FindToyarAppById(string id, bool isInclude);
+    Task<ToyarApplication?> FindToyarAppById(string id, bool isInclude);
 }
