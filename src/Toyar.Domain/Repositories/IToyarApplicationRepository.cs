@@ -3,7 +3,7 @@ using Toyar.Domain.AggregateRoots.ToyarEnvironments;
 
 namespace Toyar.Domain.Repositories;
 
-public interface IToyarAppRepository : IAggregateRootRepository<ToyarApplication, string>, IScopedDependency
+public interface IToyarApplicationRepository : IAggregateRootRepository<ToyarApplication, string>, IScopedDependency
 {
     /// <summary>
     /// 

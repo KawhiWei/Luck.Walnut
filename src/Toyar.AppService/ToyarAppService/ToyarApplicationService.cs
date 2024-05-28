@@ -5,14 +5,14 @@ using Toyar.Dto.ToyarApps;
 
 namespace Toyar.AppService.ToyarAppService;
 
-public class ToyarAppService : IToyarAppService
+public class ToyarApplicationService : IToyarApplicationService
 {
-    private readonly IToyarAppRepository _toyarAppRepository;
+    private readonly IToyarApplicationRepository _toyarApplicationRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ToyarAppService(IToyarAppRepository toyarAppRepository, IUnitOfWork unitOfWork)
+    public ToyarApplicationService(IToyarApplicationRepository toyarApplicationRepository, IUnitOfWork unitOfWork)
     {
-        _toyarAppRepository = toyarAppRepository;
+        _toyarApplicationRepository = toyarApplicationRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -27,19 +27,19 @@ public class ToyarAppService : IToyarAppService
         var toyarApp = new ToyarApplication(input.AppId, input.AppName, input.ModuleGit, input.AppType, input.OwnedUser,
             input.DeployType, input.AppDeployStatusType, input.Note, input.IsUseDeployTemplate);
 
-        _toyarAppRepository.Add(toyarApp);
+        _toyarApplicationRepository.Add(toyarApp);
         await _unitOfWork.CommitAsync();
     }
 
     public async Task DeleteToyarAppByIdAsync(string id)
     {
-        var toyarApp = await _toyarAppRepository.FindToyarAppByAppId(id, false);
+        var toyarApp = await _toyarApplicationRepository.FindToyarAppByAppId(id, false);
         if (toyarApp is null)
         {
             throw new NotImplementedException();
         }
 
-        _toyarAppRepository.Remove(toyarApp);
+        _toyarApplicationRepository.Remove(toyarApp);
         await _unitOfWork.CommitAsync();
     }
 
@@ -64,6 +64,6 @@ public class ToyarAppService : IToyarAppService
     
     private async Task<ToyarApplication?> FindToyarAppByAppId(string appId,bool isInclude=false)
     {
-        return await _toyarAppRepository.FindToyarAppByAppId(appId, isInclude);
+        return await _toyarApplicationRepository.FindToyarAppByAppId(appId, isInclude);
     }
 }

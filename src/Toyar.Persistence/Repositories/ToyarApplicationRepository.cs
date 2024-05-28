@@ -4,9 +4,9 @@ using Toyar.Domain.Repositories;
 
 namespace Toyar.Persistence.Repositories;
 
-public class ToyarAppRepository : EfCoreAggregateRootRepository<ToyarApplication, string>, IToyarAppRepository
+public class ToyarApplicationRepository : EfCoreAggregateRootRepository<ToyarApplication, string>, IToyarApplicationRepository
 {
-    public ToyarAppRepository(ILuckDbContext dbContext) : base(dbContext)
+    public ToyarApplicationRepository(ILuckDbContext dbContext) : base(dbContext)
     {
     }
 

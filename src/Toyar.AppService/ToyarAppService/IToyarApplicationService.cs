@@ -2,7 +2,7 @@
 
 namespace Toyar.AppService.ToyarAppService;
 
-public interface IToyarAppService : IScopedDependency
+public interface IToyarApplicationService : IScopedDependency
 {
     Task CreateToyarAppAsync(ToyarAppInputDto input);
     
