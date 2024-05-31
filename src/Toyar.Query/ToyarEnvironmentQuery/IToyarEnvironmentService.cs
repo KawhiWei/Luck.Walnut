@@ -4,5 +4,5 @@ namespace Toyar.Query.ToyarEnvironmentQuery;
 
 public interface IToyarEnvironmentQueryService : IScopedDependency
 {
-    Task<ToyarEnvironment?> FindEnvironmentDetailForIdAsync(string id);
+    Task<ToyarEnvironment?> FindToyarEnvironmentDetailForIdAsync(string id);
 }

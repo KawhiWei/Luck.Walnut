@@ -84,17 +84,17 @@ public class ToyarApplication : FullAggregateRoot
     /// </summary>
     public string LastModificationUserId { get; private set; } = ToyarDefaultConstants.DefaultUserId;
 
-    public ICollection<ToyarAppUserRelation> ToyarAppUserRelations { get; private set; } =
-        new List<ToyarAppUserRelation>();
+    public ICollection<ToyarApplicationUserRelation> ToyarAppUserRelations { get; private set; } =
+        new List<ToyarApplicationUserRelation>();
 
-    public ICollection<ToyarAppEnvironmentRelation> ToyarAppEnvironmentRelations { get; private set; } =
-        new List<ToyarAppEnvironmentRelation>();
+    public ICollection<ToyarApplicationEnvironmentRelation> ToyarAppEnvironmentRelations { get; private set; } =
+        new List<ToyarApplicationEnvironmentRelation>();
 
     public void AddToyarAppUserRelations(List<string> userIds)
     {
         foreach (var userId in userIds.Where(userId => ToyarAppUserRelations.Any(x => x.UserId != userId)))
         {
-            ToyarAppUserRelations.Add(new ToyarAppUserRelation(AppId,userId));
+            ToyarAppUserRelations.Add(new ToyarApplicationUserRelation(AppId,userId));
         }
     }
     
@@ -102,7 +102,7 @@ public class ToyarApplication : FullAggregateRoot
     {
         foreach (var environment in environmentIds.Where(environment => ToyarAppEnvironmentRelations.Any(x => x.EnvironmentId != environment)))
         {
-            ToyarAppUserRelations.Add(new ToyarAppUserRelation(AppId,environment));
+            ToyarAppUserRelations.Add(new ToyarApplicationUserRelation(AppId,environment));
         }
     }
 }

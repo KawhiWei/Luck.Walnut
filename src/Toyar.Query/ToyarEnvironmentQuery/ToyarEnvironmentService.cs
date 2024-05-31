@@ -14,9 +14,9 @@ public class ToyarEnvironmentQueryService : IToyarEnvironmentQueryService
         _unitOfWork = unitOfWork;
         _toyarEnvironmentRepository = toyarEnvironmentRepository;
     }
-    public async Task<ToyarEnvironment?> FindEnvironmentDetailForIdAsync(string id)
+    public async Task<ToyarEnvironment?> FindToyarEnvironmentDetailForIdAsync(string id)
     {
-        var toyarEnvironment = await _toyarEnvironmentRepository.FindEnvironmentDetailForIdAsync(id);
+        var toyarEnvironment = await _toyarEnvironmentRepository.FindToyarEnvironmentDetailByIdAsync(id);
         return toyarEnvironment;
     }
 }

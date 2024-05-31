@@ -1,17 +1,23 @@
 namespace Toyar.Domain.AggregateRoots.ToyarApplications;
 
-public class ToyarAppEnvironmentRelation : FullEntity
+public class ToyarApplicationUserRelation : FullEntity
 {
+    public ToyarApplicationUserRelation(string appId, string userId)
+    {
+        AppId = appId;
+        UserId = userId;
+    }
+
     /// <summary>
     /// 应用标识
     /// </summary>
-    public string AppId { get; private set; } = string.Empty;
-
+    public string AppId { get; private set; }
+    
     /// <summary>
-    /// 环境Id
+    /// 用户id
     /// </summary>
-    public string EnvironmentId { get; private set; } = string.Empty;
-
+    public string UserId { get; private set; }
+    
     /// <summary>
     /// 环境中文名称
     /// </summary>

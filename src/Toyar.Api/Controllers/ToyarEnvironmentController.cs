@@ -6,8 +6,8 @@ using Toyar.Query.ToyarEnvironmentQuery;
 
 namespace Toyar.Api.Controllers;
 
-[Route("api/toyar/environment")]
-public class ToyarEnvironmentController  : BaseController
+[Route("api/toyarenvironment")]
+public class ToyarEnvironmentController : BaseController
 {
     private readonly IToyarEnvironmentService _toyarEnvironmentService;
 
@@ -16,9 +16,10 @@ public class ToyarEnvironmentController  : BaseController
         _toyarEnvironmentService = toyarEnvironmentService;
     }
 
-    
+
     [HttpPost]
-    public Task AddEnvironment([FromBody] ToyarEnvironmentInputDto input) => _toyarEnvironmentService.CreateToyarEnvironmentAsync(input);
+    public Task AddToyarEnvironment([FromBody] ToyarEnvironmentInputDto input) =>
+        _toyarEnvironmentService.CreateToyarEnvironmentAsync(input);
 
     /// <summary>
     /// 
@@ -27,6 +28,7 @@ public class ToyarEnvironmentController  : BaseController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public Task<ToyarEnvironment?> FindEnvironmentDetailForIdAsync([FromServices] IToyarEnvironmentQueryService toyarEnvironmentQueryService, string id)
-        => toyarEnvironmentQueryService.FindEnvironmentDetailForIdAsync(id);
+    public Task<ToyarEnvironment?> FindToyarEnvironmentDetailForIdAsync(
+        [FromServices] IToyarEnvironmentQueryService toyarEnvironmentQueryService, string id)
+        => toyarEnvironmentQueryService.FindToyarEnvironmentDetailForIdAsync(id);
 }

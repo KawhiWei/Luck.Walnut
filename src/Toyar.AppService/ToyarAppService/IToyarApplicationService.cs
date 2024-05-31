@@ -4,7 +4,7 @@ namespace Toyar.AppService.ToyarAppService;
 
 public interface IToyarApplicationService : IScopedDependency
 {
-    Task CreateToyarAppAsync(ToyarAppInputDto input);
+    Task CreateToyarApplicationAsync(ToyarApplicationInputDto input);
     
     
     Task DeleteToyarAppByIdAsync(string id);

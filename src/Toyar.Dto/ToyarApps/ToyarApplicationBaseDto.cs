@@ -2,7 +2,7 @@
 
 namespace Toyar.Dto.ToyarApps;
 
-public abstract class ToyarAppBaseDto
+public abstract class ToyarApplicationBaseDto
 {
     /// <summary>
     /// 应用标识

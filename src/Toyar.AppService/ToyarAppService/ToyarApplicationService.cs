@@ -16,7 +16,7 @@ public class ToyarApplicationService : IToyarApplicationService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task CreateToyarAppAsync(ToyarAppInputDto input)
+    public async Task CreateToyarApplicationAsync(ToyarApplicationInputDto input)
     {
         var exist = await CheckToyarAppExistAsync(input.AppId);
         if (exist)
@@ -43,7 +43,19 @@ public class ToyarApplicationService : IToyarApplicationService
         await _unitOfWork.CommitAsync();
     }
 
-    public async Task AddToyarAppUserRelationAsync(ToyarAppUserRelationInputDto input)
+    public async Task AddToyarApplicationUserRelationAsync(ToyarAppUserRelationInputDto input)
+    {
+        var toyarApp = await FindToyarAppByAppId(input.AppId, true);
+        if (toyarApp is null)
+        {
+            throw new NotImplementedException(); 
+        }
+        
+        toyarApp.AddToyarAppUserRelations(input.UserIdList);
+        
+    }
+    
+    public async Task AddToyarApplicationEnvironmentRelationAsync(ToyarAppUserRelationInputDto input)
     {
         var toyarApp = await FindToyarAppByAppId(input.AppId, true);
         if (toyarApp is null)
