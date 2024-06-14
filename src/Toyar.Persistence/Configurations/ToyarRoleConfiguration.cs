@@ -17,9 +17,5 @@ public class ToyarRoleConfiguration : IEntityTypeConfiguration<ToyarRole>
         builder.Property(x => x.LastModificationUserId).HasColumnName("last_modification_user_id");
         builder.Property(x => x.LastModificationTime).HasColumnName("last_modification_time");
         builder.Property(x => x.DeletionTime).HasColumnName("deletion_time");
-        builder.HasMany(o => o.ToyarRoleUserRelations)
-            .WithOne()
-            .HasForeignKey(x => x.RoleId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

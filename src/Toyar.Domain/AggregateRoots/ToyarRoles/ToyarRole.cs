@@ -31,6 +31,4 @@ public class ToyarRole : FullAggregateRoot
     /// 最后修改人Id
     /// </summary>
     public string LastModificationUserId { get; private set; } = string.Empty;
-
-    public ICollection<ToyarRoleUserRelation> ToyarRoleUserRelations = new List<ToyarRoleUserRelation>();
 }

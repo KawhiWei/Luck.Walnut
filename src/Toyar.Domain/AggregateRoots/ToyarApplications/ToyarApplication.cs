@@ -1,3 +1,4 @@
+using Luck.Framework.Extensions;
 using Toyar.Domain.AggregateRoots.ToyarApplications;
 using Toyar.Infrastructure;
 
@@ -5,7 +6,7 @@ namespace Toyar.Domain.AggregateRoots.ToyarApplications;
 
 public class ToyarApplication : FullAggregateRoot
 {
-    public ToyarApplication(string appId, string appName, string moduleGit, string appType, string ownedUser, 
+    public ToyarApplication(string appId, string appName, string moduleGit, string appType, string ownedUser,
         DeployTypeEnum deployType, string appDeployStatusType, string note, bool isUseDeployTemplate)
     {
         AppId = appId;
@@ -77,33 +78,26 @@ public class ToyarApplication : FullAggregateRoot
     /// <summary>
     /// 最后修改人
     /// </summary>
-    public string LastModificationUserName { get; private set; } =ToyarDefaultConstants.DefaultUserName;
+    public string LastModificationUserName { get; private set; } = ToyarDefaultConstants.DefaultUserName;
 
     /// <summary>
     /// 最后修改人Id
     /// </summary>
     public string LastModificationUserId { get; private set; } = ToyarDefaultConstants.DefaultUserId;
 
-    public ICollection<ToyarApplicationUserRelation> ToyarAppUserRelations { get; private set; } =
-        new List<ToyarApplicationUserRelation>();
+    public ICollection<ToyarApplicationPermissionRelation> ToyarAppPermissionRelations { get; private set; } =
+        new List<ToyarApplicationPermissionRelation>();
 
     public ICollection<ToyarApplicationEnvironmentRelation> ToyarAppEnvironmentRelations { get; private set; } =
         new List<ToyarApplicationEnvironmentRelation>();
 
-    public void AddToyarAppUserRelations(List<string> userIds)
+    public void AddToyarAppPermissionRelation(string userId, string environmentId, string roleId)
     {
-        foreach (var userId in userIds.Where(userId => ToyarAppUserRelations.Any(x => x.UserId != userId)))
-        {
-            ToyarAppUserRelations.Add(new ToyarApplicationUserRelation(AppId,userId));
-        }
+        ToyarAppPermissionRelations.Add(new ToyarApplicationPermissionRelation(AppId, userId, environmentId, roleId));
     }
-    
-    public void AddToyarAppEnvironmentRelations(List<string> environmentIds)
+
+    public void DeleteToyarAppPermissionRelation(string permissionId)
     {
-        foreach (var environment in environmentIds.Where(environment => ToyarAppEnvironmentRelations.Any(x => x.EnvironmentId != environment)))
-        {
-            ToyarAppUserRelations.Add(new ToyarApplicationUserRelation(AppId,environment));
-        }
+        ToyarAppPermissionRelations.Remove(item => item.Id == permissionId);
     }
 }
-

@@ -43,28 +43,27 @@ public class ToyarApplicationService : IToyarApplicationService
         await _unitOfWork.CommitAsync();
     }
 
-    public async Task AddToyarApplicationUserRelationAsync(ToyarAppUserRelationInputDto input)
+    public async Task AddToyarApplicationUserRelationAsync(string appId,
+        ToyarApplicationPermissionRelationInputDto input)
     {
-        var toyarApp = await FindToyarAppByAppId(input.AppId, true);
+        var toyarApp = await FindToyarAppByAppId(appId, true);
         if (toyarApp is null)
         {
-            throw new NotImplementedException(); 
+            throw new NotImplementedException();
         }
-        
-        toyarApp.AddToyarAppUserRelations(input.UserIdList);
-        
+
+        toyarApp.AddToyarAppPermissionRelation(input.UserId, input.EnvironmentId, input.RoleId);
     }
-    
-    public async Task AddToyarApplicationEnvironmentRelationAsync(ToyarAppUserRelationInputDto input)
+
+    public async Task DeleteToyarApplicationPermissionRelationAsync(string appId, string permissionId)
     {
-        var toyarApp = await FindToyarAppByAppId(input.AppId, true);
+        var toyarApp = await FindToyarAppByAppId(appId, true);
         if (toyarApp is null)
         {
-            throw new NotImplementedException(); 
+            throw new NotImplementedException();
         }
-        
-        toyarApp.AddToyarAppUserRelations(input.UserIdList);
-        
+
+        toyarApp.DeleteToyarAppPermissionRelation(permissionId);
     }
 
     private async Task<bool> CheckToyarAppExistAsync(string appId)
@@ -73,8 +72,8 @@ public class ToyarApplicationService : IToyarApplicationService
 
         return toyarApp is null;
     }
-    
-    private async Task<ToyarApplication?> FindToyarAppByAppId(string appId,bool isInclude=false)
+
+    private async Task<ToyarApplication?> FindToyarAppByAppId(string appId, bool isInclude = false)
     {
         return await _toyarApplicationRepository.FindToyarAppByAppId(appId, isInclude);
     }

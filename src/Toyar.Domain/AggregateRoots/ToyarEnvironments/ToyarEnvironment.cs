@@ -51,8 +51,6 @@ namespace Toyar.Domain.AggregateRoots.ToyarEnvironments
         /// 最后修改人Id
         /// </summary>
         public string LastModificationUserId { get; private set; }
-
-        public ICollection<ToyarEnvironmentUserRelation> ToyarEnvironmentUserRelations =
-            new List<ToyarEnvironmentUserRelation>();
+        
     }
 }

@@ -26,7 +26,7 @@ public class ToyarApplicationConfiguration : IEntityTypeConfiguration<ToyarAppli
         builder.Property(x => x.LastModificationTime).HasColumnName("last_modification_time");
         builder.Property(x => x.DeletionTime).HasColumnName("deletion_time");
 
-        builder.HasMany(o => o.ToyarAppUserRelations)
+        builder.HasMany(o => o.ToyarAppPermissionRelations)
             .WithOne()
             .HasForeignKey(x => x.AppId)
             .OnDelete(DeleteBehavior.Cascade);
