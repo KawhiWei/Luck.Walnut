@@ -21,7 +21,7 @@ public class ToyarApplicationService : IToyarApplicationService
         var exist = await CheckToyarAppExistAsync(input.AppId);
         if (exist)
         {
-            throw new NotImplementedException();
+            throw new BusinessException($"应用：【{input.AppId}】已存在！");
         }
 
         var toyarApp = new ToyarApplication(input.AppId, input.AppName, input.ModuleGit, input.AppType, input.OwnedUser,
@@ -36,14 +36,14 @@ public class ToyarApplicationService : IToyarApplicationService
         var toyarApp = await _toyarApplicationRepository.FindToyarAppByAppId(id, false);
         if (toyarApp is null)
         {
-            throw new NotImplementedException();
+            throw new BusinessException($"应用：【{id}】不存在！");
         }
 
         _toyarApplicationRepository.Remove(toyarApp);
         await _unitOfWork.CommitAsync();
     }
 
-    public async Task AddToyarApplicationUserRelationAsync(string appId,
+    public async Task AddToyarApplicationPermissionRelationAsync(string appId,
         ToyarApplicationPermissionRelationInputDto input)
     {
         var toyarApp = await FindToyarAppByAppId(appId, true);
@@ -60,7 +60,7 @@ public class ToyarApplicationService : IToyarApplicationService
         var toyarApp = await FindToyarAppByAppId(appId, true);
         if (toyarApp is null)
         {
-            throw new NotImplementedException();
+            throw new BusinessException($"应用：【{appId}】不存在！");
         }
 
         toyarApp.DeleteToyarAppPermissionRelation(permissionId);

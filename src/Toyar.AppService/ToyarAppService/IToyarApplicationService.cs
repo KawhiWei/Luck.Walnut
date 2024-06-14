@@ -8,7 +8,7 @@ public interface IToyarApplicationService : IScopedDependency
 
     Task DeleteToyarAppByIdAsync(string id);
 
-    Task AddToyarApplicationUserRelationAsync(string appId, ToyarApplicationPermissionRelationInputDto input);
+    Task AddToyarApplicationPermissionRelationAsync(string appId, ToyarApplicationPermissionRelationInputDto input);
 
     Task DeleteToyarApplicationPermissionRelationAsync(string appId, string permissionId);
 }

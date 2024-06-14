@@ -21,11 +21,11 @@ public class ToyarApplicationController : BaseController
 
 
     [HttpPost("{appId}/add/toyarApplication/permissionRelation")]
-    public Task AddToyarApplicationUserRelation(string appId,
+    public Task AddToyarApplicationPermissionRelation(string appId,
         [FromBody] ToyarApplicationPermissionRelationInputDto input) =>
-        _toyarApplicationService.AddToyarApplicationUserRelationAsync(appId, input);
+        _toyarApplicationService.AddToyarApplicationPermissionRelationAsync(appId, input);
 
     [HttpDelete("{appId}/delete/toyarApplication/permissionRelation/{permissionId}")]
-    public Task AddToyarApplicationEnvironmentRelation(string appId, string permissionId) =>
+    public Task DeleteToyarApplicationPermissionRelation(string appId, string permissionId) =>
         _toyarApplicationService.DeleteToyarApplicationPermissionRelationAsync(permissionId, permissionId);
 }
