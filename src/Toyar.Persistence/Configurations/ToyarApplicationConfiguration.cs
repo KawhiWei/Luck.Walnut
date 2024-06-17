@@ -14,7 +14,7 @@ public class ToyarApplicationConfiguration : IEntityTypeConfiguration<ToyarAppli
         builder.Property(x => x.ModuleGit).HasColumnName("module_git");
         builder.Property(x => x.AppType).HasColumnName("app_type");
         builder.Property(x => x.OwnedUser).HasColumnName("owned_user");
-        builder.Property(x => x.DeployType).HasColumnName("deploy_type");
+        builder.Property(x => x.InstanceType).HasColumnName("instance_type");
         builder.Property(x => x.AppDeployStatusType).HasColumnName("app_deploy_status_type");
         builder.Property(x => x.Note).HasColumnName("note");
         builder.Property(x => x.IsUseDeployTemplate).HasColumnName("is_use_deploy_template");

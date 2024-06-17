@@ -7,14 +7,14 @@ namespace Toyar.Domain.AggregateRoots.ToyarApplications;
 public class ToyarApplication : FullAggregateRoot
 {
     public ToyarApplication(string appId, string appName, string moduleGit, string appType, string ownedUser,
-        DeployTypeEnum deployType, string appDeployStatusType, string note, bool isUseDeployTemplate)
+        DeployTypeEnum instanceType, string appDeployStatusType, string note, bool isUseDeployTemplate)
     {
         AppId = appId;
         AppName = appName;
         ModuleGit = moduleGit;
         AppType = appType;
         OwnedUser = ownedUser;
-        DeployType = deployType;
+        InstanceType = instanceType;
         AppDeployStatusType = appDeployStatusType;
         Note = note;
         IsUseDeployTemplate = isUseDeployTemplate;
@@ -48,7 +48,7 @@ public class ToyarApplication : FullAggregateRoot
     /// <summary>
     /// 应用部署类型
     /// </summary>
-    public DeployTypeEnum DeployType { get; private set; }
+    public DeployTypeEnum InstanceType { get; private set; }
 
     /// <summary>
     /// 应用部署状态类型
