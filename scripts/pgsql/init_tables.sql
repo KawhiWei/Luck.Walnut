@@ -87,12 +87,12 @@ CREATE TABLE IF NOT EXISTS toyar_application_deployment_configuration
     service_port  VARCHAR(300) NOT NULL DEFAULT '' COMMENT '服务端口',
     bot_notification_type  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '发布通知类型：（企业微信、钉钉、飞书等）',
     bot_notification_url  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '发布通知',
-    deployment_befor_web_hook_url  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '部署前回调地址',
+    deployment_before_web_hook_url  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '部署前回调地址',
     deployment_after_web_hook_url  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '部署后回调地址',
-    
-    
-    
     is_default_deploy BOOLEAN NOT NULL DEFAULT false  COMMENT '是否默认部署配置',
+    
+    
+    
     deleted BOOLEAN NOT NULL DEFAULT false COMMENT '是否删除',
     create_user_name VARCHAR(50) NOT NULL DEFAULT '' COMMENT '创建人',
     create_user_id VARCHAR(50) NOT NULL DEFAULT '' COMMENT '创建人Id',
