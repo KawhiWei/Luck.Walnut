@@ -15,9 +15,12 @@ public class ToyarApplicationController : BaseController
     }
 
 
-    [HttpPost]
+    [HttpPost("add/toyarApplication")]
     public Task AddToyarApplication([FromBody] ToyarApplicationInputDto input) =>
-        _toyarApplicationService.CreateToyarApplicationAsync(input);
+        _toyarApplicationService.AddToyarApplicationAsync(input);
+
+    [HttpDelete("{id}/delete/toyarApplication")]
+    public Task DeleteToyarApplication(string id) => _toyarApplicationService.DeleteToyarAppByIdAsync(id);
 
 
     [HttpPost("{appId}/add/toyarApplication/permissionRelation")]
@@ -28,4 +31,10 @@ public class ToyarApplicationController : BaseController
     [HttpDelete("{appId}/delete/toyarApplication/permissionRelation/{permissionId}")]
     public Task DeleteToyarApplicationPermissionRelation(string appId, string permissionId) =>
         _toyarApplicationService.DeleteToyarApplicationPermissionRelationAsync(permissionId, permissionId);
+
+
+    [HttpDelete("{appId}/add/toyarApplication/environmentRelation")]
+    public Task AddToyarApplicationEnvironmentRelation(string appId,
+        ToyarApplicationEnvironmentRelationInputDto input) =>
+        _toyarApplicationService.AddToyarApplicationEnvironmentRelationAsync(appId, input);
 }

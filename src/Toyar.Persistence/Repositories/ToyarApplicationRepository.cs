@@ -16,8 +16,8 @@ public class ToyarApplicationRepository : EfCoreAggregateRootRepository<ToyarApp
         if (isInclude)
         {
             queryable = queryable
-                .Include(x => x.ToyarAppEnvironmentRelations)
-                .Include(x => x.ToyarAppPermissionRelations);
+                .Include(x => x.ToyarApplicationEnvironmentRelations)
+                .Include(x => x.ToyarApplicationPermissionRelations);
         }
            
         return queryable.FirstOrDefaultAsync(x => x.AppId == appId);
@@ -29,8 +29,8 @@ public class ToyarApplicationRepository : EfCoreAggregateRootRepository<ToyarApp
         if (isInclude)
         {
             queryable = queryable
-                .Include(x => x.ToyarAppEnvironmentRelations)
-                .Include(x => x.ToyarAppPermissionRelations);
+                .Include(x => x.ToyarApplicationEnvironmentRelations)
+                .Include(x => x.ToyarApplicationPermissionRelations);
         }
            
         return queryable.FirstOrDefaultAsync(x => x.Id == id);

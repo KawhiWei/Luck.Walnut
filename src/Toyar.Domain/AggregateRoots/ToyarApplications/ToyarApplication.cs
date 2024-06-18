@@ -85,19 +85,26 @@ public class ToyarApplication : FullAggregateRoot
     /// </summary>
     public string LastModificationUserId { get; private set; } = ToyarDefaultConstants.DefaultUserId;
 
-    public ICollection<ToyarApplicationPermissionRelation> ToyarAppPermissionRelations { get; private set; } =
+    public ICollection<ToyarApplicationPermissionRelation> ToyarApplicationPermissionRelations { get; private set; } =
         new List<ToyarApplicationPermissionRelation>();
 
-    public ICollection<ToyarApplicationEnvironmentRelation> ToyarAppEnvironmentRelations { get; private set; } =
+    public ICollection<ToyarApplicationEnvironmentRelation> ToyarApplicationEnvironmentRelations { get; private set; } =
         new List<ToyarApplicationEnvironmentRelation>();
 
     public void AddToyarAppPermissionRelation(string userId, string environmentId, string roleId)
     {
-        ToyarAppPermissionRelations.Add(new ToyarApplicationPermissionRelation(AppId, userId, environmentId, roleId));
+        ToyarApplicationPermissionRelations.Add(new ToyarApplicationPermissionRelation(AppId, userId, environmentId, roleId));
     }
 
     public void DeleteToyarAppPermissionRelation(string permissionId)
     {
-        ToyarAppPermissionRelations.Remove(item => item.Id == permissionId);
+        ToyarApplicationPermissionRelations.Remove(item => item.Id == permissionId);
     }
+    
+    
+    public void AddToyarAppEnvironmentRelation(string environmentId)
+    {
+        ToyarApplicationEnvironmentRelations.Add(new ToyarApplicationEnvironmentRelation(AppId, environmentId));
+    }
+    
 }

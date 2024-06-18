@@ -17,3 +17,11 @@ public class ToyarApplicationPermissionRelationInputDto
     /// </summary>
     public string RoleId { get; set; } = string.Empty;
 }
+
+public class ToyarApplicationEnvironmentRelationInputDto
+{
+    /// <summary>
+    /// 环境id
+    /// </summary>
+    public List<string> EnvironmentIdList { get; set; } = new();
+}

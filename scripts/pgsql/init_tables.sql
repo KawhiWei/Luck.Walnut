@@ -81,11 +81,16 @@ CREATE TABLE IF NOT EXISTS toyar_application_deployment_configuration
     id VARCHAR(50) NOT NULL PRIMARY KEY,
     app_id VARCHAR(50) NOT NULL DEFAULT ''  COMMENT '应用标识（系统唯一）',
     environment_id VARCHAR(50) NOT NULL DEFAULT '' COMMENT '环境Id',
-    environment_id VARCHAR(50) NOT NULL DEFAULT '' COMMENT '环境Id',
     health_check_mode VARCHAR(50) NOT NULL DEFAULT '' COMMENT '健康检查方式',
     health_check_url VARCHAR(50) NOT NULL DEFAULT '' COMMENT '健康检查url',
     release_strategy VARCHAR(50) NOT NULL DEFAULT '' COMMENT '发布模式',
-    service_port  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '服务端口',
+    service_port  VARCHAR(300) NOT NULL DEFAULT '' COMMENT '服务端口',
+    bot_notification_type  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '发布通知类型：（企业微信、钉钉、飞书等）',
+    bot_notification_url  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '发布通知',
+    deployment_befor_web_hook_url  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '部署前回调地址',
+    deployment_after_web_hook_url  VARCHAR(50) NOT NULL DEFAULT '' COMMENT '部署后回调地址',
+    
+    
     
     is_default_deploy BOOLEAN NOT NULL DEFAULT false  COMMENT '是否默认部署配置',
     deleted BOOLEAN NOT NULL DEFAULT false COMMENT '是否删除',

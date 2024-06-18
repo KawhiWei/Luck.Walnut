@@ -16,7 +16,7 @@ public class ToyarApplicationService : IToyarApplicationService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task CreateToyarApplicationAsync(ToyarApplicationInputDto input)
+    public async Task AddToyarApplicationAsync(ToyarApplicationInputDto input)
     {
         var exist = await CheckToyarAppExistAsync(input.AppId);
         if (exist)
@@ -24,10 +24,19 @@ public class ToyarApplicationService : IToyarApplicationService
             throw new BusinessException($"应用：【{input.AppId}】已存在！");
         }
 
-        var toyarApp = new ToyarApplication(input.AppId, input.AppName, input.ModuleGit, input.AppType, input.OwnedUser,
+        var toyarApplication = new ToyarApplication(input.AppId, input.AppName, input.ModuleGit, input.AppType,
+            input.OwnedUser,
             input.DeployType, input.AppDeployStatusType, input.Note, input.IsUseDeployTemplate);
 
-        _toyarApplicationRepository.Add(toyarApp);
+        if (input.EnvironmentIdList.Any())
+        {
+            foreach (var environmentId in input.EnvironmentIdList)
+            {
+                toyarApplication.AddToyarAppEnvironmentRelation(environmentId);
+            }
+        }
+
+        _toyarApplicationRepository.Add(toyarApplication);
         await _unitOfWork.CommitAsync();
     }
 
@@ -46,7 +55,7 @@ public class ToyarApplicationService : IToyarApplicationService
     public async Task AddToyarApplicationPermissionRelationAsync(string appId,
         ToyarApplicationPermissionRelationInputDto input)
     {
-        var toyarApp = await FindToyarAppByAppId(appId, true);
+        var toyarApp = await GetToyarApplicationByAppId(appId, true);
         if (toyarApp is null)
         {
             throw new NotImplementedException();
@@ -57,7 +66,7 @@ public class ToyarApplicationService : IToyarApplicationService
 
     public async Task DeleteToyarApplicationPermissionRelationAsync(string appId, string permissionId)
     {
-        var toyarApp = await FindToyarAppByAppId(appId, true);
+        var toyarApp = await GetToyarApplicationByAppId(appId, true);
         if (toyarApp is null)
         {
             throw new BusinessException($"应用：【{appId}】不存在！");
@@ -66,14 +75,44 @@ public class ToyarApplicationService : IToyarApplicationService
         toyarApp.DeleteToyarAppPermissionRelation(permissionId);
     }
 
+    public async Task AddToyarApplicationEnvironmentRelationAsync(string appId,
+        ToyarApplicationEnvironmentRelationInputDto input)
+    {
+        var toyarApplication = await CheckAndGetToyarApplicationByAppId(appId);
+        if (toyarApplication is null)
+        {
+            throw new NotImplementedException();
+        }
+
+        if (input.EnvironmentIdList.Any())
+        {
+            foreach (var environmentId in input.EnvironmentIdList)
+            {
+                toyarApplication.AddToyarAppEnvironmentRelation(environmentId);
+            }
+        }
+    }
+
+
+    private async Task<ToyarApplication> CheckAndGetToyarApplicationByAppId(string appId)
+    {
+        var toyarApp = await GetToyarApplicationByAppId(appId, true);
+        if (toyarApp is null)
+        {
+            throw new NotImplementedException();
+        }
+
+        return toyarApp;
+    }
+
     private async Task<bool> CheckToyarAppExistAsync(string appId)
     {
-        var toyarApp = await FindToyarAppByAppId(appId);
+        var toyarApp = await GetToyarApplicationByAppId(appId);
 
         return toyarApp is null;
     }
 
-    private async Task<ToyarApplication?> FindToyarAppByAppId(string appId, bool isInclude = false)
+    private async Task<ToyarApplication?> GetToyarApplicationByAppId(string appId, bool isInclude = false)
     {
         return await _toyarApplicationRepository.FindToyarAppByAppId(appId, isInclude);
     }
