@@ -56,11 +56,6 @@ public class ToyarApplicationService : IToyarApplicationService
     public async Task DeleteToyarApplicationPermissionRelationAsync(string appId, string permissionId)
     {
         var toyarApp = await CheckAndGetToyarApplicationByAppId(appId, true);
-        if (toyarApp is null)
-        {
-            throw new BusinessException($"应用：【{appId}】不存在！");
-        }
-
         toyarApp.DeleteToyarAppPermissionRelation(permissionId);
     }
 
