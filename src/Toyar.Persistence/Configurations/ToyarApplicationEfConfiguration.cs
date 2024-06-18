@@ -30,11 +30,15 @@ public class ToyarApplicationEfConfiguration : IEntityTypeConfiguration<ToyarApp
             .WithOne()
             .HasForeignKey(x => x.AppId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.HasMany(o => o.ToyarApplicationPermissionRelations)
             .WithOne()
             .HasForeignKey(x => x.AppId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
+        builder.HasMany(o => o.ToyarApplicationDeploymentConfigurations)
+            .WithOne()
+            .HasForeignKey(x => x.AppId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

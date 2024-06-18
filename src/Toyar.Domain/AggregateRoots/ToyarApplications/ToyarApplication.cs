@@ -91,6 +91,10 @@ public class ToyarApplication : FullAggregateRoot
     public ICollection<ToyarApplicationEnvironmentRelation> ToyarApplicationEnvironmentRelations { get; private set; } =
         new List<ToyarApplicationEnvironmentRelation>();
 
+    public ICollection<ToyarApplicationDeploymentConfiguration> ToyarApplicationDeploymentConfigurations
+    { get; private set; } = new List<ToyarApplicationDeploymentConfiguration>();
+
+    
     public void AddToyarAppPermissionRelation(string userId, string environmentId, string roleId)
     {
         ToyarApplicationPermissionRelations.Add(new ToyarApplicationPermissionRelation(AppId, userId, environmentId, roleId));
