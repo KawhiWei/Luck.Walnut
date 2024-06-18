@@ -1,12 +1,12 @@
 ﻿using Toyar.Dto.ToyarApps;
 
-namespace Toyar.AppService.ToyarAppService;
+namespace Toyar.AppService.ToyarApplicationService;
 
 public interface IToyarApplicationService : IScopedDependency
 {
     Task AddToyarApplicationAsync(ToyarApplicationInputDto input);
 
-    Task DeleteToyarAppByIdAsync(string id);
+    Task DeleteToyarAppByIdAsync(string appId);
 
     Task AddToyarApplicationPermissionRelationAsync(string appId, ToyarApplicationPermissionRelationInputDto input);
 
