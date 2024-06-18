@@ -2,7 +2,7 @@ using Toyar.Domain.AggregateRoots.ToyarRoles;
 
 namespace Toyar.Persistence.Configurations;
 
-public class ToyarRoleConfiguration : IEntityTypeConfiguration<ToyarRole>
+public class ToyarRoleEfConfiguration : IEntityTypeConfiguration<ToyarRole>
 {
     public void Configure(EntityTypeBuilder<ToyarRole> builder)
     {
