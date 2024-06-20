@@ -1,5 +1,6 @@
 using Luck.Framework.Extensions;
 using Toyar.Domain.AggregateRoots.ToyarApplications;
+using Toyar.Dto.ToyarApplicationDto;
 using Toyar.Infrastructure;
 
 namespace Toyar.Domain.AggregateRoots.ToyarApplications;
@@ -109,6 +110,12 @@ public class ToyarApplication : FullAggregateRoot
     public void AddToyarAppEnvironmentRelation(string environmentId)
     {
         ToyarApplicationEnvironmentRelations.Add(new ToyarApplicationEnvironmentRelation(AppId, environmentId));
+    }
+    
+    public void AddToyarAppEnvironmentRelation(ToyarApplicationDeploymentConfigurationInputDto input)
+    {
+        ToyarApplicationDeploymentConfigurations.Add(new ToyarApplicationDeploymentConfiguration(AppId, input.EnvironmentId,input.HealthCheckMode,input.HealthCheckUrl,
+        input.ReleaseStrategy,input.ServicePort,input.BotNotificationType,input.BotNotificationUrl,input.DeploymentBeforeWebHookUrl,input.DeploymentAfterWebHookUrl,false));
     }
     
 }

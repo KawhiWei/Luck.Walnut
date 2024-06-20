@@ -1,7 +1,7 @@
 ﻿using Luck.Framework.UnitOfWorks;
 using Toyar.Domain.AggregateRoots.ToyarApplications;
 using Toyar.Domain.Repositories;
-using Toyar.Dto.ToyarApps;
+using Toyar.Dto.ToyarApplicationDto;
 
 namespace Toyar.AppService.ToyarApplicationService;
 
@@ -73,6 +73,17 @@ public class ToyarApplicationService : IToyarApplicationService
     }
 
 
+    public async Task AddToyarApplicationDeploymentConfigurationAsync(string appId,
+        ToyarApplicationDeploymentConfigurationInputDto input)
+    {
+        var toyarApp = await CheckAndGetToyarApplicationByAppId(appId, true);
+        
+        
+        
+        
+    }
+    
+    
     private async Task<ToyarApplication> CheckAndGetToyarApplicationByAppId(string appId, bool isInclude = false)
     {
         var toyarApp = await GetToyarApplicationByAppId(appId, isInclude);

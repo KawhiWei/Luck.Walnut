@@ -1,6 +1,6 @@
 ﻿using Toyar.Infrastructure;
 
-namespace Toyar.Dto.ToyarApps;
+namespace Toyar.Dto.ToyarApplicationDto;
 
 public abstract class ToyarApplicationBaseDto
 {

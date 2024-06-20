@@ -20,7 +20,7 @@ public class
         builder.Property(x => x.BotNotificationUrl).HasColumnName("bot_notification_url");
         builder.Property(x => x.DeploymentBeforeWebHookUrl).HasColumnName("deployment_before_web_hook_url");
         builder.Property(x => x.DeploymentAfterWebHookUrl).HasColumnName("deployment_after_web_hook_url");
-        builder.Property(x => x.IsDefaultDeployment).HasColumnName("is_default_deploy");
+        builder.Property(x => x.IsDefaultDeployment).HasColumnName("is_default_deployment");
 
         builder.Property(x => x.CreateUserName).HasColumnName("create_user_name");
         builder.Property(x => x.CreateUserId).HasColumnName("create_user_id");

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Toyar.AppService.ToyarApplicationService;
-using Toyar.Dto.ToyarApps;
+using Toyar.Dto.ToyarApplicationDto;
 
 namespace Toyar.Api.Controllers;
 

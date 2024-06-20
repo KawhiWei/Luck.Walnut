@@ -1,4 +1,4 @@
-namespace Toyar.Dto.ToyarApps;
+namespace Toyar.Dto.ToyarApplicationDto;
 
 public class ToyarApplicationPermissionRelationInputDto
 {
@@ -16,12 +16,4 @@ public class ToyarApplicationPermissionRelationInputDto
     /// 角色id
     /// </summary>
     public string RoleId { get; set; } = string.Empty;
-}
-
-public class ToyarApplicationEnvironmentRelationInputDto
-{
-    /// <summary>
-    /// 环境id
-    /// </summary>
-    public List<string> EnvironmentIdList { get; set; } = new();
 }

@@ -1,4 +1,4 @@
-﻿using Toyar.Dto.ToyarApps;
+﻿using Toyar.Dto.ToyarApplicationDto;
 
 namespace Toyar.AppService.ToyarApplicationService;
 

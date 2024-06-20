@@ -141,7 +141,9 @@ CREATE TABLE IF NOT EXISTS toyar_application_deployment_configuration
     bot_notification_url  VARCHAR(50) NOT NULL DEFAULT '',
     deployment_before_web_hook_url  VARCHAR(50) NOT NULL DEFAULT '',
     deployment_after_web_hook_url  VARCHAR(50) NOT NULL DEFAULT '',
-    is_default_deploy BOOLEAN NOT NULL DEFAULT false,
+    restart_policy  VARCHAR(50) NOT NULL DEFAULT '',
+    memory_size_maxmib VARCHAR(50) NOT NULL DEFAULT '',
+    is_default_deployment BOOLEAN NOT NULL DEFAULT false,
     deleted BOOLEAN NOT NULL DEFAULT false,
     create_user_name VARCHAR(50) NOT NULL DEFAULT '',
     create_user_id VARCHAR(50) NOT NULL DEFAULT '',
@@ -149,7 +151,8 @@ CREATE TABLE IF NOT EXISTS toyar_application_deployment_configuration
     last_modification_user_name VARCHAR(50) NOT NULL DEFAULT '',
     last_modification_user_id VARCHAR(50) NOT NULL DEFAULT '',
     last_modification_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                                
 );
 CREATE INDEX idx_toyar_application_deployment_configuration_id on toyar_application_deployment_configuration (id);
 CREATE INDEX idx_toyar_application_deployment_configuration_app_id on toyar_application_deployment_configuration (app_id);
@@ -165,8 +168,10 @@ COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."se
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."bot_notification_type" IS '发布通知机器人类型：（企业微信、钉钉、飞书等）';
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."bot_notification_url" IS '发布通知Url';
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."deployment_before_web_hook_url" IS '部署前回调地址';     
-COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."deployment_after_web_hook_url" IS '部署后回调地址';     
-COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."is_default_deploy" IS '是否默认部署配置';     
+COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."deployment_after_web_hook_url" IS '部署后回调地址';
+COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."restart_policy" IS '重启策略';
+COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."memory_size_maxmib" IS '最大内存';
+COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."is_default_deployment" IS '是否默认部署配置';     
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."deleted" IS '是否删除';
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."create_user_name" IS '创建人';
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."create_user_id" IS '创建人Id';

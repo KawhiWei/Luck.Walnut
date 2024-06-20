@@ -7,7 +7,7 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
     public ToyarApplicationDeploymentConfiguration(string appId, string environmentId, string healthCheckMode,
         string healthCheckUrl, string releaseStrategy, List<string> servicePort, string botNotificationType,
         string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl,
-        string isDefaultDeployment)
+        bool isDefaultDeployment)
     {
         AppId = appId;
         EnvironmentId = environmentId;
@@ -75,7 +75,7 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
     /// <summary>
     /// 是否默认部署配置
     /// </summary>
-    public string IsDefaultDeployment { get; private set; }
+    public bool IsDefaultDeployment { get; private set; }
 
     /// <summary>
     /// 创建人
