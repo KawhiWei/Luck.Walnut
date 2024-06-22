@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS toyar_application_deployment_configuration
     last_modification_user_name VARCHAR(50) NOT NULL DEFAULT '',
     last_modification_user_id VARCHAR(50) NOT NULL DEFAULT '',
     last_modification_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
                                 
 );
 CREATE INDEX idx_toyar_application_deployment_configuration_id on toyar_application_deployment_configuration (id);
