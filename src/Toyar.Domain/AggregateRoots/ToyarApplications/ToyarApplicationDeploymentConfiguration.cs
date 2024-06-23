@@ -73,6 +73,16 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
     public string DeploymentAfterWebHookUrl { get; private set; }
 
     /// <summary>
+    /// 重启策略
+    /// </summary>
+    public string RestartPolicy { get; private set; } = "always";
+
+    /// <summary>
+    /// 最大内存
+    /// </summary>
+    public string MemorySizeMaxMib { get; private set; }
+
+    /// <summary>
     /// 是否默认部署配置
     /// </summary>
     public bool IsDefaultDeployment { get; private set; }
