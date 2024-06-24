@@ -2,10 +2,6 @@
 
 public class ToyarApplicationDeploymentConfigurationInputDto
 {
-    /// <summary>
-    /// 应用标识
-    /// </summary>
-    public string AppId { get; set; } = string.Empty;
 
     /// <summary>
     /// 环境标识
@@ -51,4 +47,9 @@ public class ToyarApplicationDeploymentConfigurationInputDto
     /// 部署后回调地址
     /// </summary>
     public string DeploymentAfterWebHookUrl { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// 最大内存
+    /// </summary>
+    public string MemorySizeMaxMib { get;  set; }= string.Empty;
 }

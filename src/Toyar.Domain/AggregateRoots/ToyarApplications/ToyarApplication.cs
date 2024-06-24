@@ -112,10 +112,15 @@ public class ToyarApplication : FullAggregateRoot
         ToyarApplicationEnvironmentRelations.Add(new ToyarApplicationEnvironmentRelation(AppId, environmentId));
     }
     
-    public void AddToyarAppEnvironmentRelation(ToyarApplicationDeploymentConfigurationInputDto input)
+    public void AddToyarApplicationDeploymentConfiguration(string environmentId, string healthCheckMode,
+        string healthCheckUrl, string releaseStrategy, List<string> servicePort, string botNotificationType,
+        string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl, 
+        string memorySizeMaxMib, bool isDefaultDeployment)
     {
-        ToyarApplicationDeploymentConfigurations.Add(new ToyarApplicationDeploymentConfiguration(AppId, input.EnvironmentId,input.HealthCheckMode,input.HealthCheckUrl,
-        input.ReleaseStrategy,input.ServicePort,input.BotNotificationType,input.BotNotificationUrl,input.DeploymentBeforeWebHookUrl,input.DeploymentAfterWebHookUrl,false));
+        ToyarApplicationDeploymentConfigurations.Add(new ToyarApplicationDeploymentConfiguration(AppId, environmentId,
+            healthCheckMode, healthCheckUrl,
+            releaseStrategy, servicePort, botNotificationType, botNotificationUrl, deploymentBeforeWebHookUrl,
+            deploymentAfterWebHookUrl, memorySizeMaxMib, isDefaultDeployment));
     }
     
 }

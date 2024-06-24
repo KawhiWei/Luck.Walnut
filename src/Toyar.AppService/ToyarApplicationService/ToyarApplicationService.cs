@@ -35,6 +35,15 @@ public class ToyarApplicationService : IToyarApplicationService
             }
         }
 
+        foreach (var toyarApplicationToyarApplicationEnvironmentRelation in toyarApplication
+                     .ToyarApplicationEnvironmentRelations)
+        {
+            toyarApplication.AddToyarApplicationDeploymentConfiguration(
+                toyarApplicationToyarApplicationEnvironmentRelation.EnvironmentId, "http", "", "2",
+                new List<string>() { "8080" }, "", "", "", "", "8000", false);
+        }
+        
+        
         _toyarApplicationRepository.Add(toyarApplication);
         await _unitOfWork.CommitAsync();
     }
@@ -73,14 +82,20 @@ public class ToyarApplicationService : IToyarApplicationService
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="appId"></param>
+    /// <param name="input"></param>
     public async Task AddToyarApplicationDeploymentConfigurationAsync(string appId,
         ToyarApplicationDeploymentConfigurationInputDto input)
     {
         var toyarApp = await CheckAndGetToyarApplicationByAppId(appId, true);
-        
-        
-        
-        
+
+        toyarApp.AddToyarApplicationDeploymentConfiguration(input.EnvironmentId, input.HealthCheckMode,
+            input.HealthCheckUrl,
+            input.ReleaseStrategy, input.ServicePort, input.BotNotificationType, input.BotNotificationUrl,
+            input.DeploymentBeforeWebHookUrl, input.DeploymentAfterWebHookUrl, input.MemorySizeMaxMib, false);
     }
     
     

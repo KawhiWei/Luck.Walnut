@@ -6,8 +6,8 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
 {
     public ToyarApplicationDeploymentConfiguration(string appId, string environmentId, string healthCheckMode,
         string healthCheckUrl, string releaseStrategy, List<string> servicePort, string botNotificationType,
-        string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl,
-        bool isDefaultDeployment)
+        string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl, 
+        string memorySizeMaxMib, bool isDefaultDeployment)
     {
         AppId = appId;
         EnvironmentId = environmentId;
@@ -19,6 +19,7 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
         BotNotificationUrl = botNotificationUrl;
         DeploymentBeforeWebHookUrl = deploymentBeforeWebHookUrl;
         DeploymentAfterWebHookUrl = deploymentAfterWebHookUrl;
+        MemorySizeMaxMib = memorySizeMaxMib;
         IsDefaultDeployment = isDefaultDeployment;
     }
 
