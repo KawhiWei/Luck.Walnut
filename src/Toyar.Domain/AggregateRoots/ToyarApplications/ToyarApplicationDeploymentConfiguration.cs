@@ -82,6 +82,28 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
     /// 最大内存
     /// </summary>
     public string MemorySizeMaxMib { get; private set; }
+    
+    
+    /// <summary>
+    /// 最大内存
+    /// </summary>
+    public string Cpu { get; private set; }
+    
+    /// <summary>
+    /// 容器模式
+    /// </summary>
+    public string ContainerPattern { get; private set; }
+
+    /// <summary>
+    /// 环境变量
+    /// </summary>
+    public Dictionary<string, string> EnvironmentVariable { get; private set; } = new();
+    
+    /// <summary>
+    /// 挂载目录
+    /// </summary>
+    public Dictionary<string, string> Mounts { get; private set; } = new();
+    
 
     /// <summary>
     /// 是否默认部署配置

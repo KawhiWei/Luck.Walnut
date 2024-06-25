@@ -143,7 +143,11 @@ CREATE TABLE IF NOT EXISTS toyar_application_deployment_configuration
     deployment_after_web_hook_url  VARCHAR(50) NOT NULL DEFAULT '',
     restart_policy  VARCHAR(50) NOT NULL DEFAULT '',
     memory_size_maxmib VARCHAR(50) NOT NULL DEFAULT '',
-    is_default_deployment BOOLEAN NOT NULL DEFAULT false,
+    cpu  VARCHAR(50) NOT NULL DEFAULT '',
+    container_pattern int NOT NULL DEFAULT 0,
+    environment_variable VARCHAR(1000) NOT NULL DEFAULT '',
+    mounts VARCHAR(1000) NOT NULL DEFAULT '',
+    is_default_deployment BOOLEAN NOT NULL DEFAULT false, 
     deleted BOOLEAN NOT NULL DEFAULT false,
     create_user_name VARCHAR(50) NOT NULL DEFAULT '',
     create_user_id VARCHAR(50) NOT NULL DEFAULT '',
@@ -152,7 +156,6 @@ CREATE TABLE IF NOT EXISTS toyar_application_deployment_configuration
     last_modification_user_id VARCHAR(50) NOT NULL DEFAULT '',
     last_modification_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-                                
 );
 CREATE INDEX idx_toyar_application_deployment_configuration_id on toyar_application_deployment_configuration (id);
 CREATE INDEX idx_toyar_application_deployment_configuration_app_id on toyar_application_deployment_configuration (app_id);
@@ -171,6 +174,10 @@ COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."de
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."deployment_after_web_hook_url" IS '部署后回调地址';
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."restart_policy" IS '重启策略';
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."memory_size_maxmib" IS '最大内存';
+COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."cpu" IS 'Cpu数量';
+COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."container_pattern" IS '容器模式';
+COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."environment_variable" IS '环境变量';
+COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."mounts" IS '挂载目录';
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."is_default_deployment" IS '是否默认部署配置';     
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."deleted" IS '是否删除';
 COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."create_user_name" IS '创建人';
