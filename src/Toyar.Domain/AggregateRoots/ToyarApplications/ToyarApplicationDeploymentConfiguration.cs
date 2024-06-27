@@ -1,3 +1,4 @@
+using Toyar.Dto.ToyarApplicationDto;
 using Toyar.Infrastructure;
 
 namespace Toyar.Domain.AggregateRoots.ToyarApplications;
@@ -6,8 +7,8 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
 {
     public ToyarApplicationDeploymentConfiguration(string appId, string environmentId, string healthCheckMode,
         string healthCheckUrl, string releaseStrategy, List<string> servicePort, string botNotificationType,
-        string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl, 
-        string memorySizeMaxMib, bool isDefaultDeployment)
+        string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl,
+        string memorySizeMaxMib, string cpu, string containerPattern, bool isDefaultDeployment)
     {
         AppId = appId;
         EnvironmentId = environmentId;
@@ -20,6 +21,8 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
         DeploymentBeforeWebHookUrl = deploymentBeforeWebHookUrl;
         DeploymentAfterWebHookUrl = deploymentAfterWebHookUrl;
         MemorySizeMaxMib = memorySizeMaxMib;
+        Cpu = cpu;
+        ContainerPattern = containerPattern;
         IsDefaultDeployment = isDefaultDeployment;
     }
 
@@ -82,13 +85,13 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
     /// 最大内存
     /// </summary>
     public string MemorySizeMaxMib { get; private set; }
-    
-    
+
+
     /// <summary>
     /// 最大内存
     /// </summary>
     public string Cpu { get; private set; }
-    
+
     /// <summary>
     /// 容器模式
     /// </summary>
@@ -98,12 +101,12 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
     /// 环境变量
     /// </summary>
     public Dictionary<string, string> EnvironmentVariable { get; private set; } = new();
-    
+
     /// <summary>
     /// 挂载目录
     /// </summary>
     public Dictionary<string, string> Mounts { get; private set; } = new();
-    
+
 
     /// <summary>
     /// 是否默认部署配置
@@ -129,4 +132,20 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
     /// 最后修改人Id
     /// </summary>
     public string LastModificationUserId { get; private set; } = ToyarDefaultConstants.DefaultUserId;
+
+    public void UpdateToyarApplicationDeploymentConfigurationByInputDto(
+        ToyarApplicationDeploymentConfigurationInputDto input)
+    {
+        HealthCheckMode = input.HealthCheckMode;
+        HealthCheckUrl = input.HealthCheckUrl;
+        ReleaseStrategy = input.ReleaseStrategy;
+        ServicePort = input.ServicePort;
+        BotNotificationType = input.BotNotificationType;
+        BotNotificationUrl = input.BotNotificationUrl;
+        DeploymentBeforeWebHookUrl = input.DeploymentBeforeWebHookUrl;
+        DeploymentAfterWebHookUrl = input.DeploymentAfterWebHookUrl;
+        MemorySizeMaxMib = input.MemorySizeMaxMib;
+        Cpu = input.Cpu;
+        ContainerPattern = input.ContainerPattern;
+    }
 }

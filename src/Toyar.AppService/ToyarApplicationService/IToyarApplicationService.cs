@@ -22,4 +22,7 @@ public interface IToyarApplicationService : IScopedDependency
     /// <returns></returns>
     Task AddToyarApplicationDeploymentConfigurationAsync(string appId,
         ToyarApplicationDeploymentConfigurationInputDto input);
+
+    Task UpdateToyarApplicationDeploymentConfigurationAsync(string appId, string id,
+        ToyarApplicationDeploymentConfigurationInputDto input);
 }

@@ -93,34 +93,42 @@ public class ToyarApplication : FullAggregateRoot
         new List<ToyarApplicationEnvironmentRelation>();
 
     public ICollection<ToyarApplicationDeploymentConfiguration> ToyarApplicationDeploymentConfigurations
-    { get; private set; } = new List<ToyarApplicationDeploymentConfiguration>();
+    {
+        get;
+        private set;
+    } = new List<ToyarApplicationDeploymentConfiguration>();
 
-    
+
     public void AddToyarAppPermissionRelation(string userId, string environmentId, string roleId)
     {
-        ToyarApplicationPermissionRelations.Add(new ToyarApplicationPermissionRelation(AppId, userId, environmentId, roleId));
+        ToyarApplicationPermissionRelations.Add(
+            new ToyarApplicationPermissionRelation(AppId, userId, environmentId, roleId));
     }
 
     public void DeleteToyarAppPermissionRelation(string permissionId)
     {
         ToyarApplicationPermissionRelations.Remove(item => item.Id == permissionId);
     }
-    
-    
+
+
     public void AddToyarAppEnvironmentRelation(string environmentId)
     {
         ToyarApplicationEnvironmentRelations.Add(new ToyarApplicationEnvironmentRelation(AppId, environmentId));
     }
-    
+
     public void AddToyarApplicationDeploymentConfiguration(string environmentId, string healthCheckMode,
         string healthCheckUrl, string releaseStrategy, List<string> servicePort, string botNotificationType,
-        string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl, 
-        string memorySizeMaxMib, bool isDefaultDeployment)
+        string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl,
+        string memorySizeMaxMib, string cpu, string containerPattern, bool isDefaultDeployment)
     {
         ToyarApplicationDeploymentConfigurations.Add(new ToyarApplicationDeploymentConfiguration(AppId, environmentId,
             healthCheckMode, healthCheckUrl,
             releaseStrategy, servicePort, botNotificationType, botNotificationUrl, deploymentBeforeWebHookUrl,
-            deploymentAfterWebHookUrl, memorySizeMaxMib, isDefaultDeployment));
+            deploymentAfterWebHookUrl, memorySizeMaxMib, cpu, containerPattern, isDefaultDeployment));
     }
-    
+
+    public ToyarApplicationDeploymentConfiguration? FindToyarApplicationDeploymentConfigurationById(string id)
+    {
+        return ToyarApplicationDeploymentConfigurations.FirstOrDefault(x => x.Id == id);
+    }
 }

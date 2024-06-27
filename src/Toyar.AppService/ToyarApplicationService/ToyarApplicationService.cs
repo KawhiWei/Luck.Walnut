@@ -9,11 +9,14 @@ public class ToyarApplicationService : IToyarApplicationService
 {
     private readonly IToyarApplicationRepository _toyarApplicationRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IToyarEnvironmentRepository _toyarEnvironmentRepository;
 
-    public ToyarApplicationService(IToyarApplicationRepository toyarApplicationRepository, IUnitOfWork unitOfWork)
+    public ToyarApplicationService(IToyarApplicationRepository toyarApplicationRepository, IUnitOfWork unitOfWork,
+        IToyarEnvironmentRepository toyarEnvironmentRepository)
     {
         _toyarApplicationRepository = toyarApplicationRepository;
         _unitOfWork = unitOfWork;
+        _toyarEnvironmentRepository = toyarEnvironmentRepository;
     }
 
     public async Task AddToyarApplicationAsync(ToyarApplicationInputDto input)
@@ -40,10 +43,11 @@ public class ToyarApplicationService : IToyarApplicationService
         {
             toyarApplication.AddToyarApplicationDeploymentConfiguration(
                 toyarApplicationToyarApplicationEnvironmentRelation.EnvironmentId, "http", "", "2",
-                new List<string>() { "8080" }, "", "", "", "", "8000", false);
+                new List<string>() { "8080" }, "", "", "", "", "8192", "",
+                "", false);
         }
-        
-        
+
+
         _toyarApplicationRepository.Add(toyarApplication);
         await _unitOfWork.CommitAsync();
     }
@@ -68,6 +72,22 @@ public class ToyarApplicationService : IToyarApplicationService
         toyarApp.DeleteToyarAppPermissionRelation(permissionId);
     }
 
+    public async Task UpdateToyarApplicationDeploymentConfigurationAsync(string appId, string id,
+        ToyarApplicationDeploymentConfigurationInputDto input)
+    {
+        var toyarApplication = await CheckAndGetToyarApplicationByAppId(appId, true);
+
+        var toyarApplicationDeploymentConfiguration =
+            toyarApplication.FindToyarApplicationDeploymentConfigurationById(id);
+
+        if (toyarApplicationDeploymentConfiguration is null)
+        {
+            throw new BusinessException($"应用：【{appId}】不存在此部署，请刷新页面！");
+        }
+
+        toyarApplicationDeploymentConfiguration.UpdateToyarApplicationDeploymentConfigurationByInputDto(input);
+    }
+
     public async Task AddToyarApplicationEnvironmentRelationAsync(string appId,
         ToyarApplicationEnvironmentRelationInputDto input)
     {
@@ -90,15 +110,15 @@ public class ToyarApplicationService : IToyarApplicationService
     public async Task AddToyarApplicationDeploymentConfigurationAsync(string appId,
         ToyarApplicationDeploymentConfigurationInputDto input)
     {
-        var toyarApp = await CheckAndGetToyarApplicationByAppId(appId, true);
+        var toyarApplication = await CheckAndGetToyarApplicationByAppId(appId, true);
 
-        toyarApp.AddToyarApplicationDeploymentConfiguration(input.EnvironmentId, input.HealthCheckMode,
-            input.HealthCheckUrl,
-            input.ReleaseStrategy, input.ServicePort, input.BotNotificationType, input.BotNotificationUrl,
-            input.DeploymentBeforeWebHookUrl, input.DeploymentAfterWebHookUrl, input.MemorySizeMaxMib, false);
+        toyarApplication.AddToyarApplicationDeploymentConfiguration(input.EnvironmentId, input.HealthCheckMode,
+            input.HealthCheckUrl, input.ReleaseStrategy, input.ServicePort, input.BotNotificationType,
+            input.BotNotificationUrl, input.DeploymentBeforeWebHookUrl, input.DeploymentAfterWebHookUrl,
+            input.MemorySizeMaxMib, input.Cpu, input.ContainerPattern, false);
     }
-    
-    
+
+
     private async Task<ToyarApplication> CheckAndGetToyarApplicationByAppId(string appId, bool isInclude = false)
     {
         var toyarApp = await GetToyarApplicationByAppId(appId, isInclude);

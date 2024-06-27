@@ -37,4 +37,9 @@ public class ToyarApplicationController : BaseController
     public Task AddToyarApplicationEnvironmentRelation(string appId,
         ToyarApplicationEnvironmentRelationInputDto input) =>
         _toyarApplicationService.AddToyarApplicationEnvironmentRelationAsync(appId, input);
+
+    [HttpPut("{appId}/update/toyarApplication/deploymentConfiguration/{id}")]
+    public Task UpdateToyarApplicationDeploymentConfiguration(string appId, string id,
+        [FromBody] ToyarApplicationDeploymentConfigurationInputDto input) =>
+        _toyarApplicationService.UpdateToyarApplicationDeploymentConfigurationAsync(appId, id, input);
 }
