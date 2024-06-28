@@ -29,13 +29,11 @@ public class ToyarApplicationService : IToyarApplicationService
 
         var toyarApplication = new ToyarApplication(input.AppId, input.AppName, input.ModuleGit, input.AppType,
             input.OwnedUser, input.DeployType, input.AppDeployStatusType, input.Note, input.IsUseDeployTemplate);
+        var toyarEnvironmentList = await _toyarEnvironmentRepository.FindAll(x => x.IsSystemDefault).ToListAsync();
 
-        if (input.EnvironmentIdList.Any())
+        foreach (var toyarEnvironment in toyarEnvironmentList)
         {
-            foreach (var environmentId in input.EnvironmentIdList)
-            {
-                toyarApplication.AddToyarAppEnvironmentRelation(environmentId);
-            }
+            toyarApplication.AddToyarAppEnvironmentRelation(toyarEnvironment.Id);
         }
 
         foreach (var toyarApplicationToyarApplicationEnvironmentRelation in toyarApplication
