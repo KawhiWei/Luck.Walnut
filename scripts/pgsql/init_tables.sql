@@ -46,6 +46,30 @@ VALUES ('580302534690758660', 'product', '生产环境', true, 'system', '580302
 
 --#endregion
 
+--#region 基础组件
+CREATE TABLE IF NOT EXISTS toyar_base_component
+(
+    id VARCHAR(50) NOT NULL PRIMARY KEY,
+    english_name VARCHAR(50) NOT NULL DEFAULT '',
+    chines_name VARCHAR(50) NOT NULL DEFAULT '',
+    url VARCHAR(500) NOT NULL DEFAULT '',
+    certificate_type int NOT NULL DEFAULT 0,
+    token VARCHAR(500) NOT NULL DEFAULT '',
+    account VARCHAR(500) NOT NULL DEFAULT '',
+    password VARCHAR(500) NOT NULL DEFAULT '',
+    deleted BOOLEAN NOT NULL DEFAULT false,
+    create_user_name VARCHAR(50) NOT NULL DEFAULT '',
+    create_user_id VARCHAR(50) NOT NULL DEFAULT '',
+    creation_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_modification_user_name VARCHAR(50) NOT NULL DEFAULT '',
+    last_modification_user_id VARCHAR(50) NOT NULL DEFAULT '',
+    last_modification_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    deletion_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+--#endregion
+    
+
 --#region 角色基础数据
 CREATE TABLE IF NOT EXISTS toyar_role
 (

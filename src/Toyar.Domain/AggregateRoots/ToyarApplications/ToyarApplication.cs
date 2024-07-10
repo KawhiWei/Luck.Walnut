@@ -1,6 +1,5 @@
 using Luck.Framework.Extensions;
 using Toyar.Domain.AggregateRoots.ToyarApplications;
-using Toyar.Dto.ToyarApplicationDto;
 using Toyar.Infrastructure;
 
 namespace Toyar.Domain.AggregateRoots.ToyarApplications;

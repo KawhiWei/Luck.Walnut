@@ -1,4 +1,4 @@
-using Toyar.Dto.ToyarApplicationDto;
+using Toyar.Dto.ToyarApplications;
 using Toyar.Infrastructure;
 
 namespace Toyar.Domain.AggregateRoots.ToyarApplications;

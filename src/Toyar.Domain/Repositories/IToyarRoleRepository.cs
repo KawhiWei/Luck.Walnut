@@ -10,5 +10,5 @@ public interface IToyarRoleRepository : IAggregateRootRepository<ToyarRole, stri
     /// </summary>
     /// <param name="englishName"></param>
     /// <returns></returns>
-    Task<ToyarRole?> FindToyarRoleByEnglishName(string englishName);
+    Task<ToyarRole?> FindToyarRoleByEnglishNameAsync(string englishName);
 }

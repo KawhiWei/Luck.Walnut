@@ -1,7 +1,7 @@
 ﻿using Luck.Framework.UnitOfWorks;
 using Toyar.Domain.AggregateRoots.ToyarApplications;
 using Toyar.Domain.Repositories;
-using Toyar.Dto.ToyarApplicationDto;
+using Toyar.Dto.ToyarApplications;
 
 namespace Toyar.AppService.ToyarApplicationService;
 

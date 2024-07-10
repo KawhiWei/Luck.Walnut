@@ -1,4 +1,4 @@
-﻿namespace Toyar.Dto.ToyarApplicationDto;
+﻿namespace Toyar.Dto.ToyarApplications;
 
 public class ToyarApplicationDeploymentConfigurationInputDto
 {

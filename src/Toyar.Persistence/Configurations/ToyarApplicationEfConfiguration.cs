@@ -42,3 +42,4 @@ public class ToyarApplicationEfConfiguration : IEntityTypeConfiguration<ToyarApp
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
+

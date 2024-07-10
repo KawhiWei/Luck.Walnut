@@ -1,7 +1,7 @@
 using Toyar.Infrastructure;
 using Toyar.Infrastructure.Enums;
 
-namespace Toyar.Domain.AggregateRoots.BaseComponents;
+namespace Toyar.Domain.AggregateRoots.ToyarBaseComponents;
 
 public class ToyarBaseComponent : FullAggregateRoot
 {
@@ -18,39 +18,39 @@ public class ToyarBaseComponent : FullAggregateRoot
     }
 
     /// <summary>
-    /// 英文名称
+    /// 组件英文名称
     /// </summary>
     public string EnglishName { get; private set; }
 
     /// <summary>
-    /// 中文名称
+    /// 组件中文名称
     /// </summary>
     public string ChinesName { get; private set; }
 
     /// <summary>
     /// 组件Url地址
     /// </summary>
-    public string Url { get; set; }
+    public string Url { get; private set; }
 
     /// <summary>
     /// 凭证类型
     /// </summary>
-    public CertificateTypeEnum CertificateType { get; set; }
+    public CertificateTypeEnum CertificateType { get; private set; }
 
     /// <summary>
     /// 凭证
     /// </summary>
-    public string Token { get; set; }
+    public string Token { get; private set; }
 
     /// <summary>
     /// 账号
     /// </summary>
-    public string Account { get; set; }
+    public string Account { get; private set; }
 
     /// <summary>
     /// 密码
     /// </summary>
-    public string Password { get; set; }
+    public string Password { get; private set; }
 
     /// <summary>
     /// 创建人
