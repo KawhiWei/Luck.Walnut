@@ -7,7 +7,6 @@ namespace Toyar.Api.AppModules
 {
     [DependsOn(
         typeof(AutoDependencyAppModule),
-        typeof(EntityFrameworkCoreModule),
         typeof(MigrationModule),
         typeof(SerilogModule),
         typeof(EntityFrameworkCoreModule)

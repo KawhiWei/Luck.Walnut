@@ -99,7 +99,6 @@ public class ToyarApplicationService : IToyarApplicationService
         }
     }
 
-
     /// <summary>
     /// 
     /// </summary>
