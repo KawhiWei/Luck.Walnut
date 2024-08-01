@@ -28,17 +28,17 @@ public class ToyarApplicationEfConfiguration : IEntityTypeConfiguration<ToyarApp
 
         builder.HasMany(o => o.ToyarApplicationPermissionRelations)
             .WithOne()
-            .HasForeignKey(x => x.AppId)
+            .HasForeignKey(x => x.ToyarApplicationId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasMany(o => o.ToyarApplicationPermissionRelations)
+        builder.HasMany(o => o.ToyarApplicationEnvironmentRelations)
             .WithOne()
-            .HasForeignKey(x => x.AppId)
+            .HasForeignKey(x => x.ToyarApplicationId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(o => o.ToyarApplicationDeploymentConfigurations)
             .WithOne()
-            .HasForeignKey(x => x.AppId)
+            .HasForeignKey(x => x.ToyarApplicationId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

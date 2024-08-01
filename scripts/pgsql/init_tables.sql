@@ -156,6 +156,7 @@ CREATE TABLE IF NOT EXISTS toyar_application_deployment_configuration
 (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
     app_id VARCHAR(50) NOT NULL DEFAULT '',
+    toyar_application_id VARCHAR(50) NOT NULL DEFAULT '',
     environment_id VARCHAR(50) NOT NULL DEFAULT '',
     health_check_mode VARCHAR(50) NOT NULL DEFAULT '',
     health_check_url VARCHAR(50) NOT NULL DEFAULT '',
@@ -217,6 +218,7 @@ COMMENT ON COLUMN "toyar_infra"."toyar_application_deployment_configuration"."de
 CREATE TABLE IF NOT EXISTS toyar_application_permission_relation
 (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
+    toyar_application_id VARCHAR(50) NOT NULL DEFAULT '',
     app_id VARCHAR(50) NOT NULL DEFAULT '',
     user_id VARCHAR(50) NOT NULL DEFAULT '',
     environment_id VARCHAR(50) NOT NULL DEFAULT '',
@@ -257,6 +259,7 @@ CREATE TABLE IF NOT EXISTS toyar_application_environment_relation
 (
     id VARCHAR(50) NOT NULL PRIMARY KEY,
     app_id VARCHAR(50) NOT NULL DEFAULT '',
+    toyar_application_id VARCHAR(50) NOT NULL DEFAULT '',
     environment_id VARCHAR(50) NOT NULL DEFAULT '',
     deleted BOOLEAN NOT NULL DEFAULT false,
     create_user_name VARCHAR(50) NOT NULL DEFAULT '',

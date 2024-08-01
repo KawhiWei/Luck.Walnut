@@ -101,7 +101,7 @@ public class ToyarApplication : FullAggregateRoot
     public void AddToyarAppPermissionRelation(string userId, string environmentId, string roleId)
     {
         ToyarApplicationPermissionRelations.Add(
-            new ToyarApplicationPermissionRelation(AppId, userId, environmentId, roleId));
+            new ToyarApplicationPermissionRelation(AppId, userId, environmentId, roleId,Id));
     }
 
     public void DeleteToyarAppPermissionRelation(string permissionId)
@@ -112,7 +112,7 @@ public class ToyarApplication : FullAggregateRoot
 
     public void AddToyarAppEnvironmentRelation(string environmentId)
     {
-        ToyarApplicationEnvironmentRelations.Add(new ToyarApplicationEnvironmentRelation(AppId, environmentId));
+        ToyarApplicationEnvironmentRelations.Add(new ToyarApplicationEnvironmentRelation(AppId, environmentId,Id));
     }
 
     public void AddToyarApplicationDeploymentConfiguration(string environmentId, string healthCheckMode,
@@ -120,7 +120,7 @@ public class ToyarApplication : FullAggregateRoot
         string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl,
         string memorySizeMaxMib, string cpu, string containerPattern, bool isDefaultDeployment)
     {
-        ToyarApplicationDeploymentConfigurations.Add(new ToyarApplicationDeploymentConfiguration(AppId, environmentId,
+        ToyarApplicationDeploymentConfigurations.Add(new ToyarApplicationDeploymentConfiguration(AppId, environmentId,Id,
             healthCheckMode, healthCheckUrl,
             releaseStrategy, servicePort, botNotificationType, botNotificationUrl, deploymentBeforeWebHookUrl,
             deploymentAfterWebHookUrl, memorySizeMaxMib, cpu, containerPattern, isDefaultDeployment));

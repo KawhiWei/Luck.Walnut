@@ -2,34 +2,41 @@ namespace Toyar.Domain.AggregateRoots.ToyarApplications;
 
 public class ToyarApplicationPermissionRelation : FullEntity
 {
-    public ToyarApplicationPermissionRelation(string appId, string userId, string environmentId, string roleId)
+    public ToyarApplicationPermissionRelation(string appId, string userId, string environmentId, string roleId,
+        string toyarApplicationId)
     {
         AppId = appId;
         UserId = userId;
         EnvironmentId = environmentId;
         RoleId = roleId;
+        ToyarApplicationId = toyarApplicationId;
     }
 
     /// <summary>
     /// 应用标识
     /// </summary>
     public string AppId { get; private set; }
-    
+
     /// <summary>
     /// 用户id
     /// </summary>
     public string UserId { get; private set; }
-    
+
     /// <summary>
     /// 环境主键Id
     /// </summary>
     public string EnvironmentId { get; private set; }
-    
+
     /// <summary>
     /// 角色主键Id
     /// </summary>
     public string RoleId { get; private set; }
-    
+
+    /// <summary>
+    /// 应用主键唯一标识
+    /// </summary>
+    public string ToyarApplicationId { get; private set; }
+
     /// <summary>
     /// 环境中文名称
     /// </summary>

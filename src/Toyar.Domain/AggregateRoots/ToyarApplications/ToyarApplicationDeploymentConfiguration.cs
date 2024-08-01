@@ -5,13 +5,15 @@ namespace Toyar.Domain.AggregateRoots.ToyarApplications;
 
 public class ToyarApplicationDeploymentConfiguration : FullEntity
 {
-    public ToyarApplicationDeploymentConfiguration(string appId, string environmentId, string healthCheckMode,
+    public ToyarApplicationDeploymentConfiguration(string appId, string environmentId,
+        string toyarApplicationId, string healthCheckMode,
         string healthCheckUrl, string releaseStrategy, List<string> servicePort, string botNotificationType,
         string botNotificationUrl, string deploymentBeforeWebHookUrl, string deploymentAfterWebHookUrl,
         string memorySizeMaxMib, string cpu, string containerPattern, bool isDefaultDeployment)
     {
         AppId = appId;
         EnvironmentId = environmentId;
+        ToyarApplicationId = toyarApplicationId;
         HealthCheckMode = healthCheckMode;
         HealthCheckUrl = healthCheckUrl;
         ReleaseStrategy = releaseStrategy;
@@ -35,6 +37,11 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
     /// 环境标识
     /// </summary>
     public string EnvironmentId { get; private set; }
+    
+    /// <summary>
+    /// 应用主键唯一标识
+    /// </summary>
+    public string ToyarApplicationId { get; private set; }
 
     /// <summary>
     /// 健康检查方式
