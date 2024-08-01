@@ -1,41 +1,42 @@
 using Luck.EntityFrameworkCore.DbContexts;
+using Luck.Framework.UnitOfWorks;
 using Toyar.Domain.AggregateRoots.ToyarApplications;
 using Toyar.Domain.Repositories;
 
 namespace Toyar.Persistence.Repositories;
 
-public class ToyarApplicationRepository : EfCoreAggregateRootRepository<ToyarApplication, string>, IToyarApplicationRepository
+public class ToyarApplicationRepository : EfCoreAggregateRootRepository<ToyarApplication, string>,
+    IToyarApplicationRepository
 {
-    public ToyarApplicationRepository(ILuckDbContext dbContext) : base(dbContext)
+    public ToyarApplicationRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 
-    public Task<ToyarApplication?> FindToyarAppByAppId(string appId,bool isInclude)
+    public Task<ToyarApplication?> FindToyarAppByAppId(string appId, bool isInclude)
     {
-        var queryable=FindAll();
+        var queryable = FindAll();
         if (isInclude)
         {
             queryable = queryable
                 .Include(x => x.ToyarApplicationEnvironmentRelations)
                 .Include(x => x.ToyarApplicationPermissionRelations)
-                .Include(x=>x.ToyarApplicationDeploymentConfigurations);
-                
+                .Include(x => x.ToyarApplicationDeploymentConfigurations);
         }
-           
+
         return queryable.FirstOrDefaultAsync(x => x.AppId == appId);
     }
-    
-    public Task<ToyarApplication?> FindToyarAppById(string id,bool isInclude)
+
+    public Task<ToyarApplication?> FindToyarAppById(string id, bool isInclude)
     {
-        var queryable=FindAll();
+        var queryable = FindAll();
         if (isInclude)
         {
             queryable = queryable
                 .Include(x => x.ToyarApplicationEnvironmentRelations)
                 .Include(x => x.ToyarApplicationPermissionRelations)
-                .Include(x=>x.ToyarApplicationDeploymentConfigurations);
+                .Include(x => x.ToyarApplicationDeploymentConfigurations);
         }
-           
+
         return queryable.FirstOrDefaultAsync(x => x.Id == id);
     }
 }

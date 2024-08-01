@@ -36,14 +36,14 @@ public class ToyarApplicationService : IToyarApplicationService
             toyarApplication.AddToyarAppEnvironmentRelation(toyarEnvironment.Id);
         }
 
-        foreach (var toyarApplicationToyarApplicationEnvironmentRelation in toyarApplication
-                     .ToyarApplicationEnvironmentRelations)
-        {
-            toyarApplication.AddToyarApplicationDeploymentConfiguration(
-                toyarApplicationToyarApplicationEnvironmentRelation.EnvironmentId, "http", "", "2",
-                new List<string>() { "8080" }, "", "", "", "", "8192", "",
-                "", false);
-        }
+        // foreach (var toyarApplicationToyarApplicationEnvironmentRelation in toyarApplication
+        //              .ToyarApplicationEnvironmentRelations)
+        // {
+        //     toyarApplication.AddToyarApplicationDeploymentConfiguration(
+        //         toyarApplicationToyarApplicationEnvironmentRelation.EnvironmentId, "http", "", "2",
+        //         new List<string>() { "8080" }, "", "", "", "", "8192", "",
+        //         "", false);
+        // }
 
 
         _toyarApplicationRepository.Add(toyarApplication);
@@ -131,7 +131,7 @@ public class ToyarApplicationService : IToyarApplicationService
     {
         var toyarApp = await GetToyarApplicationByAppId(appId);
 
-        return toyarApp is null;
+        return toyarApp is not null;
     }
 
     private async Task<ToyarApplication?> GetToyarApplicationByAppId(string appId, bool isInclude = false)

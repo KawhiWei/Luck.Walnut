@@ -5,6 +5,7 @@ using Luck.WebSocket.Server;
 using Luck.WebSocket.Server.Extensions;
 using MediatR;
 using Luck.AppModule;
+using Luck.AutoDependencyInjection;
 using Toyar.Api.AppModules;
 using Toyar.Infrastructure;
 
@@ -45,7 +46,7 @@ var configuration = builder.Services.GetConfiguration();
 builder.Services.Configure<ToyarConfig>(configuration.GetSection("ToyarConfig"));
 
 
-builder.Services.AddMediatR(AssemblyHelper.AllAssemblies);
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICancellationTokenProvider, HttpContextCancellationTokenProvider>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

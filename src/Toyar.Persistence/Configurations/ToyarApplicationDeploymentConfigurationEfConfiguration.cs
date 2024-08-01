@@ -22,10 +22,10 @@ public class
         builder.Property(x => x.DeploymentAfterWebHookUrl).HasColumnName("deployment_after_web_hook_url");
         builder.Property(x => x.RestartPolicy).HasColumnName("restart_policy");
         builder.Property(x => x.Cpu).HasColumnName("cpu");
+        builder.Property(x => x.MemorySizeMaxMib).HasColumnName("memory_size_maxmib");
         builder.Property(x => x.ContainerPattern).HasColumnName("container_pattern");
         builder.Property(x => x.EnvironmentVariable)!.HasJsonConversion().HasColumnName("environment_variable");
         builder.Property(x => x.Mounts)!.HasJsonConversion().HasColumnName("mounts");
-
         builder.Property(x => x.IsDefaultDeployment).HasColumnName("is_default_deployment");
         builder.Property(x => x.CreateUserName).HasColumnName("create_user_name");
         builder.Property(x => x.CreateUserId).HasColumnName("create_user_id");
@@ -34,5 +34,6 @@ public class
         builder.Property(x => x.LastModificationUserId).HasColumnName("last_modification_user_id");
         builder.Property(x => x.LastModificationTime).HasColumnName("last_modification_time");
         builder.Property(x => x.DeletionTime).HasColumnName("deletion_time");
+        
     }
 }
