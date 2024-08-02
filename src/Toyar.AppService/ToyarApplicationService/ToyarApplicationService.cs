@@ -52,22 +52,22 @@ public class ToyarApplicationService : IToyarApplicationService
 
     public async Task DeleteToyarAppByIdAsync(string appId)
     {
-        var toyarApp = await CheckAndGetToyarApplicationByAppId(appId);
-        _toyarApplicationRepository.Remove(toyarApp);
+        var toyarApplication = await CheckAndGetToyarApplicationByAppId(appId);
+        _toyarApplicationRepository.Remove(toyarApplication);
         await _unitOfWork.CommitAsync();
     }
 
     public async Task AddToyarApplicationPermissionRelationAsync(string appId,
         ToyarApplicationPermissionRelationInputDto input)
     {
-        var toyarApp = await CheckAndGetToyarApplicationByAppId(appId, true);
-        toyarApp.AddToyarAppPermissionRelation(input.UserId, input.EnvironmentId, input.RoleId);
+        var toyarApplication = await CheckAndGetToyarApplicationByAppId(appId, true);
+        toyarApplication.AddToyarAppPermissionRelation(input.UserId, input.EnvironmentId, input.RoleId);
     }
 
     public async Task DeleteToyarApplicationPermissionRelationAsync(string appId, string permissionId)
     {
-        var toyarApp = await CheckAndGetToyarApplicationByAppId(appId, true);
-        toyarApp.DeleteToyarAppPermissionRelation(permissionId);
+        var toyarApplication = await CheckAndGetToyarApplicationByAppId(appId, true);
+        toyarApplication.DeleteToyarAppPermissionRelation(permissionId);
     }
 
     public async Task UpdateToyarApplicationDeploymentConfigurationAsync(string appId, string id,
@@ -98,12 +98,7 @@ public class ToyarApplicationService : IToyarApplicationService
             }
         }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="appId"></param>
-    /// <param name="input"></param>
+    
     public async Task AddToyarApplicationDeploymentConfigurationAsync(string appId,
         ToyarApplicationDeploymentConfigurationInputDto input)
     {
@@ -114,24 +109,23 @@ public class ToyarApplicationService : IToyarApplicationService
             input.BotNotificationUrl, input.DeploymentBeforeWebHookUrl, input.DeploymentAfterWebHookUrl,
             input.MemorySizeMaxMib, input.Cpu, input.ContainerPattern, false);
     }
-
-
+    
     private async Task<ToyarApplication> CheckAndGetToyarApplicationByAppId(string appId, bool isInclude = false)
     {
-        var toyarApp = await GetToyarApplicationByAppId(appId, isInclude);
-        if (toyarApp is null)
+        var toyarApplication = await GetToyarApplicationByAppId(appId, isInclude);
+        if (toyarApplication is null)
         {
             throw new BusinessException($"应用：【{appId}】不存在！");
         }
 
-        return toyarApp;
+        return toyarApplication;
     }
 
     private async Task<bool> CheckToyarApplicationExistAsync(string appId)
     {
-        var toyarApp = await GetToyarApplicationByAppId(appId);
+        var toyarApplication = await GetToyarApplicationByAppId(appId);
 
-        return toyarApp is not null;
+        return toyarApplication is not null;
     }
 
     private async Task<ToyarApplication?> GetToyarApplicationByAppId(string appId, bool isInclude = false)

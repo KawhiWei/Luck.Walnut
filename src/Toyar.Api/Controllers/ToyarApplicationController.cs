@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Toyar.AppService.ToyarApplicationService;
 using Toyar.Dto.ToyarApplications;
+using Toyar.Query.ToyarApplicationQuery;
 
 namespace Toyar.Api.Controllers;
 
@@ -8,16 +9,24 @@ namespace Toyar.Api.Controllers;
 public class ToyarApplicationController : BaseController
 {
     private readonly IToyarApplicationService _toyarApplicationService;
+    private readonly IToyarApplicationQuery _toyarApplicationQuery;
 
-    public ToyarApplicationController(IToyarApplicationService toyarApplicationService)
+    public ToyarApplicationController(
+        IToyarApplicationService toyarApplicationService, 
+        IToyarApplicationQuery toyarApplicationQuery)
     {
         _toyarApplicationService = toyarApplicationService;
+        _toyarApplicationQuery = toyarApplicationQuery;
     }
 
 
     [HttpPost("add")]
     public Task AddToyarApplication([FromBody] ToyarApplicationInputDto input) =>
         _toyarApplicationService.AddToyarApplicationAsync(input);
+    
+    [HttpGet("{appId}/ByAppId")]
+    public Task<ToyarApplicationOutputDto> QueryToyarApplicationByAppId(string appId) =>
+        _toyarApplicationQuery.QueryToyarApplicationByAppId(appId);
 
     [HttpDelete("{id}/delete")]
     public Task DeleteToyarApplication(string id) => _toyarApplicationService.DeleteToyarAppByIdAsync(id);
