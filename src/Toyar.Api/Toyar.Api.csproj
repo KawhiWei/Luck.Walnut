@@ -9,10 +9,6 @@
         <RootNamespace>Toyar.Api</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <Protobuf Include="Protos\getappliactionconfig.proto" GrpcServices="Server"/>
-        <Protobuf Include="Protos\LuCat.proto" GrpcServices="Server"/>
-    </ItemGroup>
-    <ItemGroup>
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1"/>
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0"/>
         <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.3.1"/>
@@ -26,7 +22,6 @@
         <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
         <PackageReference Include="Serilog.Sinks.Map" Version="1.0.2"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.48.0"/>
         <PackageReference Include="Luck.AspNetCore" Version="2.0.7"/>
     </ItemGroup>
 
@@ -35,6 +30,10 @@
         <ProjectReference Include="..\Toyar.Infrastructure\Toyar.Infrastructure.csproj"/>
         <ProjectReference Include="..\Toyar.Persistence\Toyar.Persistence.csproj"/>
         <ProjectReference Include="..\Toyar.Query\Toyar.Query.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Logs\" />
     </ItemGroup>
     <ProjectExtensions>
         <VisualStudio>
