@@ -16,6 +16,6 @@ public class ToyarBaseComponentController : BaseController
 
 
     [HttpPost("add/toyarApplication")]
-    public Task AddToyarApplication([FromBody] ToyarApplicationInputDto input) =>
+    public Task AddToyarApplication([FromBody] ToyarCreateApplicationInputDto input) =>
         _toyarApplicationService.AddToyarApplicationAsync(input);
 }

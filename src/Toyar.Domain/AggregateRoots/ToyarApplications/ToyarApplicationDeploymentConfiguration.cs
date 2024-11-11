@@ -92,10 +92,9 @@ public class ToyarApplicationDeploymentConfiguration : FullEntity
     /// 最大内存
     /// </summary>
     public string MemorySizeMaxMib { get; private set; }
-
-
+    
     /// <summary>
-    /// 最大内存
+    /// Cpu核心
     /// </summary>
     public string Cpu { get; private set; }
 

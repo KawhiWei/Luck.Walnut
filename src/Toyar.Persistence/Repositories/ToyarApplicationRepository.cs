@@ -26,7 +26,7 @@ public class ToyarApplicationRepository : EfCoreAggregateRootRepository<ToyarApp
         return queryable.FirstOrDefaultAsync(x => x.AppId == appId);
     }
 
-    public Task<ToyarApplication?> FindToyarAppById(string id, bool isInclude)
+    public Task<ToyarApplication?> FindToyarById(string id, bool isInclude)
     {
         var queryable = FindAll();
         if (isInclude)

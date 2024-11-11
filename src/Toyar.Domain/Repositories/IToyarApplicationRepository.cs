@@ -14,5 +14,5 @@ public interface IToyarApplicationRepository : IAggregateRootRepository<ToyarApp
     Task<ToyarApplication?> FindToyarAppByAppId(string appId,bool isInclude);
 
     
-    Task<ToyarApplication?> FindToyarAppById(string id, bool isInclude);
+    Task<ToyarApplication?> FindToyarById(string id, bool isInclude);
 }

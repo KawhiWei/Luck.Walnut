@@ -19,7 +19,7 @@ public class ToyarApplicationService : IToyarApplicationService
         _toyarEnvironmentRepository = toyarEnvironmentRepository;
     }
 
-    public async Task AddToyarApplicationAsync(ToyarApplicationInputDto input)
+    public async Task AddToyarApplicationAsync(ToyarCreateApplicationInputDto input)
     {
         var exist = await CheckToyarApplicationExistAsync(input.AppId);
         if (exist)
@@ -36,14 +36,16 @@ public class ToyarApplicationService : IToyarApplicationService
             toyarApplication.AddToyarAppEnvironmentRelation(toyarEnvironment.Id);
         }
 
-        // foreach (var toyarApplicationToyarApplicationEnvironmentRelation in toyarApplication
-        //              .ToyarApplicationEnvironmentRelations)
-        // {
-        //     toyarApplication.AddToyarApplicationDeploymentConfiguration(
-        //         toyarApplicationToyarApplicationEnvironmentRelation.EnvironmentId, "http", "", "2",
-        //         new List<string>() { "8080" }, "", "", "", "", "8192", "",
-        //         "", false);
-        // }
+        var containerConfig = input.ContainerConfiguration;
+        
+        foreach (var toyarApplicationToyarApplicationEnvironmentRelation in toyarApplication
+                     .ToyarApplicationEnvironmentRelations)
+        {
+            toyarApplication.AddToyarApplicationDeploymentConfiguration(
+                toyarApplicationToyarApplicationEnvironmentRelation.EnvironmentId, "http", "", "2",
+                new List<string>() { "8080" }, "", "", "", "", containerConfig.MemorySizeMaxMib, containerConfig.Cpu,
+                containerConfig.ContainerPattern, false);
+        }
 
 
         _toyarApplicationRepository.Add(toyarApplication);

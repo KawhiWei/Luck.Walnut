@@ -21,10 +21,10 @@ public class ToyarApplicationController : BaseController
 
 
     [HttpPost("add")]
-    public Task AddToyarApplication([FromBody] ToyarApplicationInputDto input) =>
+    public Task AddToyarApplication([FromBody] ToyarCreateApplicationInputDto input) =>
         _toyarApplicationService.AddToyarApplicationAsync(input);
     
-    [HttpGet("{appId}/ByAppId")]
+    [HttpGet("{appId}/appId")]
     public Task<ToyarApplicationOutputDto> QueryToyarApplicationByAppId(string appId) =>
         _toyarApplicationQuery.QueryToyarApplicationByAppId(appId);
 
